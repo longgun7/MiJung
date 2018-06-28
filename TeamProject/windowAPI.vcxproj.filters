@@ -180,6 +180,9 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="townScene.h">
+      <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
+    </ClInclude>
     <ClInclude Include="player.h">
       <Filter>2DFramework\player</Filter>
     </ClInclude>
@@ -268,9 +271,6 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>2DFramework\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
