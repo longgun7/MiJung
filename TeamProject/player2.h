@@ -2,15 +2,13 @@
 #include "gameNode.h"
 
 
-enum MOVE
+enum SMOVE
 {
-	LEFT, RIGHT ,FRONT , BACK,
-	LEFTMOVE, RIGHTMOVE , DOWNMOVE , UPMOVE
+	SLEFT, SRIGHT, SFRONT, SBACK,
+	SLEFTMOVE, SRIGHTMOVE, SDOWNMOVE, SUPMOVE
 };
 
-
-class player :public gameNode
-
+class player2 :public gameNode
 {
 private:
 
@@ -19,13 +17,14 @@ private:
 	image*  _image;		 //이미지
 	int		_imageFrame; //이미지프레임
 	int		_frame;		 //프레임
+	int     _frame2;     //프레임2
 	int		_moveSpeed;	 //스피드
 	string	_imageName;  //이미지이름
-	MOVE	_move;		 //움직임 상태
+	SMOVE	_move;		 //움직임 상태
 	RECT	_rc;		 //렉트
 
 public:
-
+	
 	HRESULT init();
 	void update();
 	void render();
@@ -34,7 +33,8 @@ public:
 	void imageFrame();
 	void keyManager();
 	void move();
-	player();
-	~player();
+	
+	player2();
+	~player2();
 };
 
