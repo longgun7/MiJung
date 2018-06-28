@@ -1,7 +1,12 @@
 #pragma once
 #include "enemy.h"
-class spearMan : public enemy
+
+class skeleton : public enemy
 {
+private:
+
+
+
 public:
 
 	virtual HRESULT init();
@@ -9,7 +14,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	spearMan();
-	~spearMan();
+	skeleton();
+	~skeleton();
 };
 

@@ -198,12 +198,6 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>playGround</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>playGround</Filter>
-    </ClInclude>
     <ClInclude Include="kungpuMan.h">
       <Filter>playGround\enemy\stage1</Filter>
     </ClInclude>
@@ -212,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="spirit.h">
       <Filter>playGround\enemy\stage1</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>playGround</Filter>
     </ClInclude>
     <ClInclude Include="item.h">
       <Filter>2DFramework\Item</Filter>
@@ -230,6 +221,24 @@
     </ClInclude>
     <ClInclude Include="wildBoar.h">
       <Filter>playGround\enemy\stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>2DFramework\player</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton.h">
+      <Filter>playGround\enemy\stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="skeletonWizard.h">
+      <Filter>playGround\enemy\stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="dragon.h">
+      <Filter>playGround\enemy\stage3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +341,6 @@
     <ClCompile Include="spirit.cpp">
       <Filter>playGround\enemy\stage1</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>playGround</Filter>
-    </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>2DFramework\Item</Filter>
     </ClCompile>
@@ -349,6 +355,18 @@
     </ClCompile>
     <ClCompile Include="wildBoar.cpp">
       <Filter>playGround\enemy\stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\player</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton.cpp">
+      <Filter>playGround\enemy\stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="skeletonWizard.cpp">
+      <Filter>playGround\enemy\stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="dragon.cpp">
+      <Filter>playGround\enemy\stage3</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

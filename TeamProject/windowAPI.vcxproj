@@ -154,6 +154,7 @@
     <ClInclude Include="battleScnen.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="commonMacroFunction.h" />
+    <ClInclude Include="dragon.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="endScene.h" />
@@ -178,6 +179,8 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singletonBase.h" />
+    <ClInclude Include="skeleton.h" />
+    <ClInclude Include="skeletonWizard.h" />
     <ClInclude Include="snake.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="spearMan.h" />
@@ -198,6 +201,7 @@
     <ClCompile Include="bat.cpp" />
     <ClCompile Include="battleScnen.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="dragon.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="endScene.cpp" />
@@ -219,6 +223,8 @@
     <ClCompile Include="playScene.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="skeleton.cpp" />
+    <ClCompile Include="skeletonWizard.cpp" />
     <ClCompile Include="snake.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="spearMan.cpp" />
