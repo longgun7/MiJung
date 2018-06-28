@@ -206,6 +206,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="barScnen.cpp" />
     <ClCompile Include="bat.cpp" />
+    <ClCompile Include="battleScene.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="dragon.cpp" />
     <ClCompile Include="effect.cpp" />

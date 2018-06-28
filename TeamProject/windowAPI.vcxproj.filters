@@ -428,5 +428,8 @@
     <ClCompile Include="item.cpp">
       <Filter>2DFramework\Item</Filter>
     </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
