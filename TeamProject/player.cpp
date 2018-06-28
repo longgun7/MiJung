@@ -27,10 +27,15 @@ HRESULT player::init()
 	
 	_x = WINSIZEX / 2;
 	_y = WINSIZEY/2;
+	_jumpPower  = 5.0f;
+	_gravity    = 0.2f;
 	_imageFrame	= 0;
 	_frame		= 0;
+	_skillFrame = 0;
 	_moveSpeed  = 5;
-
+	_isMotionLive = false;
+	_isJumping = false;
+	_rc = RectMakeCenter(_x, _y, _image->getFrameWidth(), _image->getFrameHeight());
 	return S_OK;
 }
 
@@ -38,10 +43,11 @@ void player::update()
 {
 	image();		 //이미지
 	keyManager();	 //키
+	if (_isMotionLive )
+	{
+		imageFrame();	 //이미지프레임
+	}
 	move();			 //움직임
-	imageFrame();	 //이미지프레임
-
-
 }
 
 void player::render()
@@ -64,23 +70,24 @@ void player::keyManager()
 	//움직이는 모션
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
-		_move = LEFTMOVE;
 
+		_move = LEFTMOVE;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
 		_move = RIGHTMOVE;
-
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
 		_move = UPMOVE;
-
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
 		_move = DOWNMOVE;
-
+		_isMotionLive = true;
 	}
 
 	//정자세
@@ -97,43 +104,48 @@ void player::keyManager()
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 	{
 		_move = RIGHT;
-
+		
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_UP))
 	{
 		_move = BACK;
-
+		
 	}
 
 	//스킬
-	if (KEYMANAGER->isStayKeyDown('A'))
+	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
-		_image = IMAGEMANAGER->findImage("아타호노익장대폭발");
-
+		_move = SOLOSKILL1;
+		_isMotionLive = true;
+	
 	}
-	if (KEYMANAGER->isStayKeyDown('S'))
+	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
-		_image = IMAGEMANAGER->findImage("아타호만취");
+		_move = SOLOSKILL2;
+		_isMotionLive = true;
 		
 	}
-	if (KEYMANAGER->isStayKeyDown('D'))
+	if (KEYMANAGER->isOnceKeyDown('D'))
 	{
-		_image = IMAGEMANAGER->findImage("아타호맹호광파참");
+		_move = SOLOSKILL3;
+		_isMotionLive = true;
+		
 	}
-	if (KEYMANAGER->isStayKeyDown('F'))
+	if (KEYMANAGER->isOnceKeyDown('F'))
 	{
-		_image = IMAGEMANAGER->findImage("아타호맹호난무");
-
+		_move = AREASKILL1;
+		_isMotionLive = true;
+		_jumpPower = 5.0f;
+		_gravity = 0.2f;
 	}
-	if (KEYMANAGER->isStayKeyDown('G'))
+	if (KEYMANAGER->isOnceKeyDown('G'))
 	{
-		_image = IMAGEMANAGER->findImage("아타호맹호스페셜");
-
+		_isMotionLive = true;
 	}
-	if (KEYMANAGER->isStayKeyDown('H'))
-	{
-		_image = IMAGEMANAGER->findImage("아타호호격권");
-
+	if (KEYMANAGER->isOnceKeyDown('H'))
+	{	
+		_move = AREASKILL3;
+		_isMotionLive = true;
 	}
 
 
@@ -168,6 +180,24 @@ void player::image()
 	case UPMOVE:
 		_image = IMAGEMANAGER->findImage("아타호위로이동");
 		break;
+	case SOLOSKILL1:
+		_image = IMAGEMANAGER->findImage("아타호호격권");
+		break;
+	case SOLOSKILL2:
+		 _image = IMAGEMANAGER->findImage("아타호맹호광파참");
+		break;
+	case SOLOSKILL3:
+		_image = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		break;
+	case AREASKILL1:
+		_image = IMAGEMANAGER->findImage("아타호맹호난무");
+		break;
+	case AREASKILL2:
+		//_image = IMAGEMANAGER->findImage("아타호맹호난무");
+		break;
+	case AREASKILL3:
+		_image = IMAGEMANAGER->findImage("아타호노익장대폭발");
+		break;
 	default:
 		break;
 	}
@@ -178,24 +208,27 @@ void player::imageFrame()
 	//프레임 이미지
 	++_frame;
 	
-	if (_frame % 5 == 0)
-	{
-		++_imageFrame;
-
-		_image->setFrameX(_imageFrame);
-		
-		if (_imageFrame >= _image->getMaxFrameX())
+		if (_frame % 8 == 0)
 		{
-			_imageFrame = -1;
-			if (_image == IMAGEMANAGER->findImage("아타호만취"))
+			++_imageFrame;
+
+			_image->setFrameX(_imageFrame);
+
+			if (_imageFrame >= _image->getMaxFrameX())
 			{
-				_imageFrame = 1;
-			}	
-
+				if (_image == IMAGEMANAGER->findImage("아타호만취"))
+				{
+					_imageFrame = 1;
+				}
+				else
+				{
+					_isMotionLive = false;
+				}
+				_imageFrame = -1;
+			}
+			_frame = 0;
 		}
-		_frame = 0;
-	}
-
+		
 }
 
 
@@ -227,6 +260,90 @@ void player::move()
 		break;
 	default:
 		break;
+	}
+
+	//스킬 움직임
+
+	//호격권
+	if (_image == IMAGEMANAGER->findImage("아타호호격권"))
+	{
+		if (_image->getFrameX() >= 8)
+		{
+			++_skillFrame;
+			if (_skillFrame >= 50)
+			{
+				_image->setFrameX(0);
+				_move = RIGHT;
+			}
+		}
+	}
+
+	//광파참
+	if (_image == IMAGEMANAGER->findImage("아타호맹호광파참"))
+	{
+		
+		++_skillFrame;
+
+		if (_skillFrame < 50)
+		{
+			_image->setFrameX(0);
+		}
+		if (_skillFrame > 50 &&_skillFrame < 100)
+		{
+			_image->setFrameX(1);
+		}
+		if(_skillFrame > 100 && _skillFrame < 200)
+		{
+			_image->setFrameX(2);
+		}
+		if (_skillFrame > 200)
+		{	
+			_image->setFrameX(0);
+			_skillFrame = 0;
+			_move = RIGHT;
+		}
+		
+	}
+
+	//맹호스페셜
+	if (_image == IMAGEMANAGER->findImage("아타호맹호스페셜") && _image->getFrameX() >= 25 && _move == SOLOSKILL3)
+	{
+		_x += 10;
+		if (_x >= WINSIZEX)
+		{
+			_move = RIGHT;
+			_x = WINSIZEX / 2;
+			_image->setFrameX(0);
+		}
+	}
+
+	//맹호난무
+	if (_image == IMAGEMANAGER->findImage("아타호맹호난무"));
+	{
+		if (_isJumping)
+		{
+			_y -= _jumpPower;
+			_jumpPower -= _gravity;
+
+		}
+
+
+		if (_image->getFrameX() >= 12 && _move == AREASKILL1)
+		{
+			_isJumping = true;
+			++_skillFrame;
+			if (_skillFrame >= 50)
+			{
+				_move = RIGHT;
+				_jumpPower = 0;
+				_gravity = 0;
+				_isJumping = false;
+				_image->setFrameX(0);
+				_skillFrame = 0;
+				_y = WINSIZEY / 2;
+			}
+		}
+
 	}
 }
 

@@ -377,9 +377,6 @@
     <ClCompile Include="kungpuMan.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="snake.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -430,6 +427,9 @@
     </ClCompile>
     <ClCompile Include="battleScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
