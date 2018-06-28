@@ -14,6 +14,12 @@ playScene::~playScene()
 HRESULT playScene::init(void)
 {
 	SCENEMANAGER->addScene("»óÅÂ¾À", new statusScene);
+	SCENEMANAGER->addScene("Å¸¿î¾À", new townScene);
+	SCENEMANAGER->addScene("ÇÊµå¾À", new fieldScene);
+	SCENEMANAGER->addScene("¹èÆ²¾À", new battleScene);
+
+	SCENEMANAGER->changeScene("Å¸¿î¾À");
+
 	return S_OK;
 }
 
@@ -23,14 +29,12 @@ void playScene::release(void)
 
 void playScene::update(void)
 {
-	if(KEYMANAGER->isOnceKeyDown(VK_F1))
-	{
-		SCENEMANAGER->changeScene("»óÅÂ¾À");
-	}
+	
 }
 
 
 void playScene::render(void)
 {
 	TextOut(getMemDC(), 300, 300, "playScene", strlen("playScene"));
+	
 }

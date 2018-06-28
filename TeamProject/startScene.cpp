@@ -33,6 +33,9 @@ void startScene::update(void)
 	if(KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		SCENEMANAGER->changeScene("ÇÃ·¹ÀÌ¾À");
+		playScene* _playScene;
+		_playScene = new playScene;
+		_playScene->init();
 	}
 }
 

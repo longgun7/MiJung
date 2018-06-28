@@ -1,10 +1,10 @@
 #pragma once
 #include"gameNode.h"
-class battleScnen : public gameNode
+class battleScene : public gameNode
 {
 public:
-	battleScnen();
-	~battleScnen();
+	battleScene();
+	~battleScene();
 
 	virtual HRESULT init(void);
 	virtual void release(void);

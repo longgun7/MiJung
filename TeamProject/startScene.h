@@ -4,10 +4,14 @@
 #include"playScene.h"
 class startScene: public gameNode
 {
+private:
+	
 
 public:
 	startScene();
 	~startScene();
+
+
 
 	virtual HRESULT init(void);
 	virtual void release(void);

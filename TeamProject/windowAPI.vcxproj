@@ -151,7 +151,7 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="barScnen.h" />
     <ClInclude Include="bat.h" />
-    <ClInclude Include="battleScnen.h" />
+    <ClInclude Include="battleScene.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="effect.h" />
@@ -197,7 +197,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="barScnen.cpp" />
     <ClCompile Include="bat.cpp" />
-    <ClCompile Include="battleScnen.cpp" />
+    <ClCompile Include="battleScene.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
