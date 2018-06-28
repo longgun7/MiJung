@@ -198,6 +198,39 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="kungpuMan.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="spearMan.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="spirit.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>2DFramework\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="townScene.h">
+      <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
+    </ClInclude>
+    <ClInclude Include="bat.h">
+      <Filter>playGround\enemy\stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="snake.h">
+      <Filter>playGround\enemy\stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="wildBoar.h">
+      <Filter>playGround\enemy\stage2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -289,6 +322,33 @@
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="spearMan.cpp">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="kungpuMan.cpp">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="spirit.cpp">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>2DFramework\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="townScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
+    </ClCompile>
+    <ClCompile Include="bat.cpp">
+      <Filter>playGround\enemy\stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="snake.cpp">
+      <Filter>playGround\enemy\stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="wildBoar.cpp">
+      <Filter>playGround\enemy\stage2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
