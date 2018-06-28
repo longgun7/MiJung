@@ -53,7 +53,7 @@ void playGround::render(void)
 
 	SCENEMANAGER->render();
 
-	SetTextColor(getMemDC(), RGB(255, 0, 255));
+	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	TIMEMANAGER->render(getMemDC());
 
 	_PM->render();
@@ -68,7 +68,6 @@ void playGround::sceneAdd(void)
 
 	SCENEMANAGER->addScene("½ºÅ¸Æ®¾À", new startScene);
 	SCENEMANAGER->addScene("¿£µå¾À", new endScene);
-
 
 }
 

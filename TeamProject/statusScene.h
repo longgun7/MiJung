@@ -1,12 +1,11 @@
 #pragma once
-#include"gameNode.h"
-#include"statusScene.h"
+#include "gameNode.h"
 
-class playScene : public gameNode
+class statusScene : public gameNode
 {
 public:
-	playScene();
-	~playScene();
+	statusScene();
+	~statusScene();
 
 	virtual HRESULT init(void);
 	virtual void release(void);
