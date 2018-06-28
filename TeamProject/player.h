@@ -1,16 +1,12 @@
 #pragma once
 #include "gameNode.h"
+
+
 enum MOVE
 {
 	LEFT, RIGHT ,FRONT , BACK,
 	LEFTMOVE, RIGHTMOVE , DOWNMOVE , UPMOVE
 };
-
-
-	
-
-
-
 
 
 class player :public gameNode
@@ -27,7 +23,6 @@ private:
 	string	_imageName;  //이미지이름
 	MOVE	_move;		 //움직임 상태
 	RECT	_rc;		 //렉트
-
 
 public:
 

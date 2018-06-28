@@ -106,6 +106,9 @@
     <Filter Include="2DFramework\Scene\startScene\playScene\statusScene">
       <UniqueIdentifier>{6a2162e7-76f2-484a-9ac8-8080dc0f61a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DFramework\playerManager\player\inventory">
+      <UniqueIdentifier>{3a13816d-426b-4c90-bac3-f592bf0d49d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -210,47 +213,35 @@
     <ClInclude Include="item.h">
       <Filter>2DFramework\Item</Filter>
     </ClInclude>
-    <ClInclude Include="statusScene.h">
-      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
-    </ClInclude>
-    <ClInclude Include="boss.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="blackUniform.h">
-      <Filter>playGround\enemy\boss</Filter>
-    </ClInclude>
     <ClInclude Include="bat.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dragon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="kungpuMan.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="skeletonWizard.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="snake.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="wildBoar.h">
+    <ClInclude Include="spearMan.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
     <ClInclude Include="spirit.h">
-      <Filter>playGround\enemy\stage1</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="spearMan.h">
-      <Filter>playGround\enemy\stage1</Filter>
+    <ClInclude Include="statusScene.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="kungpuMan.h">
-      <Filter>playGround\enemy\stage1</Filter>
-    </ClInclude>
-    <ClInclude Include="dragon.h">
-      <Filter>playGround\enemy\stage3</Filter>
-    </ClInclude>
-    <ClInclude Include="skeletonWizard.h">
-      <Filter>playGround\enemy\stage3</Filter>
-    </ClInclude>
-    <ClInclude Include="skeleton.h">
-      <Filter>playGround\enemy\stage3</Filter>
+    <ClInclude Include="wildBoar.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>2DFramework\playerManager\player</Filter>
@@ -259,7 +250,19 @@
       <Filter>2DFramework\playerManager\player</Filter>
     </ClInclude>
     <ClInclude Include="playerManager.h">
-      <Filter>2DFramework\playerManager</Filter>
+      <Filter>2DFramework\playerManager\player</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>2DFramework\playerManager\player\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="statusScene.h">
+      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
+    </ClInclude>
+    <ClInclude Include="boss.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="blackUniform.h">
+      <Filter>playGround\enemy\boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -373,36 +376,6 @@
     </ClCompile>
     <ClCompile Include="blackUniform.cpp">
       <Filter>playGround\enemy\boss</Filter>
-    </ClCompile>
-    <ClCompile Include="item.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="spearMan.cpp">
-      <Filter>playGround\enemy\stage1</Filter>
-    </ClCompile>
-    <ClCompile Include="spirit.cpp">
-      <Filter>playGround\enemy\stage1</Filter>
-    </ClCompile>
-    <ClCompile Include="kungpuMan.cpp">
-      <Filter>playGround\enemy\stage1</Filter>
-    </ClCompile>
-    <ClCompile Include="bat.cpp">
-      <Filter>playGround\enemy\stage2</Filter>
-    </ClCompile>
-    <ClCompile Include="snake.cpp">
-      <Filter>playGround\enemy\stage2</Filter>
-    </ClCompile>
-    <ClCompile Include="wildBoar.cpp">
-      <Filter>playGround\enemy\stage2</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

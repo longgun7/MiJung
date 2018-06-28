@@ -10,7 +10,7 @@ enum itemKind
 
 enum postionKind
 {
-	HPRECOVERY, MPRECOVERY
+	HPPOTION, MPPOTION
 };
 
 struct tagItem
@@ -24,6 +24,10 @@ struct tagItem
 	int def;
 	int luck;
 	float speed;
+	int critical;
+	RECT rc;
+	itemKind itemCheck;
+	postionKind checkPotion;
 
 };
 
@@ -39,17 +43,34 @@ private:
 	vector<tagItem>				_vItem;
 	vector<tagItem>::iterator   _viItem;
 
-	int _itemMax;
+	vector<tagPotion>			_vPotion;
+	vector<tagPotion>::iterator	_viPotion;
 
+	image*	 _image;
+
+	int		 _itemMax;
+	itemKind _atahoe;
+	itemKind _smashue;
+	postionKind _potion;
+	
+	int		 _atk;
+	int		 _def;
+	int		 _luck;
+	int		 _critical;
+	float    _speed;
 
 public:
 	item();
 	~item();
 
-	HRESULT init();
+	HRESULT init(int itemMax);
 	void update();
 	void render();
 	void release();
-	void makeItem(int itemMax, int frameX, int frameY, int atk, int def, int luck, float speed);
+	void makeItem(int frameX, int frameY,float x ,float y);
 	void check();
+	void itemStat();
+
+	vector<tagItem>			  getVItem() { return _vItem; }
+	vector<tagItem>::iterator getVIItem() { return _viItem; }
 };
