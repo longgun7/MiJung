@@ -79,6 +79,18 @@
     <Filter Include="2DFramework\Scene\startScene\playScene\townScene\barScene">
       <UniqueIdentifier>{5f565a22-bb95-497b-bcbe-e42cb91b17a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\enemy">
+      <UniqueIdentifier>{660861cb-b5d5-402e-96dd-7789b0714bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage1">
+      <UniqueIdentifier>{3e8d9cd4-7873-44ac-a5be-57c79b177a4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage2">
+      <UniqueIdentifier>{28a4bf0e-4e7a-4f51-8ea7-10e3f5cc3cc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage3">
+      <UniqueIdentifier>{760a2105-2864-4b0a-9d85-f6eeceb07454}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -177,6 +189,12 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -262,6 +280,12 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
