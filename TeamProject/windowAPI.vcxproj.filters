@@ -79,8 +79,11 @@
     <Filter Include="2DFramework\Scene\startScene\playScene\townScene\barScene">
       <UniqueIdentifier>{5f565a22-bb95-497b-bcbe-e42cb91b17a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2DFramework\player">
+    <Filter Include="2DFramework\playerManager">
       <UniqueIdentifier>{971a2dbc-622d-4058-beba-3df58b696aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\playerManager\player">
+      <UniqueIdentifier>{274b02b9-22bb-467e-b0c8-35db7dad8fbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -180,11 +183,17 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>2DFramework\playerManager</Filter>
+    </ClInclude>
     <ClInclude Include="townScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>2DFramework\player</Filter>
+    <ClInclude Include="playerManager.h">
+      <Filter>2DFramework\playerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="player2.h">
+      <Filter>2DFramework\playerManager\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +280,18 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
+    </ClCompile>
+    <ClCompile Include="townScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="playerManager.cpp">
+      <Filter>2DFramework\playerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="player2.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,6 +18,9 @@ HRESULT playGround::init(void)
 
 	//씬 추가
 	sceneAdd();
+	//플레이어매니저 
+	_PM = new playerManager;
+	_PM->init();
 
 	SCENEMANAGER->changeScene("스타트씬");
 
@@ -28,13 +31,14 @@ void playGround::release(void)
 {
 	gameNode::release();
 
-
+	_PM->release();
 }
 
 void playGround::update(void)
 {
 	gameNode::update();
 
+	_PM->update();
 
 	SCENEMANAGER->update();
 
@@ -51,6 +55,8 @@ void playGround::render(void)
 
 	SetTextColor(getMemDC(), RGB(255, 0, 255));
 	TIMEMANAGER->render(getMemDC());
+
+	_PM->render();
 
 	//================이 밑으로도 건드리지 말자 =============
 	this->getBackBuffer()->render(getHDC(), 0, 0);
