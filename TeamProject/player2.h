@@ -20,7 +20,7 @@ private:
 	image*  _image;		  //이미지
 	int		_imageFrame;  //이미지프레임
 	int		_frame;		  //프레임
-	int     _frame2;      //프레임2
+	int     _skillFrame;  //스킬 프레임
 	int		_moveSpeed;	  //스피드
 	string	_imageName;   //이미지이름
 	SMOVE	_move;		  //움직임 상태

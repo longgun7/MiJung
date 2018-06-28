@@ -267,13 +267,14 @@ void player::move()
 	//호격권
 	if (_image == IMAGEMANAGER->findImage("아타호호격권"))
 	{
-		if (_image->getFrameX() >= 8)
+		if (_image->getFrameX() >= 9)
 		{
 			++_skillFrame;
 			if (_skillFrame >= 50)
 			{
 				_image->setFrameX(0);
 				_move = RIGHT;
+				_skillFrame = 0;
 			}
 		}
 	}

@@ -30,7 +30,7 @@ HRESULT player2::init()
 	_y = WINSIZEY / 3;
 	_imageFrame = 0;
 	_frame = 0;
-	_frame2 = 0;
+	_skillFrame = 0;
 	_moveSpeed = 5;
 	_isMotionLive = false;
 	return S_OK;
@@ -40,12 +40,11 @@ void player2::update()
 {
 	image();		 //이미지
 	keyManager();	 //키
-	move();			 //움직임
 	if (_isMotionLive)
 	{
 		imageFrame();	 //이미지프레임
 	}
-
+	move();			 //움직임
 }
 
 void player2::render()
@@ -111,34 +110,34 @@ void player2::keyManager()
 	}
 
 	//스킬
-	if (KEYMANAGER->isStayKeyDown('A'))
+	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
-		_image = IMAGEMANAGER->findImage("스마슈대타격");
+		_move = S_SOLOSKILL1;
 		_isMotionLive = true;
 	}
-	if (KEYMANAGER->isStayKeyDown('S'))
+	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
-		_image = IMAGEMANAGER->findImage("스마슈절사어면");
+		_move = S_SOLOSKILL2;
 		_isMotionLive = true;
 	}
-	if (KEYMANAGER->isStayKeyDown('D'))
+	if (KEYMANAGER->isOnceKeyDown('D'))
 	{
-		_image = IMAGEMANAGER->findImage("스마슈베고날아가기");
+		_move = S_SOLOSKILL3;
 		_isMotionLive = true;
 	}
-	if (KEYMANAGER->isStayKeyDown('F'))
+	if (KEYMANAGER->isOnceKeyDown('F'))
 	{
-		_image = IMAGEMANAGER->findImage("스마슈용오름");
+		_move = S_AREASKILL1;
 		_isMotionLive = true;
 	}
-	if (KEYMANAGER->isStayKeyDown('G'))
+	if (KEYMANAGER->isOnceKeyDown('G'))
 	{
-		_image = IMAGEMANAGER->findImage("스마슈난도질");
+		_move = S_AREASKILL2;
 		_isMotionLive = true;
 	}
-	if (KEYMANAGER->isStayKeyDown('H'))
+	if (KEYMANAGER->isOnceKeyDown('H'))
 	{
-		_image = IMAGEMANAGER->findImage("스마슈분신");
+		_move = S_AREASKILL3;
 		_isMotionLive = true;
 	}
 
@@ -173,6 +172,24 @@ void player2::image()
 	case S_UPMOVE:
 		_image = IMAGEMANAGER->findImage("스마슈위로이동");
 		break;
+	case S_SOLOSKILL1:
+		_image = IMAGEMANAGER->findImage("스마슈대타격");
+		break;
+	case S_SOLOSKILL2:
+		_image = IMAGEMANAGER->findImage("스마슈절사어면");
+		break;
+	case S_SOLOSKILL3:
+		_image = IMAGEMANAGER->findImage("스마슈베고날아가기");
+		break;
+	case S_AREASKILL1:
+		_image = IMAGEMANAGER->findImage("스마슈용오름");
+		break;
+	case S_AREASKILL2:
+		_image = IMAGEMANAGER->findImage("스마슈난도질");
+		break;
+	case S_AREASKILL3:
+		_image = IMAGEMANAGER->findImage("스마슈분신");
+		break;
 	default:
 		break;
 	}
@@ -183,7 +200,7 @@ void player2::imageFrame()
 	//이미지프레임
 	++_frame;
 
-	if (_frame % 5 == 0)
+	if (_frame % 7 == 0)
 	{
 
 		++_imageFrame;
@@ -227,20 +244,25 @@ void player2::move()
 	case S_UPMOVE:
 		_y -= _moveSpeed;
 		break;
-	case S_SOLOSKILL1:
-		break;
-	case S_SOLOSKILL2:
-		break;
-	case S_SOLOSKILL3:
-		break;
-	case S_AREASKILL1:
-		break;
-	case S_AREASKILL2:
-		break;
-	case S_AREASKILL3:
-		break;
 	default:
 		break;
+	}
+
+	//스킬 이동
+
+	//대타격
+	if (_image == IMAGEMANAGER->findImage("스마슈대타격") && _x < WINSIZEX -100)
+	{	
+		_imageFrame = 1;
+		_image->setFrameX(1);
+		_x += 10;
+	}
+	if (_image == IMAGEMANAGER->findImage("스마슈대타격") && _x > WINSIZEX - 100)
+	{
+		if (_image->getFrameX() >= _image->getMaxFrameX())
+		{
+			_move = S_RIGHT;
+		}
 	}
 }
 
