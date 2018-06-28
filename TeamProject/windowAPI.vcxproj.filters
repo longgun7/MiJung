@@ -129,9 +129,6 @@
     <ClInclude Include="loadingScene.h">
       <Filter>2DFramework\loading</Filter>
     </ClInclude>
-    <ClInclude Include="inGameScene.h">
-      <Filter>2DFramework\loading</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -195,9 +192,6 @@
       <Filter>2DFramework\Manager</Filter>
     </ClCompile>
     <ClCompile Include="loadingScene.cpp">
-      <Filter>2DFramework\loading</Filter>
-    </ClCompile>
-    <ClCompile Include="inGameScene.cpp">
       <Filter>2DFramework\loading</Filter>
     </ClCompile>
   </ItemGroup>
