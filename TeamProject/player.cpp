@@ -18,7 +18,7 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호노익장대폭발", "image/player/아타호 노익장대폭발.bmp", 220, 80, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호맹호광파참", "image/player/아타호 맹호광파참.bmp", 244, 85, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호맹호난무", "image/player/아타호 맹호난무.bmp", 1912, 110, 14, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("아타호맹호스페셜", "image/player/아타호 맹호스페셜.bmp", 3520, 172, 20, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호맹호스페셜", "image/player/아타호 맹호스페셜2.bmp", 4576, 172, 26, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호호격권", "image/player/아타호 호격권.bmp", 1100, 90, 10, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호왼쪽이동", "image/player/아타호 왼쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호만취", "image/player/아타호 만취.bmp", 502, 85, 8, 1, true, RGB(255, 0, 255));
@@ -105,6 +105,7 @@ void player::keyManager()
 
 	}
 
+	//스킬
 	if (KEYMANAGER->isStayKeyDown('A'))
 	{
 		_image = IMAGEMANAGER->findImage("아타호노익장대폭발");
@@ -174,11 +175,10 @@ void player::image()
 
 void player::imageFrame()
 {
-	
+	//프레임 이미지
 	++_frame;
 	
-	
-	if (_frame % 10 == 0)
+	if (_frame % 5 == 0)
 	{
 		++_imageFrame;
 
@@ -190,7 +190,8 @@ void player::imageFrame()
 			if (_image == IMAGEMANAGER->findImage("아타호만취"))
 			{
 				_imageFrame = 1;
-			}
+			}	
+
 		}
 		_frame = 0;
 	}
@@ -201,6 +202,7 @@ void player::imageFrame()
 
 void player::move()
 {
+	//이동
 	switch (_move)
 	{
 	case LEFT:

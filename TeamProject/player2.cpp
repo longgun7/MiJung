@@ -22,13 +22,15 @@ HRESULT player2::init()
 	IMAGEMANAGER->addFrameImage("스마슈절사어면", "image/player/스마슈 절사어면.bmp", 1615, 100, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈분신", "image/player/스마슈 분신.bmp", 99, 85, 2, 1, true, RGB(255, 0, 255));
 
-
+	//초기 스마슈모습
 	_image = IMAGEMANAGER->findImage("스마슈정면");
 
+	//스마슈 정보
 	_x = WINSIZEX / 3;
 	_y = WINSIZEY / 3;
 	_imageFrame = 0;
 	_frame = 0;
+	_frame2 = 0;
 	_moveSpeed = 5;
 
 	return S_OK;
@@ -48,6 +50,7 @@ void player2::render()
 {
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+	
 	//image
 	_image->frameRender(getMemDC(), _rc.left, _rc.top);
 }
@@ -105,6 +108,7 @@ void player2::keyManager()
 
 	}
 
+	//스킬
 	if (KEYMANAGER->isStayKeyDown('A'))
 	{
 		_image = IMAGEMANAGER->findImage("스마슈대타격");
@@ -139,6 +143,7 @@ void player2::keyManager()
 
 void player2::image()
 {
+	//이미지
 	switch (_move)
 	{
 	case SLEFT:
@@ -172,11 +177,12 @@ void player2::image()
 
 void player2::imageFrame()
 {
-
+	//이미지프레임
 	++_frame;
 
 	if (_frame % 5 == 0)
 	{
+
 		++_imageFrame;
 
 		_image->setFrameX(_imageFrame);
@@ -187,6 +193,7 @@ void player2::imageFrame()
 		}
 		_frame = 0;
 	}
+	
 
 }
 
@@ -194,6 +201,7 @@ void player2::imageFrame()
 
 void player2::move()
 {
+	//이동
 	switch (_move)
 	{
 	case SLEFT:
