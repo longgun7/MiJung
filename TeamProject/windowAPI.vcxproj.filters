@@ -270,6 +270,15 @@
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -386,9 +395,6 @@
     <ClCompile Include="townScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
     </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
-    </ClCompile>
     <ClCompile Include="statusScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClCompile>
@@ -413,11 +419,11 @@
     <ClCompile Include="statusScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClCompile>
-    <ClCompile Include="boss.cpp">
-      <Filter>playGround\enemy</Filter>
+    <ClCompile Include="inventory.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="blackUniform.cpp">
-      <Filter>playGround\enemy\boss</Filter>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -152,7 +152,6 @@
     <ClInclude Include="barScnen.h" />
     <ClInclude Include="bat.h" />
     <ClInclude Include="battleScene.h" />
-    <ClInclude Include="battleScnen.h" />
     <ClInclude Include="blackUniform.h" />
     <ClInclude Include="boss.h" />
     <ClInclude Include="button.h" />
@@ -207,7 +206,6 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="barScnen.cpp" />
     <ClCompile Include="bat.cpp" />
-    <ClCompile Include="battleScnen.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="dragon.cpp" />
     <ClCompile Include="effect.cpp" />
