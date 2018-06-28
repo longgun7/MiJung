@@ -243,6 +243,15 @@
     <ClInclude Include="dragon.h">
       <Filter>playGround\enemy\stage3</Filter>
     </ClInclude>
+    <ClInclude Include="statusScene.h">
+      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
+    </ClInclude>
+    <ClInclude Include="boss.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="blackUniform.h">
+      <Filter>playGround\enemy\boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -361,6 +370,24 @@
     </ClCompile>
     <ClCompile Include="wildBoar.cpp">
       <Filter>playGround\enemy\stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="skeletonWizard.cpp">
+      <Filter>playGround\enemy\stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="dragon.cpp">
+      <Filter>playGround\enemy\stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton.cpp">
+      <Filter>playGround\enemy\stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="statusScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
+    </ClCompile>
+    <ClCompile Include="boss.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="blackUniform.cpp">
+      <Filter>playGround\enemy\boss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
