@@ -63,6 +63,5 @@ void playGround::sceneAdd(void)
 	SCENEMANAGER->addScene("½ºÅ¸Æ®¾À", new startScene);
 	SCENEMANAGER->addScene("¿£µå¾À", new endScene);
 
-
 }
 

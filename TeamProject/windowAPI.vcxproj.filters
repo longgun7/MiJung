@@ -82,6 +82,24 @@
     <Filter Include="2DFramework\player">
       <UniqueIdentifier>{971a2dbc-622d-4058-beba-3df58b696aa2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DFramework\Item">
+      <UniqueIdentifier>{8633e85c-c352-4574-b73f-149cfd58ca87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy">
+      <UniqueIdentifier>{b6d2bf47-2689-4720-8d75-bcc743b86f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage1">
+      <UniqueIdentifier>{15bde7ad-93cb-487f-a87d-4e3c5e9f9b90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage2">
+      <UniqueIdentifier>{12596731-6c4b-4c21-9046-7f448d90d311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage3">
+      <UniqueIdentifier>{63441269-00f5-40ea-86a7-7f3002b4118b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\boss">
+      <UniqueIdentifier>{9c6fb1a2-822e-4055-b125-7c6854d794c6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="2DFramework\Scene\startScene\playScene\statusScene">
       <UniqueIdentifier>{6a2162e7-76f2-484a-9ac8-8080dc0f61a5}</UniqueIdentifier>
     </Filter>
@@ -183,14 +201,35 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="kungpuMan.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="spearMan.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="spirit.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>2DFramework\Item</Filter>
+    </ClInclude>
     <ClInclude Include="townScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>2DFramework\player</Filter>
+    <ClInclude Include="bat.h">
+      <Filter>playGround\enemy\stage2</Filter>
     </ClInclude>
-    <ClInclude Include="statusScene.h">
-      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
+    <ClInclude Include="snake.h">
+      <Filter>playGround\enemy\stage2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -277,15 +316,6 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="townScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="statusScene.cpp">
-      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
