@@ -152,6 +152,8 @@
     <ClInclude Include="barScnen.h" />
     <ClInclude Include="bat.h" />
     <ClInclude Include="battleScnen.h" />
+    <ClInclude Include="blackUniform.h" />
+    <ClInclude Include="boss.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="dragon.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="iniDataManager.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="itemManager.h" />
     <ClInclude Include="keyAniManager.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="kungpuMan.h" />
@@ -204,6 +207,8 @@
     <ClCompile Include="barScnen.cpp" />
     <ClCompile Include="bat.cpp" />
     <ClCompile Include="battleScnen.cpp" />
+    <ClCompile Include="blackUniform.cpp" />
+    <ClCompile Include="boss.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="dragon.cpp" />
     <ClCompile Include="effect.cpp" />
@@ -218,6 +223,7 @@
     <ClCompile Include="iniDataManager.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="itemManager.cpp" />
     <ClCompile Include="keyAniManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="kungpuMan.cpp" />

@@ -261,6 +261,30 @@
     <ClInclude Include="inventory.h">
       <Filter>2DFramework\playerManager\player\inventory</Filter>
     </ClInclude>
+    <ClInclude Include="statusScene.h">
+      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
+    </ClInclude>
+    <ClInclude Include="boss.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="blackUniform.h">
+      <Filter>playGround\enemy\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="dragon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="skeletonWizard.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="statusScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>2DFramework\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -350,55 +374,13 @@
     <ClCompile Include="townScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="player2.cpp">
-      <Filter>2DFramework\playerManager\player</Filter>
-    </ClCompile>
-    <ClCompile Include="bat.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="dragon.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="item.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kungpuMan.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="skeleton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="skeletonWizard.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="snake.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="spearMan.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="spirit.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="statusScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="wildBoar.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager</Filter>
     </ClCompile>
     <ClCompile Include="playerManager.cpp">
-      <Filter>2DFramework\playerManager\player</Filter>
+      <Filter>2DFramework\playerManager</Filter>
     </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>2DFramework\playerManager\player\inventory</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
+    <ClCompile Include="player2.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
