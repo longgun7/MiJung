@@ -52,6 +52,33 @@
     <Filter Include="2DFramework\loading">
       <UniqueIdentifier>{da20ded3-a458-4aef-83e5-50e843ef8d30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DFramework\Scene">
+      <UniqueIdentifier>{cd4fa71f-b1c8-4f3f-a725-80e61358d939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\Scene\startScene">
+      <UniqueIdentifier>{5e957095-1de5-4478-976a-2bb26bb5c195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\Scene\startScene\mapToolScene">
+      <UniqueIdentifier>{ccb1c0a3-1a42-48b4-bb2a-5dbb91d2987c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\Scene\startScene\playScene">
+      <UniqueIdentifier>{98b952c7-67d3-4fde-a477-6f5bd757b959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\Scene\endScene">
+      <UniqueIdentifier>{c5971a65-4320-495e-ad25-8fdfd0636eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\Scene\startScene\playScene\townScene">
+      <UniqueIdentifier>{180fa43a-7e32-4037-8999-1aaf59a935a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\Scene\startScene\playScene\fieldScene">
+      <UniqueIdentifier>{8e49d668-0579-47e6-b7a7-6ce93d71133f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\Scene\startScene\playScene\battleScene">
+      <UniqueIdentifier>{9cc81bf9-4c09-4a6f-95b8-74841d040972}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\Scene\startScene\playScene\townScene\barScene">
+      <UniqueIdentifier>{5f565a22-bb95-497b-bcbe-e42cb91b17a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -129,6 +156,27 @@
     <ClInclude Include="loadingScene.h">
       <Filter>2DFramework\loading</Filter>
     </ClInclude>
+    <ClInclude Include="barScnen.h">
+      <Filter>2DFramework\Scene\startScene\playScene\townScene\barScene</Filter>
+    </ClInclude>
+    <ClInclude Include="battleScnen.h">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="fieldScene.h">
+      <Filter>2DFramework\Scene\startScene\playScene\fieldScene</Filter>
+    </ClInclude>
+    <ClInclude Include="playScene.h">
+      <Filter>2DFramework\Scene\startScene\playScene</Filter>
+    </ClInclude>
+    <ClInclude Include="mapToolScene.h">
+      <Filter>2DFramework\Scene\startScene\mapToolScene</Filter>
+    </ClInclude>
+    <ClInclude Include="endScene.h">
+      <Filter>2DFramework\Scene\endScene</Filter>
+    </ClInclude>
+    <ClInclude Include="startScene.h">
+      <Filter>2DFramework\Scene\startScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -193,6 +241,27 @@
     </ClCompile>
     <ClCompile Include="loadingScene.cpp">
       <Filter>2DFramework\loading</Filter>
+    </ClCompile>
+    <ClCompile Include="barScnen.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\townScene\barScene</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScnen.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="fieldScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\fieldScene</Filter>
+    </ClCompile>
+    <ClCompile Include="playScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene</Filter>
+    </ClCompile>
+    <ClCompile Include="mapToolScene.cpp">
+      <Filter>2DFramework\Scene\startScene\mapToolScene</Filter>
+    </ClCompile>
+    <ClCompile Include="endScene.cpp">
+      <Filter>2DFramework\Scene\endScene</Filter>
+    </ClCompile>
+    <ClCompile Include="startScene.cpp">
+      <Filter>2DFramework\Scene\startScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
