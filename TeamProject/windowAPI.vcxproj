@@ -186,6 +186,7 @@
     <ClInclude Include="spearMan.h" />
     <ClInclude Include="spirit.h" />
     <ClInclude Include="startScene.h" />
+    <ClInclude Include="statusScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="timeManager.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="spearMan.cpp" />
     <ClCompile Include="spirit.cpp" />
     <ClCompile Include="startScene.cpp" />
+    <ClCompile Include="statusScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

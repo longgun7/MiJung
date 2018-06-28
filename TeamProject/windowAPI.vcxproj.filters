@@ -100,6 +100,9 @@
     <Filter Include="playGround\enemy\boss">
       <UniqueIdentifier>{9c6fb1a2-822e-4055-b125-7c6854d794c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DFramework\Scene\startScene\playScene\statusScene">
+      <UniqueIdentifier>{6a2162e7-76f2-484a-9ac8-8080dc0f61a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -341,6 +344,9 @@
     <ClCompile Include="spirit.cpp">
       <Filter>playGround\enemy\stage1</Filter>
     </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>2DFramework\Item</Filter>
     </ClCompile>
@@ -355,18 +361,6 @@
     </ClCompile>
     <ClCompile Include="wildBoar.cpp">
       <Filter>playGround\enemy\stage2</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>2DFramework\player</Filter>
-    </ClCompile>
-    <ClCompile Include="skeleton.cpp">
-      <Filter>playGround\enemy\stage3</Filter>
-    </ClCompile>
-    <ClCompile Include="skeletonWizard.cpp">
-      <Filter>playGround\enemy\stage3</Filter>
-    </ClCompile>
-    <ClCompile Include="dragon.cpp">
-      <Filter>playGround\enemy\stage3</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
