@@ -177,6 +177,9 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="townScene.h">
+      <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
+    </ClCompile>
+    <ClCompile Include="townScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
