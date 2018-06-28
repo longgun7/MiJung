@@ -79,6 +79,21 @@
     <Filter Include="2DFramework\Scene\startScene\playScene\townScene\barScene">
       <UniqueIdentifier>{5f565a22-bb95-497b-bcbe-e42cb91b17a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\enemy">
+      <UniqueIdentifier>{b6d2bf47-2689-4720-8d75-bcc743b86f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage1">
+      <UniqueIdentifier>{15bde7ad-93cb-487f-a87d-4e3c5e9f9b90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage2">
+      <UniqueIdentifier>{12596731-6c4b-4c21-9046-7f448d90d311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\stage3">
+      <UniqueIdentifier>{63441269-00f5-40ea-86a7-7f3002b4118b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\boss">
+      <UniqueIdentifier>{9c6fb1a2-822e-4055-b125-7c6854d794c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -177,6 +192,27 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="townScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="kungpuMan.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="spearMan.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="spirit.h">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -263,11 +299,26 @@
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="townScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\enemy</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="kungpuMan.cpp">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="spearMan.cpp">
+      <Filter>playGround\enemy\stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="spirit.cpp">
+      <Filter>playGround\enemy\stage1</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
