@@ -9,7 +9,7 @@ playGround::playGround()
 
 playGround::~playGround()
 {
-	//たびびた
+	
 }
 
 HRESULT playGround::init(void)	
