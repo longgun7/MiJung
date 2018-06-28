@@ -79,6 +79,9 @@
     <Filter Include="2DFramework\Scene\startScene\playScene\townScene\barScene">
       <UniqueIdentifier>{5f565a22-bb95-497b-bcbe-e42cb91b17a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DFramework\player">
+      <UniqueIdentifier>{971a2dbc-622d-4058-beba-3df58b696aa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -177,6 +180,9 @@
     <ClInclude Include="startScene.h">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>2DFramework\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -262,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
