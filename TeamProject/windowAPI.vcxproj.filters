@@ -82,6 +82,9 @@
     <Filter Include="2DFramework\player">
       <UniqueIdentifier>{971a2dbc-622d-4058-beba-3df58b696aa2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DFramework\Item">
+      <UniqueIdentifier>{8633e85c-c352-4574-b73f-149cfd58ca87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -186,6 +189,9 @@
     <ClInclude Include="player.h">
       <Filter>2DFramework\player</Filter>
     </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -271,6 +277,15 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="townScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
