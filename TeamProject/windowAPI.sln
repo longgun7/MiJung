@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "windowAPI", "windowAPI.vcxproj", "{26B576D3-E100-48E6-AED4-5F3AD3269529}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "image", "image", "{215BDC3B-5AB2-43D3-B1E6-1C2A1E4DDF94}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "image", "image", "{887F22EF-0064-41DB-8394-3A2B4A67E5B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
