@@ -109,6 +109,9 @@
     <Filter Include="2DFramework\playerManager\player\inventory">
       <UniqueIdentifier>{3a13816d-426b-4c90-bac3-f592bf0d49d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DFramework\itemManager">
+      <UniqueIdentifier>{e36e9c83-ab14-4d54-8890-089e9a71ae3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -277,7 +280,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="itemManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>2DFramework\itemManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -371,9 +374,6 @@
     <ClCompile Include="enemyManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="item.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="kungpuMan.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -423,7 +423,10 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>2DFramework\itemManager</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>2DFramework\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
