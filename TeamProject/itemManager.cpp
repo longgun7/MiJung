@@ -21,7 +21,7 @@ HRESULT itemManager::init()
 	
 		
 	}*/
-		_v
+	/*	_v
 	}*/
 
 	return S_OK;
