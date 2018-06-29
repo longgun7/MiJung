@@ -222,17 +222,11 @@
     <ClInclude Include="inventory.h">
       <Filter>playGround\playerManager\player\inventory</Filter>
     </ClInclude>
-    <ClInclude Include="statusScene.h">
-      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
-    </ClInclude>
     <ClInclude Include="boss.h">
       <Filter>playGround\enemy</Filter>
     </ClInclude>
     <ClInclude Include="blackUniform.h">
       <Filter>playGround\enemy\boss</Filter>
-    </ClInclude>
-    <ClInclude Include="wildBoar.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="battleScene.h">
       <Filter>playGround\Scene\startScene\playScene\battleScene</Filter>
@@ -275,6 +269,12 @@
     </ClInclude>
     <ClInclude Include="spirit.h">
       <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="wildBoar.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="statusScene.h">
+      <Filter>playGround\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
     <ClInclude Include="wildBoar.h">
       <Filter>playGround\enemy</Filter>
