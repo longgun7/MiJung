@@ -49,8 +49,6 @@ private:
 	image*	 _image;
 
 	int		 _itemMax;
-	itemKind _atahoe;
-	itemKind _smashue;
 	postionKind _potion;
 	
 	int		 _atk;
@@ -68,9 +66,13 @@ public:
 	void render();
 	void release();
 	void makeItem(int frameX, int frameY,float x ,float y);
-	void check();
-	void itemStat();
+	void atahoestat(itemKind itemkind);
+	void smashustat(itemKind itemkind);
 
-	vector<tagItem>			  getVItem() { return _vItem; }
-	vector<tagItem>::iterator getVIItem() { return _viItem; }
+	vector<tagItem>				getVItem() { return _vItem; }
+	vector<tagItem>::iterator	getVIItem() { return _viItem; }
+	
+	vector<tagPotion>			getVPotion() { return _vPotion; }
+	vector<tagPotion>::iterator	getVIPotion() { return _viPotion; }
+
 };

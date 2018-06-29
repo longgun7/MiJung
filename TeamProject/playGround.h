@@ -3,6 +3,7 @@
 #include "startScene.h"
 #include "endScene.h"
 #include "playerManager.h"
+#include "itemManager.h"
 
 //환세이취호전 시작
 class playGround : public gameNode
@@ -11,6 +12,7 @@ private:
 
 	//플레이어 매니저
 	playerManager * _PM;
+	itemManager* _im;
 
 public:
 	virtual HRESULT init(void);

@@ -13,7 +13,9 @@ item::~item()
 
 HRESULT item::init(int itemMax)
 {
-	_image = IMAGEMANAGER->addFrameImage("아이템", "아이템.bmp", 0, 0, 600, 250, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아이템", "image/item/아이템.bmp", 600, 250, 12, 5, true, RGB(255, 0, 255));
+
+	_image = IMAGEMANAGER->findImage("아이템");
 	_itemMax = itemMax;
 
 	return S_OK;
@@ -41,10 +43,23 @@ void item::makeItem(int frameX, int frameY, float x, float y)
 
 	tagItem item;
 	ZeroMemory(&item, sizeof(item));
-	
+
 	item.frameX = frameX;
 	item.frameY = frameY;
-	check();
+
+	if (item.frameX == 0) item.itemCheck = WEAPONE1;
+	else if (item.frameX == 1) item.itemCheck = WEAPONE2;
+	else if (item.frameX == 2) item.itemCheck = WEAPONE3;
+	else if (item.frameX == 3) item.itemCheck = WEAPONE4;
+	else if (item.frameX == 6) item.itemCheck = ARMOR1;
+	else if (item.frameX == 7) item.itemCheck = ARMOR2;
+	else if (item.frameX == 8) item.itemCheck = ARMOR3;
+	else if (item.frameX == 9) item.itemCheck = ARMOR4;
+
+	if (item.frameY == 0)		atahoestat(item.itemCheck);
+	else if (item.frameY == 2)	smashustat(item.itemCheck);
+
+
 	item.atk = _atk;
 	item.def = _def;
 	item.critical = _critical;
@@ -57,34 +72,15 @@ void item::makeItem(int frameX, int frameY, float x, float y)
 	_vItem.push_back(item);
 }
 
-void item::check()
+void item::atahoestat(itemKind itemkind)
 {
-
-	for (_viItem = _vItem.begin(); _viItem != _vItem.end(); ++_viItem)
-	{
-		if (_viItem->frameY == 0) _viItem->itemCheck = _atahoe;
-		if (_viItem->frameY == 1) _viItem->itemCheck = _smashue;
-		if (_viItem->frameX == 0) _viItem->itemCheck = WEAPONE1;
-		if (_viItem->frameX == 1) _viItem->itemCheck = WEAPONE2;
-		if (_viItem->frameX == 2) _viItem->itemCheck = WEAPONE3;
-		if (_viItem->frameX == 3) _viItem->itemCheck = WEAPONE4;
-		if (_viItem->frameX == 6) _viItem->itemCheck = ARMOR1;
-		if (_viItem->frameX == 7) _viItem->itemCheck = ARMOR2;
-		if (_viItem->frameX == 8) _viItem->itemCheck = ARMOR3;
-		if (_viItem->frameX == 9) _viItem->itemCheck = ARMOR4;
-	}
-
-}
-
-void item::itemStat()
-{
-	switch (_atahoe)
+	switch (itemkind)
 	{
 	case WEAPONE1:
 		_atk = 5;
 		_luck = 5;
 		_critical = 3;
-	
+
 		break;
 	case WEAPONE2:
 		_atk = 8;
@@ -102,7 +98,7 @@ void item::itemStat()
 		_atk = 15;
 		_luck = 15;
 		_critical = 10;
-	
+
 		break;
 	case ARMOR1:
 		_def = 4;
@@ -122,44 +118,52 @@ void item::itemStat()
 		break;
 
 	}
+}
 
-	switch (_smashue)
+void item::smashustat(itemKind itemkind)
+{
+
+	switch (itemkind)
 	{
 	case WEAPONE1:
 		_atk = 7;
-		_luck = 8;
-		_critical = 10;
+		_luck = 7;
+		_critical = 5;
+
 		break;
 	case WEAPONE2:
 		_atk = 9;
 		_luck = 10;
-		_critical = 12;
+		_critical = 9;
+
 		break;
 	case WEAPONE3:
-		_atk = 11;
+		_atk = 12;
 		_luck = 12;
-		_critical = 14;
+		_critical = 12;
+
 		break;
 	case WEAPONE4:
-		_atk = 13;
+		_atk = 16;
 		_luck = 14;
-		_critical = 16;
+		_critical = 15;
+
 		break;
 	case ARMOR1:
-		_def = 7;
-		_speed = 8;
+		_def = 4;
+		_speed = 4;
 		break;
 	case ARMOR2:
-		_def = 9;
-		_speed = 10;
+		_def = 6;
+		_speed = 6;
 		break;
 	case ARMOR3:
-		_def = 11;
-		_speed = 12;
+		_def = 8;
+		_speed = 8;
 		break;
 	case ARMOR4:
-		_def = 13;
-		_speed = 14;
-		break;
+		_def = 10;
+		_speed = 10;
 	}
 }
+
