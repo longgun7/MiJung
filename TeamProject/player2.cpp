@@ -30,10 +30,9 @@ HRESULT player2::init()
 	_y = WINSIZEY / 3;
 	_imageFrame = 0;
 	_frame = 0;
-	_frame2 = 0;
+	_skillFrame = 0;
 	_moveSpeed = 5;
-	_isSkillMove = false;
-
+	_isMotionLive = false;
 	return S_OK;
 }
 
@@ -41,13 +40,11 @@ void player2::update()
 {
 	image();		 //이미지
 	keyManager();	 //키
-	move();			 //움직임
-	
-	if (_isSkillMove)
+	if (_isMotionLive)
 	{
 		imageFrame();	 //이미지프레임
 	}
-
+	move();			 //움직임
 }
 
 void player2::render()
@@ -71,82 +68,77 @@ void player2::keyManager()
 	//움직이는 모션
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
-		_move = SLEFTMOVE;
-
+		_move = S_LEFTMOVE;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
-		_move = SRIGHTMOVE;
-
+		_move = S_RIGHTMOVE;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
-		_move = SUPMOVE;
-
+		_move = S_UPMOVE;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
-		_move = SDOWNMOVE;
-
+		_move = S_DOWNMOVE;
+		_isMotionLive = true;
 	}
 
 	//정자세
 	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
 	{
-		_move = SFRONT;
+		_move = S_FRONT;
 
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 	{
-		_move = SLEFT;
+		_move = S_LEFT;
 
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 	{
-		_move = SRIGHT;
+		_move = S_RIGHT;
 
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_UP))
 	{
-		_move = SBACK;
+		_move = S_BACK;
 
 	}
 
 	//스킬
 	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
-		_isSkillMove = true;
-		_image = IMAGEMANAGER->findImage("스마슈대타격");
-
+		_move = S_SOLOSKILL1;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
-		_isSkillMove = true;
-		_image = IMAGEMANAGER->findImage("스마슈절사어면");
-
+		_move = S_SOLOSKILL2;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isOnceKeyDown('D'))
 	{
-		_isSkillMove = true;
-		_image = IMAGEMANAGER->findImage("스마슈베고날아가기");
-
+		_move = S_SOLOSKILL3;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isOnceKeyDown('F'))
 	{
-		_isSkillMove = true;
-		_image = IMAGEMANAGER->findImage("스마슈용오름");
-
+		_move = S_AREASKILL1;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isOnceKeyDown('G'))
 	{
-		_isSkillMove = true;
-		_image = IMAGEMANAGER->findImage("스마슈난도질");
-
+		_move = S_AREASKILL2;
+		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isOnceKeyDown('H'))
 	{
-		_isSkillMove = true;
-		_image = IMAGEMANAGER->findImage("스마슈분신");
+		_move = S_AREASKILL3;
+		_isMotionLive = true;
 	}
 
 }
@@ -156,29 +148,47 @@ void player2::image()
 	//이미지
 	switch (_move)
 	{
-	case SLEFT:
+	case S_LEFT:
 		_image = IMAGEMANAGER->findImage("스마슈왼쪽");
 		break;
-	case SRIGHT:
+	case S_RIGHT:
 		_image = IMAGEMANAGER->findImage("스마슈오른쪽");
 		break;
-	case SFRONT:
+	case S_FRONT:
 		_image = IMAGEMANAGER->findImage("스마슈정면");
 		break;
-	case SBACK:
+	case S_BACK:
 		_image = IMAGEMANAGER->findImage("스마슈뒷모습");
 		break;
-	case SLEFTMOVE:
+	case S_LEFTMOVE:
 		_image = IMAGEMANAGER->findImage("스마슈왼쪽이동");
 		break;
-	case SRIGHTMOVE:
+	case S_RIGHTMOVE:
 		_image = IMAGEMANAGER->findImage("스마슈오른쪽이동");
 		break;
-	case SDOWNMOVE:
+	case S_DOWNMOVE:
 		_image = IMAGEMANAGER->findImage("스마슈아래이동");
 		break;
-	case SUPMOVE:
+	case S_UPMOVE:
 		_image = IMAGEMANAGER->findImage("스마슈위로이동");
+		break;
+	case S_SOLOSKILL1:
+		_image = IMAGEMANAGER->findImage("스마슈대타격");
+		break;
+	case S_SOLOSKILL2:
+		_image = IMAGEMANAGER->findImage("스마슈절사어면");
+		break;
+	case S_SOLOSKILL3:
+		_image = IMAGEMANAGER->findImage("스마슈베고날아가기");
+		break;
+	case S_AREASKILL1:
+		_image = IMAGEMANAGER->findImage("스마슈용오름");
+		break;
+	case S_AREASKILL2:
+		_image = IMAGEMANAGER->findImage("스마슈난도질");
+		break;
+	case S_AREASKILL3:
+		_image = IMAGEMANAGER->findImage("스마슈분신");
 		break;
 	default:
 		break;
@@ -190,7 +200,7 @@ void player2::imageFrame()
 	//이미지프레임
 	++_frame;
 
-	if (_frame % 5 == 0)
+	if (_frame % 7 == 0)
 	{
 		
 		++_imageFrame;
@@ -216,34 +226,45 @@ void player2::move()
 	//이동
 	switch (_move)
 	{
-	case SLEFT:
+	case S_LEFT:
 		break;
-	case SRIGHT:
+	case S_RIGHT:
 		break;
-	case SFRONT:
+	case S_FRONT:
 		break;
-	case SBACK:
+	case S_BACK:
 		break;
-	case SLEFTMOVE:
+	case S_LEFTMOVE:
 		_x -= _moveSpeed;
 		break;
-	case SRIGHTMOVE:
+	case S_RIGHTMOVE:
 		_x += _moveSpeed;
 		break;
-	case SDOWNMOVE:
+	case S_DOWNMOVE:
 		_y += _moveSpeed;
 		break;
-	case SUPMOVE:
+	case S_UPMOVE:
 		_y -= _moveSpeed;
 		break;
 	default:
 		break;
 	}
 
-	//스킬이동
-	if (_image == IMAGEMANAGER->findImage("스마슈대타격") && _x < WINSIZEX -200)
+	//스킬 이동
+
+	//대타격
+	if (_image == IMAGEMANAGER->findImage("스마슈대타격") && _x < WINSIZEX -100)
 	{	
-		_x += 20;
+		_imageFrame = 1;
+		_image->setFrameX(1);
+		_x += 10;
+	}
+	if (_image == IMAGEMANAGER->findImage("스마슈대타격") && _x > WINSIZEX - 100)
+	{
+		if (_image->getFrameX() >= _image->getMaxFrameX())
+		{
+			_move = S_RIGHT;
+		}
 	}
 }
 
