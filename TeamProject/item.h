@@ -79,6 +79,7 @@ public:
 	void atahoestat(itemKind itemkind);
 	void smashustat(itemKind itemkind);
 	void potionAbility(potionKind potionkind);
+	void setitem();
 
 	vector<tagItem>				getVItem() { return _vItem; }
 	vector<tagItem>::iterator	getVIItem() { return _viItem; }
