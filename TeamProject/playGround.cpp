@@ -22,8 +22,8 @@ HRESULT playGround::init(void)
 	_PM = new playerManager;
 	_PM->init();
 
-	//_im = new itemManager;
-	//_im->init();
+	_im = new itemManager;
+	_im->init();
 
 	SCENEMANAGER->changeScene("스타트씬");
 
@@ -43,7 +43,7 @@ void playGround::update(void)
 
 	_PM->update();
 
-	//_im->update();
+	_im->update();
 
 	SCENEMANAGER->update();
 
@@ -63,7 +63,7 @@ void playGround::render(void)
 
 	_PM->render();
 
-	//_im->render();
+	_im->render();
 
 	//================이 밑으로도 건드리지 말자 =============
 	this->getBackBuffer()->render(getHDC(), 0, 0);

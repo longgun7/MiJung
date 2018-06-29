@@ -8,9 +8,9 @@ enum itemKind
 	ARMOR1, ARMOR2, ARMOR3, ARMOR4
 };
 
-enum postionKind
+enum potionKind
 {
-	HPPOTION, MPPOTION
+	HPPOTION1, MPPOTION1
 };
 
 struct tagItem
@@ -27,14 +27,21 @@ struct tagItem
 	int critical;
 	RECT rc;
 	itemKind itemCheck;
-	postionKind checkPotion;
 
 };
 
 struct tagPotion
 {
+
+	int frameX;
+	int frameY;
+	float x;
+	float y;
 	int hp;
 	int mp;
+	RECT rc;
+	potionKind potionCheck;
+
 };
 
 class item : public gameNode
@@ -49,13 +56,15 @@ private:
 	image*	 _image;
 
 	int		 _itemMax;
-	postionKind _potion;
+	potionKind _potion;
 	
 	int		 _atk;
 	int		 _def;
 	int		 _luck;
 	int		 _critical;
 	float    _speed;
+	int		 _hp;
+	int		 _mp;
 
 public:
 	item();
@@ -66,8 +75,10 @@ public:
 	void render();
 	void release();
 	void makeItem(int frameX, int frameY,float x ,float y);
+	void makepotion(int frameX, int frameY, float x, float y);
 	void atahoestat(itemKind itemkind);
 	void smashustat(itemKind itemkind);
+	void potionAbility(potionKind potionkind);
 
 	vector<tagItem>				getVItem() { return _vItem; }
 	vector<tagItem>::iterator	getVIItem() { return _viItem; }

@@ -6,6 +6,7 @@ class itemManager : public gameNode
 {
 private:
 	item* _weapon;
+	item*  _potion;
 
 public:
 	itemManager();

@@ -31,6 +31,11 @@ void item::render()
 	{
 		_image->frameRender(getMemDC(), _viItem->rc.left, _viItem->rc.top, _viItem->frameX, _viItem->frameY);
 	}
+
+	for (_viPotion = _vPotion.begin(); _viPotion != _vPotion.end(); ++_viPotion)
+	{
+		_image->frameRender(getMemDC(), _viPotion->rc.left, _viPotion->rc.top, _viPotion->frameX, _viPotion->frameY);
+	}
 }
 
 void item::release()
@@ -56,7 +61,7 @@ void item::makeItem(int frameX, int frameY, float x, float y)
 	else if (item.frameX == 8) item.itemCheck = ARMOR3;
 	else if (item.frameX == 9) item.itemCheck = ARMOR4;
 
-	if (item.frameY == 0)		atahoestat(item.itemCheck);
+	if		(item.frameY == 0)	atahoestat(item.itemCheck);
 	else if (item.frameY == 2)	smashustat(item.itemCheck);
 
 
@@ -70,6 +75,30 @@ void item::makeItem(int frameX, int frameY, float x, float y)
 	item.rc = RectMakeCenter(item.x, item.y, _image->getFrameWidth(), _image->getFrameHeight());
 
 	_vItem.push_back(item);
+}
+
+void item::makepotion(int frameX, int frameY, float x, float y)
+{
+	if (_vPotion.size() > _itemMax) return;
+
+	tagPotion potion;
+	ZeroMemory(&potion, sizeof(potion));
+
+	potion.frameX = frameX;
+	potion.frameY = frameY;
+
+	if (potion.frameX == 0) potion.potionCheck = HPPOTION1;
+	if (potion.frameX == 2) potion.potionCheck = MPPOTION1;
+
+	potionAbility(potion.potionCheck);
+
+	potion.hp = _hp;
+	potion.mp = _mp;
+	potion.x = x;
+	potion.y = y;
+	potion.rc = RectMakeCenter(potion.x, potion.y, _image->getFrameWidth(), _image->getFrameHeight());
+
+	_vPotion.push_back(potion);
 }
 
 void item::atahoestat(itemKind itemkind)
@@ -164,6 +193,19 @@ void item::smashustat(itemKind itemkind)
 	case ARMOR4:
 		_def = 10;
 		_speed = 10;
+	}
+}
+
+void item::potionAbility(potionKind potionkind)
+{
+	switch (potionkind)
+	{
+	case HPPOTION1:
+		_hp = 10;
+		break;
+	case MPPOTION1:
+		_mp = 5;
+		break;
 	}
 }
 
