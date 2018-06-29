@@ -57,3 +57,8 @@ void itemManager::render()
 	TextOut(getMemDC(), 100, 250, str, strlen(str));
 	
 }
+
+void itemManager::setStat()
+{
+	
+}
