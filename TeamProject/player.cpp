@@ -78,6 +78,7 @@ void player::render()
 {
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+	
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 }
@@ -88,8 +89,7 @@ void player::release()
 
 void player::keyManager()
 {
-	//렉트 갱신
-	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+
 
 	//움직이는 모션
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
@@ -431,6 +431,8 @@ void player::move()
 	{
 		_isMotionLive = true;
 	}
+	//렉트 갱신
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
 void player::ropeWalk()

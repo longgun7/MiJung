@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "playerManager.h"
-
+#include "itemManager.h"
 
 HRESULT playerManager::init()
 {

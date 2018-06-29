@@ -83,7 +83,7 @@ void item::makepotion(int frameX, int frameY, float x, float y)
 
 	tagPotion potion;
 	ZeroMemory(&potion, sizeof(potion));
-
+	
 	potion.frameX = frameX;
 	potion.frameY = frameY;
 
