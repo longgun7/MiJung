@@ -16,20 +16,18 @@ HRESULT itemManager::init()
 	_weapon = new item;
 	_weapon->init(8);
 
-	for (int i = 0; i < 4; ++i)
-	{
-		_weapon->makeItem(i, 0, 100 + 100 * i, 100);	
-		_weapon->makeItem(i, 2, 500 + 100 * i, 100);
-	}
-
 	_potion = new item;
 	_potion->init(1);
-
-	_potion->makepotion(2, 3, 100, 200);
-		(*weapone).makeItem(i, 0, 100 + 100 * i, 100);
-	
+	for (int i = 0; i < 8; ++i)
+	{
+		_weapon->makeItem(i, 0, 100 + 100 * i, 100);	
 		
-	}*/
+	}
+
+	_potion->makepotion(0, 3, 100, 200);
+
+	
+
 	
 
 	return S_OK;
