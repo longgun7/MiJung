@@ -13,14 +13,14 @@ itemManager::~itemManager()
 
 HRESULT itemManager::init()
 {
-	item* weapone;
+	/*item* weapone;
 
 	for (int i = 0; i < 4; ++i)
 	{
 		(*weapone).makeItem(i, 0, 100 + 100 * i, 100);
 	
-		_v
-	}
+		
+	}*/
 
 	return S_OK;
 }

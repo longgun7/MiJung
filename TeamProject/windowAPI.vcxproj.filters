@@ -249,9 +249,6 @@
     <ClInclude Include="player2.h">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClInclude>
-    <ClInclude Include="playerManager.h">
-      <Filter>2DFramework\playerManager\player</Filter>
-    </ClInclude>
     <ClInclude Include="inventory.h">
       <Filter>2DFramework\playerManager\player\inventory</Filter>
     </ClInclude>
@@ -281,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="itemManager.h">
       <Filter>2DFramework\itemManager</Filter>
+    </ClInclude>
+    <ClInclude Include="playerManager.h">
+      <Filter>2DFramework\playerManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,9 +377,6 @@
     <ClCompile Include="kungpuMan.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="snake.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -419,9 +416,6 @@
     <ClCompile Include="statusScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>2DFramework\itemManager</Filter>
     </ClCompile>
@@ -430,6 +424,12 @@
     </ClCompile>
     <ClCompile Include="battleScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>2DFramework\playerManager\player\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
