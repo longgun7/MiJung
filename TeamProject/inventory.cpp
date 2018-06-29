@@ -19,7 +19,7 @@ void inventory::release()
 {
 }
 
-void inventory::set()
+void inventory::setItem(int att)
 {
 }
 

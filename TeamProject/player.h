@@ -4,13 +4,17 @@
 
 enum MOVE
 {
-	LEFT, RIGHT ,FRONT , BACK,
-	LEFTMOVE, RIGHTMOVE , DOWNMOVE , UPMOVE , 
+	LEFT, RIGHT, DOWN, UP,
+	LEFTMOVE, RIGHTMOVE, DOWNMOVE, UPMOVE,
 	SOLOSKILL1, SOLOSKILL2, SOLOSKILL3,
 	AREASKILL1, AREASKILL2, AREASKILL3,
-	DRINK
+	DRINK,DRUNKEN, FIGHTMODE
 };
 
+enum ROPEWALKING
+{
+	FRONT,LEFT1,LEFT2,LEFT3,RIGHT4,RIGHT1,RIGHT2,RIGHT3,RIGHT4
+};
 
 class player :public gameNode
 
@@ -28,6 +32,7 @@ private:
 	int		_frame;		  //프레임
 	int     _skillFrame;  //스킬프레임
 	int		_moveSpeed;	  //스피드
+	
 	string	_imageName;   //이미지이름
 	MOVE	_move;		  //움직임 상태
 	RECT	_rc;		  //렉트
@@ -42,7 +47,7 @@ public:
 	void imageFrame();
 	void keyManager();
 	void move();
-
+	void ropeWalk();
 	float getX() { return _x; }
 	float getY() { return _y; }
 	player();

@@ -16,7 +16,7 @@ public:
 	void render();
 	void release();
 
-	void set();
+	void setItem(int att);
 	inventory();
 	~inventory();
 };
