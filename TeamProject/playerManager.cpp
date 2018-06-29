@@ -11,7 +11,7 @@ HRESULT playerManager::init()
 	
 	//스마슈 init()	
 	_smasyu = new player2;
-	_smasyu->init();
+	_smasyu->init(_ataho->getX() , _ataho->getY());
 
 	//인벤토리 init()
 	for (int i = 0; i < 2; i++)
@@ -30,7 +30,7 @@ void playerManager::update()
 	//플레이어
 	_ataho->update();
 	_smasyu->update();
-
+	_smasyu->angleManager(_ataho->getX(), _ataho->getY());
 	//인벤토리
 	for (_viInven = _vInven.begin(); _viInven != _vInven.end(); ++_viInven)
 	{

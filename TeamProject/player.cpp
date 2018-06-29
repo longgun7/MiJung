@@ -23,7 +23,7 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호왼쪽이동", "image/player/아타호 왼쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호만취", "image/player/아타호 만취.bmp", 502, 85, 8, 1, true, RGB(255, 0, 255));
 
-	_image = IMAGEMANAGER->findImage("아타호정면");
+	_img = IMAGEMANAGER->findImage("아타호정면");
 	
 	_x = WINSIZEX / 2;
 	_y = WINSIZEY/2;
@@ -35,7 +35,7 @@ HRESULT player::init()
 	_moveSpeed  = 5;
 	_isMotionLive = false;
 	_isJumping = false;
-	_rc = RectMakeCenter(_x, _y, _image->getFrameWidth(), _image->getFrameHeight());
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	return S_OK;
 }
 
@@ -55,7 +55,7 @@ void player::render()
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
 	//image
-	_image->frameRender(getMemDC(), _rc.left, _rc.top);
+	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 }
 
 void player::release()
@@ -65,7 +65,7 @@ void player::release()
 void player::keyManager()
 {
 	//렉트 갱신
-	_rc = RectMakeCenter(_x, _y, _image->getFrameWidth(), _image->getFrameHeight());
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
 	//움직이는 모션
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
@@ -157,46 +157,46 @@ void player::image()
 	switch (_move)
 	{
 	case LEFT:
-		_image = IMAGEMANAGER->findImage("아타호왼쪽");
+		_img = IMAGEMANAGER->findImage("아타호왼쪽");
 		break;
 	case RIGHT:
-		_image = IMAGEMANAGER->findImage("아타호오른쪽");
+		_img = IMAGEMANAGER->findImage("아타호오른쪽");
 		break;
 	case FRONT:
-		_image = IMAGEMANAGER->findImage("아타호정면");
+		_img = IMAGEMANAGER->findImage("아타호정면");
 		break;
 	case BACK:
-		_image = IMAGEMANAGER->findImage("아타호뒷모습");
+		_img = IMAGEMANAGER->findImage("아타호뒷모습");
 		break;
 	case LEFTMOVE:
-		_image = IMAGEMANAGER->findImage("아타호왼쪽이동");
+		_img = IMAGEMANAGER->findImage("아타호왼쪽이동");
 		break;
 	case RIGHTMOVE:
-		_image = IMAGEMANAGER->findImage("아타호오른쪽이동");
+		_img = IMAGEMANAGER->findImage("아타호오른쪽이동");
 		break;
 	case DOWNMOVE:
-		_image = IMAGEMANAGER->findImage("아타호아래이동");
+		_img = IMAGEMANAGER->findImage("아타호아래이동");
 		break;
 	case UPMOVE:
-		_image = IMAGEMANAGER->findImage("아타호위로이동");
+		_img = IMAGEMANAGER->findImage("아타호위로이동");
 		break;
 	case SOLOSKILL1:
-		_image = IMAGEMANAGER->findImage("아타호호격권");
+		_img = IMAGEMANAGER->findImage("아타호호격권");
 		break;
 	case SOLOSKILL2:
-		 _image = IMAGEMANAGER->findImage("아타호맹호광파참");
+		 _img = IMAGEMANAGER->findImage("아타호맹호광파참");
 		break;
 	case SOLOSKILL3:
-		_image = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
 		break;
 	case AREASKILL1:
-		_image = IMAGEMANAGER->findImage("아타호맹호난무");
+		_img = IMAGEMANAGER->findImage("아타호맹호난무");
 		break;
 	case AREASKILL2:
 		//_image = IMAGEMANAGER->findImage("아타호맹호난무");
 		break;
 	case AREASKILL3:
-		_image = IMAGEMANAGER->findImage("아타호노익장대폭발");
+		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
 		break;
 	default:
 		break;
@@ -212,11 +212,11 @@ void player::imageFrame()
 		{
 			++_imageFrame;
 
-			_image->setFrameX(_imageFrame);
+			_img->setFrameX(_imageFrame);
 
-			if (_imageFrame >= _image->getMaxFrameX())
+			if (_imageFrame >= _img->getMaxFrameX())
 			{
-				if (_image == IMAGEMANAGER->findImage("아타호만취"))
+				if (_img == IMAGEMANAGER->findImage("아타호만취"))
 				{
 					_imageFrame = 1;
 				}
@@ -265,14 +265,14 @@ void player::move()
 	//스킬 움직임
 
 	//호격권
-	if (_image == IMAGEMANAGER->findImage("아타호호격권"))
+	if (_img == IMAGEMANAGER->findImage("아타호호격권"))
 	{
-		if (_image->getFrameX() >= 9)
+		if (_img->getFrameX() >= 9)
 		{
 			++_skillFrame;
-			if (_skillFrame >= 50)
+			if (_skillFrame >= 50 )
 			{
-				_image->setFrameX(0);
+				_img->setFrameX(0);
 				_move = RIGHT;
 				_skillFrame = 0;
 			}
@@ -280,26 +280,26 @@ void player::move()
 	}
 
 	//광파참
-	if (_image == IMAGEMANAGER->findImage("아타호맹호광파참"))
+	if (_img == IMAGEMANAGER->findImage("아타호맹호광파참"))
 	{
 		
 		++_skillFrame;
 
 		if (_skillFrame < 50)
 		{
-			_image->setFrameX(0);
+			_img->setFrameX(0);
 		}
 		if (_skillFrame > 50 &&_skillFrame < 100)
 		{
-			_image->setFrameX(1);
+			_img->setFrameX(1);
 		}
 		if(_skillFrame > 100 && _skillFrame < 200)
 		{
-			_image->setFrameX(2);
+			_img->setFrameX(2);
 		}
 		if (_skillFrame > 200)
 		{	
-			_image->setFrameX(0);
+			_img->setFrameX(0);
 			_skillFrame = 0;
 			_move = RIGHT;
 		}
@@ -307,19 +307,19 @@ void player::move()
 	}
 
 	//맹호스페셜
-	if (_image == IMAGEMANAGER->findImage("아타호맹호스페셜") && _image->getFrameX() >= 25 && _move == SOLOSKILL3)
+	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _img->getFrameX() >= 25 && _move == SOLOSKILL3)
 	{
 		_x += 10;
 		if (_x >= WINSIZEX)
 		{
 			_move = RIGHT;
 			_x = WINSIZEX / 2;
-			_image->setFrameX(0);
+			_img->setFrameX(0);
 		}
 	}
 
 	//맹호난무
-	if (_image == IMAGEMANAGER->findImage("아타호맹호난무"));
+	if (_img == IMAGEMANAGER->findImage("아타호맹호난무"));
 	{
 		if (_isJumping)
 		{
@@ -329,7 +329,7 @@ void player::move()
 		}
 
 
-		if (_image->getFrameX() >= 12 && _move == AREASKILL1)
+		if (_img->getFrameX() >= 12 && _move == AREASKILL1)
 		{
 			_isJumping = true;
 			++_skillFrame;
@@ -339,7 +339,7 @@ void player::move()
 				_jumpPower = 0;
 				_gravity = 0;
 				_isJumping = false;
-				_image->setFrameX(0);
+				_img->setFrameX(0);
 				_skillFrame = 0;
 				_y = WINSIZEY / 2;
 			}
