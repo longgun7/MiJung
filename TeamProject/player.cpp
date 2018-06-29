@@ -22,6 +22,30 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호호격권", "image/player/아타호 호격권.bmp", 1100, 90, 10, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호왼쪽이동", "image/player/아타호 왼쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호만취", "image/player/아타호 만취.bmp", 502, 85, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호화둔", "image/player/아타호 화둔.bmp", 290, 90, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호술마시기", "image/player/아타호 술마시기.bmp", 655, 95, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호전투상태", "image/player/아타호 전투상태.bmp", 55, 86, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 41, 63, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호세레모니", "image/player/아타호 세레모니.bmp", 287, 67, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호코골이", "image/player/아타호 코골이.bmp", 1145, 50, 12, 1, true, RGB(255, 0, 255));
+	
+	//줄타기
+	IMAGEMANAGER->addFrameImage("올라타기", "image/player/올라타기.bmp", 100, 120, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기", "image/player/줄타기.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기+1", "image/player/줄타기+1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기+2", "image/player/줄타기+2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기+3", "image/player/줄타기+3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기-1", "image/player/줄타기-1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기-2", "image/player/줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기-3", "image/player/줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기+1", "image/player/물통줄타기+1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기+2", "image/player/물통줄타기+2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기+3", "image/player/물통줄타기+3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기+4", "image/player/물통줄타기+4.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기-1", "image/player/물통줄타기-1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기-2", "image/player/물통줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기-3", "image/player/물통줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기-4", "image/player/물통줄타기-4.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
@@ -93,7 +117,7 @@ void player::keyManager()
 	//정자세
 	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
 	{
-		_move = FRONT;
+		_move = DOWN;
 
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
@@ -108,7 +132,7 @@ void player::keyManager()
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_UP))
 	{
-		_move = BACK;
+		_move = UP;
 		
 	}
 
@@ -140,6 +164,7 @@ void player::keyManager()
 	}
 	if (KEYMANAGER->isOnceKeyDown('G'))
 	{
+		_move = AREASKILL2;
 		_isMotionLive = true;
 	}
 	if (KEYMANAGER->isOnceKeyDown('H'))
@@ -147,7 +172,12 @@ void player::keyManager()
 		_move = AREASKILL3;
 		_isMotionLive = true;
 	}
-
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_move = DRINK;
+		_isMotionLive = true;
+	}
+	
 
 
 }
@@ -162,10 +192,10 @@ void player::image()
 	case RIGHT:
 		_img = IMAGEMANAGER->findImage("아타호오른쪽");
 		break;
-	case FRONT:
+	case DOWN:
 		_img = IMAGEMANAGER->findImage("아타호정면");
 		break;
-	case BACK:
+	case UP:
 		_img = IMAGEMANAGER->findImage("아타호뒷모습");
 		break;
 	case LEFTMOVE:
@@ -193,10 +223,19 @@ void player::image()
 		_img = IMAGEMANAGER->findImage("아타호맹호난무");
 		break;
 	case AREASKILL2:
-		//_image = IMAGEMANAGER->findImage("아타호맹호난무");
+		_img = IMAGEMANAGER->findImage("아타호화둔");
 		break;
 	case AREASKILL3:
 		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
+		break;
+	case DRINK:
+		_img = IMAGEMANAGER->findImage("아타호술마시기");
+		break;
+	case DRUNKEN:
+		_img = IMAGEMANAGER->findImage("아타호만취");
+		break;
+	case FIGHTMODE:
+		_img = IMAGEMANAGER->findImage("아타호전투상태");
 		break;
 	default:
 		break;
@@ -242,9 +281,9 @@ void player::move()
 		break;
 	case RIGHT:
 		break;
-	case FRONT:
+	case DOWN:
 		break;
-	case BACK:
+	case UP:
 		break;
 	case LEFTMOVE:
 		_x -= _moveSpeed;
@@ -273,7 +312,7 @@ void player::move()
 			if (_skillFrame >= 50 )
 			{
 				_img->setFrameX(0);
-				_move = RIGHT;
+				_move = FIGHTMODE;
 				_skillFrame = 0;
 			}
 		}
@@ -301,7 +340,7 @@ void player::move()
 		{	
 			_img->setFrameX(0);
 			_skillFrame = 0;
-			_move = RIGHT;
+			_move = FIGHTMODE;
 		}
 		
 	}
@@ -312,7 +351,7 @@ void player::move()
 		_x += 10;
 		if (_x >= WINSIZEX)
 		{
-			_move = RIGHT;
+			_move = FIGHTMODE;
 			_x = WINSIZEX / 2;
 			_img->setFrameX(0);
 		}
@@ -335,7 +374,7 @@ void player::move()
 			++_skillFrame;
 			if (_skillFrame >= 50)
 			{
-				_move = RIGHT;
+				_move = FIGHTMODE;
 				_jumpPower = 0;
 				_gravity = 0;
 				_isJumping = false;
@@ -346,6 +385,56 @@ void player::move()
 		}
 
 	}
+	//화둔
+	if (_img == IMAGEMANAGER->findImage("아타호화둔"))
+	{
+		++_skillFrame;
+
+		if (_skillFrame < 20)
+		{
+			_imageFrame = -1;
+		}
+		if (_skillFrame > 20 && _skillFrame < 40)
+		{
+			_imageFrame = 0;
+		}
+		if (_skillFrame > 40 && _skillFrame < 60 )
+		{
+			_imageFrame = 1;
+		}
+		if (_skillFrame > 60 && _skillFrame < 100)
+		{
+			_imageFrame = 2;
+		}
+		if (_skillFrame > 100)
+		{	
+			_skillFrame = 0;
+			_img->setFrameX(0);
+			_move = FIGHTMODE;
+		}
+	}
+
+	//술마시기
+	if (_img == IMAGEMANAGER->findImage("아타호술마시기"))
+	{
+		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_img->setFrameX(0);
+			_move = DRUNKEN;
+			_skillFrame = 0;
+		}
+	}
+
+	//만취
+	if (_img == IMAGEMANAGER->findImage("아타호만취"))
+	{
+		_isMotionLive = true;
+	}
+}
+
+void player::ropeWalk()
+{
 }
 
 

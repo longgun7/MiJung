@@ -21,6 +21,11 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("스마슈난도질", "image/player/스마슈 난도질2.bmp", 6570, 140, 45, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈절사어면", "image/player/스마슈 절사어면.bmp", 1615, 100, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈분신", "image/player/스마슈 분신.bmp", 99, 85, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스마슈방어", "image/player/스마슈 방어.bmp", 56, 75, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스마슈쓰러짐", "image/player/스마슈 쓰러짐.bmp", 90, 61, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스마슈피격", "image/player/스마슈 피격.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스마슈전투상태", "image/player/스마슈 전투상태.bmp", 55, 80, 1, 1, true, RGB(255, 0, 255));
+
 
 	//초기 스마슈모습
 	_img = IMAGEMANAGER->findImage("스마슈정면");
@@ -76,37 +81,37 @@ void player2::angleManager(float x , float y)
 	//아타호의 위치에 따라 앵글이 바뀐다.
 	_angle = getAngle(_x, _y, x, y);
 	
+	//렉트 갱신
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	
 	//아타호와 스마슈와의 거리
 	if (getDistance(x, y, _x, _y) > 60)
 	{
 		_x += cosf(_angle)*_moveSpeed;
 		_y += -sinf(_angle)*_moveSpeed;
-	}
+
+		//움직이는 모션
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
+			_move = S_LEFTMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		{
+			_move = S_RIGHTMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
+		{
+			_move = S_UPMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		{
+			_move = S_DOWNMOVE;
+			_isMotionLive = true;
+		}
 		
-
-	//렉트 갱신
-	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-
-	//움직이는 모션
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-	{
-		_move = S_LEFTMOVE;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-	{
-		_move = S_RIGHTMOVE;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_UP))
-	{
-		_move = S_UPMOVE;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	{
-		_move = S_DOWNMOVE;
-		_isMotionLive = true;
 	}
 
 	//정자세
@@ -114,7 +119,7 @@ void player2::angleManager(float x , float y)
 	{
 		_move = S_FRONT;
 
-	}
+	}	
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 	{
 		_move = S_LEFT;
@@ -130,25 +135,7 @@ void player2::angleManager(float x , float y)
 		_move = S_BACK;
 
 	}
-
-	/*//아타호의 좌표에 따라 스마슈가 바라보는 모습이 바뀐다. 
-	if (_x < x && _y + 40  > y && _y < y )
-	{
-		_move = S_RIGHT;
-	}
-	if (_x > x && _y + 40 > y && _y  < y)
-	{
-		_move = S_LEFT;
-	}
-	if (_y > y && x > _x && x < _x + _img->getFrameWidth())
-	{
-		_move = S_BACK;
-	}
-	if (_y < y && x > _x && x < _x + _img->getFrameWidth())
-	{
-		_move = S_FRONT;
-	}*/
-
+	
 	//스킬
 	if (KEYMANAGER->isOnceKeyDown('A'))
 	{

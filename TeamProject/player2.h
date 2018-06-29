@@ -38,7 +38,7 @@ public:
 	void angleManager(float x , float y);
 	void move();
 	
-	//void setX
+	float getY() { return _y; }
 	player2();
 	~player2();
 };

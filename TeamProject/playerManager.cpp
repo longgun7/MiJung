@@ -41,9 +41,16 @@ void playerManager::update()
 void playerManager::render()
 {
 	//플레이어
-	_ataho->render();
-	_smasyu->render();
-
+	if (_ataho->getY() > _smasyu->getY())
+	{
+		_smasyu->render();
+		_ataho->render();
+	}
+	else
+	{
+		_ataho->render();
+		_smasyu->render();
+	}
 	//인벤토리
 	for (_viInven = _vInven.begin(); _viInven != _vInven.end(); ++_viInven)
 	{
