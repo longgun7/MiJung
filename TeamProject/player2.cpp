@@ -39,6 +39,7 @@ HRESULT player2::init(float x , float y)
 	_skillFrame = 0;
 	_moveSpeed = 5;
 	_isMotionLive = false;
+	_sceneMove = S_FIELDMOVE;
 	return S_OK;
 }
 
@@ -78,102 +79,119 @@ void player2::release()
 
 void player2::angleManager(float x , float y)
 {
-	//아타호의 위치에 따라 앵글이 바뀐다.
-	_angle = getAngle(_x, _y, x, y);
-	
-	//렉트 갱신
-	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-	
-	//아타호와 스마슈와의 거리
-	if (getDistance(x, y, _x, _y) > 60)
+	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
-		_x += cosf(_angle)*_moveSpeed;
-		_y += -sinf(_angle)*_moveSpeed;
+		_sceneMove = S_FIELDMOVE;
+	}
+	if (KEYMANAGER->isOnceKeyDown('W'))
+	{
+		_sceneMove = S_BATTLEMOVE;
+		_x = 100;
+		_y = 300;
+		_move = S_FIGHTMODE;
+	}
 
-		//움직이는 모션
-		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	if (_sceneMove == S_FIELDMOVE)
+	{
+		//아타호의 위치에 따라 앵글이 바뀐다.
+		_angle = getAngle(_x, _y, x, y);
+
+
+		//아타호와 스마슈와의 거리
+		if (getDistance(x, y, _x, _y) > 60)
 		{
-			_move = S_LEFTMOVE;
-			_isMotionLive = true;
+			_x += cosf(_angle)*_moveSpeed;
+			_y += -sinf(_angle)*_moveSpeed;
+
+			//움직이는 모션
+			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+			{
+				_move = S_LEFTMOVE;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+			{
+				_move = S_RIGHTMOVE;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isStayKeyDown(VK_UP))
+			{
+				_move = S_UPMOVE;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+			{
+				_move = S_DOWNMOVE;
+				_isMotionLive = true;
+			}
+
+
 		}
-		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-		{
-			_move = S_RIGHTMOVE;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isStayKeyDown(VK_UP))
-		{
-			_move = S_UPMOVE;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-		{
-			_move = S_DOWNMOVE;
-			_isMotionLive = true;
-		}
+
+			//정자세
+			if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+			{
+				_move = S_FRONT;
+
+			}
+			if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
+			{
+				_move = S_LEFT;
+
+			}
+			if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
+			{
+				_move = S_RIGHT;
+
+			}
+			if (KEYMANAGER->isOnceKeyUp(VK_UP))
+			{
+				_move = S_BACK;
+
+			}
 		
 	}
 
-	//정자세
-	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+	if (_sceneMove == S_BATTLEMOVE)
 	{
-		_move = S_FRONT;
-
-	}	
-	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
-	{
-		_move = S_LEFT;
-
+		//스킬
+		if (KEYMANAGER->isOnceKeyDown('A'))
+		{
+			_move = S_SOLOSKILL1;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('S'))
+		{
+			_move = S_SOLOSKILL2;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('D'))
+		{
+			_move = S_SOLOSKILL3;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('F'))
+		{
+			_move = S_AREASKILL1;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('G'))
+		{
+			_move = S_AREASKILL2;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('H'))
+		{
+			_move = S_AREASKILL3;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
 	}
-	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
-	{
-		_move = S_RIGHT;
-
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_UP))
-	{
-		_move = S_BACK;
-
-	}
-	
-	//스킬
-	if (KEYMANAGER->isOnceKeyDown('A'))
-	{
-		_move = S_SOLOSKILL1;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('S'))
-	{
-		_move = S_SOLOSKILL2;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('D'))
-	{
-		_move = S_SOLOSKILL3;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('F'))
-	{
-		_move = S_AREASKILL1;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('G'))
-	{
-		_move = S_AREASKILL2;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('H'))
-	{
-		_move = S_AREASKILL3;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-
 }
 
 void player2::image()
@@ -223,6 +241,11 @@ void player2::image()
 	case S_AREASKILL3:
 		_img = IMAGEMANAGER->findImage("스마슈분신");
 		break;
+	case S_FIGHTMODE:
+		_img = IMAGEMANAGER->findImage("스마슈전투상태");
+		_x = 100;
+		_y = 300;
+		break;
 	default:
 		break;
 	}
@@ -259,40 +282,44 @@ void player2::move()
 	//대타격
 	if (_img == IMAGEMANAGER->findImage("스마슈대타격"))
 	{
+		++_skillFrame;
 		if (_x < WINSIZEX - 100)
 		{
 			_imageFrame = 1;
 			_img->setFrameX(1);
-			_x += 10;
+			_x += 20;
 		}
 
-		if (_x > WINSIZEX - 100)
+		if (_img->getFrameX() >= _img->getMaxFrameX())
 		{
-			if (_img->getFrameX() >= _img->getMaxFrameX())
-			{
-				_move = S_RIGHT;
-			}
+			_imageFrame = _img->getMaxFrameX();
+		}
+		if (_skillFrame > 100)
+		{
+			_move = S_FIGHTMODE;
 		}
 	}
 	//절사어면
 	if (_img == IMAGEMANAGER->findImage("스마슈절사어면"))
 	{
+		++_skillFrame;
 		if (_img->getFrameX() >= 2 && _x < WINSIZEX - 100)
 		{
 			_imageFrame = 3;
-			_x += 10;
+			_x += 20;
 			_img->setFrameX(2);
 		}
-		if (_x > WINSIZEX - 100)
+		if (_img->getFrameX() >= _img->getMaxFrameX())
 		{
-			_img->setFrameX(_imageFrame);
-			++_skillFrame;
-			if (_skillFrame >= 50)
-			{
-				_move = S_RIGHT;
-			}
+			_imageFrame = _img->getMaxFrameX();
+		}
+		if (_skillFrame > 150)
+		{
+			_img->setFrameX(0);
+			_move = S_FIGHTMODE;
 		}
 	}
+	
 	//베고 날아가기
 	if(_img == IMAGEMANAGER->findImage("스마슈베고날아가기"))
 	{
@@ -310,13 +337,32 @@ void player2::move()
 		{	
 			_img->setFrameX(0);
 			_imageFrame = 0;
-			_move = S_RIGHT;
+			_move = S_FIGHTMODE;
 			
 		}
 	}
+
+	//용오름 
+	if (_img == IMAGEMANAGER->findImage("스마슈용오름"))
+	{
+		++_skillFrame;
+		_x = WINSIZEX - 300;
+		_y = WINSIZEY / 2;
+		if (_img->getFrameX() >= _img->getMaxFrameX())
+		{
+			_imageFrame = _img->getMaxFrameX();
+		}
+		if (_skillFrame > 200)
+		{
+			_img->setFrameX(0);
+			_move = S_FIGHTMODE;
+		}
+	}
+
 	//난도질
 	if (_img == IMAGEMANAGER->findImage("스마슈난도질"))
 	{	
+		_x = WINSIZEX - 200;
 		++_skillFrame;
 		if (_img->getFrameX() >= 44 && _skillFrame >= 200)
 		{
@@ -325,7 +371,7 @@ void player2::move()
 		if (_skillFrame >= 400)
 		{	
 			_imageFrame = 0;
-			_move = S_RIGHT;	
+			_move = S_FIGHTMODE;
 		}
 	}
 	//분신
@@ -348,6 +394,10 @@ void player2::move()
 			_move = S_AREASKILL2;
 		}
 	}
+
+	//렉트 갱신
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+
 }
 
 

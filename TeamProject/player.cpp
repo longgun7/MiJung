@@ -89,95 +89,116 @@ void player::release()
 
 void player::keyManager()
 {
-
-
-	//움직이는 모션
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
-
-		_move = LEFTMOVE;
-		_isMotionLive = true;
+		_sceneMove = FIELDMOVE;
 	}
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+	if (KEYMANAGER->isOnceKeyDown('W'))
 	{
-		_move = RIGHTMOVE;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_UP))
-	{
-		_move = UPMOVE;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	{
-		_move = DOWNMOVE;
-		_isMotionLive = true;
+		_sceneMove = BATTLEMOVE;
+		_x = 100;
+		_y = 400;
+		_move = FIGHTMODE;
 	}
 
-	//정자세
-	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+	//필드에 있을 때
+	if (_sceneMove == FIELDMOVE)
 	{
-		_move = DOWN;
+		//움직이는 모션
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
 
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
-	{
-		_move = LEFT;
+			_move = LEFTMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		{
+			_move = RIGHTMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
+		{
+			_move = UPMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		{
+			_move = DOWNMOVE;
+			_isMotionLive = true;
+		}
 
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
-	{
-		_move = RIGHT;
-		
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_UP))
-	{
-		_move = UP;
-		
+		//정자세
+		if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+		{
+			_move = DOWN;
+
+		}
+		if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
+		{
+			_move = LEFT;
+
+		}
+		if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
+		{
+			_move = RIGHT;
+
+		}
+		if (KEYMANAGER->isOnceKeyUp(VK_UP))
+		{
+			_move = UP;
+
+		}
 	}
 
-	//스킬
-	if (KEYMANAGER->isOnceKeyDown('A'))
+	//배틀장면일 때
+	if (_sceneMove == BATTLEMOVE)
 	{
-		_move = SOLOSKILL1;
-		_isMotionLive = true;
-	
+		//스킬
+		if (KEYMANAGER->isOnceKeyDown('A'))
+		{
+			_move = SOLOSKILL1;
+			_isMotionLive = true;
+
+		}
+		if (KEYMANAGER->isOnceKeyDown('S'))
+		{
+			_move = SOLOSKILL2;
+			_isMotionLive = true;
+
+		}
+		if (KEYMANAGER->isOnceKeyDown('D'))
+		{
+			_move = SOLOSKILL3;
+			_isMotionLive = true;
+			_x = WINSIZEX - 200;
+
+		}
+		if (KEYMANAGER->isOnceKeyDown('F'))
+		{
+			_move = AREASKILL1;
+			_isMotionLive = true;
+			_x = WINSIZEX - 200;
+			_jumpPower = 5.0f;
+			_gravity = 0.2f;
+		}
+		if (KEYMANAGER->isOnceKeyDown('G'))
+		{
+			_move = AREASKILL2;
+			_isMotionLive = true;
+			_x = WINSIZEX - 200;
+		}
+		if (KEYMANAGER->isOnceKeyDown('H'))
+		{
+			_move = AREASKILL3;
+			_isMotionLive = true;
+			_x = WINSIZEX / 2;
+		}
+		if (KEYMANAGER->isOnceKeyDown('Z'))
+		{
+			_move = DRINK;
+			_isMotionLive = true;
+		}
 	}
-	if (KEYMANAGER->isOnceKeyDown('S'))
-	{
-		_move = SOLOSKILL2;
-		_isMotionLive = true;
-		
-	}
-	if (KEYMANAGER->isOnceKeyDown('D'))
-	{
-		_move = SOLOSKILL3;
-		_isMotionLive = true;
-		
-	}
-	if (KEYMANAGER->isOnceKeyDown('F'))
-	{
-		_move = AREASKILL1;
-		_isMotionLive = true;
-		_jumpPower = 5.0f;
-		_gravity = 0.2f;
-	}
-	if (KEYMANAGER->isOnceKeyDown('G'))
-	{
-		_move = AREASKILL2;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isOnceKeyDown('H'))
-	{	
-		_move = AREASKILL3;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_move = DRINK;
-		_isMotionLive = true;
-	}
-	
 
 
 }
@@ -255,14 +276,9 @@ void player::imageFrame()
 
 			if (_imageFrame >= _img->getMaxFrameX())
 			{
-				if (_img == IMAGEMANAGER->findImage("아타호만취"))
-				{
-					_imageFrame = 1;
-				}
-				else
-				{
-					_isMotionLive = false;
-				}
+			
+				_isMotionLive = false;
+				
 				_imageFrame = -1;
 			}
 			_frame = 0;
@@ -296,6 +312,10 @@ void player::move()
 		break;
 	case UPMOVE:
 		_y -= _moveSpeed;
+		break;
+	case FIGHTMODE:
+		_x = 100;
+		_y = 400;
 		break;
 	default:
 		break;
@@ -352,7 +372,6 @@ void player::move()
 		if (_x >= WINSIZEX)
 		{
 			_move = FIGHTMODE;
-			_x = WINSIZEX / 2;
 			_img->setFrameX(0);
 		}
 	}

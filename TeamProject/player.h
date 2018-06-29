@@ -16,6 +16,11 @@ enum ROPEWALKING
 	FRONT,LEFT1,LEFT2,LEFT3,LEFT4,RIGHT1,RIGHT2,RIGHT3,RIGHT4
 };
 
+enum SCENEMOVE
+{
+	FIELDMOVE, BATTLEMOVE
+};
+
 class player :public gameNode
 
 {
@@ -36,7 +41,7 @@ private:
 	string	_imageName;   //이미지이름
 	MOVE	_move;		  //움직임 상태
 	RECT	_rc;		  //렉트
-
+	SCENEMOVE _sceneMove; //씬에 따라 움직임
 public:
 
 	HRESULT init();
