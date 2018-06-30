@@ -38,6 +38,7 @@ private:
 	int		_moveSpeed;	     //스피드
 	int     _slopeFrame;     //기울기 프레임
 	int     _slopeNum;		 //기울기 번호
+	int     _rndDirection;   //랜덤으로 기울기
 	string	_imageName;      //이미지이름
 	MOVE	_move;		     //움직임 상태
 	RECT	_rc;		     //렉트
@@ -53,6 +54,7 @@ public:
 	void fieldKeyManager();
 	void battleKeyManager();
 	void eventKeyManager();
+	void slopeNumImage();    //기울기 넘버에 따라 이미지 변화
 	void move();
 	void ropeWalk();
 	float getX() { return _x; }
