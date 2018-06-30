@@ -31,6 +31,7 @@ private:
 	float   _jumpPower;      //점프파워
 	bool    _isJumping;      //점프여부
 	bool    _isMotionLive;   //스킬, 상하좌우 움직임 여부
+	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
 	image*  _img;		     //이미지
 	int		_imageFrame;     //이미지프레임
 	int		_frame;		     //프레임

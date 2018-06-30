@@ -40,6 +40,7 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("줄타기-2", "image/player/줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-3", "image/player/줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-4", "image/player/줄타기-4.bmp", 80, 100, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기", "image/player/물통줄타기.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+1", "image/player/물통줄타기+1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+2", "image/player/물통줄타기+2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+3", "image/player/물통줄타기+3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
@@ -68,7 +69,7 @@ HRESULT player::init()
 
 void player::update()
 {
-	playerImage();			  //이미지
+	playerImage();		  //이미지
 	fieldKeyManager();	  //필드모드 키매니저
 	battleKeyManager();   //배틀모드 키매니저
 	slopeNumImage();      //기울기넘버에 따라 변하는 이미지
@@ -232,6 +233,7 @@ void player::eventKeyManager()
 		_y = WINSIZEY / 2;
 		_move = FRONT;
 		_slopeNum = 4;
+		_isWoodDrop = false;
 	}
 
 	//아래키 누르면 움직인다
@@ -252,6 +254,10 @@ void player::eventKeyManager()
 		_slopeNum += 1;
 	}
 	
+	if (KEYMANAGER->isOnceKeyDown('R'))
+	{
+		_isWoodDrop = true;
+	}
 	
 	
 }
@@ -271,61 +277,100 @@ void player::slopeNumImage()
 			if (_rndDirection == 0)
 			{
 				_slopeNum -= 1;
-				if (_slopeNum < 0)
-				{
-					_slopeNum += 1;
-				}
-			}
 
+			}
 			if (_rndDirection == 1)
 			{
 				_slopeNum += 1;
-				if (_slopeNum > 8)
-				{
-					_slopeNum -= 1;
-				}
+	
 			}
 	
 			//기울기 프레임 초기화
 			_slopeFrame = 0;
 		}
 
-		//기울기 번호에 따른 이미지 적용
-		if (_slopeNum <= 0)
+		//물통을 들고 있지 않을 때
+		if (!_isWoodDrop)
 		{
-			_move = LEFT4;
+			//기울기 번호에 따른 이미지 적용
+			if (_slopeNum <= 0)
+			{
+				_move = LEFT4;
+			}
+			if (_slopeNum == 1)
+			{
+				_move = LEFT3;
+			}
+			if (_slopeNum == 2)
+			{
+				_move = LEFT2;
+			}
+			if (_slopeNum == 3)
+			{
+				_move = LEFT1;
+			}
+			if (_slopeNum == 4)
+			{
+				_move = FRONT;
+			}
+			if (_slopeNum == 5)
+			{
+				_move = RIGHT1;
+			}
+			if (_slopeNum == 6)
+			{
+				_move = RIGHT2;
+			}
+			if (_slopeNum == 7)
+			{
+				_move = RIGHT3;
+			}
+			if (_slopeNum >= 8)
+			{
+				_move = RIGHT4;
+			}
 		}
-		if (_slopeNum == 1)
+
+		//물통을 들고 있을 때
+		if (_isWoodDrop)
 		{
-			_move = LEFT3;
-		}
-		if (_slopeNum == 2)
-		{
-			_move = LEFT2;
-		}
-		if (_slopeNum == 3)
-		{
-			_move = LEFT1;
-		}
-		if (_slopeNum == 4)
-		{
-			_move = FRONT;
-		}
-		if (_slopeNum == 5)
-		{
-			_move = RIGHT1;
-		}
-		if (_slopeNum == 6)
-		{
-			_move = RIGHT2;
-		}
-		if (_slopeNum == 7)
-		{
-			_move = RIGHT3;
-		}
-		if (_slopeNum >= 8)
-		{
-			_move = RIGHT4;
+			//기울기 번호에 따른 이미지 적용
+			if (_slopeNum <= 0)
+			{
+				_move = WOODLEFT4;
+			}
+			if (_slopeNum == 1)
+			{
+				_move = WOODLEFT3;
+			}
+			if (_slopeNum == 2)
+			{
+				_move = WOODLEFT2;
+			}
+			if (_slopeNum == 3)
+			{
+				_move = WOODLEFT1;
+			}
+			if (_slopeNum == 4)
+			{
+				_move = WOODFRONT;
+			}
+			if (_slopeNum == 5)
+			{
+				_move = WOODRIGHT1;
+			}
+			if (_slopeNum == 6)
+			{
+				_move = WOODRIGHT2;
+			}
+			if (_slopeNum == 7)
+			{
+				_move = WOODRIGHT3;
+			}
+			if (_slopeNum >= 8)
+			{
+				_move = WOODRIGHT4;
+			}
 		}
 
 	}
@@ -434,7 +479,7 @@ void player::playerImage()
 		_img = IMAGEMANAGER->findImage("줄타기+4");
 		break;
 	case WOODFRONT:
-		//_img = IMAGEMANAGER->findImage("물통줄타기");  //아직 없음
+		_img = IMAGEMANAGER->findImage("물통줄타기");  
 		break;
 	case WOODLEFT1:
 		_img = IMAGEMANAGER->findImage("물통줄타기-1");
@@ -586,7 +631,6 @@ void player::move()
 			_jumpPower -= _gravity;
 
 		}
-
 
 		if (_img->getFrameX() >= 12 && _move == AREASKILL1)
 		{
