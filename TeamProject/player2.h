@@ -8,12 +8,12 @@ enum SMOVE
 	S_LEFTMOVE, S_RIGHTMOVE, S_DOWNMOVE, S_UPMOVE,
 	S_SOLOSKILL1, S_SOLOSKILL2, S_SOLOSKILL3,
 	S_AREASKILL1, S_AREASKILL2, S_AREASKILL3,
-	S_FIGHTMODE
+	S_FIGHTREADY
 };
 
-enum S_SCENEMOVE
+enum S_SCENEMODE
 {
-	S_FIELDMOVE, S_BATTLEMOVE
+	S_FIELDMODE, S_BATTLEMODE
 };
 class player2 :public gameNode
 {
@@ -31,7 +31,7 @@ private:
 	string	_imageName;   //이미지이름
 	SMOVE	_move;		  //움직임 상태
 	RECT	_rc;		  //렉트
-	S_SCENEMOVE _sceneMove; //씬에 따라 행동이 바뀜
+	S_SCENEMODE _sceneMove; //씬에 따라 행동이 바뀜
 public:
 	
 	HRESULT init(float x , float y);

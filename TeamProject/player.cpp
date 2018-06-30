@@ -35,17 +35,19 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("줄타기+1", "image/player/줄타기+1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기+2", "image/player/줄타기+2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기+3", "image/player/줄타기+3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기+4", "image/player/줄타기+4.bmp", 55, 100, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-1", "image/player/줄타기-1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-2", "image/player/줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-3", "image/player/줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기-4", "image/player/줄타기-4.bmp", 81, 112, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+1", "image/player/물통줄타기+1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+2", "image/player/물통줄타기+2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+3", "image/player/물통줄타기+3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("물통줄타기+4", "image/player/물통줄타기+4.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기+4", "image/player/물통줄타기+4.bmp", 66, 114, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-1", "image/player/물통줄타기-1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-2", "image/player/물통줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-3", "image/player/물통줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("물통줄타기-4", "image/player/물통줄타기-4.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기-4", "image/player/물통줄타기-4.bmp", 81, 112, 1, 1, true, RGB(255, 0, 255));
 
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
@@ -56,6 +58,7 @@ HRESULT player::init()
 	_imageFrame	= 0;
 	_frame		= 0;
 	_skillFrame = 0;
+	_slopeFrame = 0;
 	_moveSpeed  = 5;
 	_isMotionLive = false;
 	_isJumping = false;
@@ -65,13 +68,15 @@ HRESULT player::init()
 
 void player::update()
 {
-	image();		 //이미지
-	keyManager();	 //키
+	playerImage();			  //이미지
+	fieldKeyManager();	  //필드모드 키매니저
+	battleKeyManager();   //배틀모드 키매니저
+	eventKeyManager();    //이벤트모드 키매니저
 	if (_isMotionLive )
 	{
-		imageFrame();	 //이미지프레임
+		imageFrame();	  //이미지프레임
 	}
-	move();			 //움직임
+	move();			      //움직임
 }
 
 void player::render()
@@ -81,28 +86,30 @@ void player::render()
 	
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
+
+	//기울기 프레임
+	char str[125];
+	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
+	TextOut(getMemDC(), 100, 500, str, strlen(str));
 }
 
 void player::release()
 {
 }
 
-void player::keyManager()
+void player::fieldKeyManager()
 {
+	//필드모드
 	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
-		_sceneMove = FIELDMOVE;
-	}
-	if (KEYMANAGER->isOnceKeyDown('W'))
-	{
-		_sceneMove = BATTLEMOVE;
-		_x = 100;
-		_y = 400;
-		_move = FIGHTMODE;
+		_sceneMode = FIELDMODE;
+		_x = WINSIZEX / 2;
+		_y = WINSIZEY / 2;
+		_move = RIGHT;
 	}
 
 	//필드에 있을 때
-	if (_sceneMove == FIELDMOVE)
+	if (_sceneMode == FIELDMODE)
 	{
 		//움직이는 모션
 		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
@@ -149,9 +156,21 @@ void player::keyManager()
 
 		}
 	}
+}
+
+void player::battleKeyManager()
+{
+	//배틀모드
+	if (KEYMANAGER->isOnceKeyDown('W'))
+	{
+		_sceneMode = BATTLEMODE;
+		_x = 100;
+		_y = 400;
+		_move = FIGHTREADY;
+	}
 
 	//배틀장면일 때
-	if (_sceneMove == BATTLEMOVE)
+	if (_sceneMode == BATTLEMODE)
 	{
 		//스킬
 		if (KEYMANAGER->isOnceKeyDown('A'))
@@ -199,12 +218,85 @@ void player::keyManager()
 			_isMotionLive = true;
 		}
 	}
-
-
 }
 
-void player::image()
+void player::eventKeyManager()
 {
+	//이벤트모드
+	if (KEYMANAGER->isOnceKeyDown('E'))
+	{
+		_sceneMode = EVENTMODE;
+		_x = WINSIZEX / 2;
+		_y = WINSIZEY / 2;
+		_move = FRONT;
+		_slopeNum = 4;
+	}
+
+	if (_sceneMode == EVENTMODE)
+	{ 
+		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		{
+			_isMotionLive = true;
+		}	
+	}
+
+	//기울기 적용
+	if (_sceneMode == EVENTMODE)
+	{
+		++_slopeFrame;
+
+		if (_slopeFrame % 30 == 0)
+		{
+			_slopeNum = RND->getInt(9);
+
+			if (_slopeNum == 0)
+			{
+				//_move = LEFT4;
+			}
+			if (_slopeNum == 1)
+			{
+				_move = LEFT3;
+			}
+			if (_slopeNum == 2)
+			{
+				_move = LEFT2;
+			}
+			if (_slopeNum == 3)
+			{
+				_move = LEFT1;
+			}
+			if (_slopeNum == 4)
+			{
+				_move = FRONT;
+			}
+			if (_slopeNum == 5)
+			{
+				_move = RIGHT1;
+			}
+			if (_slopeNum == 6)
+			{
+				_move = RIGHT2;
+			}
+			if (_slopeNum == 7)
+			{
+				_move = RIGHT3;
+			}
+			if (_slopeNum == 8)
+			{
+				//_move = RIGHT4;
+			}
+		}
+
+	}
+
+	
+}
+
+
+
+void player::playerImage()
+{
+	//상하좌우 움직임
 	switch (_move)
 	{
 	case LEFT:
@@ -231,11 +323,18 @@ void player::image()
 	case UPMOVE:
 		_img = IMAGEMANAGER->findImage("아타호위로이동");
 		break;
+	default:
+		break;
+	}
+
+	//스킬 움직임
+	switch (_move)
+	{
 	case SOLOSKILL1:
 		_img = IMAGEMANAGER->findImage("아타호호격권");
 		break;
 	case SOLOSKILL2:
-		 _img = IMAGEMANAGER->findImage("아타호맹호광파참");
+		_img = IMAGEMANAGER->findImage("아타호맹호광파참");
 		break;
 	case SOLOSKILL3:
 		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
@@ -255,14 +354,78 @@ void player::image()
 	case DRUNKEN:
 		_img = IMAGEMANAGER->findImage("아타호만취");
 		break;
-	case FIGHTMODE:
+	case FIGHTREADY:
 		_img = IMAGEMANAGER->findImage("아타호전투상태");
+		_x = 100;
+		_y = 400;
 		break;
 	default:
 		break;
 	}
-}
 
+	//이벤트 움직임
+	switch (_move)
+	{
+	case FRONT:
+		_img = IMAGEMANAGER->findImage("줄타기");
+		break;
+	case LEFT1:
+		_img = IMAGEMANAGER->findImage("줄타기-1");
+		break;
+	case LEFT2:
+		_img = IMAGEMANAGER->findImage("줄타기-2");
+		break;
+	case LEFT3:
+		_img = IMAGEMANAGER->findImage("줄타기-3");
+		break;
+	case LEFT4:
+		_img = IMAGEMANAGER->findImage("줄타기-4");
+		break;
+	case RIGHT1:
+		_img = IMAGEMANAGER->findImage("줄타기+1");
+		break;
+	case RIGHT2:
+		_img = IMAGEMANAGER->findImage("줄타기+2");
+		break;
+	case RIGHT3:
+		_img = IMAGEMANAGER->findImage("줄타기+3");
+		break;
+	case RIGHT4:
+		_img = IMAGEMANAGER->findImage("줄타기+4");
+		break;
+	case WOODFRONT:
+		//_img = IMAGEMANAGER->findImage("물통줄타기");  //아직 없음
+		break;
+	case WOODLEFT1:
+		_img = IMAGEMANAGER->findImage("물통줄타기-1");
+		break;
+	case WOODLEFT2:
+		_img = IMAGEMANAGER->findImage("물통줄타기-2");
+		break;
+	case WOODLEFT3:
+		_img = IMAGEMANAGER->findImage("물통줄타기-3");
+		break;
+	case WOODLEFT4:
+		_img = IMAGEMANAGER->findImage("물통줄타기-4");
+		break;
+	case WOODRIGHT1:
+		_img = IMAGEMANAGER->findImage("물통줄타기+1");
+		break;
+	case WOODRIGHT2:
+		_img = IMAGEMANAGER->findImage("물통줄타기+2");
+		break;
+	case WOODRIGHT3:
+		_img = IMAGEMANAGER->findImage("물통줄타기+3");
+		break;
+	case WOODRIGHT4:
+		_img = IMAGEMANAGER->findImage("물통줄타기+4");
+		break;
+
+	default:
+		break;
+	}
+	
+}
 void player::imageFrame()
 {
 	//프레임 이미지
@@ -313,9 +476,7 @@ void player::move()
 	case UPMOVE:
 		_y -= _moveSpeed;
 		break;
-	case FIGHTMODE:
-		_x = 100;
-		_y = 400;
+	case FIGHTREADY:
 		break;
 	default:
 		break;
@@ -332,7 +493,7 @@ void player::move()
 			if (_skillFrame >= 50 )
 			{
 				_img->setFrameX(0);
-				_move = FIGHTMODE;
+				_move = FIGHTREADY;
 				_skillFrame = 0;
 			}
 		}
@@ -360,7 +521,7 @@ void player::move()
 		{	
 			_img->setFrameX(0);
 			_skillFrame = 0;
-			_move = FIGHTMODE;
+			_move = FIGHTREADY;
 		}
 		
 	}
@@ -371,7 +532,7 @@ void player::move()
 		_x += 10;
 		if (_x >= WINSIZEX)
 		{
-			_move = FIGHTMODE;
+			_move = FIGHTREADY;
 			_img->setFrameX(0);
 		}
 	}
@@ -393,7 +554,7 @@ void player::move()
 			++_skillFrame;
 			if (_skillFrame >= 50)
 			{
-				_move = FIGHTMODE;
+				_move = FIGHTREADY;
 				_jumpPower = 0;
 				_gravity = 0;
 				_isJumping = false;
@@ -429,7 +590,7 @@ void player::move()
 		{	
 			_skillFrame = 0;
 			_img->setFrameX(0);
-			_move = FIGHTMODE;
+			_move = FIGHTREADY;
 		}
 	}
 
@@ -450,6 +611,14 @@ void player::move()
 	{
 		_isMotionLive = true;
 	}
+
+	//EVENT 
+	if (_sceneMode == EVENTMODE)
+	{
+		
+	}
+
+
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }

@@ -39,7 +39,7 @@ HRESULT player2::init(float x , float y)
 	_skillFrame = 0;
 	_moveSpeed = 5;
 	_isMotionLive = false;
-	_sceneMove = S_FIELDMOVE;
+	_sceneMove = S_FIELDMODE;
 	return S_OK;
 }
 
@@ -81,17 +81,17 @@ void player2::angleManager(float x , float y)
 {
 	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
-		_sceneMove = S_FIELDMOVE;
+		_sceneMove = S_FIELDMODE;
 	}
 	if (KEYMANAGER->isOnceKeyDown('W'))
 	{
-		_sceneMove = S_BATTLEMOVE;
+		_sceneMove = S_BATTLEMODE;
 		_x = 100;
 		_y = 300;
-		_move = S_FIGHTMODE;
+		_move = S_FIGHTREADY;
 	}
 
-	if (_sceneMove == S_FIELDMOVE)
+	if (_sceneMove == S_FIELDMODE)
 	{
 		//아타호의 위치에 따라 앵글이 바뀐다.
 		_angle = getAngle(_x, _y, x, y);
@@ -152,7 +152,7 @@ void player2::angleManager(float x , float y)
 		
 	}
 
-	if (_sceneMove == S_BATTLEMOVE)
+	if (_sceneMove == S_BATTLEMODE)
 	{
 		//스킬
 		if (KEYMANAGER->isOnceKeyDown('A'))
@@ -241,7 +241,7 @@ void player2::image()
 	case S_AREASKILL3:
 		_img = IMAGEMANAGER->findImage("스마슈분신");
 		break;
-	case S_FIGHTMODE:
+	case S_FIGHTREADY:
 		_img = IMAGEMANAGER->findImage("스마슈전투상태");
 		_x = 100;
 		_y = 300;
@@ -296,7 +296,7 @@ void player2::move()
 		}
 		if (_skillFrame > 100)
 		{
-			_move = S_FIGHTMODE;
+			_move = S_FIGHTREADY;
 		}
 	}
 	//절사어면
@@ -316,7 +316,7 @@ void player2::move()
 		if (_skillFrame > 150)
 		{
 			_img->setFrameX(0);
-			_move = S_FIGHTMODE;
+			_move = S_FIGHTREADY;
 		}
 	}
 	
@@ -337,7 +337,7 @@ void player2::move()
 		{	
 			_img->setFrameX(0);
 			_imageFrame = 0;
-			_move = S_FIGHTMODE;
+			_move = S_FIGHTREADY;
 			
 		}
 	}
@@ -355,7 +355,7 @@ void player2::move()
 		if (_skillFrame > 200)
 		{
 			_img->setFrameX(0);
-			_move = S_FIGHTMODE;
+			_move = S_FIGHTREADY;
 		}
 	}
 
@@ -371,7 +371,7 @@ void player2::move()
 		if (_skillFrame >= 400)
 		{	
 			_imageFrame = 0;
-			_move = S_FIGHTMODE;
+			_move = S_FIGHTREADY;
 		}
 	}
 	//분신
