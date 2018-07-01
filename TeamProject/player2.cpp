@@ -26,6 +26,9 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("스마슈피격", "image/player/스마슈 피격.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈전투상태", "image/player/스마슈 전투상태.bmp", 55, 80, 1, 1, true, RGB(255, 0, 255));
 
+	//스마슈 줄타기
+	IMAGEMANAGER->addFrameImage("스마슈줄타기", "image/player/스마슈 줄타기2.bmp", 240, 82, 3, 1, true, RGB(255, 0, 255));
+
 
 	//초기 스마슈모습
 	_img = IMAGEMANAGER->findImage("스마슈정면");
@@ -39,7 +42,7 @@ HRESULT player2::init(float x , float y)
 	_skillFrame = 0;
 	_moveSpeed = 5;
 	_isMotionLive = false;
-	_sceneMove = S_FIELDMODE;
+	_sceneMode = S_FIELDMODE;
 	return S_OK;
 }
 
@@ -52,6 +55,7 @@ void player2::update()
 		imageFrame();	 //이미지프레임
 	}
 	move();
+	s_event(); //스마슈 이벤트
 }
 
 void player2::render()
@@ -79,19 +83,20 @@ void player2::release()
 
 void player2::angleManager(float x , float y)
 {
+	
 	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
-		_sceneMove = S_FIELDMODE;
+		_sceneMode = S_FIELDMODE;
 	}
 	if (KEYMANAGER->isOnceKeyDown('W'))
 	{
-		_sceneMove = S_BATTLEMODE;
+		_sceneMode = S_BATTLEMODE;
 		_x = 100;
 		_y = 300;
 		_move = S_FIGHTREADY;
 	}
 
-	if (_sceneMove == S_FIELDMODE)
+	if (_sceneMode == S_FIELDMODE)
 	{
 		//아타호의 위치에 따라 앵글이 바뀐다.
 		_angle = getAngle(_x, _y, x, y);
@@ -152,7 +157,7 @@ void player2::angleManager(float x , float y)
 		
 	}
 
-	if (_sceneMove == S_BATTLEMODE)
+	if (_sceneMode == S_BATTLEMODE)
 	{
 		//스킬
 		if (KEYMANAGER->isOnceKeyDown('A'))
@@ -245,6 +250,9 @@ void player2::image()
 		_img = IMAGEMANAGER->findImage("스마슈전투상태");
 		_x = 100;
 		_y = 300;
+		break;
+	case S_ROPEWALKING:
+		_img = IMAGEMANAGER->findImage("스마슈줄타기");
 		break;
 	default:
 		break;
@@ -398,6 +406,24 @@ void player2::move()
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+}
+
+void player2::s_event()
+{
+	if (KEYMANAGER->isOnceKeyDown('E'))
+	{
+		_sceneMode = S_EVENTMODE;
+	}
+	if (_sceneMode == S_EVENTMODE)
+	{
+		_x = WINSIZEX / 2;
+		_y = WINSIZEY / 2 - 40;
+		_move = S_ROPEWALKING;
+		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		{
+			_isMotionLive = true;
+		}
+	}
 }
 
 

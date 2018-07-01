@@ -8,13 +8,14 @@ enum SMOVE
 	S_LEFTMOVE, S_RIGHTMOVE, S_DOWNMOVE, S_UPMOVE,
 	S_SOLOSKILL1, S_SOLOSKILL2, S_SOLOSKILL3,
 	S_AREASKILL1, S_AREASKILL2, S_AREASKILL3,
-	S_FIGHTREADY
+	S_FIGHTREADY , S_ROPEWALKING
 };
 
 enum S_SCENEMODE
 {
-	S_FIELDMODE, S_BATTLEMODE
+	S_FIELDMODE, S_BATTLEMODE , S_EVENTMODE
 };
+
 class player2 :public gameNode
 {
 private:
@@ -31,7 +32,7 @@ private:
 	string	_imageName;   //이미지이름
 	SMOVE	_move;		  //움직임 상태
 	RECT	_rc;		  //렉트
-	S_SCENEMODE _sceneMove; //씬에 따라 행동이 바뀜
+	S_SCENEMODE _sceneMode; //씬에 따라 행동이 바뀜
 public:
 	
 	HRESULT init(float x , float y);
@@ -42,7 +43,7 @@ public:
 	void imageFrame();
 	void angleManager(float x , float y);
 	void move();
-	
+	void s_event();
 	float getY() { return _y; }
 	player2();
 	~player2();

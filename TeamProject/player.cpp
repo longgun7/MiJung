@@ -231,9 +231,12 @@ void player::eventKeyManager()
 		_sceneMode = EVENTMODE;
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 2;
+		_jumpPower = 5.0f;
+		_gravity = 0.2f;
 		_move = FRONT;
 		_slopeNum = 4;
 		_isWoodDrop = false;
+
 	}
 
 	//아래키 누르면 움직인다
