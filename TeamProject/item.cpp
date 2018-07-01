@@ -74,6 +74,29 @@ void item::makeItem(int frameX, int frameY, float x, float y)
 	item.y = y;
 	item.rc = RectMakeCenter(item.x, item.y, _image->getFrameWidth(), _image->getFrameHeight());
 
+	
+}
+
+void item::makeItem(const char * itemName,float x ,float y)
+{
+	if (_vItem.size() > _itemMax) return;
+
+	tagItem item;
+	ZeroMemory(&item, sizeof(item));
+
+	item.atk = INIDATA->loadDataInterger("item", itemName, "공격력");
+	item.luck = INIDATA->loadDataInterger("item", itemName, "운");
+	item.critical = INIDATA->loadDataInterger("item", itemName, "크리티컬확률");
+	item.def = INIDATA->loadDataInterger("item", itemName, "방어력");
+	item.speed = INIDATA->loadDataInterger("item", itemName, "스피드");
+	item.frameX = INIDATA->loadDataInterger("item", itemName, "frameX");
+	item.frameY = INIDATA->loadDataInterger("item", itemName, "frameY");
+	item.naem = INIDATA->loadDataString("item", itemName, "이름");
+
+	item.x = x;
+	item.y = y;
+	item.rc = RectMakeCenter(item.x, item.y, _image->getFrameWidth(), _image->getFrameHeight());
+
 	_vItem.push_back(item);
 }
 
@@ -99,6 +122,30 @@ void item::makepotion(int frameX, int frameY, float x, float y)
 	potion.rc = RectMakeCenter(potion.x, potion.y, _image->getFrameWidth(), _image->getFrameHeight());
 
 	_vPotion.push_back(potion);
+
+}
+
+void item::makepotion(const char * potionName, float x, float y)
+{
+
+	if (_vPotion.size() > _itemMax) return;
+
+	tagPotion potion;
+	ZeroMemory(&potion, sizeof(potion));
+
+	potion.frameX = INIDATA->loadDataInterger("item", potionName, "frameX");
+	potion.frameY = INIDATA->loadDataInterger("item", potionName, "frameY");
+
+	potion.hp = INIDATA->loadDataInterger("item", potionName, "HP회복");
+	potion.mp = INIDATA->loadDataInterger("item", potionName, "MP회복");
+	potion.name = INIDATA->loadDataString("item", potionName, "이름");
+
+	potion.x = x;
+	potion.y = y;
+	potion.rc = RectMakeCenter(potion.x, potion.y, _image->getFrameWidth(), _image->getFrameHeight());
+
+	_vPotion.push_back(potion);
+
 }
 
 void item::atahoestat(itemKind itemkind)
@@ -208,4 +255,5 @@ void item::potionAbility(potionKind potionkind)
 		break;
 	}
 }
+
 
