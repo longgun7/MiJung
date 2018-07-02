@@ -35,7 +35,7 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("줄타기+1", "image/player/줄타기+1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기+2", "image/player/줄타기+2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기+3", "image/player/줄타기+3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("줄타기+4", "image/player/줄타기+4.bmp", 65, 90, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기+4", "image/player/줄타기+4.bmp", 65, 94, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-1", "image/player/줄타기-1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-2", "image/player/줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-3", "image/player/줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
@@ -76,6 +76,18 @@ HRESULT player::init()
 	_maxExp = 100;
 	_level = 1;
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+
+	//아타호 타겟 스킬 
+	
+	//호격권
+	_soloSkillEffect1 = new atahoTargetSkill1;
+	_soloSkillEffect1->init();
+	
+
+	//맹호스페셜
+	_soloSkillEffect2 = new atahoTargetSkill2;
+	_soloSkillEffect2->init();
+	
 	return S_OK;
 }
 
@@ -93,6 +105,8 @@ void player::update()
 	}
 	move();			      //움직임
 	levelCheck();	      //레벨업 여부
+	_soloSkillEffect1->update(); //호격권 스킬이펙트 업데이트
+	_soloSkillEffect2->update(); //맹호스페셜 스킬 이펙트 업데이트
 }
 
 void player::render()
@@ -107,6 +121,9 @@ void player::render()
 	char str[125];
 	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
 	TextOut(getMemDC(), 100, 500, str, strlen(str));
+
+	_soloSkillEffect1->render(); //스킬 이펙트 렌더
+	_soloSkillEffect2->render();
 }
 
 void player::release()
@@ -277,6 +294,8 @@ void player::eventKeyManager()
 	
 	
 }
+
+
 
 void player::slopeNumImage()
 {
@@ -591,7 +610,12 @@ void player::move()
 		if (_img->getFrameX() >= 9)
 		{
 			++_skillFrame;
-			if (_skillFrame >= 50 )
+			
+			if (_skillFrame < 2)
+			{
+				_soloSkillEffect1->addSkill(WINSIZEX - 200, WINSIZEY / 2);
+			}
+			if (_skillFrame >= 200 )
 			{
 				_img->setFrameX(0);
 				_move = FIGHTREADY;
@@ -600,6 +624,10 @@ void player::move()
 		}
 	}
 
+	if (KEYMANAGER->isOnceKeyDown('B'))
+	{
+		_soloSkillEffect1->addSkill(WINSIZEX - 200, WINSIZEY / 2);
+	}
 	//광파참
 	if (_img == IMAGEMANAGER->findImage("아타호맹호광파참"))
 	{
@@ -631,6 +659,7 @@ void player::move()
 	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _img->getFrameX() >= 25 && _move == SOLOSKILL3)
 	{
 		_x += 10;
+		_soloSkillEffect2->addSkill(_x, _y+10);
 		if (_x >= WINSIZEX)
 		{
 			_move = FIGHTREADY;

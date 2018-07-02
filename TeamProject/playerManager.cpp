@@ -70,6 +70,11 @@ void playerManager::eventMode()
 		{
 			_smasyu->setIsJumping(true);
 		}
+
+		if (_ataho->getSlopeNum() <= 2 || _ataho->getSlopeNum() >= 6)
+		{
+			_smasyu->setMove(S_AFRAID);
+		}
 	}
 }
 
