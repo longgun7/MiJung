@@ -25,6 +25,7 @@ HRESULT playGround::init(void)
 	_im = new itemManager;
 	_im->init();
 
+	
 	SCENEMANAGER->changeScene("½ºÅ¸Æ®¾À");
 
 	return S_OK;
@@ -59,7 +60,7 @@ void playGround::render(void)
 	SCENEMANAGER->render();
 
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
-	TIMEMANAGER->render(getMemDC());
+	//TIMEMANAGER->render(getMemDC());
 
 	_PM->render();
 

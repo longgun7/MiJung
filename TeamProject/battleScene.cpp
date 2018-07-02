@@ -26,6 +26,11 @@ void battleScene::release(void)
 
 void battleScene::update(void)
 {
+	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	{
+		SCENEMANAGER->changeScene("ÇÊµå¾À");
+	}
+	
 }
 
 void battleScene::render(void)
