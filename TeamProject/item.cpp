@@ -91,7 +91,7 @@ void item::makeItem(const char * itemName,float x ,float y)
 	item.speed = INIDATA->loadDataInterger("item", itemName, "스피드");
 	item.frameX = INIDATA->loadDataInterger("item", itemName, "frameX");
 	item.frameY = INIDATA->loadDataInterger("item", itemName, "frameY");
-	item.naem = INIDATA->loadDataString("item", itemName, "이름");
+	item.name = INIDATA->loadDataString("item", itemName, "이름");
 
 	item.x = x;
 	item.y = y;

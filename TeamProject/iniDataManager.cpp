@@ -63,7 +63,7 @@ void iniDataManager::iniSave(const char * fileName)
 	_vIniData.clear();
 }
 
-char * iniDataManager::loadDataString(const char * fileName, const char * subject, const char * title)
+ char * iniDataManager::loadDataString(const char * fileName, const char * subject, const char * title)
 {
 	char str[256];
 	char dir[256];
