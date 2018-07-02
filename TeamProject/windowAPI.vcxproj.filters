@@ -109,6 +109,12 @@
     <Filter Include="2DFramework\playerManager\player\inventory">
       <UniqueIdentifier>{3a13816d-426b-4c90-bac3-f592bf0d49d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Skill">
+      <UniqueIdentifier>{4f1858b1-5d42-4e2f-884d-90a0327ee732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\camera">
+      <UniqueIdentifier>{e1b6cccb-ca68-410d-86eb-f3e62476ea38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -258,11 +264,17 @@
     <ClInclude Include="blackUniform.h">
       <Filter>playGround\enemy\boss</Filter>
     </ClInclude>
-    <ClInclude Include="wildBoar.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="battleScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>playGround\itemManager</Filter>
+    </ClInclude>
+    <ClInclude Include="bat.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="dragon.h">
+      <Filter>playGround\enemy</Filter>
     </ClInclude>
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
@@ -423,6 +435,19 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="battleScene.cpp">
+      <Filter>playGround\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\playerManager\player</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
+    </ClCompile>
+    <ClCompile Include="bat.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
     </ClCompile>
     <ClCompile Include="enemyManager.cpp">

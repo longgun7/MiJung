@@ -19,9 +19,6 @@ void inventory::release()
 {
 }
 
-void inventory::set()
-{
-}
 
 inventory::inventory()
 {

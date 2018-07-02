@@ -8,7 +8,7 @@
 class inventory :public gameNode
 {
 private:
-
+	
 public:
 
 	HRESULT init();
@@ -16,7 +16,6 @@ public:
 	void render();
 	void release();
 
-	void set();
 	inventory();
 	~inventory();
 };

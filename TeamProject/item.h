@@ -4,43 +4,52 @@
 
 enum itemKind
 {
-	WEAPONE1, WEAPONE2, WEAPONE3, WEAPONE4,
+	WEAPONE1, WEAPONE2, WEAPONE3, WEAPONE4,  //아이템 이넘
 	ARMOR1, ARMOR2, ARMOR3, ARMOR4
 };
 
-enum postionKind
+enum potionKind    //포션
 {
-	HPPOTION, MPPOTION
+	HPPOTION1, MPPOTION1
 };
 
 struct tagItem
+{                
+
+	int frameX;  //아이템 번호
+	int frameY;
+	float x;     //좌표
+	float y;
+	int atk;    
+	int def;
+	int luck;
+	float speed;
+	int critical;
+	string name;
+	RECT rc;
+	itemKind itemCheck; //아이템이 어떤 아이템인지 
+
+};
+
+struct tagPotion
 {
 
 	int frameX;
 	int frameY;
 	float x;
 	float y;
-	int atk;
-	int def;
-	int luck;
-	float speed;
-	int critical;
-	RECT rc;
-	itemKind itemCheck;
-	postionKind checkPotion;
-
-};
-
-struct tagPotion
-{
 	int hp;
 	int mp;
+	string name;
+	RECT rc;
+	potionKind potionCheck;
+
 };
 
 class item : public gameNode
 {
 private:
-	vector<tagItem>				_vItem;
+	vector<tagItem>				_vItem; //구조체를 벡터에 담는다.  
 	vector<tagItem>::iterator   _viItem;
 
 	vector<tagPotion>			_vPotion;
@@ -49,15 +58,15 @@ private:
 	image*	 _image;
 
 	int		 _itemMax;
-	itemKind _atahoe;
-	itemKind _smashue;
-	postionKind _potion;
+	potionKind _potion; 
 	
 	int		 _atk;
 	int		 _def;
 	int		 _luck;
 	int		 _critical;
 	float    _speed;
+	int		 _hp;
+	int		 _mp;
 
 public:
 	item();
@@ -68,9 +77,24 @@ public:
 	void render();
 	void release();
 	void makeItem(int frameX, int frameY,float x ,float y);
-	void check();
-	void itemStat();
+	void makeItem(string itemName, float x ,float y);
+	void makepotion(int frameX, int frameY, float x, float y);
+	void makepotion(const char* potionName, float x, float y);
+	void atahoestat(itemKind itemkind);
+	void smashustat(itemKind itemkind);
+	void potionAbility(potionKind potionkind);
+	
+	vector<tagItem>				getVItem() { 
+		return _vItem; 
+	}
+	string getName(int i)
+	{
+		return _vItem[i].name;
+	}
 
-	vector<tagItem>			  getVItem() { return _vItem; }
-	vector<tagItem>::iterator getVIItem() { return _viItem; }
+	vector<tagItem>::iterator	getVIItem() { return _viItem; }
+	
+	vector<tagPotion>			getVPotion() { return _vPotion; }
+	vector<tagPotion>::iterator	getVIPotion() { return _viPotion; }
+
 };
