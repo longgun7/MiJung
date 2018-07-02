@@ -112,6 +112,9 @@
     <Filter Include="playGround\playerManager\player\inventory">
       <UniqueIdentifier>{3a13816d-426b-4c90-bac3-f592bf0d49d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Skill">
+      <UniqueIdentifier>{4f1858b1-5d42-4e2f-884d-90a0327ee732}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -282,6 +285,12 @@
     <ClInclude Include="statusScene.h">
       <Filter>playGround\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
+    <ClInclude Include="statusScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>playGround\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -433,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="wildBoar.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>playGround\Skill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
