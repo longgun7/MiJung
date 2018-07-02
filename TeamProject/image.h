@@ -106,20 +106,34 @@ public:
 	//렌더함수 뿌려줄DC, 뿌려줄X,(left) 뿌려줄Y(top)   복사해올X(left),복사해올Y(top) 가로크기, 세로크기
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 	
+	// 뿌려줄 DC, 뿌려줄 x(left), 뿌려줄 y(top)
 	void frameRender(HDC hdc, int destX, int destY);
+
+	// 뿌려줄 DC, 뿌려줄 x(left), 뿌려줄 y(top), 현재 프레임 x(left), 현재 프레임 y(top)
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
+	// 뿌려줄 DC, 그려줄 영역, 루프 방향x, 루프 방향y
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 
+	// 뿌려줄 DC, 투명 불투명 수치(낮을수록 투명도가 높아짐)
 	void alphaRender(HDC hdc, BYTE alpha);
+
+	// 뿌려줄 DC, 뿌려줄 x좌표, 뿌려줄 y좌표, 투명 불투명 수치(낮을수록 투명도가 높아짐)
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
+	
+	// 뿌려줄 DC, 뿌려줄 x좌표, 뿌려줄 y좌표, 복사할 x좌표, 복사할 y좌표, 가로 크기, 세로 크기, 투명 불투명 수치(낮을수록 투명도가 높아짐)
 	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 
+	// 뿌려줄 DC, 뿌려줄 x좌표, 뿌려줄 y좌표, 투명 불투명 수치(낮을수록 투명도가 높아짐)
 	void alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha);
+	
+	// 뿌려줄 DC, 뿌려줄 x좌표, 뿌려줄 y좌표, 현재 프레임 x, 현재 프레임 y, 투명 불투명 값(낮을수록 투명도가 높아짐)
 	void alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 
+	//뿌려줄 DC, 그려줄 영역, 루프 방향 x, 루프 방향 y, 투명 불투명 수치(낮을수록 투명도가 높아짐)
 	void alphaLoopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY, BYTE alpha);
 
+	// 뿌려줄 DC, 뿌려줄 x좌표, 뿌려줄 y좌표, 어느 애니메이션을 재생시킬 지
 	void aniRender(HDC hdc, int destX, int destY, animation* ani);
 
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }

@@ -262,4 +262,3 @@ void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, BYT
 
 	if (img) img->alphaRender(hdc, destX, destY, alpha);
 }
-
