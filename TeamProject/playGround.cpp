@@ -57,6 +57,8 @@ void playGround::render(void)
 
 	//흰색도화지 한 장 깔아둔다
 	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
+	PatBlt(CAMERA->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
+
 	//============== 이 위로는 건드리지 말자 ==============
 
 	SCENEMANAGER->render();
@@ -68,8 +70,14 @@ void playGround::render(void)
 
 	_im->render();
 
+	TIMEMANAGER->render(CAMERA->getCameraDC());
+
+
 	//================이 밑으로도 건드리지 말자 =============
-	this->getBackBuffer()->render(getHDC(), 0, 0);
+	//this->getBackBuffer()->render(getHDC(), 0, 0);
+	CAMERA->render(getMemDC());
+	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERA->getPosition().x, CAMERA->getPosition().y, WINSIZEX, WINSIZEY);
+
 
 }
 

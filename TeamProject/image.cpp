@@ -428,6 +428,32 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 	}
 }
 
+//"확대축소기능" 렌더 뿌려줄DC,  X좌표(left), Y좌표(top), 확대축소할 가로크기, 확대축소할 세로크기
+void image::render(HDC hdc, int destX, int destY, int stretchWidth, int stretchHeight)
+{
+	if (_trans)
+	{
+		GdiTransparentBlt(
+			hdc,					//복사될 DC
+			destX,					//복사될 좌표 X(left)
+			destY,					//복사될 좌표 Y(top)
+			stretchWidth,			//복사될 가로크기
+			stretchHeight,			//복사될 세로크기
+			_imageInfo->hMemDC,		//복사할 DC
+			0, 0,					//복사할 x,y
+			_imageInfo->width,		//복사할 가로, 세로크기
+			_imageInfo->height,
+			_transColor);			//복사할때 제외할 칼라
+
+	}
+	else
+	{
+		StretchBlt(hdc, destX, destY, stretchWidth, stretchHeight,
+			_imageInfo->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, SRCCOPY);
+
+	}
+}
+
 void image::frameRender(HDC hdc, int destX, int destY)
 {
 	if (_trans)
@@ -488,6 +514,38 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 			SRCCOPY);
 	}
 }
+
+//"확대축소기능" 프레임 렌더함수 뿌려줄DC,  X좌표(left), Y좌표(top), 인덱스X, 인덱스Y, 확대축소할 가로크기, 확대축소할 세로크기
+void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int stretchWidth, int stretchHeight)
+{
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
+
+	if (_trans)
+	{
+		GdiTransparentBlt(
+			hdc,
+			destX,
+			destY,
+			stretchWidth,
+			stretchHeight,
+			_imageInfo->hMemDC,
+			currentFrameX * _imageInfo->frameWidth,
+			currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth,
+			_imageInfo->frameHeight,
+			_transColor);
+	}
+	else
+	{
+		StretchBlt(hdc, destX, destY, stretchWidth, stretchHeight,
+			_imageInfo->hMemDC, currentFrameX * _imageInfo->frameWidth, currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth
+			, _imageInfo->frameHeight, SRCCOPY);
+
+	}
+}
+
 
 //                    뿌려줄DC    루프이미지 그려줄영역,   루프방향X   루프방향Y
 void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)

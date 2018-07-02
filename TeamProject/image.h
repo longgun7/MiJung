@@ -106,8 +106,14 @@ public:
 	//렌더함수 뿌려줄DC, 뿌려줄X,(left) 뿌려줄Y(top)   복사해올X(left),복사해올Y(top) 가로크기, 세로크기
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 	
+	//"확대축소기능" 렌더함수 뿌려줄DC,  X좌표(left), Y좌표(top), 확대축소할 가로크기, 확대축소할 세로크기
+	void render(HDC hdc, int destX, int destY, int stretchWidth, int stretchHeight);
+	
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
+	//"확대축소기능" 프레임 렌더함수 뿌려줄DC,  X좌표(left), Y좌표(top), 인덱스X, 인덱스Y, 확대축소할 가로크기, 확대축소할 세로크기
+	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int stretchWidth, int stretchHeight);
+
 
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 

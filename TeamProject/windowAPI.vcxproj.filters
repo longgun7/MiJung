@@ -115,6 +115,9 @@
     <Filter Include="playGround\Skill">
       <UniqueIdentifier>{4f1858b1-5d42-4e2f-884d-90a0327ee732}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DFramework\camera">
+      <UniqueIdentifier>{e1b6cccb-ca68-410d-86eb-f3e62476ea38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -288,6 +291,12 @@
     <ClInclude Include="playerManager.h">
       <Filter>playGround\playerManager</Filter>
     </ClInclude>
+    <ClInclude Include="cameraManager.h">
+      <Filter>2DFramework\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>playGround\Scene\startScene\mapToolScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -439,6 +448,9 @@
     </ClCompile>
     <ClCompile Include="playerManager.cpp">
       <Filter>playGround\playerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>2DFramework\camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
