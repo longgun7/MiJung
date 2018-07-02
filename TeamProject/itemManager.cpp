@@ -22,7 +22,7 @@ HRESULT itemManager::init()
 
 	setItem();
 
-	_weapon->makeItem("술", 100, 100);
+	_weapon->makeItem("권법가 도복", 100, 100);
 
 	_potion->makepotion("약초", 100, 200);
 
@@ -47,8 +47,8 @@ void itemManager::render()
 	for (int i = 0; i < 1; ++i)
 	{
 		char str[128];
-		sprintf_s(str, "%d", _weapon->getVItem()[i].luck);
-		TextOut(getMemDC(), 100 + 100 * i, 150, str, strlen(str));
+		sprintf(str, "%d", _weapon->getVItem()[i].name);
+		TextOut(getMemDC(), 50 + 100 * i, 150, str, strlen(str));
 	}
 
 	char str[128];

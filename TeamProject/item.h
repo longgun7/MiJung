@@ -25,7 +25,7 @@ struct tagItem
 	int luck;
 	float speed;
 	int critical;
-	string naem;
+	string name;
 	RECT rc;
 	itemKind itemCheck;
 
