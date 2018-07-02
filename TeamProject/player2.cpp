@@ -28,7 +28,7 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³«»ç", "image/player/½º¸¶½´ ÇÇ°Ý.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	//½º¸¶½´ ÁÙÅ¸±â
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÁÙÅ¸±â", "image/player/½º¸¶½´ ÁÙÅ¸±â2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("½º¸¶½´³î¶÷", "image/player/½º¸¶½´ ³î¶÷.bmp", 80, 82, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("½º¸¶½´³î¶÷", "image/player/½º¸¶½´ ³î¶÷2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
 
 
 	//ÃÊ±â ½º¸¶½´¸ð½À
