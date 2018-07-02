@@ -6,7 +6,7 @@ class itemManager : public gameNode
 {
 private:
 	item* _weapon;
-	item*  _potion;
+	item* _potion;
 
 public:
 	itemManager();
@@ -17,5 +17,9 @@ public:
 	void update();
 	void render();
 	void setItem();
+
+	item* getWeapon() { return _weapon; }
+	item* getPortion() { return _potion; }
+	
 };
 

@@ -24,11 +24,10 @@ void atahoTargetSkill1::realse()
 
 void atahoTargetSkill1::update()
 {
-	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill) 
 	{
-		_viTagSkill->count++;
-		//스킬 레벨 2 이상 부터
-		if (_level > 1)
+		_viTagSkill->count++; 
+		if (_viTagSkill->level > 1)
 		{
 			if (_alphaMaxCount <= _alphaCount)
 			{

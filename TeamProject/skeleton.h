@@ -1,45 +1,35 @@
 #pragma once
-#include "enemy.h"
+#include "gameNode.h"
 
-enum SKELETONDIRECTION
+enum DIRECTION	// 상태
 {
-	SKELETON_LEFT_MOVE,	// 왼쪽으로 이동
-	SKELETON_TOP_MOVE,	// 위로 이동
-	SKELETON_RIGHT_MOVE,	// 오른쪽으로 이동
-	SKELETON_BOTTOM_MOVE,	// 아래로 이동
-	SKELETON_STAND,	// 가만히 서 있음
-	SKELETON_ATTACK,	// 공격 모션
-	SKELETON_HIT,	// 맞는 모션
-	SKELETON_DEAD	// 죽는 모션
+	RIGHT_MOVE,	// 오른쪽 이동
+	LEFT_MOVE,	// 왼쪽 이동
+	UP_MOVE,	// 위로 이동
+	DOWN_MOVE,	// 아래로 이동
+	STAND		// 가만히
 };
 
-struct tagSkeleton	// 스켈레톤 구조체
-{
-	float x;	// 스켈레톤 x좌표
-	float y;	// 스켈레톤 y 좌표
-	float speed;	// 스켈레톤 스피드
-
-	bool tileAttribute;	// 스켈레톤이 서 있는 타일의 속성
-	bool isAlive;	// 해골이 살아있는지
-
-	image* _image;	// 해골 이미지
-	image* deadImage;	// 해골 죽은 이미지
-
-	SKELETONDIRECTION direction;	// 해골 상태
-};
-
-class skeleton : public enemy
+class skeleton : public gameNode
 {
 private:
 
-	vector<tagSkeleton> _vEnemy;
-	vector<tagSkeleton>::iterator _viEnemy;
+	image * _img;			// 스켈레톤 이미지
+	DIRECTION _direction;	// 스켈레톤 상태
+	RECT _rc;				// 스켈레톤 렉트
 
-	tagSkeleton _tagSkeleton;
+	float _x;				// 스켈레톤 x좌표
+	float _y;				// 스켈레톤 y좌표
+	float _speed;			// 스켈레톤 스피드
 
-	animation* _skeletonMotion;
-
-	int _moveCount;	// 일정 시간마다 방향을 바꾸기 위한 움직임 카운트
+	int _index;				// 프레임 감을 인덱스
+	int _count;				// 프레임 감을 카운트
+	int _moveCount;			// 일정 시간마다 움직임을 위한 카운트
+	int _currentFrameX;		// 현재 프레임 X
+	int _currentFrameY;		// 현재 프레임 Y
+	int _alphaValue;		// 스켈레톤 투명 불투명 값
+	int _moveCount2;		// 일정 시간마다 스켈레톤의 움직임을 바꿈
+	bool _setSkeleton;		// 스켈레톤 배치 
 
 public:
 
@@ -48,11 +38,8 @@ public:
 	virtual void update();
 	virtual void render();
 
-	virtual void setSkeleton();	// 스켈레톤 배치
-	virtual void move();	// 스켈레톤 움직임
-	virtual void checkCoolide();	// 스켈레톤과 플레이어 충돌처리
-
-
+	void setSkeleton(float x, float y);		// 스켈레톤 배치
+	void move();							// 스켈레톤 이동, 모션
 
 	skeleton();
 	~skeleton();

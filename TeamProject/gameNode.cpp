@@ -39,6 +39,8 @@ HRESULT gameNode::init(bool managerInit)
 		KEYANIMANAGER->init();
 		TXTDATA->init();
 		INIDATA->init();
+		CAMERA->init();
+
 	}
 
 
@@ -76,6 +78,10 @@ void gameNode::release(void)
 		TXTDATA->releaseSingleton();
 
 		INIDATA->releaseSingleton();
+
+		CAMERA->release();
+		CAMERA->releaseSingleton();
+
 	}
 	//초기화해줄때 GetDC를 사용했으므로 DC해제해준다
 	ReleaseDC(_hWnd, _hdc);
@@ -86,6 +92,8 @@ void gameNode::update(void)
 {
 	KEYMANAGER->update();
 	SOUNDMANAGER->update();
+	CAMERA->update();
+
 }
 
 //그리기
@@ -112,6 +120,10 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		case WM_MOUSEMOVE:
 			_ptMouse.x = LOWORD(lParam);
 			_ptMouse.y = HIWORD(lParam);
+
+			_ptBGMouse.x = _ptMouse.x + CAMERA->getPosition().x;
+			_ptBGMouse.y = _ptMouse.y + CAMERA->getPosition().y;
+
 		break;
 
 		case WM_DESTROY:

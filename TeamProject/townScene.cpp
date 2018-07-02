@@ -25,11 +25,11 @@ void townScene::release(void)
 
 void townScene::update(void)
 {
-	if (KEYMANAGER->isOnceKeyDown('S'))
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		SCENEMANAGER->changeScene("»óÅÂ¾À");
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("ÇÊµå¾À");
 	}

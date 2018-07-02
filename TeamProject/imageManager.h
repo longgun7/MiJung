@@ -42,10 +42,11 @@ public:
 	//프레임렌더 + 루프렌더는 여러분이 추가해보세영~
 	void frameRender(string strKey, HDC hdc, int destX, int destY);
 	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
+	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int stretchWidth, int stretchHeight);
+
 	
 	void loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 
 	void alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha);
-
 };
 

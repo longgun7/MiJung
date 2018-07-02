@@ -14,14 +14,11 @@ HRESULT playerManager::init()
 	_smasyu->init(_ataho->getX() , _ataho->getY());
 
 	//인벤토리 init()
-	for (int i = 0; i < 2; i++)
-	{
-		_inven = new inventory;
-		_inven->init();
 
-		_vInven.push_back(_inven);
-	}
 
+	//아이템 매니저 전방선언
+	_itemManager = new itemManager;
+	
 	return S_OK;
 }
 
@@ -32,11 +29,12 @@ void playerManager::update()
 	_smasyu->update();
 	_smasyu->angleManager(_ataho->getX(), _ataho->getY());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
+	getItemValue(); //아이템 인벤
+	
 	//인벤토리
-	for (_viInven = _vInven.begin(); _viInven != _vInven.end(); ++_viInven)
-	{
-		(*_viInven)->update();
-	}
+	
+	
+
 }
 
 void playerManager::render()
@@ -51,12 +49,8 @@ void playerManager::render()
 	{
 		_ataho->render();
 		_smasyu->render();
-	}
-	//인벤토리
-	for (_viInven = _vInven.begin(); _viInven != _vInven.end(); ++_viInven)
-	{
-		(*_viInven)->render();
-	}
+	}	
+
 }
 
 void playerManager::release()
@@ -66,10 +60,6 @@ void playerManager::release()
 	_smasyu->release();
 
 	//인벤토리
-	for (_viInven = _vInven.begin(); _viInven != _vInven.end(); ++_viInven)
-	{
-		(*_viInven)->release();
-	}
 }
 
 void playerManager::eventMode()
@@ -81,6 +71,33 @@ void playerManager::eventMode()
 			_smasyu->setIsJumping(true);
 		}
 	}
+}
+
+void playerManager::getItemValue()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _itemManager->getWeapon()->getVItem().size(); ++i)
+		{
+			if (PtInRect(&_itemManager->getWeapon()->getVItem()[i].rc, _ptMouse))
+			{
+				tagInventory inventory;
+				ZeroMemory(&inventory, sizeof(inventory));
+				
+				inventory.name = _itemManager->getWeapon()->getName(i);
+				inventory._atk = _itemManager->getWeapon()->getVItem()[i].atk;
+				inventory._def = _itemManager->getWeapon()->getVItem()[i].def;
+				inventory._luck = _itemManager->getWeapon()->getVItem()[i].luck;
+				inventory._cri = _itemManager->getWeapon()->getVItem()[i].critical;
+				inventory._speed = _itemManager->getWeapon()->getVItem()[i].speed;
+				
+				_vItemInven.push_back(inventory);
+			}
+		}
+	}
+	
+	
+
 }
 
 playerManager::playerManager()
