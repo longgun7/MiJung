@@ -19,8 +19,12 @@ void inventory::release()
 {
 }
 
-void inventory::setItem(int att)
+void inventory::setWeapon(int att,int luck , int cri)
 {
+	_att = att;
+	_luck = luck;
+	_cri = cri;
+
 }
 
 inventory::inventory()

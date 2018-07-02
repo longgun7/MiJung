@@ -25,6 +25,9 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("스마슈쓰러짐", "image/player/스마슈 쓰러짐.bmp", 90, 61, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈피격", "image/player/스마슈 피격.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈전투상태", "image/player/스마슈 전투상태.bmp", 55, 80, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스마슈낙사", "image/player/스마슈 피격.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
+	//스마슈 줄타기
+	IMAGEMANAGER->addFrameImage("스마슈줄타기", "image/player/스마슈 줄타기2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
 
 
 	//초기 스마슈모습
@@ -34,11 +37,15 @@ HRESULT player2::init(float x , float y)
 	_x = x - 60;
 	_y = y;
 	_angle = 0;
+	_jumpPower = 5.0f;
+	_gravity = 0.2f;
 	_imageFrame = 0;
 	_frame = 0;
 	_skillFrame = 0;
 	_moveSpeed = 5;
 	_isMotionLive = false;
+	_isJumping = false;
+	_sceneMode = S_FIELDMODE;
 	return S_OK;
 }
 
@@ -51,13 +58,14 @@ void player2::update()
 		imageFrame();	 //이미지프레임
 	}
 	move();
+	s_event(); //스마슈 이벤트
 }
 
 void player2::render()
 {
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-	
+
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 
@@ -66,10 +74,16 @@ void player2::render()
 
 	sprintf_s(str, "스킬 프레임 : %d", _skillFrame);
 	TextOut(getMemDC(), 100, 100, str, strlen(str));
-	
+
 	char str2[123];
 	sprintf_s(str2, "이미지프레임 : %d", _imageFrame);
 	TextOut(getMemDC(), 100, 150, str2, strlen(str2));
+	//if (_isJumping)
+	{
+		char str3[123];
+		sprintf_s(str3, "점핑여부 : %d", _isJumping);
+		TextOut(getMemDC(), WINSIZEX/2, WINSIZEY/2, str3, strlen(str3));
+	}
 }
 
 void player2::release()
@@ -78,102 +92,120 @@ void player2::release()
 
 void player2::angleManager(float x , float y)
 {
-	//아타호의 위치에 따라 앵글이 바뀐다.
-	_angle = getAngle(_x, _y, x, y);
 	
-	//렉트 갱신
-	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-	
-	//아타호와 스마슈와의 거리
-	if (getDistance(x, y, _x, _y) > 60)
+	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
-		_x += cosf(_angle)*_moveSpeed;
-		_y += -sinf(_angle)*_moveSpeed;
+		_sceneMode = S_FIELDMODE;
+	}
+	if (KEYMANAGER->isOnceKeyDown('W'))
+	{
+		_sceneMode = S_BATTLEMODE;
+		_x = 100;
+		_y = 300;
+		_move = S_FIGHTREADY;
+	}
 
-		//움직이는 모션
-		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	if (_sceneMode == S_FIELDMODE)
+	{
+		//아타호의 위치에 따라 앵글이 바뀐다.
+		_angle = getAngle(_x, _y, x, y);
+
+
+		//아타호와 스마슈와의 거리
+		if (getDistance(x, y, _x, _y) > 60)
 		{
-			_move = S_LEFTMOVE;
-			_isMotionLive = true;
+			_x += cosf(_angle)*_moveSpeed;
+			_y += -sinf(_angle)*_moveSpeed;
+
+			//움직이는 모션
+			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+			{
+				_move = S_LEFTMOVE;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+			{
+				_move = S_RIGHTMOVE;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isStayKeyDown(VK_UP))
+			{
+				_move = S_UPMOVE;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+			{
+				_move = S_DOWNMOVE;
+				_isMotionLive = true;
+			}
+
+
 		}
-		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-		{
-			_move = S_RIGHTMOVE;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isStayKeyDown(VK_UP))
-		{
-			_move = S_UPMOVE;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-		{
-			_move = S_DOWNMOVE;
-			_isMotionLive = true;
-		}
+
+			//정자세
+			if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+			{
+				_move = S_FRONT;
+
+			}
+			if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
+			{
+				_move = S_LEFT;
+
+			}
+			if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
+			{
+				_move = S_RIGHT;
+
+			}
+			if (KEYMANAGER->isOnceKeyUp(VK_UP))
+			{
+				_move = S_BACK;
+
+			}
 		
 	}
 
-	//정자세
-	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+	if (_sceneMode == S_BATTLEMODE)
 	{
-		_move = S_FRONT;
-
-	}	
-	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
-	{
-		_move = S_LEFT;
-
+		//스킬
+		if (KEYMANAGER->isOnceKeyDown('A'))
+		{
+			_move = S_SOLOSKILL1;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('S'))
+		{
+			_move = S_SOLOSKILL2;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('D'))
+		{
+			_move = S_SOLOSKILL3;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('F'))
+		{
+			_move = S_AREASKILL1;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('G'))
+		{
+			_move = S_AREASKILL2;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
+		if (KEYMANAGER->isOnceKeyDown('H'))
+		{
+			_move = S_AREASKILL3;
+			_isMotionLive = true;
+			_skillFrame = 0;
+		}
 	}
-	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
-	{
-		_move = S_RIGHT;
-
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_UP))
-	{
-		_move = S_BACK;
-
-	}
-	
-	//스킬
-	if (KEYMANAGER->isOnceKeyDown('A'))
-	{
-		_move = S_SOLOSKILL1;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('S'))
-	{
-		_move = S_SOLOSKILL2;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('D'))
-	{
-		_move = S_SOLOSKILL3;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('F'))
-	{
-		_move = S_AREASKILL1;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('G'))
-	{
-		_move = S_AREASKILL2;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('H'))
-	{
-		_move = S_AREASKILL3;
-		_isMotionLive = true;
-		_skillFrame = 0;
-	}
-
 }
 
 void player2::image()
@@ -223,6 +255,17 @@ void player2::image()
 	case S_AREASKILL3:
 		_img = IMAGEMANAGER->findImage("스마슈분신");
 		break;
+	case S_FIGHTREADY:
+		_img = IMAGEMANAGER->findImage("스마슈전투상태");
+		_x = 100;
+		_y = 300;
+		break;
+	case S_ROPEWALKING:
+		_img = IMAGEMANAGER->findImage("스마슈줄타기");
+		break;
+	case S_FALLING:
+		_img = IMAGEMANAGER->findImage("스마슈낙사");
+		break;
 	default:
 		break;
 	}
@@ -243,6 +286,7 @@ void player2::imageFrame()
 		if (_imageFrame >= _img->getMaxFrameX())
 		{
 			_imageFrame = -1;
+			_isMotionLive = false;
 		}
 		_frame = 0;
 	}
@@ -259,40 +303,44 @@ void player2::move()
 	//대타격
 	if (_img == IMAGEMANAGER->findImage("스마슈대타격"))
 	{
+		++_skillFrame;
 		if (_x < WINSIZEX - 100)
 		{
 			_imageFrame = 1;
 			_img->setFrameX(1);
-			_x += 10;
+			_x += 20;
 		}
 
-		if (_x > WINSIZEX - 100)
+		if (_img->getFrameX() >= _img->getMaxFrameX())
 		{
-			if (_img->getFrameX() >= _img->getMaxFrameX())
-			{
-				_move = S_RIGHT;
-			}
+			_imageFrame = _img->getMaxFrameX();
+		}
+		if (_skillFrame > 100)
+		{
+			_move = S_FIGHTREADY;
 		}
 	}
 	//절사어면
 	if (_img == IMAGEMANAGER->findImage("스마슈절사어면"))
 	{
+		++_skillFrame;
 		if (_img->getFrameX() >= 2 && _x < WINSIZEX - 100)
 		{
 			_imageFrame = 3;
-			_x += 10;
+			_x += 20;
 			_img->setFrameX(2);
 		}
-		if (_x > WINSIZEX - 100)
+		if (_img->getFrameX() >= _img->getMaxFrameX())
 		{
-			_img->setFrameX(_imageFrame);
-			++_skillFrame;
-			if (_skillFrame >= 50)
-			{
-				_move = S_RIGHT;
-			}
+			_imageFrame = _img->getMaxFrameX();
+		}
+		if (_skillFrame > 150)
+		{
+			_img->setFrameX(0);
+			_move = S_FIGHTREADY;
 		}
 	}
+	
 	//베고 날아가기
 	if(_img == IMAGEMANAGER->findImage("스마슈베고날아가기"))
 	{
@@ -310,13 +358,32 @@ void player2::move()
 		{	
 			_img->setFrameX(0);
 			_imageFrame = 0;
-			_move = S_RIGHT;
+			_move = S_FIGHTREADY;
 			
 		}
 	}
+
+	//용오름 
+	if (_img == IMAGEMANAGER->findImage("스마슈용오름"))
+	{
+		++_skillFrame;
+		_x = WINSIZEX - 300;
+		_y = WINSIZEY / 2;
+		if (_img->getFrameX() >= _img->getMaxFrameX())
+		{
+			_imageFrame = _img->getMaxFrameX();
+		}
+		if (_skillFrame > 200)
+		{
+			_img->setFrameX(0);
+			_move = S_FIGHTREADY;
+		}
+	}
+
 	//난도질
 	if (_img == IMAGEMANAGER->findImage("스마슈난도질"))
 	{	
+		_x = WINSIZEX - 200;
 		++_skillFrame;
 		if (_img->getFrameX() >= 44 && _skillFrame >= 200)
 		{
@@ -325,7 +392,7 @@ void player2::move()
 		if (_skillFrame >= 400)
 		{	
 			_imageFrame = 0;
-			_move = S_RIGHT;	
+			_move = S_FIGHTREADY;
 		}
 	}
 	//분신
@@ -348,6 +415,43 @@ void player2::move()
 			_move = S_AREASKILL2;
 		}
 	}
+
+	//렉트 갱신
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+
+}
+
+void player2::s_event()
+{
+	//이벤트모드
+	if (KEYMANAGER->isOnceKeyDown('E'))
+	{
+		_sceneMode = S_EVENTMODE;
+		_x = WINSIZEX / 2;
+		_y = WINSIZEY / 2 - 40;
+	}
+
+	//줄타기
+	if (_sceneMode == S_EVENTMODE)
+	{
+		_move = S_ROPEWALKING;
+		
+		//낙사할 때
+		if (_isJumping)
+		{
+			_y -= _jumpPower;
+			_jumpPower -= _gravity;
+			_x += 3;
+			_img = IMAGEMANAGER->findImage("스마슈낙사");
+		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		{
+			_isMotionLive = true;
+		}
+
+	}
+
 }
 
 

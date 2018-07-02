@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "playerManager.h"
-
+#include "itemManager.h"
 
 HRESULT playerManager::init()
 {
@@ -31,6 +31,7 @@ void playerManager::update()
 	_ataho->update();
 	_smasyu->update();
 	_smasyu->angleManager(_ataho->getX(), _ataho->getY());
+	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	//인벤토리
 	for (_viInven = _vInven.begin(); _viInven != _vInven.end(); ++_viInven)
 	{
@@ -68,6 +69,17 @@ void playerManager::release()
 	for (_viInven = _vInven.begin(); _viInven != _vInven.end(); ++_viInven)
 	{
 		(*_viInven)->release();
+	}
+}
+
+void playerManager::eventMode()
+{
+	if (_ataho->getSCENEMODE() == EVENTMODE)
+	{
+		if (_ataho->getIsJumping() == true)
+		{
+			_smasyu->setIsJumping(true);
+		}
 	}
 }
 

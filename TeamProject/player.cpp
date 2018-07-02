@@ -35,17 +35,20 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("줄타기+1", "image/player/줄타기+1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기+2", "image/player/줄타기+2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기+3", "image/player/줄타기+3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기+4", "image/player/줄타기+4.bmp", 65, 90, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-1", "image/player/줄타기-1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-2", "image/player/줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기-3", "image/player/줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("줄타기-4", "image/player/줄타기-4.bmp", 80, 100, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기", "image/player/물통줄타기.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+1", "image/player/물통줄타기+1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+2", "image/player/물통줄타기+2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기+3", "image/player/물통줄타기+3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("물통줄타기+4", "image/player/물통줄타기+4.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기+4", "image/player/물통줄타기+4.bmp", 66, 114, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-1", "image/player/물통줄타기-1.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-2", "image/player/물통줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-3", "image/player/물통줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("물통줄타기-4", "image/player/물통줄타기-4.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("물통줄타기-4", "image/player/물통줄타기-4.bmp", 81, 112, 1, 1, true, RGB(255, 0, 255));
 
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
@@ -56,6 +59,7 @@ HRESULT player::init()
 	_imageFrame	= 0;
 	_frame		= 0;
 	_skillFrame = 0;
+	_slopeFrame = 0;
 	_moveSpeed  = 5;
 	_isMotionLive = false;
 	_isJumping = false;
@@ -65,125 +69,322 @@ HRESULT player::init()
 
 void player::update()
 {
-	image();		 //이미지
-	keyManager();	 //키
+	playerImage();		  //이미지
+	fieldKeyManager();	  //필드모드 키매니저
+	battleKeyManager();   //배틀모드 키매니저
+	slopeNumImage();      //기울기넘버에 따라 변하는 이미지
+	eventKeyManager();    //이벤트모드 키매니저
+	
 	if (_isMotionLive )
 	{
-		imageFrame();	 //이미지프레임
+		imageFrame();	  //이미지프레임
 	}
-	move();			 //움직임
+	move();			      //움직임
 }
 
 void player::render()
 {
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+	
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
+
+	//기울기 프레임
+	char str[125];
+	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
+	TextOut(getMemDC(), 100, 500, str, strlen(str));
 }
 
 void player::release()
 {
 }
 
-void player::keyManager()
+void player::fieldKeyManager()
 {
-	//렉트 갱신
-	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-
-	//움직이는 모션
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	//필드모드
+	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
-
-		_move = LEFTMOVE;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-	{
-		_move = RIGHTMOVE;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_UP))
-	{
-		_move = UPMOVE;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	{
-		_move = DOWNMOVE;
-		_isMotionLive = true;
-	}
-
-	//정자세
-	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
-	{
-		_move = DOWN;
-
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
-	{
-		_move = LEFT;
-
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
-	{
+		_sceneMode = FIELDMODE;
+		_x = WINSIZEX / 2;
+		_y = WINSIZEY / 2;
 		_move = RIGHT;
-		
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_UP))
-	{
-		_move = UP;
-		
 	}
 
-	//스킬
-	if (KEYMANAGER->isOnceKeyDown('A'))
+	//필드에 있을 때
+	if (_sceneMode == FIELDMODE)
 	{
-		_move = SOLOSKILL1;
-		_isMotionLive = true;
-	
-	}
-	if (KEYMANAGER->isOnceKeyDown('S'))
-	{
-		_move = SOLOSKILL2;
-		_isMotionLive = true;
-		
-	}
-	if (KEYMANAGER->isOnceKeyDown('D'))
-	{
-		_move = SOLOSKILL3;
-		_isMotionLive = true;
-		
-	}
-	if (KEYMANAGER->isOnceKeyDown('F'))
-	{
-		_move = AREASKILL1;
-		_isMotionLive = true;
-		_jumpPower = 5.0f;
-		_gravity = 0.2f;
-	}
-	if (KEYMANAGER->isOnceKeyDown('G'))
-	{
-		_move = AREASKILL2;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isOnceKeyDown('H'))
-	{	
-		_move = AREASKILL3;
-		_isMotionLive = true;
-	}
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_move = DRINK;
-		_isMotionLive = true;
-	}
-	
+		//움직이는 모션
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
 
+			_move = LEFTMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		{
+			_move = RIGHTMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
+		{
+			_move = UPMOVE;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		{
+			_move = DOWNMOVE;
+			_isMotionLive = true;
+		}
 
+		//정자세
+		if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+		{
+			_move = DOWN;
+
+		}
+		if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
+		{
+			_move = LEFT;
+
+		}
+		if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
+		{
+			_move = RIGHT;
+
+		}
+		if (KEYMANAGER->isOnceKeyUp(VK_UP))
+		{
+			_move = UP;
+
+		}
+	}
 }
 
-void player::image()
+void player::battleKeyManager()
 {
+	//배틀모드
+	if (KEYMANAGER->isOnceKeyDown('W'))
+	{
+		_sceneMode = BATTLEMODE;
+		_x = 100;
+		_y = 400;
+		_move = FIGHTREADY;
+	}
+
+	//배틀장면일 때
+	if (_sceneMode == BATTLEMODE)
+	{
+		//스킬
+		if (KEYMANAGER->isOnceKeyDown('A'))
+		{
+			_move = SOLOSKILL1;
+			_isMotionLive = true;
+
+		}
+		if (KEYMANAGER->isOnceKeyDown('S'))
+		{
+			_move = SOLOSKILL2;
+			_isMotionLive = true;
+
+		}
+		if (KEYMANAGER->isOnceKeyDown('D'))
+		{
+			_move = SOLOSKILL3;
+			_isMotionLive = true;
+			_x = WINSIZEX - 200;
+
+		}
+		if (KEYMANAGER->isOnceKeyDown('F'))
+		{
+			_move = AREASKILL1;
+			_isMotionLive = true;
+			_x = WINSIZEX - 200;
+			_jumpPower = 5.0f;
+			_gravity = 0.2f;
+		}
+		if (KEYMANAGER->isOnceKeyDown('G'))
+		{
+			_move = AREASKILL2;
+			_isMotionLive = true;
+			_x = WINSIZEX - 200;
+		}
+		if (KEYMANAGER->isOnceKeyDown('H'))
+		{
+			_move = AREASKILL3;
+			_isMotionLive = true;
+			_x = WINSIZEX / 2;
+		}
+		if (KEYMANAGER->isOnceKeyDown('Z'))
+		{
+			_move = DRINK;
+			_isMotionLive = true;
+		}
+	}
+}
+
+void player::eventKeyManager()
+{
+	//이벤트모드
+	if (KEYMANAGER->isOnceKeyDown('E'))
+	{
+		_sceneMode = EVENTMODE;
+		_x = WINSIZEX / 2;
+		_y = WINSIZEY / 2;
+		_jumpPower = 5.0f;
+		_gravity = 0.2f;
+		_move = FRONT;
+		_slopeNum = 4;
+		_isWoodDrop = false;
+
+	}
+
+	//아래키 누르면 움직인다
+	if (_sceneMode == EVENTMODE)
+	{ 
+		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		{
+			_isMotionLive = true;
+		}	
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	{
+		_slopeNum -= 1;
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		_slopeNum += 1;
+	}
+	
+	if (KEYMANAGER->isOnceKeyDown('R'))
+	{
+		_isWoodDrop = true;
+	}
+	
+	
+}
+
+void player::slopeNumImage()
+{
+	//기울기 적용
+	if (_sceneMode == EVENTMODE)
+	{
+		++_slopeFrame;
+
+		if (_slopeFrame % 30 == 0)
+		{
+			//좌우 랜덤적용
+			_rndDirection = RND->getInt(2);
+
+			if (_rndDirection == 0)
+			{
+				_slopeNum -= 1;
+
+			}
+			if (_rndDirection == 1)
+			{
+				_slopeNum += 1;
+	
+			}
+	
+			//기울기 프레임 초기화
+			_slopeFrame = 0;
+		}
+
+		//물통을 들고 있지 않을 때
+		if (!_isWoodDrop)
+		{
+			//기울기 번호에 따른 이미지 적용
+			if (_slopeNum <= 0)
+			{
+				_move = LEFT4;
+			}
+			if (_slopeNum == 1)
+			{
+				_move = LEFT3;
+			}
+			if (_slopeNum == 2)
+			{
+				_move = LEFT2;
+			}
+			if (_slopeNum == 3)
+			{
+				_move = LEFT1;
+			}
+			if (_slopeNum == 4)
+			{
+				_move = FRONT;
+			}
+			if (_slopeNum == 5)
+			{
+				_move = RIGHT1;
+			}
+			if (_slopeNum == 6)
+			{
+				_move = RIGHT2;
+			}
+			if (_slopeNum == 7)
+			{
+				_move = RIGHT3;
+			}
+			if (_slopeNum >= 8)
+			{
+				_move = RIGHT4;
+			}
+		}
+
+		//물통을 들고 있을 때
+		if (_isWoodDrop)
+		{
+			//기울기 번호에 따른 이미지 적용
+			if (_slopeNum <= 0)
+			{
+				_move = WOODLEFT4;
+			}
+			if (_slopeNum == 1)
+			{
+				_move = WOODLEFT3;
+			}
+			if (_slopeNum == 2)
+			{
+				_move = WOODLEFT2;
+			}
+			if (_slopeNum == 3)
+			{
+				_move = WOODLEFT1;
+			}
+			if (_slopeNum == 4)
+			{
+				_move = WOODFRONT;
+			}
+			if (_slopeNum == 5)
+			{
+				_move = WOODRIGHT1;
+			}
+			if (_slopeNum == 6)
+			{
+				_move = WOODRIGHT2;
+			}
+			if (_slopeNum == 7)
+			{
+				_move = WOODRIGHT3;
+			}
+			if (_slopeNum >= 8)
+			{
+				_move = WOODRIGHT4;
+			}
+		}
+
+	}
+	
+}
+
+
+
+void player::playerImage()
+{
+	//상하좌우 움직임
 	switch (_move)
 	{
 	case LEFT:
@@ -210,11 +411,18 @@ void player::image()
 	case UPMOVE:
 		_img = IMAGEMANAGER->findImage("아타호위로이동");
 		break;
+	default:
+		break;
+	}
+
+	//스킬 움직임
+	switch (_move)
+	{
 	case SOLOSKILL1:
 		_img = IMAGEMANAGER->findImage("아타호호격권");
 		break;
 	case SOLOSKILL2:
-		 _img = IMAGEMANAGER->findImage("아타호맹호광파참");
+		_img = IMAGEMANAGER->findImage("아타호맹호광파참");
 		break;
 	case SOLOSKILL3:
 		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
@@ -234,14 +442,78 @@ void player::image()
 	case DRUNKEN:
 		_img = IMAGEMANAGER->findImage("아타호만취");
 		break;
-	case FIGHTMODE:
+	case FIGHTREADY:
 		_img = IMAGEMANAGER->findImage("아타호전투상태");
+		_x = 100;
+		_y = 400;
 		break;
 	default:
 		break;
 	}
-}
 
+	//이벤트 움직임
+	switch (_move)
+	{
+	case FRONT:
+		_img = IMAGEMANAGER->findImage("줄타기");
+		break;
+	case LEFT1:
+		_img = IMAGEMANAGER->findImage("줄타기-1");
+		break;
+	case LEFT2:
+		_img = IMAGEMANAGER->findImage("줄타기-2");
+		break;
+	case LEFT3:
+		_img = IMAGEMANAGER->findImage("줄타기-3");
+		break;
+	case LEFT4:
+		_img = IMAGEMANAGER->findImage("줄타기-4");
+		break;
+	case RIGHT1:
+		_img = IMAGEMANAGER->findImage("줄타기+1");
+		break;
+	case RIGHT2:
+		_img = IMAGEMANAGER->findImage("줄타기+2");
+		break;
+	case RIGHT3:
+		_img = IMAGEMANAGER->findImage("줄타기+3");
+		break;
+	case RIGHT4:
+		_img = IMAGEMANAGER->findImage("줄타기+4");
+		break;
+	case WOODFRONT:
+		_img = IMAGEMANAGER->findImage("물통줄타기");  
+		break;
+	case WOODLEFT1:
+		_img = IMAGEMANAGER->findImage("물통줄타기-1");
+		break;
+	case WOODLEFT2:
+		_img = IMAGEMANAGER->findImage("물통줄타기-2");
+		break;
+	case WOODLEFT3:
+		_img = IMAGEMANAGER->findImage("물통줄타기-3");
+		break;
+	case WOODLEFT4:
+		_img = IMAGEMANAGER->findImage("물통줄타기-4");
+		break;
+	case WOODRIGHT1:
+		_img = IMAGEMANAGER->findImage("물통줄타기+1");
+		break;
+	case WOODRIGHT2:
+		_img = IMAGEMANAGER->findImage("물통줄타기+2");
+		break;
+	case WOODRIGHT3:
+		_img = IMAGEMANAGER->findImage("물통줄타기+3");
+		break;
+	case WOODRIGHT4:
+		_img = IMAGEMANAGER->findImage("물통줄타기+4");
+		break;
+
+	default:
+		break;
+	}
+	
+}
 void player::imageFrame()
 {
 	//프레임 이미지
@@ -255,14 +527,9 @@ void player::imageFrame()
 
 			if (_imageFrame >= _img->getMaxFrameX())
 			{
-				if (_img == IMAGEMANAGER->findImage("아타호만취"))
-				{
-					_imageFrame = 1;
-				}
-				else
-				{
-					_isMotionLive = false;
-				}
+			
+				_isMotionLive = false;
+				
 				_imageFrame = -1;
 			}
 			_frame = 0;
@@ -297,6 +564,8 @@ void player::move()
 	case UPMOVE:
 		_y -= _moveSpeed;
 		break;
+	case FIGHTREADY:
+		break;
 	default:
 		break;
 	}
@@ -312,7 +581,7 @@ void player::move()
 			if (_skillFrame >= 50 )
 			{
 				_img->setFrameX(0);
-				_move = FIGHTMODE;
+				_move = FIGHTREADY;
 				_skillFrame = 0;
 			}
 		}
@@ -340,7 +609,7 @@ void player::move()
 		{	
 			_img->setFrameX(0);
 			_skillFrame = 0;
-			_move = FIGHTMODE;
+			_move = FIGHTREADY;
 		}
 		
 	}
@@ -351,8 +620,7 @@ void player::move()
 		_x += 10;
 		if (_x >= WINSIZEX)
 		{
-			_move = FIGHTMODE;
-			_x = WINSIZEX / 2;
+			_move = FIGHTREADY;
 			_img->setFrameX(0);
 		}
 	}
@@ -367,14 +635,13 @@ void player::move()
 
 		}
 
-
 		if (_img->getFrameX() >= 12 && _move == AREASKILL1)
 		{
 			_isJumping = true;
 			++_skillFrame;
 			if (_skillFrame >= 50)
 			{
-				_move = FIGHTMODE;
+				_move = FIGHTREADY;
 				_jumpPower = 0;
 				_gravity = 0;
 				_isJumping = false;
@@ -410,7 +677,7 @@ void player::move()
 		{	
 			_skillFrame = 0;
 			_img->setFrameX(0);
-			_move = FIGHTMODE;
+			_move = FIGHTREADY;
 		}
 	}
 
@@ -431,6 +698,36 @@ void player::move()
 	{
 		_isMotionLive = true;
 	}
+
+	//EVENT 떨어질 때
+	if (_sceneMode == EVENTMODE)
+	{
+		if (_slopeNum >= 8)
+		{
+			_slopeNum = 8;
+			_slopeNum += 1;
+			_x += 5;
+			_isJumping = true;
+		}
+		if (_slopeNum <= 0)
+		{
+			_slopeNum = 0;
+			_slopeNum -= 1;
+			_x -= 5;
+			_isJumping = true;
+		}
+		if (_y >= WINSIZEY +100)
+		{
+			_isJumping = false;
+			_jumpPower = 5.0;
+			_gravity = 0.2f;
+		}
+	}
+
+
+
+	//렉트 갱신
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
 void player::ropeWalk()

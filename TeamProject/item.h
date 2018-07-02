@@ -25,6 +25,7 @@ struct tagItem
 	int luck;
 	float speed;
 	int critical;
+	string naem;
 	RECT rc;
 	itemKind itemCheck;
 
@@ -39,6 +40,7 @@ struct tagPotion
 	float y;
 	int hp;
 	int mp;
+	string name;
 	RECT rc;
 	potionKind potionCheck;
 
@@ -75,11 +77,12 @@ public:
 	void render();
 	void release();
 	void makeItem(int frameX, int frameY,float x ,float y);
+	void makeItem(const char* itemName, float x ,float y);
 	void makepotion(int frameX, int frameY, float x, float y);
+	void makepotion(const char* potionName, float x, float y);
 	void atahoestat(itemKind itemkind);
 	void smashustat(itemKind itemkind);
 	void potionAbility(potionKind potionkind);
-	void setitem();
 
 	vector<tagItem>				getVItem() { return _vItem; }
 	vector<tagItem>::iterator	getVIItem() { return _viItem; }

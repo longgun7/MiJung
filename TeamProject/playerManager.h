@@ -4,6 +4,7 @@
 #include "player2.h"
 #include "inventory.h"
 
+class itemManager;
 class playerManager :public gameNode
 {
 private:
@@ -14,14 +15,16 @@ private:
 	//인벤토리 벡터
 	vector<inventory*>				_vInven;   
 	vector<inventory*>::iterator    _viInven;	
-
+	itemManager* _itemManager;
 public:
 
 	HRESULT init();
 	void update();
 	void render();
 	void release();
+	void eventMode();
 
+	void itemManagerAdressLink(itemManager* im) { _itemManager = im;}
 	playerManager();
 	~playerManager();
 };
