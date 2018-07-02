@@ -12,7 +12,6 @@ struct tagSkill
 	int count;				// 스킬 카운트
 	float speed;			// 스킬 속도
 	float angle;			// 스킬 각도
-	int level;
 };
 //======= 아타호 개인 스킬 1번 : 호격권 ========
 class atahoTargetSkill1 : public gameNode

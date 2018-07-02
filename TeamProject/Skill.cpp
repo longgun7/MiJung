@@ -27,7 +27,7 @@ void atahoTargetSkill1::update()
 	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill) 
 	{
 		_viTagSkill->count++; 
-		if (_viTagSkill->level > 1)
+		if (_level > 1)
 		{
 			if (_alphaMaxCount <= _alphaCount)
 			{
