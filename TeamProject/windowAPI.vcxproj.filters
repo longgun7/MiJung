@@ -249,12 +249,6 @@
     <ClInclude Include="player2.h">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClInclude>
-    <ClInclude Include="playerManager.h">
-      <Filter>2DFramework\playerManager\player</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>2DFramework\playerManager\player\inventory</Filter>
-    </ClInclude>
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
@@ -266,9 +260,6 @@
     </ClInclude>
     <ClInclude Include="battleScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
-    </ClInclude>
-    <ClInclude Include="itemManager.h">
-      <Filter>playGround\itemManager</Filter>
     </ClInclude>
     <ClInclude Include="bat.h">
       <Filter>playGround\enemy</Filter>
@@ -290,6 +281,21 @@
     </ClInclude>
     <ClInclude Include="enemyManager.h">
       <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>playGround\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="playerManager.h">
+      <Filter>2DFramework\playerManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -386,9 +392,6 @@
     <ClCompile Include="kungpuMan.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="snake.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -428,14 +431,8 @@
     <ClCompile Include="statusScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>playGround\Scene\startScene\playScene\battleScene</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>playGround\playerManager\player</Filter>
@@ -452,6 +449,18 @@
     </ClCompile>
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>playGround\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

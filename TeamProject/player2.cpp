@@ -28,6 +28,7 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³«»ç", "image/player/½º¸¶½´ ÇÇ°Ý.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	//½º¸¶½´ ÁÙÅ¸±â
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÁÙÅ¸±â", "image/player/½º¸¶½´ ÁÙÅ¸±â2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("½º¸¶½´³î¶÷", "image/player/½º¸¶½´ ³î¶÷.bmp", 80, 82, 1, 1, true, RGB(255, 0, 255));
 
 
 	//ÃÊ±â ½º¸¶½´¸ð½À
@@ -265,7 +266,10 @@ void player2::image()
 		break;
 	case S_FALLING:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´³«»ç");
-		break;
+		break;	
+	case S_AFRAID:
+			_img = IMAGEMANAGER->findImage("½º¸¶½´³î¶÷");
+			break;
 	default:
 		break;
 	}
@@ -429,6 +433,13 @@ void player2::s_event()
 		_sceneMode = S_EVENTMODE;
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 2 - 40;
+		_isJumping = false;
+	}
+
+	if (!_isJumping)
+	{
+		_jumpPower = 5.0f;
+		_gravity = 0.2f;
 	}
 
 	//ÁÙÅ¸±â

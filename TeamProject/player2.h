@@ -8,7 +8,7 @@ enum SMOVE
 	S_LEFTMOVE, S_RIGHTMOVE, S_DOWNMOVE, S_UPMOVE,
 	S_SOLOSKILL1, S_SOLOSKILL2, S_SOLOSKILL3,
 	S_AREASKILL1, S_AREASKILL2, S_AREASKILL3,
-	S_FIGHTREADY , S_ROPEWALKING , S_FALLING
+	S_FIGHTREADY , S_ROPEWALKING , S_FALLING , S_AFRAID
 };
 
 enum S_SCENEMODE
@@ -49,6 +49,7 @@ public:
 	void s_event();
 	float getY() { return _y; }
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
+	void setMove(SMOVE move) { _move = move; }
 	player2();
 	~player2();
 };
