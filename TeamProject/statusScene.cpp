@@ -219,9 +219,9 @@ void statusScene::fontUI(void)
 	char str22[] = "¹Ý°Ý";
 	
 
+	
 
-
-	font = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "±Ã¼­");
+	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(getMemDC(), font);
 	SetTextColor(getMemDC(), RGB(255, 255, 255));
 	SetBkMode(getMemDC(), TRANSPARENT);
