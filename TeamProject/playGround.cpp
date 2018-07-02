@@ -24,8 +24,12 @@ HRESULT playGround::init(void)
 
 	_im = new itemManager;
 	_im->init();
+	_PM->itemManagerAdressLink(_im);
 
 	
+	_em = new enemyManager;
+	_em->init();
+
 	SCENEMANAGER->changeScene("스타트씬");
 
 	return S_OK;
@@ -36,6 +40,7 @@ void playGround::release(void)
 	gameNode::release();
 
 	_PM->release();
+	_em->release();
 }
 
 void playGround::update(void)
@@ -43,8 +48,10 @@ void playGround::update(void)
 	gameNode::update();
 
 	_PM->update();
+	_em->update();
 
 	_im->update();
+
 
 	SCENEMANAGER->update();
 
@@ -55,6 +62,8 @@ void playGround::render(void)
 
 	//흰색도화지 한 장 깔아둔다
 	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
+	PatBlt(CAMERA->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
+
 	//============== 이 위로는 건드리지 말자 ==============
 
 	SCENEMANAGER->render();
@@ -63,11 +72,18 @@ void playGround::render(void)
 	//TIMEMANAGER->render(getMemDC());
 
 	_PM->render();
+	_em->render();
 
 	_im->render();
 
+	TIMEMANAGER->render(CAMERA->getCameraDC());
+
+
 	//================이 밑으로도 건드리지 말자 =============
-	this->getBackBuffer()->render(getHDC(), 0, 0);
+	//this->getBackBuffer()->render(getHDC(), 0, 0);
+	CAMERA->render(getMemDC());
+	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERA->getPosition().x, CAMERA->getPosition().y, WINSIZEX, WINSIZEY);
+
 
 }
 

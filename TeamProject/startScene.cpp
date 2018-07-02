@@ -155,7 +155,7 @@ void startScene::fontUI()
 	char str[] = "처음하기";
 	char str2[] = "이어하기";
 	
-	font = CreateFont(25,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "궁서");
+	font = CreateFont(25,0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
 	ofont = (HFONT)SelectObject(getMemDC(), font);
 	SetTextColor(getMemDC(), RGB(255, 255, 255));
 	SetBkMode(getMemDC(), TRANSPARENT);

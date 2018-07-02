@@ -75,3 +75,38 @@ public:
 	vector<tagSkill>getVTagSkill() { return _vTagSkill; }
 	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
 };
+
+//======= 아타호 개인 스킬 3번 : 비기 - 맹호광파참 ========
+class atahoTargetSkill3 : public gameNode
+{
+private:
+	vector<tagSkill>			_vTagSkill;
+	vector<tagSkill>::iterator	_viTagSkill;
+
+	float _range;
+
+	int _currentExp;
+	int _maxExp;
+	int _level;
+
+	int _alphaColor;
+	int _alphaCount;
+	int _alphaMaxCount;
+
+public:
+	atahoTargetSkill3();
+	~atahoTargetSkill3();
+
+	HRESULT init();
+	void realse();
+	void update();
+	void render();
+
+	void addSkill(float x, float y);
+	void moveSkill();
+
+	void chargingSkill12(float x, float y);
+	void chargingSkill3(float x, float y);
+	void chargingSkill4(float x, float y);
+
+};

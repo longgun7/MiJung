@@ -29,6 +29,7 @@ void item::render()
 {
 	for (_viItem = _vItem.begin(); _viItem != _vItem.end(); ++_viItem)
 	{
+		Rectangle(getMemDC(),_viItem->rc.left , _viItem->rc.top , _viItem->rc.right , _viItem->rc.bottom );
 		_image->frameRender(getMemDC(), _viItem->rc.left, _viItem->rc.top, _viItem->frameX, _viItem->frameY);
 	}
 
@@ -53,7 +54,7 @@ void item::makeItem(int frameX, int frameY, float x, float y)
 	item.frameY = frameY;
 
 	if (item.frameX == 0) item.itemCheck = WEAPONE1;
-	else if (item.frameX == 1) item.itemCheck = WEAPONE2;
+	else if (item.frameX == 1) item.itemCheck = WEAPONE2;             //아이템 이미지 번호여부에 따라서 아이템 유형이 바뀌고 아이템 유형에 따라 아타호의 스텟이 정해진다.
 	else if (item.frameX == 2) item.itemCheck = WEAPONE3;
 	else if (item.frameX == 3) item.itemCheck = WEAPONE4;
 	else if (item.frameX == 6) item.itemCheck = ARMOR1;
@@ -77,21 +78,21 @@ void item::makeItem(int frameX, int frameY, float x, float y)
 	
 }
 
-void item::makeItem(const char * itemName,float x ,float y)
+void item::makeItem(string itemName,float x ,float y)
 {
 	if (_vItem.size() > _itemMax) return;
 
 	tagItem item;
 	ZeroMemory(&item, sizeof(item));
 
-	item.atk = INIDATA->loadDataInterger("item", itemName, "공격력");
-	item.luck = INIDATA->loadDataInterger("item", itemName, "운");
-	item.critical = INIDATA->loadDataInterger("item", itemName, "크리티컬확률");
-	item.def = INIDATA->loadDataInterger("item", itemName, "방어력");
-	item.speed = INIDATA->loadDataInterger("item", itemName, "스피드");
-	item.frameX = INIDATA->loadDataInterger("item", itemName, "frameX");
-	item.frameY = INIDATA->loadDataInterger("item", itemName, "frameY");
-	item.name = INIDATA->loadDataString("item", itemName, "이름");
+	item.atk = INIDATA->loadDataInterger("item", itemName.c_str(), "공격력");
+	item.luck = INIDATA->loadDataInterger("item", itemName.c_str(), "운");
+	item.critical = INIDATA->loadDataInterger("item", itemName.c_str(), "크리티컬확률");
+	item.def = INIDATA->loadDataInterger("item", itemName.c_str(), "방어력");
+	item.speed = INIDATA->loadDataInterger("item", itemName.c_str(), "스피드");
+	item.frameX = INIDATA->loadDataInterger("item", itemName.c_str(), "frameX");
+	item.frameY = INIDATA->loadDataInterger("item", itemName.c_str(), "frameY");
+	item.name = INIDATA->loadDataString("item", itemName.c_str(), "이름");
 
 	item.x = x;
 	item.y = y;

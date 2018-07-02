@@ -31,7 +31,9 @@ public:
 	void addData(const char* subject, const char* title, const char* body);
 	void iniSave(const char* fileName);
 
-	char* loadDataString(const char* fileName, const char* subject, const char* title);
+	
 	int loadDataInterger(const char* fileName, const char* subject, const char* title);
+	//char * loadDataString(const char * fileName, const char * subject, const char * title);
+	string loadDataString(const char * fileName, const char * subject, const char * title);
 };
 
