@@ -63,6 +63,18 @@ HRESULT player::init()
 	_moveSpeed  = 5;
 	_isMotionLive = false;
 	_isJumping = false;
+	_atk = 5;
+	_def = 10;
+	_luck = 10;
+	_cri = 5;
+	_speed = 10;
+	_currentHp = 20;
+	_maxHp = 20;
+	_currentMp = 20;
+	_maxMp = 20;
+	_currentExp = 0;
+	_maxExp = 100;
+	_level = 1;
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	return S_OK;
 }
@@ -80,6 +92,7 @@ void player::update()
 		imageFrame();	  //이미지프레임
 	}
 	move();			      //움직임
+	levelCheck();	      //레벨업 여부
 }
 
 void player::render()
@@ -732,6 +745,39 @@ void player::move()
 
 void player::ropeWalk()
 {
+}
+
+void player::levelCheck()
+{
+	//레벨업
+	if (_currentExp >= _maxExp)
+	{
+		_isLevelUp = true;
+	}
+
+	//레벨업 했을 때
+	if (_isLevelUp) 
+	{
+		_atk += 5;          
+		_def += 5;			
+		_luck += 5;			
+		_cri  += 5;			
+		_speed += 5;		
+							
+		_maxHp += 10;		
+		_currentHp = _maxHp;
+							
+		_maxMp += 10;		
+		_currentMp = _maxMp;
+							
+		_currentExp = 0;	
+		_maxExp += 100;	
+
+		_level += 1;
+							
+		_isLevelUp = false;	
+	}
+
 }
 
 

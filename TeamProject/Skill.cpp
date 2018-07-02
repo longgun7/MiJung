@@ -18,9 +18,9 @@ void Skill::realse()
 
 void Skill::update()
 {
-	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill) 
 	{
-		_viTagSkill->count++;
+		_viTagSkill->count++; 
 		if (_viTagSkill->level > 1)
 		{
 			if (_alphaMaxCount <= _alphaCount)

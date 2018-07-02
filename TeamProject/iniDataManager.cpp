@@ -63,7 +63,22 @@ void iniDataManager::iniSave(const char * fileName)
 	_vIniData.clear();
 }
 
-char * iniDataManager::loadDataString(const char * fileName, const char * subject, const char * title)
+int iniDataManager::loadDataInterger(const char * fileName, const char * subject, const char * title)
+{
+	char str[256];
+	char dir[256];
+
+	ZeroMemory(dir, sizeof(dir));
+	sprintf_s(dir, "\\%s.ini", fileName);
+
+
+	GetCurrentDirectory(256, str);
+	strncat_s(str, 256, dir, 254);
+
+	return GetPrivateProfileInt(subject, title, 0, str);
+}
+
+string iniDataManager::loadDataString(const char* fileName, const char* subject, const char* title)
 {
 	char str[256];
 	char dir[256];
@@ -78,20 +93,6 @@ char * iniDataManager::loadDataString(const char * fileName, const char * subjec
 	char data[128] = "";
 	GetPrivateProfileString(subject, title, "", data, 64, str);
 
-	return data;
-}
-
-int iniDataManager::loadDataInterger(const char * fileName, const char * subject, const char * title)
-{
-	char str[256];
-	char dir[256];
-
-	ZeroMemory(dir, sizeof(dir));
-	sprintf_s(dir, "\\%s.ini", fileName);
-
-
-	GetCurrentDirectory(256, str);
-	strncat_s(str, 256, dir, 254);
-
-	return GetPrivateProfileInt(subject, title, 0, str);
+	string temp = data;
+	return temp;
 }

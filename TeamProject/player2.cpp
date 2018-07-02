@@ -92,7 +92,7 @@ void player2::release()
 
 void player2::angleManager(float x , float y)
 {
-	
+
 	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
 		_sceneMode = S_FIELDMODE;
@@ -451,7 +451,6 @@ void player2::s_event()
 		}
 
 	}
-
 }
 
 

@@ -24,6 +24,7 @@ HRESULT playGround::init(void)
 
 	_im = new itemManager;
 	_im->init();
+	_PM->itemManagerAdressLink(_im);
 
 	SCENEMANAGER->changeScene("½ºÅ¸Æ®¾À");
 
@@ -44,6 +45,7 @@ void playGround::update(void)
 	_PM->update();
 
 	_im->update();
+
 
 	SCENEMANAGER->update();
 

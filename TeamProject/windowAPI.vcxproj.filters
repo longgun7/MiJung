@@ -222,9 +222,6 @@
     <ClInclude Include="player2.h">
       <Filter>playGround\playerManager\player</Filter>
     </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>playGround\playerManager\player\inventory</Filter>
-    </ClInclude>
     <ClInclude Include="boss.h">
       <Filter>playGround\enemy</Filter>
     </ClInclude>
@@ -236,9 +233,6 @@
     </ClInclude>
     <ClInclude Include="itemManager.h">
       <Filter>playGround\itemManager</Filter>
-    </ClInclude>
-    <ClInclude Include="playerManager.h">
-      <Filter>playGround\playerManager</Filter>
     </ClInclude>
     <ClInclude Include="bat.h">
       <Filter>playGround\enemy</Filter>
@@ -287,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="Skill.h">
       <Filter>playGround\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="playerManager.h">
+      <Filter>playGround\playerManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -380,9 +377,6 @@
     <ClCompile Include="townScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="playerManager.cpp">
-      <Filter>playGround\playerManager</Filter>
-    </ClCompile>
     <ClCompile Include="player2.cpp">
       <Filter>playGround\playerManager\player</Filter>
     </ClCompile>
@@ -406,9 +400,6 @@
     </ClCompile>
     <ClCompile Include="battleScene.cpp">
       <Filter>playGround\Scene\startScene\playScene\battleScene</Filter>
-    </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>playGround\playerManager\player\inventory</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>playGround\playerManager\player</Filter>
@@ -442,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="Skill.cpp">
       <Filter>playGround\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="playerManager.cpp">
+      <Filter>playGround\playerManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
