@@ -22,6 +22,7 @@ public:
 	void update();
 	void render();
 	void release();
+	void eventMode();
 
 	void itemManagerAdressLink(itemManager* im) { _itemManager = im;}
 	playerManager();

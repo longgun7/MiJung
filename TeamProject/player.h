@@ -60,6 +60,8 @@ public:
 	void ropeWalk();
 	float getX() { return _x; }
 	float getY() { return _y; }
+	SCENEMODE getSCENEMODE() { return _sceneMode; }
+	bool getIsJumping() { return _isJumping; }
 	player();
 	~player();
 };

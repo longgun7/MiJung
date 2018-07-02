@@ -25,9 +25,9 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("스마슈쓰러짐", "image/player/스마슈 쓰러짐.bmp", 90, 61, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈피격", "image/player/스마슈 피격.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈전투상태", "image/player/스마슈 전투상태.bmp", 55, 80, 1, 1, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addFrameImage("스마슈낙사", "image/player/스마슈 피격.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	//스마슈 줄타기
-	IMAGEMANAGER->addFrameImage("스마슈줄타기", "image/player/스마슈 줄타기2.bmp", 240, 82, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스마슈줄타기", "image/player/스마슈 줄타기2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
 
 
 	//초기 스마슈모습
@@ -37,11 +37,14 @@ HRESULT player2::init(float x , float y)
 	_x = x - 60;
 	_y = y;
 	_angle = 0;
+	_jumpPower = 5.0f;
+	_gravity = 0.2f;
 	_imageFrame = 0;
 	_frame = 0;
 	_skillFrame = 0;
 	_moveSpeed = 5;
 	_isMotionLive = false;
+	_isJumping = false;
 	_sceneMode = S_FIELDMODE;
 	return S_OK;
 }
@@ -62,7 +65,7 @@ void player2::render()
 {
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-	
+
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 
@@ -71,10 +74,16 @@ void player2::render()
 
 	sprintf_s(str, "스킬 프레임 : %d", _skillFrame);
 	TextOut(getMemDC(), 100, 100, str, strlen(str));
-	
+
 	char str2[123];
 	sprintf_s(str2, "이미지프레임 : %d", _imageFrame);
 	TextOut(getMemDC(), 100, 150, str2, strlen(str2));
+	//if (_isJumping)
+	{
+		char str3[123];
+		sprintf_s(str3, "점핑여부 : %d", _isJumping);
+		TextOut(getMemDC(), WINSIZEX/2, WINSIZEY/2, str3, strlen(str3));
+	}
 }
 
 void player2::release()
@@ -254,6 +263,9 @@ void player2::image()
 	case S_ROPEWALKING:
 		_img = IMAGEMANAGER->findImage("스마슈줄타기");
 		break;
+	case S_FALLING:
+		_img = IMAGEMANAGER->findImage("스마슈낙사");
+		break;
 	default:
 		break;
 	}
@@ -274,6 +286,7 @@ void player2::imageFrame()
 		if (_imageFrame >= _img->getMaxFrameX())
 		{
 			_imageFrame = -1;
+			_isMotionLive = false;
 		}
 		_frame = 0;
 	}
@@ -410,20 +423,35 @@ void player2::move()
 
 void player2::s_event()
 {
+	//이벤트모드
 	if (KEYMANAGER->isOnceKeyDown('E'))
 	{
 		_sceneMode = S_EVENTMODE;
-	}
-	if (_sceneMode == S_EVENTMODE)
-	{
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 2 - 40;
+	}
+
+	//줄타기
+	if (_sceneMode == S_EVENTMODE)
+	{
 		_move = S_ROPEWALKING;
+		
+		//낙사할 때
+		if (_isJumping)
+		{
+			_y -= _jumpPower;
+			_jumpPower -= _gravity;
+			_x += 3;
+			_img = IMAGEMANAGER->findImage("스마슈낙사");
+		}
+
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 			_isMotionLive = true;
 		}
+
 	}
+
 }
 
 
