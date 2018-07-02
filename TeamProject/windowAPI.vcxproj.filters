@@ -231,9 +231,6 @@
     <ClInclude Include="battleScene.h">
       <Filter>playGround\Scene\startScene\playScene\battleScene</Filter>
     </ClInclude>
-    <ClInclude Include="statusScene.h">
-      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
-    </ClInclude>
     <ClInclude Include="itemManager.h">
       <Filter>playGround\itemManager</Filter>
     </ClInclude>
@@ -278,6 +275,9 @@
     </ClInclude>
     <ClInclude Include="wildBoar.h">
       <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="statusScene.h">
+      <Filter>playGround\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
     <ClInclude Include="statusScene.h">
       <Filter>playGround\Scene\startScene\playScene\statusScene</Filter>
