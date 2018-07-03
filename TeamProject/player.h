@@ -66,6 +66,7 @@ private:
 
 	atahoTargetSkill1* _soloSkillEffect1;
 	atahoTargetSkill2* _soloSkillEffect2;
+	atahoTargetSkill3* _soloSkillEffect3;
 public:
 	
 	HRESULT init();
