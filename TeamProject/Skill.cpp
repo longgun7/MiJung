@@ -741,3 +741,112 @@ void atahoTargetSkill3::fireSkill4(float x, float y)
 
 	_vTagSkill.push_back(targetSkill);
 }
+
+atahoAreaSkill2::atahoAreaSkill2(){}
+
+atahoAreaSkill2::~atahoAreaSkill2(){}
+
+HRESULT atahoAreaSkill2::init()
+{
+	_angle = 0.03f;
+	_start = true;
+	return S_OK;
+}
+
+void atahoAreaSkill2::realse()
+{
+}
+
+void atahoAreaSkill2::update()
+{
+	moveSkill();
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	{
+		_viTagSkill->count++;
+		// 카운트 10 마다
+		if (_viTagSkill->count % 10 == 0)
+		{
+			// 최대 프레임이 된다면
+			if (_viTagSkill->img->getMaxFrameX() <= _viTagSkill->img->getFrameX())
+			{
+				// 5번째 프레임으로 그려준다
+				_viTagSkill->img->setFrameX(5);
+				break;
+			}
+			else
+			{
+				// 한개씩 늘려준다
+				_viTagSkill->img->setFrameX(_viTagSkill->img->getFrameX() + 1);
+			}
+		}
+	}
+}
+
+void atahoAreaSkill2::render()
+{
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	{
+		_viTagSkill->img->frameRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top, _viTagSkill->img->getFrameX(), _viTagSkill->img->getFrameY());
+	}
+}
+
+void atahoAreaSkill2::addSkill(float x, float y)
+{
+	tagSkill targetSkill;
+	ZeroMemory(&targetSkill, sizeof(tagSkill));
+	//스킬 이미지
+	targetSkill.img = new image;
+	targetSkill.img->init("image/effect/AreaSkill2.bmp", 96, 16, 6, 1, true, RGB(255, 0, 255));
+	targetSkill.fireX = targetSkill.x = x;				// 스킬 x좌표, 날라갈 x좌표
+	targetSkill.fireY = targetSkill.y = y;				// 스킬 y좌표, 날라갈 y좌표
+	targetSkill.count = 0;								// 스킬 생성시 카운트 초기
+
+	if (_angle > (PI / 6))								// 스킬 각도가 30도가 넘어가면 
+	{
+		_start = false;									// false
+	}
+	else if (_angle < 0)								// 스킬 각도가 0도 보다 작아지면
+	{		
+		_start = true;									// true
+	}
+	if (_start)
+	{
+		_angle += 0.05f;								// true 면 각도가 늘어난다 (밑으로)
+	}
+	else
+	{
+		_angle -= 0.05f;								// false 면 각도가 줄어든다 (위로)
+	}
+
+	targetSkill.angle = PI / 12;						// 스킬 생성시 발사 좌표 지정
+	targetSkill.angle -= _angle;						// 스킬 각도 조정
+	targetSkill.img->setFrameX(0);						// 스킬 생성시 프레임x좌표 초기화
+	targetSkill.speed = 2.0f;							// 스킬 날아갈 속도
+	_range = 150.0f;									// 스킬 날아갈 최대 길이
+	
+	targetSkill.rc = RectMakeCenter(targetSkill.x, targetSkill.y, targetSkill.img->getFrameWidth(), targetSkill.img->getFrameHeight());
+
+	_vTagSkill.push_back(targetSkill);
+}
+
+void atahoAreaSkill2::moveSkill()
+{
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end();)
+	{
+		// 스킬 이동 좌표
+		_viTagSkill->x += cosf(_viTagSkill->angle)*_viTagSkill->speed;
+		_viTagSkill->y += -sinf(_viTagSkill->angle)*_viTagSkill->speed;
+
+		_viTagSkill->rc = RectMakeCenter(_viTagSkill->x, _viTagSkill->y, _viTagSkill->img->getFrameWidth(), _viTagSkill->img->getFrameHeight());
+		// 스킬이 최대 길이를 넘어가면
+		if (_range < getDistance(_viTagSkill->x, _viTagSkill->y, _viTagSkill->fireX, _viTagSkill->fireY))
+		{
+			// 스킬이 없어진다
+			_viTagSkill = _vTagSkill.erase(_viTagSkill);
+		}
+		else
+		{
+			++_viTagSkill;
+		}
+	}
+}

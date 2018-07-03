@@ -46,6 +46,9 @@ public:
 
 	vector<tagSkill> getVTagSkill() { return _vTagSkill; }
 	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
+
+	int getCurrentExp() { return _currentExp; }
+	int getLevel() { return _level; }
 };
 
 //======= 아타호 개인 스킬 2번 : 맹호스페셜 ========
@@ -75,6 +78,9 @@ public:
 
 	vector<tagSkill>getVTagSkill() { return _vTagSkill; }
 	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
+
+	int getCurrentExp() { return _currentExp; }
+	int getLevel() { return _level; }
 };
 
 //======= 아타호 개인 스킬 3번 : 비기 - 맹호광파참 ========
@@ -115,6 +121,36 @@ public:
 	void fireSkill2(float x, float y);		// 기 발사 2단계 위치 및 초기 값
 	void fireSkill3(float x, float y);		// 기 발사 3단계 위치 및 초기 값
 	void fireSkill4(float x, float y);		// 기 발사 4단계 위치 및 초기 값
+
+	vector<tagSkill>getVTagSkill() { return _vTagSkill; }
+	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
+
+	int getCurrentExp() { return _currentExp; }
+	int getLevel() { return _level; }
+};
+
+class atahoAreaSkill2 : public gameNode
+{
+private:
+	vector<tagSkill>			_vTagSkill;
+	vector<tagSkill>::iterator	_viTagSkill;
+
+	float _range;				// 스킬 최대 길이 제한
+
+	float _angle;				// 스킬 각도
+	bool _start;				// 스킬 각도 제한
+
+public:
+	atahoAreaSkill2();
+	~atahoAreaSkill2();
+
+	HRESULT init();
+	void realse();
+	void update();
+	void render();
+
+	void addSkill(float x, float y);		// 스킬 생성
+	void moveSkill();						// 스킬 움직임
 
 	vector<tagSkill>getVTagSkill() { return _vTagSkill; }
 	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
