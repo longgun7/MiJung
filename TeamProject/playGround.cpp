@@ -54,13 +54,7 @@ void playGround::update(void)
 
 	_im->update();
 
-	if (KEYMANAGER->isOnceKeyDown('B'))
-	{
-		for (int i = 0; i < _em->getSpearMan().size(); ++i)
-		{
-			_em->getSpearMan()[i]->setHitMotion(SPEAR_MAN_HIT);
-		}
-	}
+	
 	SCENEMANAGER->update();
 }
 
