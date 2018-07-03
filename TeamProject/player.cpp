@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "player.h"
-
+#include "enemyManager.h"
 
 HRESULT player::init()
 {
@@ -49,6 +49,7 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("물통줄타기-2", "image/player/물통줄타기-2.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-3", "image/player/물통줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-4", "image/player/물통줄타기-4.bmp", 81, 112, 1, 1, true, RGB(255, 0, 255));
+	
 
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
@@ -108,6 +109,8 @@ void player::update()
 	_soloSkillEffect1->update(); //호격권 스킬이펙트 업데이트
 	_soloSkillEffect2->update(); //맹호스페셜 스킬 이펙트 업데이트
 	_soloSkillEffect3->update(); //에너지파 스킬 이펙트 업데이트
+
+	
 }
 
 void player::render()
@@ -126,6 +129,8 @@ void player::render()
 	_soloSkillEffect1->render(); 
 	_soloSkillEffect2->render();
 	_soloSkillEffect3->render();
+
+	
 }
 
 void player::release()
@@ -452,6 +457,15 @@ void player::playerImage()
 	//스킬 움직임
 	switch (_move)
 	{
+	case BASICSKILL1:
+		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		break;
+	case BASICSKILL2:
+		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		break;
+	case BASICSKILL3:
+		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
+		break;
 	case SOLOSKILL1:
 		_img = IMAGEMANAGER->findImage("아타호호격권");
 		break;
@@ -558,7 +572,7 @@ void player::imageFrame()
 			++_imageFrame;
 
 			_img->setFrameX(_imageFrame);
-
+			
 			if (_imageFrame >= _img->getMaxFrameX())
 			{
 			
@@ -604,10 +618,39 @@ void player::move()
 		break;
 	}
 
-	//스킬 움직임
+	////////////////////////////////////////////////////////
+	//
+	//                     스킬 움직임
+	//
+	////////////////////////////////////////////////////////
+
+
+	////////////////////////////////////
+	//
+	//             기본기
+    //
+	////////////////////////////////////
+
+	//정권찌르기
+	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _move == BASICSKILL1)
+	{
+
+	}
+	
+	//돌려차기
+	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _move == BASICSKILL1)
+	{
+
+	}
+
+	////////////////////////////////////
+	//
+	//              개인기
+    //
+	////////////////////////////////////
 
 	//호격권
-	if (_img == IMAGEMANAGER->findImage("아타호호격권"))
+	if (_img == IMAGEMANAGER->findImage("아타호호격권") && _move == SOLOSKILL1)
 	{
 		if (_img->getFrameX() >= 9)
 		{
@@ -632,7 +675,7 @@ void player::move()
 	}
 	
 	//광파참
-	if (_img == IMAGEMANAGER->findImage("아타호맹호광파참"))
+	if (_img == IMAGEMANAGER->findImage("아타호맹호광파참") && _move == SOLOSKILL2)
 	{
 		
 		++_skillFrame;
@@ -649,6 +692,8 @@ void player::move()
 		{
 			_img->setFrameX(1);
 		}
+
+
 		if (_skillFrame > 120 && _skillFrame < 122)
 		{
 			_soloSkillEffect3->fireAddSkill(_x + 50, _y);
@@ -678,6 +723,12 @@ void player::move()
 			_img->setFrameX(0);
 		}
 	}
+
+	////////////////////////////////////////////
+	// 
+	//                단체기
+    //
+	////////////////////////////////////////////
 
 	//맹호난무
 	if (_img == IMAGEMANAGER->findImage("아타호맹호난무"));
@@ -821,6 +872,7 @@ void player::levelCheck()
 	}
 
 }
+
 
 
 

@@ -9,6 +9,7 @@ enum MOVE
 	LEFT, RIGHT, DOWN, UP,
 	LEFTMOVE, RIGHTMOVE, DOWNMOVE, UPMOVE,
 	//BATTLEMODE
+	BASICSKILL1, BASICSKILL2, BASICSKILL3,
 	SOLOSKILL1, SOLOSKILL2, SOLOSKILL3,
 	AREASKILL1, AREASKILL2, AREASKILL3,
 	DRINK,DRUNKEN, FIGHTREADY,
@@ -22,6 +23,7 @@ enum SCENEMODE
 	FIELDMODE, BATTLEMODE , EVENTMODE
 };
 
+class enemyManager;
 class player :public gameNode
 
 {
@@ -55,9 +57,7 @@ private:
 	bool    _isMotionLive;   //스킬, 상하좌우 움직임 여부
 	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
 	bool    _isLevelUp;		 //레벨업 여부
-
 	
-
 	image*  _img;		     //이미지
 	string	_imageName;      //이미지이름
 	MOVE	_move;		     //움직임 상태
@@ -67,6 +67,9 @@ private:
 	atahoTargetSkill1* _soloSkillEffect1;
 	atahoTargetSkill2* _soloSkillEffect2;
 	atahoTargetSkill3* _soloSkillEffect3;
+
+	//에너미 매니저 전방선언
+	enemyManager* _em;
 public:
 	
 	HRESULT init();
@@ -83,11 +86,14 @@ public:
 	void ropeWalk();
 	void levelCheck();
 
+	
+
 	float getX() { return _x; }
 	float getY() { return _y; }
 	SCENEMODE getSCENEMODE() { return _sceneMode; }
 	bool getIsJumping() { return _isJumping; }
 	int getSlopeNum() { return _slopeNum; }
+	void EnemyManagerAdressLink(enemyManager* em) { _em = em; }
 	
 	player();
 	~player();
