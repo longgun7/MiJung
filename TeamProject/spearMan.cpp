@@ -4,7 +4,7 @@
 
 HRESULT spearMan::init(float x, float y)
 {
-	_img = IMAGEMANAGER->addFrameImage("창병", "image/창병.bmp", 576, 64, 4, 1, true, RGB(255, 0, 255), true);
+	_img = IMAGEMANAGER->addFrameImage("창병", "image/enemy/창병.bmp", 576, 64, 4, 1, true, RGB(255, 0, 255), true);
 
 	_direction = SPEAR_MAN_STAND;
 

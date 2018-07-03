@@ -205,7 +205,6 @@
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="endScene.cpp" />
-    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="fieldScene.cpp" />
     <ClCompile Include="gameNode.cpp" />
