@@ -923,8 +923,8 @@ void atahoAreaSkill3::addFireSkill(float x, float y)
 	ZeroMemory(&areaSkill, sizeof(tagSkill));
 	areaSkill.img = new image;
 	areaSkill.img1 = new image;
-	areaSkill.img->init("AreaSkillFire3.bmp", 192, 48, 4, 1, true, RGB(255, 0, 255));
-	areaSkill.img1->init("AreaSkillStone3.bmp", 64, 48, 2, 1, true, RGB(255, 0, 255));
+	areaSkill.img->init("image/effect/AreaSkillFire3.bmp", 192, 48, 4, 1, true, RGB(255, 0, 255));
+	areaSkill.img1->init("image/effect/AreaSkillStone3.bmp", 64, 48, 2, 1, true, RGB(255, 0, 255));
 
 	_randnumFireX = RND->getFromFloatTo(x - 100, x + 100);
 	if (_randnumFireX > x - 50 && _randnumFireX < x + 50)
@@ -981,7 +981,7 @@ void atahoAreaSkill3::moveSkill()
 {
 	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end();)
 	{
-		_viTagSkill->stoneY -= 10;
+		_viTagSkill->stoneY -= 7;
 
 		_viTagSkill->rc1 = RectMakeCenter(_viTagSkill->stoneX, _viTagSkill->stoneY,
 			_viTagSkill->img1->getFrameWidth(), _viTagSkill->img1->getFrameHeight());
