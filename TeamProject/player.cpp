@@ -251,9 +251,8 @@ void player::battleKeyManager()
 		}
 		if (KEYMANAGER->isOnceKeyDown('G'))
 		{
-			_move = AREASKILL2;
+			_move = DRINK;
 			_isMotionLive = true;
-			_x = WINSIZEX - 200;
 		}
 		if (KEYMANAGER->isOnceKeyDown('H'))
 		{
@@ -770,7 +769,7 @@ void player::move()
 	if (_img == IMAGEMANAGER->findImage("¾ÆÅ¸È£È­µÐ"))
 	{
 		++_skillFrame;
-
+		_x = WINSIZEX - 200;
 		if (_skillFrame < 20)
 		{
 			_imageFrame = -1;
@@ -788,7 +787,7 @@ void player::move()
 			_imageFrame = 2;
 			if (_skillFrame % 5 == 0)
 			{
-				_areaSkillEffect2->addSkill(_x + 40, _y);
+				_areaSkillEffect2->addSkill(_x + 40, _y-2);
 			}
 		}
 		if (_skillFrame > 200)
@@ -823,7 +822,8 @@ void player::move()
 		if (_skillFrame > 100)
 		{
 			_img->setFrameX(0);
-			_move = DRUNKEN;
+			_move = AREASKILL2;
+			_isMotionLive = true;
 			_skillFrame = 0;
 		}
 	}
