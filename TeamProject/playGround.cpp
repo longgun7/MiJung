@@ -19,13 +19,11 @@ HRESULT playGround::init(void)
 	//씬 추가
 	sceneAdd();
 	//플레이어매니저 
-	_PM = new playerManager;
-	_PM->init();
+	_pm = new playerManager;
+	_pm->init();
 
 	_im = new itemManager;
 	_im->init();
-	_PM->itemManagerAdressLink(_im);
-
 	
 	_em = new enemyManager;
 	_em->init();
@@ -33,7 +31,10 @@ HRESULT playGround::init(void)
 	//아타호와 에너미 매니저 전방선언
 	_em->setPlayerAddressLink(_PM->getPlayer());
 	SCENEMANAGER->changeScene("스타트씬");
-
+	
+	//전방선언
+	_pm->itemManagerAdressLink(_im);
+	_pm->getPlayer()->EnemyManagerAdressLink(_em);
 	return S_OK;
 }
 
@@ -41,7 +42,7 @@ void playGround::release(void)
 {
 	gameNode::release();
 
-	_PM->release();
+	_pm->release();
 	_em->release();
 }
 
@@ -49,7 +50,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	_PM->update();
+	_pm->update();
 	_em->update();
 
 	_im->update();
@@ -78,7 +79,7 @@ void playGround::render(void)
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
 
-	_PM->render();
+	_pm->render();
 	_em->render();
 
 	_im->render();

@@ -53,6 +53,7 @@ public:
 	player* getPlayer() { return _ataho; }
 	
 	void itemManagerAdressLink(itemManager* im) { _itemManager = im;}
+	player* getPlayer() { return _ataho; }
 	playerManager();
 	~playerManager();
 };

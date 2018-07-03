@@ -260,7 +260,7 @@ atahoTargetSkill3::~atahoTargetSkill3() {}
 
 HRESULT atahoTargetSkill3::init()
 {
-	IMAGEMANAGER->addFrameImage("TargetSkill3Charging", "TargetSkill3Charging.bmp", 96, 16, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("TargetSkill3Charging", "image/effect/TargetSkill3Charging.bmp", 96, 16, 6, 1, true, RGB(255, 0, 255));
 
 	_currentExp = 0;
 	_maxExp = 100;
@@ -302,13 +302,10 @@ void atahoTargetSkill3::update()
 		for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
 		{
 			_viTagSkill->count++;
-			if (_viTagSkill->count % 2 == 0)
+			_width += 30;
+			if (_width >= 500)
 			{
-				_width += 16;
-				if (_width >= 500)
-				{
-					_width = 500;
-				}
+				_width = 500;
 			}
 
 			if (_viTagSkill->count / 150 > 0)
@@ -320,6 +317,7 @@ void atahoTargetSkill3::update()
 					_viTagSkill->img2->setFrameX(_viTagSkill->img2->getFrameX() - 3);
 					if (_viTagSkill->img->getFrameX() <= 0)
 					{
+						_expCount = 0;
 						_vTagSkill.clear();
 						break;
 					}
@@ -362,8 +360,12 @@ void atahoTargetSkill3::render()
 void atahoTargetSkill3::addSkill(float x, float y)
 {
 	_start = false;
-	_currentExp += 40;									// 스킬 경험치 40 증가
-														// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
+	_expCount++;
+	if (_expCount == 1)
+	{
+		_currentExp += 40;									// 스킬 경험치 40 증가
+	}
+	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
 	{
 		_currentExp = 0;
@@ -633,9 +635,9 @@ void atahoTargetSkill3::fireSkill1(float x, float y)
 	targetSkill.img1 = new image;
 	targetSkill.img2 = new image;
 
-	targetSkill.img->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
-	targetSkill.img1->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
-	targetSkill.img2->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img1->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img2->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
 
 	targetSkill.fireX = targetSkill.x = x;		// fire, x 좌표 결정 - 레이저는 아타호의 rc.right값으로
 	targetSkill.fireY = targetSkill.y = y;		// fire, y 좌표 결정
@@ -662,9 +664,9 @@ void atahoTargetSkill3::fireSkill2(float x, float y)
 	targetSkill.img1 = new image;
 	targetSkill.img2 = new image;
 
-	targetSkill.img->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
-	targetSkill.img1->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
-	targetSkill.img2->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img1->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img2->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
 
 	targetSkill.fireX = targetSkill.x = x;			// fire, x 좌표 결정 - 레이저는 아타호의 rc.right값으로
 	targetSkill.fireY = targetSkill.y = y;			// fire, y 좌표 결정
@@ -691,9 +693,9 @@ void atahoTargetSkill3::fireSkill3(float x, float y)
 	targetSkill.img1 = new image;
 	targetSkill.img2 = new image;
 
-	targetSkill.img->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
-	targetSkill.img1->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
-	targetSkill.img2->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img1->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img2->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
 
 	targetSkill.fireX = targetSkill.x = x;			// fire, x 좌표 결정 - 레이저는 아타호의 rc.right값으로
 	targetSkill.fireY = targetSkill.y = y;			// fire, y 좌표 결정
@@ -720,9 +722,9 @@ void atahoTargetSkill3::fireSkill4(float x, float y)
 	targetSkill.img1 = new image;
 	targetSkill.img2 = new image;
 
-	targetSkill.img->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
-	targetSkill.img1->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
-	targetSkill.img2->init("TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img1->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img2->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
 
 	targetSkill.fireX = targetSkill.x = x;			// fire, x 좌표 결정 - 레이저는 아타호의 rc.right값으로
 	targetSkill.fireY = targetSkill.y = y;			// fire, y 좌표 결정

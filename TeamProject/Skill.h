@@ -87,6 +87,7 @@ private:
 	float _range;			// 최대 길이
 
 	int _count;				// 카운트
+	int _expCount;			// 경험치 카운트
 	int _currentExp;		// 현재 경험치
 	int _maxExp;			// 최대 경험치
 	int _level;				// 현재 레벨

@@ -231,12 +231,6 @@
     <ClInclude Include="battleScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
     </ClInclude>
-    <ClInclude Include="bat.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="dragon.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
@@ -377,9 +371,6 @@
     <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
-    <ClCompile Include="bat.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\enemy</Filter>
     </ClCompile>
@@ -391,9 +382,6 @@
     </ClCompile>
     <ClCompile Include="Skill.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>playGround\enemy</Filter>
     </ClCompile>
     <ClCompile Include="skeleton.cpp">
       <Filter>playGround\enemy\스켈레톤</Filter>
