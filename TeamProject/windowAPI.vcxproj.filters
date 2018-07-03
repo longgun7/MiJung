@@ -231,17 +231,8 @@
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
-    <ClInclude Include="blackUniform.h">
-      <Filter>playGround\enemy\boss</Filter>
-    </ClInclude>
     <ClInclude Include="battleScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
-    </ClInclude>
-    <ClInclude Include="bat.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="dragon.h">
-      <Filter>playGround\enemy</Filter>
     </ClInclude>
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
@@ -371,25 +362,7 @@
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClCompile>
-    <ClCompile Include="bat.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kungpuMan.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="snake.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="spearMan.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="spirit.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="wildBoar.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="item.cpp">
@@ -422,18 +395,8 @@
     <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
-    <ClCompile Include="bat.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>playGround\enemy</Filter>
-      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
-    </ClCompile>
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cameraManager.cpp">
       <Filter>소스 파일</Filter>
@@ -443,9 +406,6 @@
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cameraManager.cpp">
       <Filter>소스 파일</Filter>
@@ -470,6 +430,12 @@
     </ClCompile>
     <ClCompile Include="spearMan.cpp">
       <Filter>playGround\enemy\창병</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

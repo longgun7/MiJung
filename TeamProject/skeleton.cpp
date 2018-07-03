@@ -4,7 +4,7 @@
 
 HRESULT skeleton::init()
 {
-	_img = IMAGEMANAGER->addFrameImage("스켈레톤", "image/스켈레톤.bmp", 270, 360, 5, 5, true, RGB(255, 0, 255), true);	// 스켈레톤 이미지
+	_img = IMAGEMANAGER->addFrameImage("스켈레톤", "image/enemy/스켈레톤.bmp", 270, 360, 5, 5, true, RGB(255, 0, 255), true);	// 스켈레톤 이미지
 
 	_alphaValue = 255;					// 알파 블렌딩의 알파값 255면 불투명, 0에 가까울 수록 투명
 	_direction = SKELETON_STAND;				// 기본 상태는 가만히 있는 상태

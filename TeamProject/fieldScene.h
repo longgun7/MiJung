@@ -10,5 +10,7 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+
+	void fontUI(void);
 };
 

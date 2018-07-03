@@ -35,6 +35,5 @@ void playScene::update(void)
 
 void playScene::render(void)
 {
-	TextOut(getMemDC(), 300, 300, "playScene", strlen("playScene"));
 	
 }
