@@ -24,9 +24,9 @@ void atahoTargetSkill1::realse()
 
 void atahoTargetSkill1::update()
 {
-	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill) 
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
 	{
-		_viTagSkill->count++; 
+		_viTagSkill->count++;
 		if (_level > 1)
 		{
 			if (_alphaMaxCount <= _alphaCount)
@@ -80,8 +80,8 @@ void atahoTargetSkill1::addSkill(float x, float y)
 	targetSkill1.y = y;			// 스킬 y좌표
 	targetSkill1.count = 0;		// 스킬 생성시 카운트 초기화
 	_currentExp += 40;			// 스킬 경험치 40 증가
-	
-	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
+
+								// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
 	{
 		_currentExp = 0;
@@ -126,8 +126,6 @@ HRESULT atahoTargetSkill2::init()
 {
 	IMAGEMANAGER->addFrameImage("TargetSkill2", "image/effect/TargetSkill2.bmp", 128, 16, 8, 1, true, RGB(255, 0, 255));
 
-	_alphaColor = 0;
-	_alphaCount = 0;
 	_currentExp = 0;
 	_maxExp = 100;
 	_level = 1;
@@ -195,8 +193,8 @@ void atahoTargetSkill2::addSkill(float x, float y)
 	targetSkill2.speed = 1.0f;							// 스킬 날아갈 속도
 	_range = 50.0f;										// 스킬 날아갈 최대 길이
 	_currentExp += 40;									// 스킬 경험치 40 증가
-	
-	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
+
+														// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
 	{
 		_currentExp = 0;
@@ -232,21 +230,18 @@ void atahoTargetSkill2::moveSkill()
 	}
 }
 // ============== 아타호 개인 스킬 3번 : 비기 - 맹호광파참 ===============
-atahoTargetSkill3::atahoTargetSkill3(){}
+atahoTargetSkill3::atahoTargetSkill3() {}
 
-atahoTargetSkill3::~atahoTargetSkill3(){}
+atahoTargetSkill3::~atahoTargetSkill3() {}
 
 HRESULT atahoTargetSkill3::init()
 {
 	IMAGEMANAGER->addFrameImage("TargetSkill3Charging", "image/effect/TargetSkill3Charging.bmp", 96, 16, 6, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("TargetSkill3Fire", "image/effect/TargetSkill3Fire.bmp", 288, 32, 6, 1, true, RGB(255, 0, 255));
 
-	_alphaColor = 0;
-	_alphaCount = 0;
 	_currentExp = 0;
 	_maxExp = 100;
 	_level = 1;
-
+	_width = 16;
 	return S_OK;
 }
 
@@ -256,23 +251,55 @@ void atahoTargetSkill3::realse()
 
 void atahoTargetSkill3::update()
 {
-	moveSkill();
-
-	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	if (!_start)
 	{
-		_viTagSkill->count++;
-		if (_viTagSkill->count % 30 == 0)
+		for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
 		{
-			if (_viTagSkill->img->getMaxFrameX() <= _viTagSkill->img->getFrameX())
+			_viTagSkill->count++;
+			if (_viTagSkill->count % 30 == 0)
 			{
-				_viTagSkill->count = 0;
-				_viTagSkill->img->setFrameX(_viTagSkill->img->getMaxFrameX());
-				//_viTagSkill = _vTagSkill.erase(_viTagSkill);
-				break;
+				if (_viTagSkill->img->getMaxFrameX() <= _viTagSkill->img->getFrameX())
+				{
+					_viTagSkill->count = 0;
+					_viTagSkill->img->setFrameX(_viTagSkill->img->getMaxFrameX());
+					break;
+				}
+				else
+				{
+					_viTagSkill->img->setFrameX(_viTagSkill->img->getFrameX() + 1);
+				}
 			}
-			else
+		}
+		moveSkill();
+	}
+
+	else if (_start)
+	{
+		for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+		{
+			_viTagSkill->count++;
+			if (_viTagSkill->count % 2 == 0)
 			{
-				_viTagSkill->img->setFrameX(_viTagSkill->img->getFrameX() + 1);
+				_width += 16;
+				if (_width >= 500)
+				{
+					_width = 500;
+				}
+			}
+
+			if (_viTagSkill->count / 150 > 0)
+			{
+				if (_viTagSkill->count % 5 == 0)
+				{
+					_viTagSkill->img->setFrameX(_viTagSkill->img->getFrameX() - 3);
+					_viTagSkill->img1->setFrameX(_viTagSkill->img1->getFrameX() - 3);
+					_viTagSkill->img2->setFrameX(_viTagSkill->img2->getFrameX() - 3);
+					if (_viTagSkill->img->getFrameX() <= 0)
+					{
+						_vTagSkill.clear();
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -282,22 +309,37 @@ void atahoTargetSkill3::render()
 {
 	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
 	{
-		_viTagSkill->img->frameRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top,
-			_viTagSkill->img->getFrameX(), _viTagSkill->img->getFrameY());
-
+		if (!_start)
+		{
+			_viTagSkill->img->frameRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top,
+				_viTagSkill->img->getFrameX(), _viTagSkill->img->getFrameY());
+		}
+		if (_start)
+		{
+			// 첫번째 그림 랜더
+			_viTagSkill->img->frameRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top,
+				_viTagSkill->img->getFrameX(), _viTagSkill->img->getFrameY());
+			// 두번째 그림 랜더 (이미지 가로 늘리기)
+			_viTagSkill->img1->frameRender(getMemDC(), _viTagSkill->rc1.left, _viTagSkill->rc1.top,
+				_viTagSkill->img1->getFrameX(), _viTagSkill->img1->getFrameY(), _width, _viTagSkill->img1->getFrameHeight());
+			// 세번째 그림 랜더
+			_viTagSkill->img2->frameRender(getMemDC(), _viTagSkill->rc2.left + (_width - _viTagSkill->img2->getFrameWidth()), _viTagSkill->rc2.top,
+				_viTagSkill->img2->getFrameX(), _viTagSkill->img2->getFrameY());
+		}
 		char str[128];
-		sprintf_s(str, "%d, %d, %d, %d", _viTagSkill->count, _viTagSkill->img->getFrameX(), _currentExp, _level);
+		sprintf_s(str, "%d, %d, %d", _viTagSkill->count, _currentExp, _level);
 		TextOut(getMemDC(), 200, 200, str, strlen(str));
 
 		char str1[128];
-		sprintf_s(str1, "%f", _viTagSkill[0].x);
+		sprintf_s(str1, "%d, %d, %d", _viTagSkill->rc.left, _viTagSkill->rc1.left, _viTagSkill->rc2.left);
 		TextOut(getMemDC(), 200, 150, str1, strlen(str1));
 	}
 }
-// 스킬 생성
+// 스킬 생성 기모으기 시작
 void atahoTargetSkill3::addSkill(float x, float y)
 {
-	_currentExp += 8;									// 스킬 경험치 40 증가
+	_start = false;
+	_currentExp += 40;									// 스킬 경험치 40 증가
 														// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
 	{
@@ -363,35 +405,39 @@ void atahoTargetSkill3::moveSkill()
 		else ++_viTagSkill;
 	}
 }
-
+// 차징 1,2단계 위치 및 각도
 void atahoTargetSkill3::chargingSkill12(float x, float y)
 {
 	tagSkill targetSkill3[4];
 	for (int i = 0; i < 4; ++i)
 	{
 		ZeroMemory(&targetSkill3[i], sizeof(tagSkill));
-		//스킬 이미지
+		// 스킬 이미지
 		targetSkill3[i].img = new image;
 		targetSkill3[i].img = IMAGEMANAGER->findImage("TargetSkill3Charging");
+		// 오른쪽
 		if (i % 4 == 0)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x + 50;								// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x + 50;						// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 위쪽
 		else if (i % 4 == 1)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x;							// 스킬 x좌표, 날라갈 x좌표
-			targetSkill3[i].y = targetSkill3[i].fireY = y - 50;								// 스킬 y좌표, 날라갈 y좌표
+			targetSkill3[i].y = targetSkill3[i].fireY = y - 50;						// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 왼쪽
 		else if (i % 4 == 2)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x - 50;							// 스킬 x좌표, 날라갈 x좌표
-			targetSkill3[i].y = targetSkill3[i].fireY = y;								// 스킬 y좌표, 날라갈 y좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x - 50;						// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].y = targetSkill3[i].fireY = y;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 아래쪽
 		else if (i % 4 == 3)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x;								// 스킬 x좌표, 날라갈 x좌표
-			targetSkill3[i].y = targetSkill3[i].fireY = y + 50;							// 스킬 y좌표, 날라갈 y좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x;							// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].y = targetSkill3[i].fireY = y + 50;						// 스킬 y좌표, 날라갈 y좌표
 		}
 
 		targetSkill3[i].count = 0;							// 스킬 생성시 카운트 초기화
@@ -402,11 +448,10 @@ void atahoTargetSkill3::chargingSkill12(float x, float y)
 		_range = 50.0f;										// 스킬 날아갈 최대 길이
 
 		targetSkill3[i].rc = RectMakeCenter(targetSkill3[i].x, targetSkill3[i].y, targetSkill3[i].img->getFrameWidth(), targetSkill3[i].img->getFrameHeight());
-
 		_vTagSkill.push_back(targetSkill3[i]);
 	}
 }
-
+// 차징 3단계 위치 및 각도
 void atahoTargetSkill3::chargingSkill3(float x, float y)
 {
 	tagSkill targetSkill3[6];
@@ -416,35 +461,41 @@ void atahoTargetSkill3::chargingSkill3(float x, float y)
 		//스킬 이미지
 		targetSkill3[i].img = new image;
 		targetSkill3[i].img = IMAGEMANAGER->findImage("TargetSkill3Charging");
+		// 오른쪽
 		if (i % 6 == 0)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x + 50;								// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x + 50;						// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 오른쪽 대각선 위
 		else if (i % 6 == 1)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x + 25;							// 스킬 x좌표, 날라갈 x좌표
-			targetSkill3[i].y = targetSkill3[i].fireY = y - 40;								// 스킬 y좌표, 날라갈 y좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x + 25;						// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].y = targetSkill3[i].fireY = y - 40;						// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 왼쪽 대각선 위
 		else if (i % 6 == 2)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x - 25;							// 스킬 x좌표, 날라갈 x좌표
-			targetSkill3[i].y = targetSkill3[i].fireY = y - 40;								// 스킬 y좌표, 날라갈 y좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x - 25;						// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].y = targetSkill3[i].fireY = y - 40;						// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 왼쪽
 		else if (i % 6 == 3)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x - 50;								// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x - 50;						// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 왼쪽 대각선 아래
 		else if (i % 6 == 4)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x - 25;								// 스킬 x좌표, 날라갈 x좌표
-			targetSkill3[i].y = targetSkill3[i].fireY = y + 40;							// 스킬 y좌표, 날라갈 y좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x - 25;						// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].y = targetSkill3[i].fireY = y + 40;						// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 오른쪽 대각선 아래
 		else if (i % 6 == 5)
 		{
-			targetSkill3[i].x = targetSkill3[i].fireX = x + 25;								// 스킬 x좌표, 날라갈 x좌표
-			targetSkill3[i].y = targetSkill3[i].fireY = y + 40;							// 스킬 y좌표, 날라갈 y좌표
+			targetSkill3[i].x = targetSkill3[i].fireX = x + 25;						// 스킬 x좌표, 날라갈 x좌표
+			targetSkill3[i].y = targetSkill3[i].fireY = y + 40;						// 스킬 y좌표, 날라갈 y좌표
 		}
 
 		targetSkill3[i].count = 0;							// 스킬 생성시 카운트 초기화
@@ -457,7 +508,7 @@ void atahoTargetSkill3::chargingSkill3(float x, float y)
 		_vTagSkill.push_back(targetSkill3[i]);
 	}
 }
-
+// 차징 4단계 위치 및 각도
 void atahoTargetSkill3::chargingSkill4(float x, float y)
 {
 	tagSkill targetSkill3[8];
@@ -467,41 +518,49 @@ void atahoTargetSkill3::chargingSkill4(float x, float y)
 		//스킬 이미지
 		targetSkill3[i].img = new image;
 		targetSkill3[i].img = IMAGEMANAGER->findImage("TargetSkill3Charging");
+		// 오른쪽
 		if (i % 8 == 0)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x + 50;						// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 오른쪽 대각선 위쪽
 		else if (i % 8 == 1)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x + 25;							// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y - 25;								// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 위쪽
 		else if (i % 8 == 2)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x;							// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y - 50;								// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 왼쪽 대각선 위쪽
 		else if (i % 8 == 3)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x - 25;								// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y - 25;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 왼쪽
 		else if (i % 8 == 4)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x - 50;								// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 왼쪽 대각선 아래
 		else if (i % 8 == 5)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x - 25;								// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y + 25;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 아래쪽
 		else if (i % 8 == 6)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x;								// 스킬 x좌표, 날라갈 x좌표
 			targetSkill3[i].y = targetSkill3[i].fireY = y + 50;							// 스킬 y좌표, 날라갈 y좌표
 		}
+		// 오른쪽 대각선 아래
 		else if (i % 8 == 7)
 		{
 			targetSkill3[i].x = targetSkill3[i].fireX = x + 25;								// 스킬 x좌표, 날라갈 x좌표
@@ -517,4 +576,143 @@ void atahoTargetSkill3::chargingSkill4(float x, float y)
 
 		_vTagSkill.push_back(targetSkill3[i]);
 	}
+}
+
+void atahoTargetSkill3::fireAddSkill(float x, float y)
+{
+	_start = true;
+	_width = 0;
+	// 스킬 레벨당 레이저 결정
+	if (_level == 1)
+	{
+		fireSkill1(x, y);
+	}
+	else if (_level == 2)
+	{
+		fireSkill2(x, y);
+	}
+	else if (_level == 3)
+	{
+		fireSkill3(x, y);
+	}
+	else if (_level == 4)
+	{
+		fireSkill4(x, y);
+	}
+}
+
+void atahoTargetSkill3::fireSkill1(float x, float y)
+{
+	tagSkill targetSkill;
+	ZeroMemory(&targetSkill, sizeof(tagSkill));
+	//스킬 이미지
+	targetSkill.img = new image;
+	targetSkill.img1 = new image;
+	targetSkill.img2 = new image;
+
+	targetSkill.img->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img1->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img2->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+
+	targetSkill.fireX = targetSkill.x = x;		// fire, x 좌표 결정 - 레이저는 아타호의 rc.right값으로
+	targetSkill.fireY = targetSkill.y = y;		// fire, y 좌표 결정
+
+	targetSkill.img->setFrameX(0);				// 첫번째 그림 아타호 손 앞 그림
+	targetSkill.img1->setFrameX(1);				// 두번째 그림 레이저 늘어나야 하는 그림
+	targetSkill.img2->setFrameX(2);				// 세번째 그림 레이저 끝의 그림
+
+	targetSkill.count = 0;						// 카운터 시작시 초기화
+
+	targetSkill.rc = RectMakeCenter(targetSkill.x, targetSkill.y, targetSkill.img->getFrameWidth(), targetSkill.img->getFrameHeight());
+	targetSkill.rc1 = RectMakeCenter(targetSkill.x + targetSkill.img1->getFrameWidth(), targetSkill.y, targetSkill.img1->getFrameWidth(), targetSkill.img1->getFrameHeight());
+	targetSkill.rc2 = RectMakeCenter(targetSkill.x + (targetSkill.img2->getFrameWidth() * 2), targetSkill.y, targetSkill.img2->getFrameWidth(), targetSkill.img2->getFrameHeight());
+
+	_vTagSkill.push_back(targetSkill);
+}
+
+void atahoTargetSkill3::fireSkill2(float x, float y)
+{
+	tagSkill targetSkill;
+	ZeroMemory(&targetSkill, sizeof(tagSkill));
+	//스킬 이미지
+	targetSkill.img = new image;
+	targetSkill.img1 = new image;
+	targetSkill.img2 = new image;
+
+	targetSkill.img->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img1->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+	targetSkill.img2->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));			// 각 이미지 생성
+
+	targetSkill.fireX = targetSkill.x = x;			// fire, x 좌표 결정 - 레이저는 아타호의 rc.right값으로
+	targetSkill.fireY = targetSkill.y = y;			// fire, y 좌표 결정
+
+	targetSkill.img->setFrameX(3);					// 첫번째 그림 아타호 손 앞 그림
+	targetSkill.img1->setFrameX(4);					// 두번째 그림 레이저 늘어나야 하는 그림
+	targetSkill.img2->setFrameX(5);					// 세번째 그림 레이저 끝의 그림
+
+	targetSkill.count = 0;							// 카운터 시작시 초기화
+
+	targetSkill.rc = RectMakeCenter(targetSkill.x, targetSkill.y, targetSkill.img->getFrameWidth(), targetSkill.img->getFrameHeight());
+	targetSkill.rc1 = RectMakeCenter(targetSkill.x + targetSkill.img1->getFrameWidth(), targetSkill.y, targetSkill.img1->getFrameWidth(), targetSkill.img1->getFrameHeight());
+	targetSkill.rc2 = RectMakeCenter(targetSkill.x + (targetSkill.img2->getFrameWidth() * 2), targetSkill.y, targetSkill.img2->getFrameWidth(), targetSkill.img2->getFrameHeight());
+
+	_vTagSkill.push_back(targetSkill);
+}
+
+void atahoTargetSkill3::fireSkill3(float x, float y)
+{
+	tagSkill targetSkill;
+	ZeroMemory(&targetSkill, sizeof(tagSkill));
+	//스킬 이미지
+	targetSkill.img = new image;
+	targetSkill.img1 = new image;
+	targetSkill.img2 = new image;
+
+	targetSkill.img->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img1->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img2->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+
+	targetSkill.fireX = targetSkill.x = x;			// fire, x 좌표 결정 - 레이저는 아타호의 rc.right값으로
+	targetSkill.fireY = targetSkill.y = y;			// fire, y 좌표 결정
+
+	targetSkill.img->setFrameX(9);					// 첫번째 그림 아타호 손 앞 그림
+	targetSkill.img1->setFrameX(10);				// 두번째 그림 레이저 늘어나야 하는 그림
+	targetSkill.img2->setFrameX(11);				// 세번째 그림 레이저 끝의 그림
+
+	targetSkill.count = 0;							// 카운터 시작시 초기화
+
+	targetSkill.rc = RectMakeCenter(targetSkill.x, targetSkill.y, targetSkill.img->getFrameWidth(), targetSkill.img->getFrameHeight());
+	targetSkill.rc1 = RectMakeCenter(targetSkill.x + targetSkill.img1->getFrameWidth(), targetSkill.y, targetSkill.img1->getFrameWidth(), targetSkill.img1->getFrameHeight());
+	targetSkill.rc2 = RectMakeCenter(targetSkill.x + (targetSkill.img2->getFrameWidth() * 2), targetSkill.y, targetSkill.img2->getFrameWidth(), targetSkill.img2->getFrameHeight());
+
+	_vTagSkill.push_back(targetSkill);
+}
+
+void atahoTargetSkill3::fireSkill4(float x, float y)
+{
+	tagSkill targetSkill;
+	ZeroMemory(&targetSkill, sizeof(tagSkill));
+	//스킬 이미지
+	targetSkill.img = new image;
+	targetSkill.img1 = new image;
+	targetSkill.img2 = new image;
+
+	targetSkill.img->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img1->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+	targetSkill.img2->init("image/effect/TargetSkill3Fire.bmp", 288, 32, 18, 1, true, RGB(255, 0, 255));
+
+	targetSkill.fireX = targetSkill.x = x;			// fire, x 좌표 결정 - 레이저는 아타호의 rc.right값으로
+	targetSkill.fireY = targetSkill.y = y;			// fire, y 좌표 결정
+
+	targetSkill.img->setFrameX(15);					// 첫번째 그림 아타호 손 앞 그림
+	targetSkill.img1->setFrameX(16);				// 두번째 그림 레이저 늘어나야 하는 그림
+	targetSkill.img2->setFrameX(17);				// 세번째 그림 레이저 끝의 그림
+
+	targetSkill.count = 0;							// 카운터 시작시 초기화
+
+	targetSkill.rc = RectMakeCenter(targetSkill.x, targetSkill.y, targetSkill.img->getFrameWidth(), targetSkill.img->getFrameHeight());
+	targetSkill.rc1 = RectMakeCenter(targetSkill.x + targetSkill.img1->getFrameWidth(), targetSkill.y, targetSkill.img1->getFrameWidth(), targetSkill.img1->getFrameHeight());
+	targetSkill.rc2 = RectMakeCenter(targetSkill.x + (targetSkill.img2->getFrameWidth() * 2), targetSkill.y, targetSkill.img2->getFrameWidth(), targetSkill.img2->getFrameHeight());
+
+	_vTagSkill.push_back(targetSkill);
 }
