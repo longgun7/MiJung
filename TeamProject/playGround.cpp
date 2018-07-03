@@ -29,12 +29,11 @@ HRESULT playGround::init(void)
 	_em->init();
 
 	//아타호와 에너미 매니저 전방선언
-	_em->setPlayerAddressLink(_pm->getPlayer());
+	
 	SCENEMANAGER->changeScene("스타트씬");
 	
 	//전방선언
 	_pm->itemManagerAdressLink(_im);
-	_pm->getPlayer()->EnemyManagerAdressLink(_em);
 	return S_OK;
 }
 
