@@ -1,6 +1,6 @@
 #pragma once
 #include "gameNode.h"
-
+#include "Skill.h"
 
 enum SMOVE
 {
@@ -36,6 +36,8 @@ private:
 	SMOVE	_move;		  //움직임 상태
 	RECT	_rc;		  //렉트
 	S_SCENEMODE _sceneMode; //씬에 따라 행동이 바뀜
+
+	atahoTargetSkill2* _soloSkillEffect;
 public:
 	
 	HRESULT init(float x , float y);

@@ -7,11 +7,11 @@
 struct tagInventory
 {
 	string name;
-	int _atk;
-	int _def;
-	int _luck;
-	int _cri;
-	int _speed;
+	int atk;
+	int def;
+	int luck;
+	int cri;
+	int speed;
 	
 };
 
@@ -23,11 +23,23 @@ private:
 	player2* _smasyu;   //스마슈
 	itemManager* _itemManager; //아이템 매니저 전방선언
 
-	vector<tagInventory>  _vItemInven; //무기, 방어구 담는 벡터
-	vector<tagInventory>::iterator  _viItemInven;
+	//아타호
+	vector<tagInventory>  _vA_WeapInven; //무기 담는 벡터
+	vector<tagInventory>::iterator  _viA_WeapInven;
 
-	vector<tagInventory>  _vPortionInven; //포션 담는 벡터
-	vector<tagInventory>::iterator  _viPortionInven;
+	vector<tagInventory>  _vA_ArmorInven; //방어구 담는 벡터
+	vector<tagInventory>::iterator  _viA_ArmorInven;
+
+	//스마슈
+	vector<tagInventory>  _vS_WeapInven; //무기 담는 벡터
+	vector<tagInventory>::iterator  _viS_WeapInven;
+
+	vector<tagInventory>  _vS_ArmorInven; //방어구 담는 벡터
+	vector<tagInventory>::iterator  _viS_ArmorInven;
+
+	//포션
+	vector<tagInventory>  _vPorInven; //포션 담는 벡터
+	vector<tagInventory>::iterator  _viPorInven;
 
 public:
 
