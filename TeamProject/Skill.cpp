@@ -180,8 +180,10 @@ void atahoTargetSkill2::render()
 // 스킬 생성
 void atahoTargetSkill2::addSkill(float x, float y)
 {
+
 	tagSkill targetSkill2;
 	ZeroMemory(&targetSkill2, sizeof(tagSkill));
+	
 	//스킬 이미지
 	targetSkill2.img = new image;
 	targetSkill2.img = IMAGEMANAGER->findImage("TargetSkill2");
