@@ -50,8 +50,10 @@ public:
 	void eventMode();
 
 	void getItemValue(); //받을 아이템 종류
+	player* getPlayer() { return _ataho; }
 	
 	void itemManagerAdressLink(itemManager* im) { _itemManager = im;}
+	player* getPlayer() { return _ataho; }
 	playerManager();
 	~playerManager();
 };

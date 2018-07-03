@@ -91,9 +91,6 @@
     <Filter Include="playGround\enemy">
       <UniqueIdentifier>{b6d2bf47-2689-4720-8d75-bcc743b86f7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\enemy\boss">
-      <UniqueIdentifier>{9c6fb1a2-822e-4055-b125-7c6854d794c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2DFramework\Scene\startScene\playScene\statusScene">
       <UniqueIdentifier>{6a2162e7-76f2-484a-9ac8-8080dc0f61a5}</UniqueIdentifier>
     </Filter>
@@ -261,24 +258,6 @@
     <ClInclude Include="spearMan.h">
       <Filter>playGround\enemy\창병</Filter>
     </ClInclude>
-    <ClInclude Include="cameraManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="itemManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="tileNode.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>playGround\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="itemManager.h">
-      <Filter>2DFramework\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="playerManager.h">
-      <Filter>2DFramework\playerManager</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -368,9 +347,6 @@
     <ClCompile Include="item.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="townScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\townScene</Filter>
     </ClCompile>
@@ -391,6 +367,9 @@
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\playerManager\player</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
@@ -436,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="battleScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

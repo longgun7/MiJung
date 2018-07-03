@@ -27,6 +27,7 @@ private:
 	int _currentExp;	// 스킬 현재 경험치
 	int _maxExp;		// 스킬 최대 경험치
 	int _level;			// 스킬 레벨
+	int _width;
 
 	int _alphaColor;	// 알파 색
 	int _alphaCount;	// 알파 카운트
@@ -86,6 +87,7 @@ private:
 	float _range;			// 최대 길이
 
 	int _count;				// 카운트
+	int _expCount;			// 경험치 카운트
 	int _currentExp;		// 현재 경험치
 	int _maxExp;			// 최대 경험치
 	int _level;				// 현재 레벨
