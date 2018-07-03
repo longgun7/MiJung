@@ -12,6 +12,7 @@ struct tagSkill
 	RECT rc2;				// 아타호 3단계 개인기 레이저 상자 추가
 	float fireX, fireY;		// 스킬 시작 좌표
 	float x, y;				// 스킬 좌표
+	float stoneX, stoneY;	// 아타호 3단계 전체기 돌 좌표
 	bool start;				// 스킬 시작
 	int count;				// 스킬 카운트
 	float speed;			// 스킬 속도
@@ -154,6 +155,35 @@ public:
 	void render();
 
 	void addSkill(float x, float y);		// 스킬 생성
+	void moveSkill();						// 스킬 움직임
+
+	vector<tagSkill>getVTagSkill() { return _vTagSkill; }
+	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
+};
+
+class atahoAreaSkill3 : public gameNode
+{
+private:
+	vector<tagSkill>			_vTagSkill;
+	vector<tagSkill>::iterator	_viTagSkill;
+
+	float _randnumFireX;
+	float _randnumFireY;
+	float _randnumStoneX;
+	float _randnumStoneY;
+
+	int _randStone;
+
+public:
+	atahoAreaSkill3();
+	~atahoAreaSkill3();
+
+	HRESULT init();
+	void realse();
+	void update();
+	void render();
+
+	void addFireSkill(float x, float y);		// 스킬 생성
 	void moveSkill();						// 스킬 움직임
 
 	vector<tagSkill>getVTagSkill() { return _vTagSkill; }

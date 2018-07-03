@@ -811,14 +811,14 @@ void atahoAreaSkill2::render()
 
 void atahoAreaSkill2::addSkill(float x, float y)
 {
-	tagSkill targetSkill;
-	ZeroMemory(&targetSkill, sizeof(tagSkill));
+	tagSkill areaSkill;
+	ZeroMemory(&areaSkill, sizeof(tagSkill));
 	//스킬 이미지
-	targetSkill.img = new image;
-	targetSkill.img->init("image/effect/AreaSkill2.bmp", 96, 16, 6, 1, true, RGB(255, 0, 255));
-	targetSkill.fireX = targetSkill.x = x;				// 스킬 x좌표, 날라갈 x좌표
-	targetSkill.fireY = targetSkill.y = y;				// 스킬 y좌표, 날라갈 y좌표
-	targetSkill.count = 0;								// 스킬 생성시 카운트 초기
+	areaSkill.img = new image;
+	areaSkill.img->init("image/effect/AreaSkill2.bmp", 96, 16, 6, 1, true, RGB(255, 0, 255));
+	areaSkill.fireX = areaSkill.x = x;				// 스킬 x좌표, 날라갈 x좌표
+	areaSkill.fireY = areaSkill.y = y;				// 스킬 y좌표, 날라갈 y좌표
+	areaSkill.count = 0;								// 스킬 생성시 카운트 초기
 
 	if (_angle > (PI / 6))								// 스킬 각도가 30도가 넘어가면 
 	{
@@ -837,15 +837,15 @@ void atahoAreaSkill2::addSkill(float x, float y)
 		_angle -= 0.05f;								// false 면 각도가 줄어든다 (위로)
 	}
 
-	targetSkill.angle = PI / 12;						// 스킬 생성시 발사 좌표 지정
-	targetSkill.angle -= _angle;						// 스킬 각도 조정
-	targetSkill.img->setFrameX(0);						// 스킬 생성시 프레임x좌표 초기화
-	targetSkill.speed = 2.0f;							// 스킬 날아갈 속도
+	areaSkill.angle = PI / 12;						// 스킬 생성시 발사 좌표 지정
+	areaSkill.angle -= _angle;						// 스킬 각도 조정
+	areaSkill.img->setFrameX(0);						// 스킬 생성시 프레임x좌표 초기화
+	areaSkill.speed = 2.0f;							// 스킬 날아갈 속도
 	_range = 150.0f;									// 스킬 날아갈 최대 길이
 	
-	targetSkill.rc = RectMakeCenter(targetSkill.x, targetSkill.y, targetSkill.img->getFrameWidth(), targetSkill.img->getFrameHeight());
+	areaSkill.rc = RectMakeCenter(areaSkill.x, areaSkill.y, areaSkill.img->getFrameWidth(), areaSkill.img->getFrameHeight());
 
-	_vTagSkill.push_back(targetSkill);
+	_vTagSkill.push_back(areaSkill);
 }
 
 void atahoAreaSkill2::moveSkill()
@@ -861,6 +861,133 @@ void atahoAreaSkill2::moveSkill()
 		if (_range < getDistance(_viTagSkill->x, _viTagSkill->y, _viTagSkill->fireX, _viTagSkill->fireY))
 		{
 			// 스킬이 없어진다
+			_viTagSkill = _vTagSkill.erase(_viTagSkill);
+		}
+		else
+		{
+			++_viTagSkill;
+		}
+	}
+}
+
+atahoAreaSkill3::atahoAreaSkill3(){}
+
+atahoAreaSkill3::~atahoAreaSkill3(){}
+
+HRESULT atahoAreaSkill3::init()
+{
+	return S_OK;
+}
+
+void atahoAreaSkill3::realse()
+{
+}
+
+void atahoAreaSkill3::update()
+{
+	moveSkill();
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	{
+		_viTagSkill->count++;
+
+		if (_viTagSkill->count % 10 == 0)
+		{
+			if (_viTagSkill->img->getMaxFrameX() <= _viTagSkill->img->getFrameX())
+			{
+				_viTagSkill = _vTagSkill.erase(_viTagSkill);
+				break;
+			}
+			else
+			{
+				_viTagSkill->img->setFrameX(_viTagSkill->img->getFrameX() + 1);
+			}
+		}
+	}
+}
+
+void atahoAreaSkill3::render()
+{
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	{
+		_viTagSkill->img->frameRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top,
+			_viTagSkill->img->getFrameX(), _viTagSkill->img->getFrameY());
+
+		_viTagSkill->img1->frameRender(getMemDC(), _viTagSkill->rc1.left, _viTagSkill->rc1.top,
+			_viTagSkill->img1->getFrameX(), _viTagSkill->img1->getFrameY());
+	}
+}
+
+void atahoAreaSkill3::addFireSkill(float x, float y)
+{
+	tagSkill areaSkill;
+	ZeroMemory(&areaSkill, sizeof(tagSkill));
+	areaSkill.img = new image;
+	areaSkill.img1 = new image;
+	areaSkill.img->init("AreaSkillFire3.bmp", 192, 48, 4, 1, true, RGB(255, 0, 255));
+	areaSkill.img1->init("AreaSkillStone3.bmp", 64, 48, 2, 1, true, RGB(255, 0, 255));
+
+	_randnumFireX = RND->getFromFloatTo(x - 100, x + 100);
+	if (_randnumFireX > x - 50 && _randnumFireX < x + 50)
+	{
+		_randnumFireY = RND->getInt(2);
+		if (_randnumFireY == 0)
+		{
+			_randnumFireY = y - 50;
+		}
+		else if (_randnumFireY == 1)
+		{
+			_randnumFireY = y + 50;
+		}
+	}
+	else
+	{
+		_randnumFireY = y;
+	}
+
+	areaSkill.x = _randnumFireX;
+	areaSkill.y = _randnumFireY;
+
+	_randnumStoneX = RND->getFromFloatTo(x - 100, x + 100);
+	if (_randnumStoneX > x - 50 && _randnumStoneX < x + 50)
+	{
+		_randnumStoneY = RND->getInt(2);
+		if (_randnumStoneY == 0)
+		{
+			_randnumStoneY = y - 50;
+		}
+		else if (_randnumStoneY == 1)
+		{
+			_randnumStoneY = y + 50;
+		}
+	}
+	else
+	{
+		_randnumStoneY = y;
+	}
+	_randStone = RND->getInt(2);
+	areaSkill.img->setFrameX(_randStone);
+
+	areaSkill.stoneX = _randnumStoneX;
+	areaSkill.stoneY = _randnumStoneY;
+	areaSkill.count = 0;
+
+	areaSkill.rc = RectMakeCenter(areaSkill.x, areaSkill.y, areaSkill.img->getFrameWidth(), areaSkill.img->getFrameHeight());
+	areaSkill.rc1 = RectMakeCenter(areaSkill.stoneX, areaSkill.stoneY, areaSkill.img1->getFrameWidth(), areaSkill.img1->getFrameHeight());
+
+	_vTagSkill.push_back(areaSkill);
+}
+
+void atahoAreaSkill3::moveSkill()
+{
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end();)
+	{
+		_viTagSkill->stoneY -= 10;
+
+		_viTagSkill->rc1 = RectMakeCenter(_viTagSkill->stoneX, _viTagSkill->stoneY,
+			_viTagSkill->img1->getFrameWidth(), _viTagSkill->img1->getFrameHeight());
+
+		if (_viTagSkill->stoneY < 0)
+		{
 			_viTagSkill = _vTagSkill.erase(_viTagSkill);
 		}
 		else
