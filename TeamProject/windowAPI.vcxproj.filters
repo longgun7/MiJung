@@ -270,6 +270,24 @@
     <ClInclude Include="spearMan.h">
       <Filter>playGround\enemy\창병</Filter>
     </ClInclude>
+    <ClInclude Include="cameraManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>playGround\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>2DFramework\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="playerManager.h">
+      <Filter>2DFramework\playerManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -353,6 +371,27 @@
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClCompile>
+    <ClCompile Include="bat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="kungpuMan.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="snake.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="spearMan.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="spirit.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="wildBoar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -381,9 +420,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>playGround\playerManager\player</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
     <ClCompile Include="bat.cpp">
@@ -407,6 +443,27 @@
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>playGround\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>2DFramework\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>2DFramework\Item</Filter>
     </ClCompile>
     <ClCompile Include="skeleton.cpp">
       <Filter>playGround\enemy\스켈레톤</Filter>

@@ -13,24 +13,46 @@ itemManager::~itemManager()
 
 HRESULT itemManager::init()
 {
-	_weapon = new item;
-	_weapon->init(5);
+	_a_Weapon = new item;
+	_a_Weapon->init(3);
+
+	_a_Armor = new item;
+	_a_Armor->init(3);
 
 	_potion = new item;
 	_potion->init(1);
+
+	_s_Weapon = new item;
+	_s_Weapon->init(3);
+
+	_s_Armor = new item;
+	_s_Armor->init(3);
 	
 
 	setItem();
 
-	_weapon->makeItem("맨주먹", 100, 100);
-	_weapon->makeItem("술", 200, 100);
-	_weapon->makeItem("노주", 300, 100);
-	_weapon->makeItem("특급주", 400, 100);
-	_weapon->makeItem("닌자도", 500, 100);
-	
-	
+	_a_Weapon->makeItem("맨주먹", 100, 100);
+	_a_Weapon->makeItem("술", 200, 100);
+	_a_Weapon->makeItem("노주", 300, 100);
+	_a_Weapon->makeItem("특급주", 400, 100);
 
-	_potion->makepotion("약초", 100, 200);
+	_a_Armor->makeItem("인민복", 100, 150);
+	_a_Armor->makeItem("권법가 도복", 200, 150);
+	_a_Armor->makeItem("달인의 도복", 300, 150);
+	_a_Armor->makeItem("호랑이 도복", 400, 150);
+
+	_s_Weapon->makeItem("닌자도", 100, 200);
+	_s_Weapon->makeItem("청룡도", 200, 200);
+	_s_Weapon->makeItem("불타는 마검", 300, 200);
+	_s_Weapon->makeItem("그레이트소드", 400, 200);
+
+	_s_Armor->makeItem("스마슈타이츠", 100, 250);
+	_s_Armor->makeItem("가죽 갑옷", 200, 250);
+	_s_Armor->makeItem("흑장속", 300, 250);
+	_s_Armor->makeItem("철편 갑옷", 400, 250);
+	
+	_potion->makepotion("약초", 100, 300);
+	_potion->makepotion("마법의 물약", 200, 300);
 
 	return S_OK;
 }
@@ -41,19 +63,25 @@ void itemManager::release()
 
 void itemManager::update()
 {
-	_weapon->update();
+	_a_Weapon->update();
+	_a_Armor->update();
+	_s_Weapon->update();
+	_s_Armor->update();
 	_potion->update();
 }
 
 void itemManager::render()
 {
-	_weapon->render();
+	_a_Weapon->render();
+	_a_Armor->render();
+	_s_Weapon->render();
+	_s_Armor->render();
 	_potion->render();
 
 	for (int i = 0; i < 1; ++i)
 	{
 		char str[128];
-		sprintf_s(str, "%d", _weapon->getVItem()[i].luck);
+		sprintf_s(str, "%d", _a_Weapon->getVItem()[i].luck);
 		TextOut(getMemDC(), 100 + 100 * i, 150, str, strlen(str));
 	}
 

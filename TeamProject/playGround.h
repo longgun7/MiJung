@@ -6,6 +6,7 @@
 #include "itemManager.h"
 #include "enemyManager.h"
 
+
 //환세이취호전 시작
 class playGround : public gameNode
 {
@@ -15,7 +16,7 @@ private:
 	playerManager * _PM;
 	itemManager* _im;
 	enemyManager* _em;
-
+	
 public:
 	virtual HRESULT init(void);
 	virtual void release(void);

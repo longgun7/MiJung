@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "Skill.h"
 
 
 enum MOVE
@@ -38,6 +39,13 @@ private:
 	int     _currentExp;   //exp
 	int		_maxExp;       //총 exp
 	int     _level;        //level
+    int		_imageFrame;     //이미지프레임
+	int		_frame;		     //프레임
+	int     _skillFrame;     //스킬프레임
+	int		_moveSpeed;	     //스피드
+	int     _slopeFrame;     //기울기 프레임
+	int     _slopeNum;		 //기울기 번호
+	int     _rndDirection;   //랜덤으로 기울기
 
 	float	_x, _y;		     //좌표
 	float   _gravity;	     //중력
@@ -48,13 +56,7 @@ private:
 	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
 	bool    _isLevelUp;		 //레벨업 여부
 
-	int		_imageFrame;     //이미지프레임
-	int		_frame;		     //프레임
-	int     _skillFrame;     //스킬프레임
-	int		_moveSpeed;	     //스피드
-	int     _slopeFrame;     //기울기 프레임
-	int     _slopeNum;		 //기울기 번호
-	int     _rndDirection;   //랜덤으로 기울기
+	
 
 	image*  _img;		     //이미지
 	string	_imageName;      //이미지이름
@@ -62,8 +64,11 @@ private:
 	RECT	_rc;		     //렉트
 	SCENEMODE _sceneMode;	 //씬에 따라 움직임
 
+	atahoTargetSkill1* _soloSkillEffect1;
+	atahoTargetSkill2* _soloSkillEffect2;
+	atahoTargetSkill3* _soloSkillEffect3;
 public:
-
+	
 	HRESULT init();
 	void update();
 	void render();
@@ -82,7 +87,7 @@ public:
 	float getY() { return _y; }
 	SCENEMODE getSCENEMODE() { return _sceneMode; }
 	bool getIsJumping() { return _isJumping; }
-	
+	int getSlopeNum() { return _slopeNum; }
 	
 	player();
 	~player();

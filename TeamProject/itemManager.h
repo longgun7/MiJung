@@ -5,9 +5,13 @@
 class itemManager : public gameNode
 {
 private:
-	item* _weapon;
+	item* _a_Weapon;
+	item* _a_Armor;
 	item* _potion;
-
+	
+	item* _s_Weapon;
+	item* _s_Armor;
+	
 public:
 	itemManager();
 	~itemManager();
@@ -18,8 +22,10 @@ public:
 	void render();
 	void setItem();
 
-	item* getWeapon() { return _weapon; }
+	item* getA_Weapon() { return _a_Weapon; }
+	item* getA_Armor() { return _a_Armor; }
+	item* getS_Weapon() { return _s_Weapon; }
+	item* getS_Armor() { return _s_Armor; }
 	item* getPortion() { return _potion; }
-	
 };
 
