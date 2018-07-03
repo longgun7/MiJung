@@ -88,7 +88,6 @@ void itemManager::render()
 	char str[128];
 	sprintf_s(str, "%d", _potion->getVPotion()[0].hp);
 	TextOut(getMemDC(), 100, 250, str, strlen(str));
-	
 }
 
 void itemManager::setItem()

@@ -16,7 +16,7 @@ private:
 	typedef vector<skeleton*>::iterator viSkeleton;			// 벡터 접근자인 iterator 선언
 
 	typedef vector<spearMan*> vSpearMan;					// spearMan을 담는 벡터 선언
-	typedef vector<spearMan*>::iterator viSpearMan;			// 벡터 접근자는 iterator 선언
+	typedef vector<spearMan*>::iterator viSpearMan;			// 벡터 접근자는 iterator 선언 
 
 private:
 
@@ -29,6 +29,7 @@ private:
 	player* _ataho;
 	player2* _smasu;
 	skeleton* _skeleton;		// 스켈레톤 함수를 사용하기 위해 선언
+	spearMan * _spearMan;
 
 public:
 
@@ -55,4 +56,3 @@ public:
 	enemyManager();
 	~enemyManager();
 };
-
