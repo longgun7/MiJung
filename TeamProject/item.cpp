@@ -126,7 +126,7 @@ void item::makepotion(int frameX, int frameY, float x, float y)
 
 }
 
-void item::makepotion(const char * potionName, float x, float y)
+void item::makepotion(string potionName, float x, float y)
 {
 
 	if (_vPotion.size() > _itemMax) return;
@@ -134,12 +134,11 @@ void item::makepotion(const char * potionName, float x, float y)
 	tagPotion potion;
 	ZeroMemory(&potion, sizeof(potion));
 
-	potion.frameX = INIDATA->loadDataInterger("item", potionName, "frameX");
-	potion.frameY = INIDATA->loadDataInterger("item", potionName, "frameY");
-
-	potion.hp = INIDATA->loadDataInterger("item", potionName, "HP회복");
-	potion.mp = INIDATA->loadDataInterger("item", potionName, "MP회복");
-	potion.name = INIDATA->loadDataString("item", potionName, "이름");
+	potion.frameX = INIDATA->loadDataInterger("item", potionName.c_str(), "frameX");
+	potion.frameY = INIDATA->loadDataInterger("item", potionName.c_str(), "frameY");
+	potion.hp = INIDATA->loadDataInterger("item", potionName.c_str(), "HP회복");
+	potion.mp = INIDATA->loadDataInterger("item", potionName.c_str(), "MP회복");
+	potion.name = INIDATA->loadDataString("item", potionName.c_str(), "이름");
 
 	potion.x = x;
 	potion.y = y;
@@ -255,6 +254,16 @@ void item::potionAbility(potionKind potionkind)
 		_mp = 5;
 		break;
 	}
+}
+
+void item::reMoveItem(int arrNum)
+{
+	_vItem.erase(_vItem.begin() + arrNum);
+}
+
+void item::reMovePotion(int arrNum)
+{
+	_vPotion.erase(_vPotion.begin() + arrNum);
 }
 
 

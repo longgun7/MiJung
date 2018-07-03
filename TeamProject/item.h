@@ -79,11 +79,12 @@ public:
 	void makeItem(int frameX, int frameY,float x ,float y);
 	void makeItem(string itemName, float x ,float y);
 	void makepotion(int frameX, int frameY, float x, float y);
-	void makepotion(const char* potionName, float x, float y);
+	void makepotion(string potionName, float x, float y);
 	void atahoestat(itemKind itemkind);
 	void smashustat(itemKind itemkind);
 	void potionAbility(potionKind potionkind);
-	
+	void reMoveItem(int arrNum);
+	void reMovePotion(int arrNum);
 	vector<tagItem>				getVItem() { 
 		return _vItem; 
 	}
