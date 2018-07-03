@@ -29,12 +29,11 @@ HRESULT playGround::init(void)
 	_em->init();
 
 	//아타호와 에너미 매니저 전방선언
-	_em->setPlayerAddressLink(_pm->getPlayer());
+	
 	SCENEMANAGER->changeScene("스타트씬");
 	
 	//전방선언
 	_pm->itemManagerAdressLink(_im);
-	_pm->getPlayer()->EnemyManagerAdressLink(_em);
 	return S_OK;
 }
 
@@ -55,13 +54,7 @@ void playGround::update(void)
 
 	_im->update();
 
-	if (KEYMANAGER->isOnceKeyDown('B'))
-	{
-		for (int i = 0; i < _em->getSpearMan().size(); ++i)
-		{
-			_em->getSpearMan()[i]->setHitMotion(SPEAR_MAN_HIT);
-		}
-	}
+	
 	SCENEMANAGER->update();
 }
 

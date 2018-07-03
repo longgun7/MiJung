@@ -89,6 +89,12 @@ HRESULT player::init()
 	//에너지파
 	_soloSkillEffect3 = new atahoTargetSkill3;
 	_soloSkillEffect3->init();
+	//광역스킬2
+	_areaSkillEffect2 = new atahoAreaSkill2;
+	_areaSkillEffect2->init();
+	//광역스킬3
+	_areaSkillEffect3 = new atahoAreaSkill3;
+	_areaSkillEffect3->init();
 	return S_OK;
 }
 
@@ -109,7 +115,8 @@ void player::update()
 	_soloSkillEffect1->update(); //호격권 스킬이펙트 업데이트
 	_soloSkillEffect2->update(); //맹호스페셜 스킬 이펙트 업데이트
 	_soloSkillEffect3->update(); //에너지파 스킬 이펙트 업데이트
-
+	_areaSkillEffect2->update();
+	_areaSkillEffect3->update();
 	
 }
 
@@ -129,6 +136,8 @@ void player::render()
 	_soloSkillEffect1->render(); 
 	_soloSkillEffect2->render();
 	_soloSkillEffect3->render();
+	_areaSkillEffect2->render();
+	_areaSkillEffect3->render();
 
 	
 }
@@ -242,9 +251,8 @@ void player::battleKeyManager()
 		}
 		if (KEYMANAGER->isOnceKeyDown('G'))
 		{
-			_move = AREASKILL2;
+			_move = DRINK;
 			_isMotionLive = true;
-			_x = WINSIZEX - 200;
 		}
 		if (KEYMANAGER->isOnceKeyDown('H'))
 		{
@@ -761,7 +769,7 @@ void player::move()
 	if (_img == IMAGEMANAGER->findImage("아타호화둔"))
 	{
 		++_skillFrame;
-
+		_x = WINSIZEX - 200;
 		if (_skillFrame < 20)
 		{
 			_imageFrame = -1;
@@ -774,18 +782,39 @@ void player::move()
 		{
 			_imageFrame = 1;
 		}
-		if (_skillFrame > 60 && _skillFrame < 100)
+		if (_skillFrame > 60 && _skillFrame < 200)
 		{
 			_imageFrame = 2;
+			if (_skillFrame % 5 == 0)
+			{
+				_areaSkillEffect2->addSkill(_x + 40, _y-2);
+			}
 		}
-		if (_skillFrame > 100)
+		if (_skillFrame > 200)
 		{	
 			_skillFrame = 0;
 			_img->setFrameX(0);
 			_move = FIGHTREADY;
 		}
 	}
-
+	//노익장 대폭발
+	if (_img == IMAGEMANAGER->findImage("아타호노익장대폭발"))
+	{
+		++_skillFrame;
+		if (_skillFrame % 4 == 0)
+		{
+			_areaSkillEffect3->addFireSkill(_x, _y);
+		}
+		if (_img->getFrameX() >= _img->getMaxFrameX())
+		{
+			_img->setFrameX(_img->getMaxFrameX());
+		}
+		if (_skillFrame >= 150)
+		{
+			_move = FIGHTREADY;
+			_skillFrame = 0;
+		}
+	}
 	//술마시기
 	if (_img == IMAGEMANAGER->findImage("아타호술마시기"))
 	{
@@ -793,7 +822,8 @@ void player::move()
 		if (_skillFrame > 100)
 		{
 			_img->setFrameX(0);
-			_move = DRUNKEN;
+			_move = AREASKILL2;
+			_isMotionLive = true;
 			_skillFrame = 0;
 		}
 	}
