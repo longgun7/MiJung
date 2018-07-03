@@ -16,6 +16,7 @@ HRESULT townScene::init(void)
 	IMAGEMANAGER->addImage("테두리", "image/ui/게임테두리.bmp", 1000, 550, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("기본status", "image/ui/기본status.bmp", 650, 200, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("infoStatus", "image/ui/infoStatus.bmp", 350, 200, true, RGB(255, 0, 255));
+	SCENEMANAGER->addScene("술집씬", new barScnen);
 	return S_OK;
 }
 
@@ -33,15 +34,31 @@ void townScene::update(void)
 	{
 		SCENEMANAGER->changeScene("필드씬");
 	}
-	//if (KEYMANAGER->isOnceKeyDown(VK_F3))
-	//{
-	//	SCENEMANAGER->changeScene("술집씬");
-	//}
+	if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	{
+		SCENEMANAGER->changeScene("술집씬");
+	}
 }
 
 void townScene::render(void)
 {
-	IMAGEMANAGER->findImage("테두리")->render(getMemDC(), 0, 0);
-	IMAGEMANAGER->findImage("기본status")->render(getMemDC(), 0, 550);
-	IMAGEMANAGER->findImage("infoStatus")->render(getMemDC(), 650, 550);
+	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
+	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
+	IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
+	fontUI();
+}
+
+void townScene::fontUI(void)
+{
+	HFONT font, ofont;
+	char str[] = "타운씬";
+	
+
+	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+	SetTextColor(CAMERA->getCameraDC(), RGB(0, 0, 1));
+	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 -100, str, strlen(str));
+	SelectObject(CAMERA->getCameraDC(), ofont);
+	DeleteObject(font);
 }

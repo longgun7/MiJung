@@ -347,6 +347,9 @@
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClCompile>
+    <ClCompile Include="spearMan.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -383,9 +386,6 @@
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cameraManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -395,11 +395,38 @@
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>playGround\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>2DFramework\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>2DFramework\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
     <ClCompile Include="skeleton.cpp">
       <Filter>playGround\enemy\스켈레톤</Filter>
     </ClCompile>
     <ClCompile Include="spearMan.cpp">
       <Filter>playGround\enemy\창병</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>

@@ -1,5 +1,6 @@
 #pragma once
 #include"gameNode.h"
+#include"barScnen.h"
 class townScene : public gameNode
 {
 public:
@@ -11,5 +12,6 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
+	void fontUI(void);
 };
 
