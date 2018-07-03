@@ -121,7 +121,7 @@ void player::render()
 	//기울기 프레임
 	char str[125];
 	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
-	TextOut(getMemDC(), 100, 500, str, strlen(str));
+	TextOut(getMemDC(), 100, 410, str, strlen(str));
 	//스킬 이펙트 렌더
 	_soloSkillEffect1->render(); 
 	_soloSkillEffect2->render();
@@ -686,13 +686,14 @@ void player::move()
 		{
 			_y -= _jumpPower;
 			_jumpPower -= _gravity;
-
+			
 		}
 
 		if (_img->getFrameX() >= 12 && _move == AREASKILL1)
 		{
 			_isJumping = true;
 			++_skillFrame;
+			_soloSkillEffect2->addSkill(_x+60, _y-29);
 			if (_skillFrame >= 50)
 			{
 				_move = FIGHTREADY;

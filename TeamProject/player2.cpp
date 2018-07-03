@@ -47,6 +47,10 @@ HRESULT player2::init(float x , float y)
 	_isMotionLive = false;
 	_isJumping = false;
 	_sceneMode = S_FIELDMODE;
+
+	//스마슈 스킬
+	_soloSkillEffect = new atahoTargetSkill2;
+	_soloSkillEffect->init();
 	return S_OK;
 }
 
@@ -60,6 +64,8 @@ void player2::update()
 	}
 	move();
 	s_event(); //스마슈 이벤트
+	//스킬
+	_soloSkillEffect->update();
 }
 
 void player2::render()
@@ -74,17 +80,19 @@ void player2::render()
 	char str[125];
 
 	sprintf_s(str, "스킬 프레임 : %d", _skillFrame);
-	TextOut(getMemDC(), 100, 100, str, strlen(str));
+	TextOut(getMemDC(), 100, 350, str, strlen(str));
 
 	char str2[123];
 	sprintf_s(str2, "이미지프레임 : %d", _imageFrame);
-	TextOut(getMemDC(), 100, 150, str2, strlen(str2));
+	TextOut(getMemDC(), 100, 370, str2, strlen(str2));
 	//if (_isJumping)
 	{
 		char str3[123];
 		sprintf_s(str3, "점핑여부 : %d", _isJumping);
-		TextOut(getMemDC(), WINSIZEX/2, WINSIZEY/2, str3, strlen(str3));
+		TextOut(getMemDC(), 100, 390, str3, strlen(str3));
 	}
+	//스킬
+	_soloSkillEffect->render();
 }
 
 void player2::release()
@@ -313,6 +321,7 @@ void player2::move()
 			_imageFrame = 1;
 			_img->setFrameX(1);
 			_x += 20;
+			_soloSkillEffect->addSkill(_x, _y -  35);
 		}
 
 		if (_img->getFrameX() >= _img->getMaxFrameX())
@@ -333,15 +342,18 @@ void player2::move()
 			_imageFrame = 3;
 			_x += 20;
 			_img->setFrameX(2);
+			_soloSkillEffect->addSkill(_x, _y );
 		}
 		if (_img->getFrameX() >= _img->getMaxFrameX())
 		{
 			_imageFrame = _img->getMaxFrameX();
+			_imageFrame = 0;
 		}
 		if (_skillFrame > 150)
 		{
 			_img->setFrameX(0);
 			_move = S_FIGHTREADY;
+			
 		}
 	}
 	
@@ -370,16 +382,18 @@ void player2::move()
 	//용오름 
 	if (_img == IMAGEMANAGER->findImage("스마슈용오름"))
 	{
+		
 		++_skillFrame;
 		_x = WINSIZEX - 300;
 		_y = WINSIZEY / 2;
-		if (_img->getFrameX() >= _img->getMaxFrameX())
+		if (_img->getFrameX() >= _img->getMaxFrameX() )
 		{
-			_imageFrame = _img->getMaxFrameX();
+			_imageFrame = 0;
 		}
 		if (_skillFrame > 200)
 		{
 			_img->setFrameX(0);
+			_skillFrame = 0;
 			_move = S_FIGHTREADY;
 		}
 	}
