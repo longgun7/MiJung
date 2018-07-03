@@ -82,12 +82,12 @@ HRESULT player::init()
 	//호격권
 	_soloSkillEffect1 = new atahoTargetSkill1;
 	_soloSkillEffect1->init();
-	
-
 	//맹호스페셜
 	_soloSkillEffect2 = new atahoTargetSkill2;
 	_soloSkillEffect2->init();
-	
+	//에너지파
+	_soloSkillEffect3 = new atahoTargetSkill3;
+	_soloSkillEffect3->init();
 	return S_OK;
 }
 
@@ -107,6 +107,7 @@ void player::update()
 	levelCheck();	      //레벨업 여부
 	_soloSkillEffect1->update(); //호격권 스킬이펙트 업데이트
 	_soloSkillEffect2->update(); //맹호스페셜 스킬 이펙트 업데이트
+	_soloSkillEffect3->update(); //에너지파 스킬 이펙트 업데이트
 }
 
 void player::render()
@@ -121,9 +122,10 @@ void player::render()
 	char str[125];
 	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
 	TextOut(getMemDC(), 100, 500, str, strlen(str));
-
-	_soloSkillEffect1->render(); //스킬 이펙트 렌더
+	//스킬 이펙트 렌더
+	_soloSkillEffect1->render(); 
 	_soloSkillEffect2->render();
+	_soloSkillEffect3->render();
 }
 
 void player::release()
@@ -628,6 +630,7 @@ void player::move()
 	{
 		_soloSkillEffect1->addSkill(WINSIZEX - 200, WINSIZEY / 2);
 	}
+	
 	//광파참
 	if (_img == IMAGEMANAGER->findImage("아타호맹호광파참"))
 	{
@@ -637,16 +640,25 @@ void player::move()
 		if (_skillFrame < 50)
 		{
 			_img->setFrameX(0);
+			if (_skillFrame % 10 == 0)
+			{
+				_soloSkillEffect3->addSkill(_x-20, _y+5);
+			}
 		}
-		if (_skillFrame > 50 &&_skillFrame < 100)
+		if (_skillFrame > 50 &&_skillFrame < 150)
 		{
 			_img->setFrameX(1);
 		}
-		if(_skillFrame > 100 && _skillFrame < 200)
+		if (_skillFrame > 120 && _skillFrame < 122)
+		{
+			_soloSkillEffect3->fireAddSkill(_x + 50, _y);
+		}
+		if(_skillFrame > 122 && _skillFrame < 300)
 		{
 			_img->setFrameX(2);
+			
 		}
-		if (_skillFrame > 200)
+		if (_skillFrame > 300)
 		{	
 			_img->setFrameX(0);
 			_skillFrame = 0;
