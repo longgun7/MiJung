@@ -3,11 +3,11 @@
 
 enum DIRECTION	// 상태
 {
-	RIGHT_MOVE,	// 오른쪽 이동
-	LEFT_MOVE,	// 왼쪽 이동
-	UP_MOVE,	// 위로 이동
-	DOWN_MOVE,	// 아래로 이동
-	STAND		// 가만히
+	SKELETON_RIGHT_MOVE,	// 오른쪽 이동
+	SKELETON_LEFT_MOVE,	// 왼쪽 이동
+	SKELETON_UP_MOVE,	// 위로 이동
+	SKELETON_DOWN_MOVE,	// 아래로 이동
+	SKELETON_STAND		// 가만히
 };
 
 class skeleton : public gameNode
@@ -22,7 +22,6 @@ private:
 	float _y;				// 스켈레톤 y좌표
 	float _speed;			// 스켈레톤 스피드
 
-	int _index;				// 프레임 감을 인덱스
 	int _count;				// 프레임 감을 카운트
 	int _moveCount;			// 일정 시간마다 움직임을 위한 카운트
 	int _currentFrameX;		// 현재 프레임 X

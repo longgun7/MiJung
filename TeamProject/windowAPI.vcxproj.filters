@@ -91,15 +91,6 @@
     <Filter Include="playGround\enemy">
       <UniqueIdentifier>{b6d2bf47-2689-4720-8d75-bcc743b86f7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\enemy\stage1">
-      <UniqueIdentifier>{15bde7ad-93cb-487f-a87d-4e3c5e9f9b90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\enemy\stage2">
-      <UniqueIdentifier>{12596731-6c4b-4c21-9046-7f448d90d311}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\enemy\stage3">
-      <UniqueIdentifier>{63441269-00f5-40ea-86a7-7f3002b4118b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\enemy\boss">
       <UniqueIdentifier>{9c6fb1a2-822e-4055-b125-7c6854d794c6}</UniqueIdentifier>
     </Filter>
@@ -114,6 +105,12 @@
     </Filter>
     <Filter Include="2DFramework\camera">
       <UniqueIdentifier>{e1b6cccb-ca68-410d-86eb-f3e62476ea38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\스켈레톤">
+      <UniqueIdentifier>{ca392800-fa52-4bfb-b15a-eb5afec75351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\창병">
+      <UniqueIdentifier>{0cb991e4-cbe4-40b8-bb4d-f1657b2a2f91}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -216,31 +213,10 @@
     <ClInclude Include="item.h">
       <Filter>2DFramework\Item</Filter>
     </ClInclude>
-    <ClInclude Include="bat.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="dragon.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kungpuMan.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="skeletonWizard.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="snake.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="spearMan.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="spirit.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="statusScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="wildBoar.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
@@ -252,23 +228,14 @@
     <ClInclude Include="playerManager.h">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>2DFramework\playerManager\player\inventory</Filter>
-    </ClInclude>
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
-    </ClInclude>
-    <ClInclude Include="boss.h">
-      <Filter>playGround\enemy</Filter>
     </ClInclude>
     <ClInclude Include="blackUniform.h">
       <Filter>playGround\enemy\boss</Filter>
     </ClInclude>
     <ClInclude Include="battleScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
-    </ClInclude>
-    <ClInclude Include="itemManager.h">
-      <Filter>playGround\itemManager</Filter>
     </ClInclude>
     <ClInclude Include="bat.h">
       <Filter>playGround\enemy</Filter>
@@ -279,17 +246,29 @@
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
+    <ClInclude Include="itemManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="itemManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="skeleton.h">
-      <Filter>playGround\enemy\stage3</Filter>
+    <ClInclude Include="Skill.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>playGround\enemy</Filter>
+    <ClInclude Include="tileNode.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton.h">
+      <Filter>playGround\enemy\스켈레톤</Filter>
+    </ClInclude>
+    <ClInclude Include="spearMan.h">
+      <Filter>playGround\enemy\창병</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,31 +353,10 @@
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClCompile>
-    <ClCompile Include="bat.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="kungpuMan.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="snake.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="spearMan.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="spirit.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="wildBoar.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="townScene.cpp">
@@ -416,26 +374,11 @@
     <ClCompile Include="player2.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
-    <ClCompile Include="skeletonWizard.cpp">
-      <Filter>playGround\enemy\stage3</Filter>
-    </ClCompile>
-    <ClCompile Include="dragon.cpp">
-      <Filter>playGround\enemy\stage3</Filter>
-    </ClCompile>
-    <ClCompile Include="skeleton.cpp">
-      <Filter>playGround\enemy\stage3</Filter>
-    </ClCompile>
     <ClCompile Include="statusScene.cpp">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>playGround\Scene\startScene\playScene\battleScene</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>playGround\playerManager\player</Filter>
@@ -452,6 +395,24 @@
     </ClCompile>
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton.cpp">
+      <Filter>playGround\enemy\스켈레톤</Filter>
+    </ClCompile>
+    <ClCompile Include="spearMan.cpp">
+      <Filter>playGround\enemy\창병</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
