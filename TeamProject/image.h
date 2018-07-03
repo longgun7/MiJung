@@ -136,6 +136,9 @@ public:
 	// 뿌려줄 DC, 뿌려줄 x좌표, 뿌려줄 y좌표, 현재 프레임 x, 현재 프레임 y, 투명 불투명 값(낮을수록 투명도가 높아짐)
 	void alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 
+	//"확대축소기능" 프레임 렌더함수 뿌려줄DC,  X좌표(left), Y좌표(top), 인덱스X, 인덱스Y, 확대축소할 가로크기, 확대축소할 세로크기, 투명 불투명 값(낮을수록 투명도가 높아짐)
+	void alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int stretchWidth, int stretchHeight, BYTE alpha);
+
 	//뿌려줄 DC, 그려줄 영역, 루프 방향 x, 루프 방향 y, 투명 불투명 수치(낮을수록 투명도가 높아짐)
 	void alphaLoopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY, BYTE alpha);
 

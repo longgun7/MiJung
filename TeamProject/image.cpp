@@ -764,7 +764,37 @@ void image::alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, i
 			_imageInfo->frameWidth, _imageInfo->frameHeight, _blendFunc);
 	}
 }
+//"확대축소기능" 프레임 렌더함수 뿌려줄DC,  X좌표(left), Y좌표(top), 인덱스X, 인덱스Y, 확대축소할 가로크기, 확대축소할 세로크기, 투명 불투명 값(낮을수록 투명도가 높아짐)
+void image::alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int stretchWidth, int stretchHeight, BYTE alpha)
+{
+	if (!_blend) return;
 
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (_trans)
+	{
+		//알파 블렌드 먹일 이미지를 복사한다
+		BitBlt(_blendImage->hMemDC, 0, 0, stretchWidth, stretchHeight,
+			hdc, destX, destY, SRCCOPY);
+
+		GdiTransparentBlt(_blendImage->hMemDC, 0, 0, stretchWidth, stretchHeight,
+			_imageInfo->hMemDC, currentFrameX * _imageInfo->frameWidth, currentFrameY * _imageInfo->frameHeight, _imageInfo->frameWidth, _imageInfo->frameHeight, _transColor);
+
+		AlphaBlend(hdc, destX, destY,
+			stretchWidth, stretchHeight,
+			_blendImage->hMemDC, 0, 0,
+			stretchWidth, stretchHeight, _blendFunc);
+	}
+	else
+	{
+		AlphaBlend(hdc, destX, destY, stretchWidth, stretchHeight,
+			_imageInfo->hMemDC, currentFrameX * _imageInfo->frameWidth, currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth, _imageInfo->frameHeight, _blendFunc);
+
+	}
+}
 void image::alphaLoopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY, BYTE alpha)
 {
 	if (!_blend) return;
