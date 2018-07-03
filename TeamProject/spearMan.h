@@ -24,7 +24,6 @@ private:
 	int _frameY;			// 프레임 Y
 	int _alphaValue;		// 알파 블렌딩 수치
 	int _speed;				// 높은애가 먼저 공격 함
-
 	int _count;				// 프레임 감을 카운트
 
 	float _x;				// X좌표
@@ -39,7 +38,8 @@ public:
 
 	void motion();
 
+	void setHitMotion(SPEAR_MAN_DIRECTION _hit) { _direction = _hit; }
+
 	spearMan();
 	~spearMan();
 };
-

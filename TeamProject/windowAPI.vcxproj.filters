@@ -91,9 +91,6 @@
     <Filter Include="playGround\enemy">
       <UniqueIdentifier>{b6d2bf47-2689-4720-8d75-bcc743b86f7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\enemy\boss">
-      <UniqueIdentifier>{9c6fb1a2-822e-4055-b125-7c6854d794c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2DFramework\Scene\startScene\playScene\statusScene">
       <UniqueIdentifier>{6a2162e7-76f2-484a-9ac8-8080dc0f61a5}</UniqueIdentifier>
     </Filter>
@@ -231,9 +228,6 @@
     <ClInclude Include="statusScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
     </ClInclude>
-    <ClInclude Include="blackUniform.h">
-      <Filter>playGround\enemy\boss</Filter>
-    </ClInclude>
     <ClInclude Include="battleScene.h">
       <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
     </ClInclude>
@@ -353,10 +347,10 @@
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClCompile>
-    <ClCompile Include="item.cpp">
+    <ClCompile Include="spearMan.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
+    <ClCompile Include="item.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="townScene.cpp">
@@ -392,9 +386,6 @@
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cameraManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -404,11 +395,41 @@
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>playGround\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>2DFramework\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>2DFramework\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
     <ClCompile Include="skeleton.cpp">
       <Filter>playGround\enemy\스켈레톤</Filter>
     </ClCompile>
     <ClCompile Include="spearMan.cpp">
       <Filter>playGround\enemy\창병</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

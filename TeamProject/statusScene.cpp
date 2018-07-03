@@ -153,30 +153,30 @@ void statusScene::update(void)
 
 void statusScene::render(void)
 {
-	IMAGEMANAGER->findImage("statusMain")->render(getMemDC(), 0, 0);
-	IMAGEMANAGER->findImage("statusChoice")->render(getMemDC(), 650, 0);
-	IMAGEMANAGER->findImage("statusChoice2")->render(getMemDC(), 650, 150);
-	IMAGEMANAGER->findImage("기본status")->render(getMemDC(), 0, 550);
-	IMAGEMANAGER->findImage("infoStatus")->render(getMemDC(), 650, 550);
-	IMAGEMANAGER->findImage("캐릭터이미지")->frameRender(getMemDC(), 60, 50);
+	IMAGEMANAGER->findImage("statusMain")->render(CAMERA->getCameraDC(), 0, 0);
+	IMAGEMANAGER->findImage("statusChoice")->render(CAMERA->getCameraDC(), 650, 0);
+	IMAGEMANAGER->findImage("statusChoice2")->render(CAMERA->getCameraDC(), 650, 150);
+	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
+	IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
+	IMAGEMANAGER->findImage("캐릭터이미지")->frameRender(CAMERA->getCameraDC(), 60, 50);
 
-	IMAGEMANAGER->findImage("스킬")->frameRender(getMemDC(), WINSIZEX - 325, 50);
-	IMAGEMANAGER->findImage("도구")->frameRender(getMemDC(), WINSIZEX - 275, 50);
-	IMAGEMANAGER->findImage("장비")->frameRender(getMemDC(), WINSIZEX - 225, 50);
-	IMAGEMANAGER->findImage("소지")->frameRender(getMemDC(), WINSIZEX - 175, 50);
-	IMAGEMANAGER->findImage("모드")->frameRender(getMemDC(), WINSIZEX - 125, 50);
-	IMAGEMANAGER->findImage("환경설정")->frameRender(getMemDC(), WINSIZEX - 75, 50);
+	IMAGEMANAGER->findImage("스킬")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 325, 50);
+	IMAGEMANAGER->findImage("도구")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 275, 50);
+	IMAGEMANAGER->findImage("장비")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 225, 50);
+	IMAGEMANAGER->findImage("소지")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 175, 50);
+	IMAGEMANAGER->findImage("모드")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 125, 50);
+	IMAGEMANAGER->findImage("환경설정")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 75, 50);
 
-	IMAGEMANAGER->findImage("SETTINGBUTTON")->frameRender(getMemDC(), _uiX, _uiY);
+	IMAGEMANAGER->findImage("SETTINGBUTTON")->frameRender(CAMERA->getCameraDC(), _uiX, _uiY);
 
 	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0&&!_isCheck)
 	{
-		IMAGEMANAGER->findImage("캐릭터선택DOWN")->frameRender(getMemDC(), WINSIZEX / 2 - 200, 527);
+		IMAGEMANAGER->findImage("캐릭터선택DOWN")->frameRender(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 527);
 		
 	}
 	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1 && !_isCheck)
 	{
-		IMAGEMANAGER->findImage("캐릭터선택UP")->frameRender(getMemDC(), WINSIZEX / 2 - 200, 0);
+		IMAGEMANAGER->findImage("캐릭터선택UP")->frameRender(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 0);
 	}
 	
 	
@@ -222,43 +222,43 @@ void statusScene::fontUI(void)
 	
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-	ofont = (HFONT)SelectObject(getMemDC(), font);
-	SetTextColor(getMemDC(), RGB(255, 255, 255));
-	SetBkMode(getMemDC(), TRANSPARENT);
+	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 
 	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
 	{
-		TextOut(getMemDC(),20, 20, strName1, strlen(strName1));
+		TextOut(CAMERA->getCameraDC(),20, 20, strName1, strlen(strName1));
 	}
 	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
 	{
-		TextOut(getMemDC(), 20, 20, strName2, strlen(strName2));
+		TextOut(CAMERA->getCameraDC(), 20, 20, strName2, strlen(strName2));
 	}
 	//캐릭터 정보
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 40, str1, strlen(str1));
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 80, str2, strlen(str2));
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 120, str3, strlen(str3));
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 160, str4, strlen(str4));
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 210, str5, strlen(str5));
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 250, str6, strlen(str6));
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 290, str7, strlen(str7));
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 330, str8, strlen(str8));
-	TextOut(getMemDC(), WINSIZEX / 2 - 200, 370, str9, strlen(str9));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 40, str1, strlen(str1));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 80, str2, strlen(str2));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 120, str3, strlen(str3));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 160, str4, strlen(str4));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 210, str5, strlen(str5));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 250, str6, strlen(str6));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 290, str7, strlen(str7));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 330, str8, strlen(str8));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 370, str9, strlen(str9));
 
 	//착용장비
-	TextOut(getMemDC(), 20, WINSIZEY/2-190, str10, strlen(str10));
-	TextOut(getMemDC(), 20, WINSIZEY/2-100, str11, strlen(str11));
+	TextOut(CAMERA->getCameraDC(), 20, WINSIZEY/2-190, str10, strlen(str10));
+	TextOut(CAMERA->getCameraDC(), 20, WINSIZEY/2-100, str11, strlen(str11));
 	
 
 	//인벤토리
-	if (_setIndex == 0) TextOut(getMemDC(), WINSIZEX - 212, 160, str12, strlen(str12));
-	if (_setIndex == 1) TextOut(getMemDC(), WINSIZEX - 200, 160, str13, strlen(str13));
-	if (_setIndex == 2) TextOut(getMemDC(), WINSIZEX - 200, 160, str14, strlen(str14));
-	if (_setIndex == 3) TextOut(getMemDC(), WINSIZEX - 200, 160, str15, strlen(str15));
-	if (_setIndex == 4) TextOut(getMemDC(), WINSIZEX - 200, 160, str16, strlen(str16));
-	if (_setIndex == 5) TextOut(getMemDC(), WINSIZEX - 225, 160, str17, strlen(str17));
+	if (_setIndex == 0) TextOut(CAMERA->getCameraDC(), WINSIZEX - 212, 160, str12, strlen(str12));
+	if (_setIndex == 1) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str13, strlen(str13));
+	if (_setIndex == 2) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str14, strlen(str14));
+	if (_setIndex == 3) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str15, strlen(str15));
+	if (_setIndex == 4) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str16, strlen(str16));
+	if (_setIndex == 5) TextOut(CAMERA->getCameraDC(), WINSIZEX - 225, 160, str17, strlen(str17));
 	
 		
-	SelectObject(getMemDC(), ofont);
+	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }

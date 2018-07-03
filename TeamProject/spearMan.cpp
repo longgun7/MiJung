@@ -30,21 +30,27 @@ void spearMan::release()
 
 void spearMan::update()
 {
+	/*
+	if(플레이어가 스킬을 썻다면)
+	{
+		if(상대의 스킬 X가 몇 번째 프레임일 때)
+		{
+			_direction = SPEAR_MAN_HIT
+		}
+	}
+	*/
+
 	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
 		_direction = SPEAR_MAN_ATTACK;
-	}
+	}	
 	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
 		_direction = SPEAR_MAN_HIT;
-	}
+	}	
 	if (KEYMANAGER->isOnceKeyDown('D'))
 	{
 		_direction = SPEAR_MAN_STAND;
-	}
-	if (KEYMANAGER->isOnceKeyDown('F'))
-	{
-		_hp -= 15;
 	}
 
 	if (_hp <= 0 && _alphaValue > 6)
@@ -54,13 +60,13 @@ void spearMan::update()
 
 	if (_direction == SPEAR_MAN_HIT)
 	{
-		_x += 5;
+		_x += 1;
 	}
 
 	if (_x == WINSIZEX / 2 + 50)
 	{
-		_x = WINSIZEX / 2;
 		_direction = SPEAR_MAN_STAND;
+		_x = WINSIZEX / 2;
 	}
 
 	motion();
