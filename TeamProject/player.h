@@ -67,7 +67,8 @@ private:
 	atahoTargetSkill1* _soloSkillEffect1;
 	atahoTargetSkill2* _soloSkillEffect2;
 	atahoTargetSkill3* _soloSkillEffect3;
-
+	atahoAreaSkill2* _areaSkillEffect2;
+	atahoAreaSkill3* _areaSkillEffect3;
 	//에너미 매니저 전방선언
 	enemyManager* _em;
 public:
