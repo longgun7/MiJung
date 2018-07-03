@@ -69,8 +69,13 @@ void playGround::render(void)
 {
 
 	//흰색도화지 한 장 깔아둔다
-	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
-	PatBlt(CAMERA->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
+	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
+
+	HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
+	HBRUSH oldbrush = (HBRUSH)SelectObject(CAMERA->getCameraDC(), brush);
+	PatBlt(CAMERA->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, PATCOPY);
+	SelectObject(CAMERA->getCameraDC(), oldbrush);
+	DeleteObject(brush);
 
 	//============== 이 위로는 건드리지 말자 ==============
 

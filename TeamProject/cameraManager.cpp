@@ -36,7 +36,7 @@ void cameraManager::render(HDC hdc)
 		0, 0,							//복사할 x,y
 		WINSIZEX,						//복사할 가로, 세로크기
 		WINSIZEY,
-		RGB(0,0,0));					//복사할때 제외할 칼라
+		RGB(255,0,255));					//복사할때 제외할 칼라
 }
 
 void cameraManager::setPosition(float x, float y)
