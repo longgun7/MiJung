@@ -10,6 +10,8 @@ enum DIRECTION	// 상태
 	SKELETON_STAND		// 가만히
 };
 
+
+
 class skeleton : public gameNode
 {
 private:

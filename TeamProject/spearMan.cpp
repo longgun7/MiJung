@@ -36,12 +36,23 @@ void spearMan::update()
 		if(상대의 스킬 X가 몇 번째 프레임일 때)
 		{
 			_direction = SPEAR_MAN_HIT
-			_hp -= 15;
 		}
 	}
 	*/
-	
-	
+
+	if (KEYMANAGER->isOnceKeyDown('A'))
+	{
+		_direction = SPEAR_MAN_ATTACK;
+	}	
+	if (KEYMANAGER->isOnceKeyDown('S'))
+	{
+		_direction = SPEAR_MAN_HIT;
+	}	
+	if (KEYMANAGER->isOnceKeyDown('D'))
+	{
+		_direction = SPEAR_MAN_STAND;
+	}
+
 	if (_hp <= 0 && _alphaValue > 6)
 	{
 		_alphaValue -= 5;
@@ -88,8 +99,6 @@ void spearMan::motion()
 		}
 	}
 }
-
-
 
 spearMan::spearMan()
 {

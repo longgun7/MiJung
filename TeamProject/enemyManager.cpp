@@ -75,7 +75,6 @@ void enemyManager::hitDamge()
 void enemyManager::hitSpearMan(int index, int damage)
 {
 	_vSpearMan[index]->setHitMotion(SPEAR_MAN_HIT);
-	//_vSpearMan[index].hp -= damage;
 }
 
 enemyManager::enemyManager()
