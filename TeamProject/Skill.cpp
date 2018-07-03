@@ -261,6 +261,7 @@ atahoTargetSkill3::~atahoTargetSkill3() {}
 HRESULT atahoTargetSkill3::init()
 {
 	IMAGEMANAGER->addFrameImage("TargetSkill3Charging", "image/effect/TargetSkill3Charging.bmp", 96, 16, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("TargetSkill3Chakra", "image/effect/TargetSkill3Chakra.bmp", 96, 32, 3, 1, true, RGB(255, 0, 255));
 
 	_currentExp = 0;
 	_maxExp = 100;
@@ -280,6 +281,17 @@ void atahoTargetSkill3::update()
 		for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
 		{
 			_viTagSkill->count++;
+			if (_viTagSkill->count % 10 == 0)
+			{
+				if (_img->getMaxFrameX() <= _img->getFrameX())
+				{
+					_img->setFrameX(0);
+				}
+				else
+				{
+					_img->setFrameX(_img->getFrameX() + 1);
+				}
+			}
 			if (_viTagSkill->count % 30 == 0)
 			{
 				if (_viTagSkill->img->getMaxFrameX() <= _viTagSkill->img->getFrameX())
@@ -333,6 +345,8 @@ void atahoTargetSkill3::render()
 	{
 		if (!_start)
 		{
+			_img->frameRender(getMemDC(), _rc.left, _rc.top, _img->getFrameX(), _img->getFrameY());
+
 			_viTagSkill->img->frameRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top,
 				_viTagSkill->img->getFrameX(), _viTagSkill->img->getFrameY());
 		}
@@ -375,6 +389,11 @@ void atahoTargetSkill3::addSkill(float x, float y)
 			_level = 4;
 		}
 	}
+
+	_img = IMAGEMANAGER->findImage("TargetSkill3Chakra");
+	_x = x;
+	_y = y;
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
 	// 스킬 레벨당 차징 개수
 	if (_level <= 2)

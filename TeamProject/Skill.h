@@ -90,6 +90,10 @@ private:
 	vector<tagSkill>			_vTagSkill;
 	vector<tagSkill>::iterator	_viTagSkill;
 
+	image * _img;			// 모으기 이미지
+	RECT _rc;				// 모으기 상자
+	float _x, _y;			// 모으기 x, y 좌표
+
 	float _range;			// 최대 길이
 
 	int _count;				// 카운트
