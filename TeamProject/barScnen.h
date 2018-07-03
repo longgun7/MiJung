@@ -2,6 +2,9 @@
 #include"gameNode.h"
 class barScnen : public gameNode
 {
+private:
+	bool _isShopCheck;		//상점이 체크되었늬?
+	bool _isHotelCheck;		//여관이 체크되었늬?
 public:
 	barScnen();
 	~barScnen();
@@ -10,5 +13,7 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+
+	void fontUI(void);
 };
 

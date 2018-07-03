@@ -137,13 +137,13 @@ void startScene::update(void)
 
 void startScene::render(void)
 {
-	IMAGEMANAGER->findImage("background")->render(getMemDC(), 0, 0);
-	IMAGEMANAGER->findImage("startChoice")->render(getMemDC(), WINSIZEX / 2 - 150, WINSIZEY / 2 + 60);
-	IMAGEMANAGER->findImage("UIBUTTON")->frameRender(getMemDC(), _uiX, _uiY);
+	IMAGEMANAGER->findImage("background")->render(CAMERA->getCameraDC(), 0, 0);
+	IMAGEMANAGER->findImage("startChoice")->render(CAMERA->getCameraDC(), WINSIZEX / 2 - 150, WINSIZEY / 2 + 60);
+	IMAGEMANAGER->findImage("UIBUTTON")->frameRender(CAMERA->getCameraDC(), _uiX, _uiY);
 	if(_isLoadCheck)
 	{
-		IMAGEMANAGER->findImage("loadChoice")->render(getMemDC(), WINSIZEX / 2 + 150, WINSIZEY / 2 - 150);
-		IMAGEMANAGER->findImage("LOADBUTTON")->frameRender(getMemDC(), _loadX, _loadY);
+		IMAGEMANAGER->findImage("loadChoice")->render(CAMERA->getCameraDC(), WINSIZEX / 2 + 150, WINSIZEY / 2 - 150);
+		IMAGEMANAGER->findImage("LOADBUTTON")->frameRender(CAMERA->getCameraDC(), _loadX, _loadY);
 	}
 	
 	fontUI();
@@ -156,12 +156,12 @@ void startScene::fontUI()
 	char str2[] = "이어하기";
 	
 	font = CreateFont(25,0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-	ofont = (HFONT)SelectObject(getMemDC(), font);
-	SetTextColor(getMemDC(), RGB(255, 255, 255));
-	SetBkMode(getMemDC(), TRANSPARENT);
-	TextOut(getMemDC(), WINSIZEX / 2 - 100, WINSIZEY / 2+80, str, strlen(str));
-	TextOut(getMemDC(), WINSIZEX / 2 - 100, WINSIZEY / 2 + 115, str2, strlen(str2));
-	SelectObject(getMemDC(), ofont);
+	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 100, WINSIZEY / 2+80, str, strlen(str));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 100, WINSIZEY / 2 + 115, str2, strlen(str2));
+	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 
 }

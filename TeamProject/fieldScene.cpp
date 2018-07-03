@@ -41,7 +41,23 @@ void fieldScene::update(void)
 
 void fieldScene::render(void)
 {
-	IMAGEMANAGER->findImage("테두리")->render(getMemDC(), 0, 0);
-	IMAGEMANAGER->findImage("기본status")->render(getMemDC(), 0, 550);
-	IMAGEMANAGER->findImage("infoStatus")->render(getMemDC(), 650, 550);
+	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
+	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
+	IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
+	fontUI();
+}
+
+void fieldScene::fontUI(void)
+{
+	HFONT font, ofont;
+	char str[] = "필드씬";
+
+
+	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+	SetTextColor(CAMERA->getCameraDC(), RGB(0, 0, 1));
+	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
+	SelectObject(CAMERA->getCameraDC(), ofont);
+	DeleteObject(font);
 }

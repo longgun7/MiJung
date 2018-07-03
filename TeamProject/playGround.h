@@ -13,7 +13,7 @@ class playGround : public gameNode
 private:
 
 	//플레이어 매니저
-	playerManager * _PM;
+	playerManager * _pm;
 	itemManager* _im;
 	enemyManager* _em;
 	
