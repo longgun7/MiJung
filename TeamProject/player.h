@@ -88,6 +88,7 @@ public:
 	SCENEMODE getSCENEMODE() { return _sceneMode; }
 	bool getIsJumping() { return _isJumping; }
 	int getSlopeNum() { return _slopeNum; }
+	int getFrameX() { return _imageFrame; }
 	
 	player();
 	~player();

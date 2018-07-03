@@ -9,7 +9,7 @@ HRESULT playerManager::init()
 	_ataho = new player;
 	_ataho->init();
 	
-	//½º¸¶½´ init()	
+	//½º¸¶½´ init()
 	_smasyu = new player2;
 	_smasyu->init(_ataho->getX() , _ataho->getY());
 

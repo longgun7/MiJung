@@ -151,7 +151,6 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="barScnen.h" />
     <ClInclude Include="battleScene.h" />
-    <ClInclude Include="blackUniform.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />

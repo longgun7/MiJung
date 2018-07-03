@@ -411,7 +411,6 @@ void player::slopeNumImage()
 		}
 
 	}
-	
 }
 
 
