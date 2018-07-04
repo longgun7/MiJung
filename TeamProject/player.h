@@ -23,6 +23,13 @@ enum SCENEMODE
 	FIELDMODE, BATTLEMODE , EVENTMODE
 };
 
+struct tagEffectImage1
+{
+	int frame;
+	int frameImage;
+	image*  img;
+
+};
 struct tagAttribute
 {
 	int		atk;	//공격력
@@ -61,7 +68,7 @@ private:
 	bool    _isJumping;      //점프여부
 	bool    _isMotionLive;   //스킬, 상하좌우 움직임 여부
 	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
-	
+	bool    _isSwordMounting; //무기 장착여부
 	
 	image*  _img;		     //이미지
 	string	_imageName;      //이미지이름
@@ -69,7 +76,7 @@ private:
 	RECT	_rc;		     //렉트
 	SCENEMODE _sceneMode;	 //씬에 따라 움직임
 	tagAttribute _attribute; //속성
-
+	tagEffectImage1 _effectImage;
 	atahoTargetSkill1* _soloSkillEffect1;
 	atahoTargetSkill2* _soloSkillEffect2;
 	atahoTargetSkill3* _soloSkillEffect3;
@@ -92,6 +99,7 @@ public:
 	void move();
 	void levelCheck();
 
+	void effectImage();
 	
 	float getX() { return _x; }
 	void setX(float x) { _x = x; }
@@ -110,6 +118,8 @@ public:
 	bool getIsJumping() { return _isJumping; } //점핑여부
 	int getSlopeNum() { return _slopeNum; }
 
+	void setSwordMounting(bool mounting) { _isSwordMounting = mounting; } //무기 장착여부
+	
 	void EnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
 	
 	void setScene(SCENEMODE _scene,float x , float y , MOVE move) //씬전환모음

@@ -209,6 +209,7 @@ void atahoTargetSkill2::addSkill(float x, float y)
 	targetSkill2.fireY = targetSkill2.y = y;			// 스킬 y좌표, 날라갈 y좌표
 	targetSkill2.count = 0;								// 스킬 생성시 카운트 초기화
 	targetSkill2.angle = RND->getFromFloatTo((3.0f / 4.0f) * PI, (5.0f / 4.0f) * PI);		// 스킬 생성시 좌표 랜덤
+	//targetSkill2.angle += 1;
 	targetSkill2.img->setFrameX(0);						// 스킬 생성시 프레임x좌표 초기화
 	targetSkill2.speed = 1.0f;							// 스킬 날아갈 속도
 	_range = 50.0f;										// 스킬 날아갈 최대 길이
@@ -238,6 +239,7 @@ void atahoTargetSkill2::moveSkill()
 		_viTagSkill->x += cosf(_viTagSkill->angle) * _viTagSkill->speed;
 		_viTagSkill->y += -sinf(_viTagSkill->angle) * _viTagSkill->speed;
 
+		
 		// 스킬 상자 갱신
 		_viTagSkill->rc = RectMakeCenter(_viTagSkill->x, _viTagSkill->y,
 			_viTagSkill->img->getFrameWidth(), _viTagSkill->img->getFrameHeight());

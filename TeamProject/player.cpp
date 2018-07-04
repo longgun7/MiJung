@@ -52,6 +52,13 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("물통줄타기-3", "image/player/물통줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-4", "image/player/물통줄타기-4.bmp", 81, 112, 1, 1, true, RGB(255, 0, 255));
 	
+	//이펙트
+	IMAGEMANAGER->addFrameImage("스마슈회오리", "image/player/스마슈 회오리.bmp", 400, 42, 5, 1, true, RGB(255, 0, 255));
+
+	//이펙트
+	_effectImage.img = IMAGEMANAGER->findImage("스마슈회오리");
+	_effectImage.frameImage = 0;
+	_effectImage.frame = 0;
 
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
@@ -66,6 +73,7 @@ HRESULT player::init()
 	_moveSpeed  = 5;
 	_isMotionLive = false;
 	_isJumping = false;
+	_isSwordMounting = false;
 	_attribute.atk = 5;
 	_attribute.def = 10;
 	_attribute.luck = 10;
@@ -122,6 +130,7 @@ void player::update()
 	_areaSkillEffect2->update(); //화둔 호화구시수시술! 
 	_areaSkillEffect3->update(); //노익장 대폭발!
 	
+	effectImage();
 }
 
 void player::render()
@@ -145,6 +154,17 @@ void player::render()
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
 	
+	if (_isSwordMounting)
+	{//이펙트
+		if (_move != AREASKILL1)
+		{
+			_effectImage.img->frameRender(getMemDC(), _x - 40, _y + 10);
+		}
+		if (_move == AREASKILL1)
+		{
+			_effectImage.img->frameRender(getMemDC(), _x - 30, _y + 10);
+		}
+	}
 }
 
 void player::release()
@@ -779,6 +799,7 @@ void player::move()
 			_isJumping = true;
 			++_skillFrame;
 			_soloSkillEffect2->addSkill(_x+60, _y-29);
+			
 			if (_skillFrame >= 50)
 			{
 				_move = FIGHTREADY;
@@ -952,6 +973,24 @@ void player::levelCheck()
 		_attribute.isLevelUp = false;	
 	}
 
+}
+
+void player::effectImage()
+{
+	++_effectImage.frame;
+
+	if (_effectImage.frame % 5 == 0)
+	{
+		++_effectImage.frameImage;
+
+		_effectImage.img->setFrameX(_effectImage.frameImage);
+
+		if (_effectImage.img->getFrameX() >= _effectImage.img->getMaxFrameX())
+		{
+			_effectImage.frameImage = 0;
+		}
+		_effectImage.frame = 0;
+	}
 }
 
 

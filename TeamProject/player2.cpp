@@ -29,19 +29,11 @@ HRESULT player2::init(float x , float y)
 	//½º¸¶½´ ÁÙÅ¸±â
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÁÙÅ¸±â", "image/player/½º¸¶½´ ÁÙÅ¸±â2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³î¶÷", "image/player/½º¸¶½´ ³î¶÷2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
-	//ÀÌÆåÆ®
-	IMAGEMANAGER->addFrameImage("½º¸¶½´È¸¿À¸®", "image/player/½º¸¶½´ È¸¿À¸®.bmp", 400, 42, 5, 1, true, RGB(255, 0, 255));
+	
 
 	//ÃÊ±â ½º¸¶½´¸ð½À
 	_img = IMAGEMANAGER->findImage("½º¸¶½´Á¤¸é");
 
-	//ÀÌÆåÆ®
-
-	_effectImage.img = IMAGEMANAGER->findImage("½º¸¶½´È¸¿À¸®");
-	
-
-	_effectImage.frameImage = 0;
-	_effectImage.frame = 0;
 	//½º¸¶½´ Á¤º¸
 	_x = x - 60;
 	_y = y;
@@ -54,6 +46,7 @@ HRESULT player2::init(float x , float y)
 	_moveSpeed = 5;
 	_isMotionLive = false;
 	_isJumping = false;
+	_isSwordMounting = false;
 	_sceneMode = S_FIELDMODE;
 	_attribute.atk = 5;
 	_attribute.def = 10;
@@ -89,7 +82,6 @@ void player2::update()
 	//½ºÅ³
 	_soloSkillEffect->update();
 
-	effectImage();
 }
 
 void player2::render()
@@ -113,14 +105,11 @@ void player2::render()
 	}
 	char str4[234];
 	
-	//½ºÅ³
-	_soloSkillEffect->render();
-    
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
+	strongestSwordEffect();
 	
-	//ÀÌÆåÆ®
-	_effectImage.img->frameRender(getMemDC(), _x-40, _y+10);
+	
 
 }
 
@@ -133,6 +122,12 @@ void player2::angleManager(float x , float y)
 
 	if (_sceneMode == S_FIELDMODE)
 	{
+		++_skillFrame;
+		if (_skillFrame % 7 == 0)
+		{
+			_soloSkillEffect->addSkill(_x, _y-10);
+			_skillFrame = 0;
+		}
 		//¾ÆÅ¸È£ÀÇ À§Ä¡¿¡ µû¶ó ¾Þ±ÛÀÌ ¹Ù²ï´Ù.
 		_angle = getAngle(_x, _y, x, y);
 
@@ -496,26 +491,26 @@ void player2::s_event()
 	}
 }
 
-//ÀÌÆåÆ®
-void player2::effectImage()
+void player2::strongestSwordEffect()
 {
-	++_effectImage.frame;
-
-	if (_effectImage.frame % 5 == 0)
-	{
-		++_effectImage.frameImage;
-
-		_effectImage.img->setFrameX(_effectImage.frameImage);
-		
-		if (_effectImage.img->getFrameX() >= _effectImage.img->getMaxFrameX())
+	if (_isSwordMounting)
+	{//ÀÌÆåÆ®
+		if (_move == S_RIGHT || _move == S_UP || _move == S_RIGHTMOVE || _move == S_UPMOVE)
 		{
-			_effectImage.frameImage = 0;
+			//image
+			_img->frameRender(getMemDC(), _rc.left, _rc.top);
+			//½ºÅ³
+			_soloSkillEffect->render();
 		}
-		_effectImage.frame = 0;
+		else
+		{
+			//½ºÅ³
+			_soloSkillEffect->render();
+			//image
+			_img->frameRender(getMemDC(), _rc.left, _rc.top);
+		}
 	}
 }
-
-
 
 
 player2::player2()
