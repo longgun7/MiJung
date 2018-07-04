@@ -73,6 +73,9 @@ HRESULT player2::init(float x , float y)
 	return S_OK;
 }
 
+//µ¥Çò ¤·_<
+//³»°¡ ÀÌ¸À¿¡ ÄÚµùÀ» ¸ø²÷Áö
+
 void player2::update()
 {
 	image();		 //ÀÌ¹ÌÁö

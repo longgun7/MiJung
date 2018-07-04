@@ -27,7 +27,7 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호화둔", "image/player/아타호 화둔.bmp", 290, 90, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호술마시기", "image/player/아타호 술마시기.bmp", 655, 95, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호전투상태", "image/player/아타호 전투상태.bmp", 55, 86, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 41, 63, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 50, 77, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호세레모니", "image/player/아타호 세레모니.bmp", 287, 67, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호코골이", "image/player/아타호 코골이.bmp", 1145, 50, 12, 1, true, RGB(255, 0, 255));
 	
@@ -129,13 +129,17 @@ void player::render()
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
 	
-	//image
-	_img->frameRender(getMemDC(), _rc.left, _rc.top);
+	
 
+	char str2[124];
+	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
+	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
 	//기울기 프레임
 	char str[125];
 	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
 	TextOut(getMemDC(), 100, 410, str, strlen(str));
+	//image
+	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 	//스킬 이펙트 렌더
 	_soloSkillEffect1->render(); 
 	_soloSkillEffect2->render();
@@ -143,9 +147,7 @@ void player::render()
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
 
-	char str2[124];
-	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
-	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
+	
 
 	
 }
@@ -273,6 +275,11 @@ void player::battleKeyManager()
 		if (KEYMANAGER->isOnceKeyDown('C'))
 		{
 			_move = BASICSKILL3;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isOnceKeyDown('V'))
+		{
+			_move = DAMAGE;
 			_isMotionLive = true;
 		}
 	}
@@ -511,6 +518,9 @@ void player::playerImage()
 		_img = IMAGEMANAGER->findImage("아타호전투상태");
 		_x = 100;
 		_y = 400;
+		break;
+	case DAMAGE:
+		_img = IMAGEMANAGER->findImage("아타호피격");
 		break;
 	default:
 		break;
@@ -890,6 +900,30 @@ void player::move()
 			_isJumping = false;
 			_jumpPower = 5.0;
 			_gravity = 0.2f;
+		}
+	}
+
+	//피격당했을 때
+	if (_move == DAMAGE)
+	{
+		++_skillFrame;
+		
+		
+		int randMove = RND->getInt(4);
+
+		if (randMove == 0)
+		{
+			_x -= 3;
+		}
+		if (randMove == 1)
+		{
+			_x += 3;
+		}
+		
+		if (_skillFrame > 30)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
 		}
 	}
 
