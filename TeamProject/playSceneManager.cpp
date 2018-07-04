@@ -1,0 +1,117 @@
+#include "stdafx.h"
+#include "playSceneManager.h"
+
+
+playSceneManager::playSceneManager()
+{
+}
+
+
+playSceneManager::~playSceneManager()
+{
+}
+
+HRESULT playSceneManager::init(void)
+{
+	sceneAdd();
+
+	IMAGEMANAGER->addFrameImage("HP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("MP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("EXP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->findImage("HP")->setFrameX(0);
+	IMAGEMANAGER->findImage("HP")->setFrameY(2);
+	IMAGEMANAGER->findImage("MP")->setFrameX(1);
+	IMAGEMANAGER->findImage("MP")->setFrameY(2);
+	IMAGEMANAGER->findImage("EXP")->setFrameX(2);
+	IMAGEMANAGER->findImage("EXP")->setFrameY(2);
+
+	SCENEMANAGER->changeScene("스타트씬");
+
+	//플레이어매니저 
+	_pm = new playerManager;
+	_pm->init();
+
+	_im = new itemManager;
+	_im->init();
+
+	_em = new enemyManager;
+	_em->init();
+
+	//아타호와 에너미 매니저 전방선언
+
+
+
+	//전방선언
+	_pm->itemManagerAdressLink(_im);
+	return S_OK;
+}
+
+void playSceneManager::release(void)
+{
+	_pm->release();
+	_em->release();
+}
+
+void playSceneManager::update(void)
+{
+	SCENEMANAGER->update();
+	_pm->update();
+	_em->update();
+	_im->update();
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	{
+		SCENEMANAGER->changeScene("타운씬");
+		_pm->getPlayer()->setScene(FIELDMODE,WINSIZEX/2,WINSIZEY/2, DOWN);
+		_pm->getPlayer2()->setScene(S_FIELDMODE, WINSIZEX / 2, WINSIZEY / 2 - 50,S_DOWN);
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	{
+		SCENEMANAGER->changeScene("배틀씬");
+		_pm->getPlayer()->setScene(BATTLEMODE, 100, 400, FIGHTREADY);
+		_pm->getPlayer2()->setScene(S_BATTLEMODE, 100, 300, S_FIGHTREADY);
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F3))
+	{
+		SCENEMANAGER->changeScene("필드씬");
+		_pm->getPlayer()->setScene(FIELDMODE,WINSIZEX / 2, WINSIZEY / 2, DOWN);
+		_pm->getPlayer2()->setScene(S_FIELDMODE, WINSIZEX / 2, WINSIZEY / 2 - 50, S_DOWN);
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F4))
+	{
+		SCENEMANAGER->changeScene("술집씬");
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F9))
+	{
+		SCENEMANAGER->changeScene("맵툴씬");
+	}
+}
+
+void playSceneManager::render(void)
+{
+	SCENEMANAGER->render();
+
+	//SetTextColor(getMemDC(), RGB(0, 0, 0));
+	//TIMEMANAGER->render(getMemDC());
+
+	_pm->render();
+	_em->render();
+	_im->render();
+
+}
+
+void playSceneManager::sceneAdd(void)
+{
+
+	SCENEMANAGER->addScene("스타트씬", new startScene);
+	SCENEMANAGER->addScene("엔드씬", new endScene);
+	SCENEMANAGER->addScene("상태씬", new statusScene);
+	SCENEMANAGER->addScene("타운씬", new townScene);
+	SCENEMANAGER->addScene("필드씬", new fieldScene);
+	SCENEMANAGER->addScene("배틀씬", new battleScene);
+	SCENEMANAGER->addScene("술집씬", new barScnen);
+	SCENEMANAGER->addScene("맵툴씬", new mapToolScene);
+	SCENEMANAGER->addScene("플레이씬", new playScene);
+
+}

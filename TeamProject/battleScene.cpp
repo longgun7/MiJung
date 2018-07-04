@@ -49,10 +49,7 @@ void battleScene::release(void)
 
 void battleScene::update(void)
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_F1))
-	{
-		SCENEMANAGER->changeScene("필드씬");
-	}
+	
 	if(KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
 		if (!_isTurn)_isTurn = true;
@@ -100,7 +97,9 @@ void battleScene::render(void)
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
 	IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
-	
+	IMAGEMANAGER->findImage("HP")->frameRender(CAMERA->getCameraDC(), 200, 562);
+	IMAGEMANAGER->findImage("MP")->frameRender(CAMERA->getCameraDC(), 350, 562);
+	IMAGEMANAGER->findImage("EXP")->frameRender(CAMERA->getCameraDC(), 500, 562);
 	if (_isTurn)
 	{
 		IMAGEMANAGER->findImage("스킬선택창")->render(CAMERA->getCameraDC(), 320, 0);

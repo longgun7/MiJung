@@ -3,7 +3,7 @@
 //터레인
 enum TERRAIN
 {
-	TR_WALL, TR_WATER, TR_END
+	TR_MOVE, TR_WATER, TR_UNMOVE
 };
 
 //오브젝트 
@@ -32,7 +32,7 @@ enum OBJECT
 #define TILESIZEY TILESIZE * TILEY
 
 // 타일셋 타일셋 갯수
-#define SAMPLETILEX 40
+#define SAMPLETILEX 39
 #define SAMPLETILEY 13
 
 // 타일에 대한 구조체
