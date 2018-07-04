@@ -801,7 +801,7 @@ void player::move()
 	if (_img == IMAGEMANAGER->findImage("아타호노익장대폭발"))
 	{
 		++_skillFrame;
-		if (_skillFrame % 4 == 0)
+		if (_skillFrame % 7 == 0)
 		{
 			_areaSkillEffect3->addFireSkill(_x, _y);
 		}
