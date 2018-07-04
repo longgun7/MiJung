@@ -49,10 +49,7 @@ void battleScene::release(void)
 
 void battleScene::update(void)
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_F1))
-	{
-		SCENEMANAGER->changeScene("ÇÊµå¾À");
-	}
+	
 	if(KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
 		if (!_isTurn)_isTurn = true;

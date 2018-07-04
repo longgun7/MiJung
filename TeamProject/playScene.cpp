@@ -13,10 +13,7 @@ playScene::~playScene()
 
 HRESULT playScene::init(void)
 {
-	SCENEMANAGER->addScene("»óÅÂ¾À", new statusScene);
-	SCENEMANAGER->addScene("Å¸¿î¾À", new townScene);
-	SCENEMANAGER->addScene("ÇÊµå¾À", new fieldScene);
-	SCENEMANAGER->addScene("¹èÆ²¾À", new battleScene);
+	
 
 	SCENEMANAGER->changeScene("Å¸¿î¾À");
 
@@ -29,7 +26,7 @@ void playScene::release(void)
 
 void playScene::update(void)
 {
-	
+
 }
 
 

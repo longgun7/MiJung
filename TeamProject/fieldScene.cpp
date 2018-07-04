@@ -29,14 +29,7 @@ void fieldScene::update(void)
 	{
 		SCENEMANAGER->changeScene("»óÅÂ¾À");
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F1))
-	{
-		SCENEMANAGER->changeScene("¹èÆ²¾À");
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F2))
-	{
-		SCENEMANAGER->changeScene("Å¸¿î¾À");
-	}
+	
 }
 
 void fieldScene::render(void)
@@ -55,7 +48,7 @@ void fieldScene::fontUI(void)
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-	SetTextColor(CAMERA->getCameraDC(), RGB(0, 0, 1));
+	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
 	SelectObject(CAMERA->getCameraDC(), ofont);

@@ -1,7 +1,8 @@
 #pragma once
 #include"gameNode.h"
-#include"mapToolScene.h"
-#include"playScene.h"
+
+
+
 class startScene: public gameNode
 {
 private:
@@ -10,6 +11,7 @@ private:
 
 	int _index, _loadIndex;
 	bool _isLoadCheck;
+	
 	
 public:
 	startScene();

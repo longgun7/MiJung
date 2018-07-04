@@ -246,6 +246,9 @@
     <ClInclude Include="itemManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -255,8 +258,8 @@
     <ClInclude Include="spearMan.h">
       <Filter>playGround\enemy\창병</Filter>
     </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>playGround\Skill</Filter>
+    <ClInclude Include="playSceneManager.h">
+      <Filter>playGround</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +380,9 @@
     <ClCompile Include="cameraManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="cameraManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -413,11 +419,11 @@
     <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
-    <ClCompile Include="Skill.cpp">
-      <Filter>playGround\Skill</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>2DFramework\playerManager\player</Filter>
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="playSceneManager.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

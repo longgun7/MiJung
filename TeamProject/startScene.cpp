@@ -18,8 +18,8 @@ HRESULT startScene::init(void)
 	IMAGEMANAGER->addImage("loadChoice", "image/ui/statusChoice2.bmp", 350, 400, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addFrameImage("UIBUTTON", "image/ui/UI¹öÆ°.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("LOADBUTTON", "image/ui/UI¹öÆ°.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
-	SCENEMANAGER->addScene("¸ÊÅø¾À", new mapToolScene);
-	SCENEMANAGER->addScene("ÇÃ·¹ÀÌ¾À", new playScene);
+	
+	
 
 	IMAGEMANAGER->findImage("UIBUTTON")->setFrameX(7);
 	IMAGEMANAGER->findImage("UIBUTTON")->setFrameY(0);
@@ -34,6 +34,7 @@ HRESULT startScene::init(void)
 	
 	_isLoadCheck = false;
 	_index = 0;
+
 	return S_OK;
 }
 
@@ -90,10 +91,7 @@ void startScene::update(void)
 		IMAGEMANAGER->findImage("UIBUTTON")->setFrameY(1);
 		if(_index==0)
 		{
-			//SCENEMANAGER->changeScene("ÇÃ·¹ÀÌ¾À");
-			playScene* _playScene;
-			_playScene = new playScene;
-			_playScene->init();
+			SCENEMANAGER->changeScene("Å¸¿î¾À");
 		}
 		if(_index ==1)
 		{

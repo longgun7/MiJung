@@ -40,6 +40,7 @@ void barScnen::update(void)
 		if (!_isShopCheck) _isShopCheck = true;
 		else if (_isShopCheck) _isShopCheck = false;
 	}
+	
 }
 
 void barScnen::render(void)
