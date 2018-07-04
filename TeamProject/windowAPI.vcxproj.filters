@@ -255,11 +255,14 @@
     <ClInclude Include="fildSkeleton.h">
       <Filter>playGround\enemy\스켈레톤</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>playGround\enemy\적</Filter>
-    </ClInclude>
     <ClInclude Include="playSceneManager.h">
       <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="enemys.h">
+      <Filter>playGround\enemy\적</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -386,9 +389,6 @@
     <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>playGround\enemy\적</Filter>
-    </ClCompile>
     <ClCompile Include="fildSkeleton.cpp">
       <Filter>playGround\enemy\스켈레톤</Filter>
     </ClCompile>
@@ -403,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="playSceneManager.cpp">
       <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="enemys.cpp">
+      <Filter>playGround\enemy\적</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
