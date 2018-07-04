@@ -128,8 +128,6 @@ void player::render()
 {
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-	
-	
 
 	char str2[124];
 	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
@@ -146,9 +144,6 @@ void player::render()
 	_soloSkillEffect3->render();
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
-
-	
-
 	
 }
 
@@ -216,8 +211,6 @@ void player::fieldKeyManager()
 
 void player::battleKeyManager()
 {
-	//배틀모드
-			
 
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
@@ -298,7 +291,6 @@ void player::eventKeyManager()
 		_move = FRONT;
 		_slopeNum = 4;
 		_isWoodDrop = false;
-
 	}
 
 	//아래키 누르면 움직인다
@@ -323,8 +315,7 @@ void player::eventKeyManager()
 	{
 		_isWoodDrop = true;
 	}
-	
-	
+		
 }
 
 
@@ -439,11 +430,8 @@ void player::slopeNumImage()
 				_move = WOODRIGHT4;
 			}
 		}
-
 	}
 }
-
-
 
 void player::playerImage()
 {
@@ -586,8 +574,7 @@ void player::playerImage()
 
 	default:
 		break;
-	}
-	
+	}	
 }
 void player::imageFrame()
 {
@@ -611,8 +598,6 @@ void player::imageFrame()
 		}
 		
 }
-
-
 
 void player::move()
 {
@@ -742,7 +727,6 @@ void player::move()
 		{
 			_img->setFrameX(1);
 		}
-
 
 		if (_skillFrame > 120 && _skillFrame < 122)
 		{
@@ -933,12 +917,9 @@ void player::move()
 		}
 	}
 
-
-
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
-
 
 void player::levelCheck()
 {
@@ -972,9 +953,6 @@ void player::levelCheck()
 	}
 
 }
-
-
-
 
 
 player::player()
