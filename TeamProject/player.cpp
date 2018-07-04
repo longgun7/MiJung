@@ -908,19 +908,25 @@ void player::move()
 	{
 		++_skillFrame;
 		
-		
-		int randMove = RND->getInt(4);
+		if (_skillFrame < 20 )
+		{
+			int randMove = RND->getInt(2);
 
-		if (randMove == 0)
-		{
-			_x -= 3;
+
+			if (randMove == 0)
+			{
+				_x -= 3;
+			}
+			if (randMove == 1)
+			{
+				_x += 3;
+			}
 		}
-		if (randMove == 1)
+		if (_skillFrame > 20)
 		{
-			_x += 3;
+			_x = 100;
 		}
-		
-		if (_skillFrame > 30)
+		if (_skillFrame > 50)
 		{
 			_skillFrame = 0;
 			_move = FIGHTREADY;
