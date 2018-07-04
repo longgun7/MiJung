@@ -165,7 +165,7 @@ void startScene::fontUI()
 	
 	font = CreateFont(25,0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+	SetTextColor(CAMERA->getCameraDC(), RGB(255-_frameCount, 255-_frameCount, 255-_frameCount));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 100, WINSIZEY / 2+80, str, strlen(str));
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 100, WINSIZEY / 2 + 115, str2, strlen(str2));
