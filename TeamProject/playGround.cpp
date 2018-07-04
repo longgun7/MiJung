@@ -34,10 +34,7 @@ void playGround::update(void)
 	_psm->update();
 	
 
-	_pm->update();
-	_em->update();
 
-	_im->update();
 
 	SCENEMANAGER->update();
 }
@@ -62,10 +59,7 @@ void playGround::render(void)
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
 
-	_im->render();
-
-	_pm->render();
-	_em->render();
+	
 
 	TIMEMANAGER->render(CAMERA->getCameraDC());
 	_psm->render();
