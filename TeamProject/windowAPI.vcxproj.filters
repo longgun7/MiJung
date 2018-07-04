@@ -258,6 +258,9 @@
     <ClInclude Include="enemy.h">
       <Filter>playGround\enemy\적</Filter>
     </ClInclude>
+    <ClInclude Include="playSceneManager.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -394,6 +397,12 @@
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\enemy\적</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="playSceneManager.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

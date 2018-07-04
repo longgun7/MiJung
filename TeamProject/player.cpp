@@ -15,6 +15,8 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호오른쪽이동", "image/player/아타호 오른쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호왼쪽이동", "image/player/아타호 왼쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	
+	IMAGEMANAGER->addFrameImage("아타호정권찌르기", "image/player/아타호 정권찌르기.bmp", 704, 172, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호돌려차기", "image/player/아타호 돌려차기.bmp", 704, 172, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호노익장대폭발", "image/player/아타호 노익장대폭발.bmp", 220, 80, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호맹호광파참", "image/player/아타호 맹호광파참.bmp", 244, 85, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호맹호난무", "image/player/아타호 맹호난무.bmp", 1912, 110, 14, 1, true, RGB(255, 0, 255));
@@ -89,6 +91,12 @@ HRESULT player::init()
 	//에너지파
 	_soloSkillEffect3 = new atahoTargetSkill3;
 	_soloSkillEffect3->init();
+	//광역스킬2
+	_areaSkillEffect2 = new atahoAreaSkill2;
+	_areaSkillEffect2->init();
+	//광역스킬3
+	_areaSkillEffect3 = new atahoAreaSkill3;
+	_areaSkillEffect3->init();
 	return S_OK;
 }
 
@@ -106,10 +114,13 @@ void player::update()
 	}
 	move();			      //움직임
 	levelCheck();	      //레벨업 여부
+
+	//스킬 이펙트 업데이트
 	_soloSkillEffect1->update(); //호격권 스킬이펙트 업데이트
 	_soloSkillEffect2->update(); //맹호스페셜 스킬 이펙트 업데이트
 	_soloSkillEffect3->update(); //에너지파 스킬 이펙트 업데이트
-
+	_areaSkillEffect2->update(); //화둔 호화구시수시술! 
+	_areaSkillEffect3->update(); //노익장 대폭발!
 	
 }
 
@@ -129,6 +140,12 @@ void player::render()
 	_soloSkillEffect1->render(); 
 	_soloSkillEffect2->render();
 	_soloSkillEffect3->render();
+	_areaSkillEffect2->render();
+	_areaSkillEffect3->render();
+
+	char str2[124];
+	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
+	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
 
 	
 }
@@ -139,15 +156,7 @@ void player::release()
 
 void player::fieldKeyManager()
 {
-	//필드모드
-	if (KEYMANAGER->isOnceKeyDown('Q'))
-	{
-		_sceneMode = FIELDMODE;
-		_x = WINSIZEX / 2;
-		_y = WINSIZEY / 2;
-		_move = RIGHT;
-	}
-
+	
 	//필드에 있을 때
 	if (_sceneMode == FIELDMODE)
 	{
@@ -201,17 +210,12 @@ void player::fieldKeyManager()
 void player::battleKeyManager()
 {
 	//배틀모드
-	if (KEYMANAGER->isOnceKeyDown('W'))
-	{
-		_sceneMode = BATTLEMODE;
-		_x = 100;
-		_y = 400;
-		_move = FIGHTREADY;
-	}
+			
 
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
-	{
+	{	
+	
 		//스킬
 		if (KEYMANAGER->isOnceKeyDown('A'))
 		{
@@ -242,9 +246,8 @@ void player::battleKeyManager()
 		}
 		if (KEYMANAGER->isOnceKeyDown('G'))
 		{
-			_move = AREASKILL2;
+			_move = DRINK;
 			_isMotionLive = true;
-			_x = WINSIZEX - 200;
 		}
 		if (KEYMANAGER->isOnceKeyDown('H'))
 		{
@@ -254,7 +257,17 @@ void player::battleKeyManager()
 		}
 		if (KEYMANAGER->isOnceKeyDown('Z'))
 		{
-			_move = DRINK;
+			_move = BASICSKILL1;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isOnceKeyDown('X'))
+		{
+			_move = BASICSKILL2;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isOnceKeyDown('C'))
+		{
+			_move = BASICSKILL3;
 			_isMotionLive = true;
 		}
 	}
@@ -457,10 +470,10 @@ void player::playerImage()
 	switch (_move)
 	{
 	case BASICSKILL1:
-		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		_img = IMAGEMANAGER->findImage("아타호정권찌르기");
 		break;
 	case BASICSKILL2:
-		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		_img = IMAGEMANAGER->findImage("아타호돌려차기");
 		break;
 	case BASICSKILL3:
 		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
@@ -631,17 +644,40 @@ void player::move()
 	////////////////////////////////////
 
 	//정권찌르기
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _move == BASICSKILL1)
+	if (_move == BASICSKILL1)
 	{
-
+		_x = WINSIZEX - 200;
+		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
 	}
 	
 	//돌려차기
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _move == BASICSKILL1)
+	if (_move == BASICSKILL2)
 	{
-
+		_x = WINSIZEX - 200;
+		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
 	}
 
+	//다리후리기
+	if ( _move == BASICSKILL3)
+	{
+		_x = WINSIZEX - 200;
+		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
+	}
 	////////////////////////////////////
 	//
 	//              개인기
@@ -649,7 +685,7 @@ void player::move()
 	////////////////////////////////////
 
 	//호격권
-	if (_img == IMAGEMANAGER->findImage("아타호호격권") && _move == SOLOSKILL1)
+	if ( _move == SOLOSKILL1)
 	{
 		if (_img->getFrameX() >= 9)
 		{
@@ -674,7 +710,7 @@ void player::move()
 	}
 	
 	//광파참
-	if (_img == IMAGEMANAGER->findImage("아타호맹호광파참") && _move == SOLOSKILL2)
+	if ( _move == SOLOSKILL2)
 	{
 		
 		++_skillFrame;
@@ -712,7 +748,7 @@ void player::move()
 	}
 
 	//맹호스페셜
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _img->getFrameX() >= 25 && _move == SOLOSKILL3)
+	if ( _img->getFrameX() >= 25 && _move == SOLOSKILL3)
 	{
 		_x += 10;
 		_soloSkillEffect2->addSkill(_x, _y+10);
@@ -730,7 +766,7 @@ void player::move()
 	////////////////////////////////////////////
 
 	//맹호난무
-	if (_img == IMAGEMANAGER->findImage("아타호맹호난무"));
+	if (_move == AREASKILL1);
 	{
 		if (_isJumping)
 		{
@@ -758,10 +794,10 @@ void player::move()
 
 	}
 	//화둔
-	if (_img == IMAGEMANAGER->findImage("아타호화둔"))
+	if (_move == AREASKILL2)
 	{
 		++_skillFrame;
-
+		_x = WINSIZEX - 200;
 		if (_skillFrame < 20)
 		{
 			_imageFrame = -1;
@@ -774,18 +810,40 @@ void player::move()
 		{
 			_imageFrame = 1;
 		}
-		if (_skillFrame > 60 && _skillFrame < 100)
+		if (_skillFrame > 60 && _skillFrame < 200)
 		{
 			_imageFrame = 2;
+			if (_skillFrame % 5 == 0)
+			{
+				_areaSkillEffect2->addSkill(_x + 40, _y-2);
+			}
 		}
-		if (_skillFrame > 100)
+		if (_skillFrame > 200)
 		{	
 			_skillFrame = 0;
 			_img->setFrameX(0);
 			_move = FIGHTREADY;
 		}
 	}
+	//노익장 대폭발
+	if (_move == AREASKILL3)
+	{
+		++_skillFrame;
+		if (_skillFrame % 7 == 0 && _skillFrame < 150)
+		{
+			_areaSkillEffect3->addFireSkill(_x, _y);
+		}
+		if (_img->getFrameX() >= _img->getMaxFrameX())
+		{
+			_img->setFrameX(_img->getMaxFrameX());
+		}
 
+		if (_skillFrame >= 300)
+		{
+			_move = FIGHTREADY;
+			_skillFrame = 0;
+		}
+	}
 	//술마시기
 	if (_img == IMAGEMANAGER->findImage("아타호술마시기"))
 	{
@@ -793,7 +851,8 @@ void player::move()
 		if (_skillFrame > 100)
 		{
 			_img->setFrameX(0);
-			_move = DRUNKEN;
+			_move = AREASKILL2;
+			_isMotionLive = true;
 			_skillFrame = 0;
 		}
 	}

@@ -16,7 +16,8 @@ HRESULT townScene::init(void)
 	IMAGEMANAGER->addImage("Å×µÎ¸®", "image/ui/°ÔÀÓÅ×µÎ¸®.bmp", 1000, 550, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("±âº»status", "image/ui/±âº»status.bmp", 650, 200, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("infoStatus", "image/ui/infoStatus.bmp", 350, 200, true, RGB(255, 0, 255));
-	SCENEMANAGER->addScene("¼úÁý¾À", new barScnen);
+	
+
 	return S_OK;
 }
 
@@ -30,11 +31,7 @@ void townScene::update(void)
 	{
 		SCENEMANAGER->changeScene("»óÅÂ¾À");
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F1))
-	{
-		SCENEMANAGER->changeScene("ÇÊµå¾À");
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
 		SCENEMANAGER->changeScene("¼úÁý¾À");
 	}
@@ -45,20 +42,31 @@ void townScene::render(void)
 	IMAGEMANAGER->findImage("Å×µÎ¸®")->render(CAMERA->getCameraDC(), 0, 0);
 	IMAGEMANAGER->findImage("±âº»status")->render(CAMERA->getCameraDC(), 0, 550);
 	IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
+	IMAGEMANAGER->findImage("HP")->frameRender(CAMERA->getCameraDC(), 200, 562);
+	IMAGEMANAGER->findImage("MP")->frameRender(CAMERA->getCameraDC(), 350, 562);
+	IMAGEMANAGER->findImage("EXP")->frameRender(CAMERA->getCameraDC(), 500, 562);
+
 	fontUI();
 }
 
 void townScene::fontUI(void)
 {
 	HFONT font, ofont;
+
+	char charName[] = "¾ÆÅ¸È£";
+	char charName1[] = "½º¸¶½´";
 	char str[] = "Å¸¿î¾À";
-	
+	char str1[] = "¹øµ·";
+
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-	SetTextColor(CAMERA->getCameraDC(), RGB(0, 0, 1));
+	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 -100, str, strlen(str));
+	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY -150,charName, strlen(charName));
+	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 100, charName1, strlen(charName1));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX/2+175, WINSIZEY - 75, str1, strlen(str1));
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }

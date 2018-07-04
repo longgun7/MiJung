@@ -12,6 +12,7 @@ struct tagSkill
 	RECT rc2;				// 아타호 3단계 개인기 레이저 상자 추가
 	float fireX, fireY;		// 스킬 시작 좌표
 	float x, y;				// 스킬 좌표
+	float stoneX, stoneY;	// 아타호 3단계 전체기 돌 좌표
 	bool start;				// 스킬 시작
 	int count;				// 스킬 카운트
 	float speed;			// 스킬 속도
@@ -90,6 +91,10 @@ private:
 	vector<tagSkill>			_vTagSkill;
 	vector<tagSkill>::iterator	_viTagSkill;
 
+	image * _img;			// 모으기 이미지
+	RECT _rc;				// 모으기 상자
+	float _x, _y;			// 모으기 x, y 좌표
+
 	float _range;			// 최대 길이
 
 	int _count;				// 카운트
@@ -150,6 +155,36 @@ public:
 	void render();
 
 	void addSkill(float x, float y);		// 스킬 생성
+	void moveSkill();						// 스킬 움직임
+
+	vector<tagSkill>getVTagSkill() { return _vTagSkill; }
+	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
+};
+
+class atahoAreaSkill3 : public gameNode
+{
+private:
+	vector<tagSkill>			_vTagSkill;
+	vector<tagSkill>::iterator	_viTagSkill;
+
+	float _randnumFireX;					// 불 x 좌표 랜덤
+	float _randnumFireY;					// 불 y 좌표 랜덤
+	float _randnumStoneX;					// 돌 x 좌표 랜덤
+	float _randnumStoneY;					// 돌 y 좌표 랜덤
+
+	int _randStone;							// 돌 프레임 0 or 1 랜덤
+	int _stoneCount;						// 돌 4개만 생성 되게 해주는 카운트
+
+public:
+	atahoAreaSkill3();
+	~atahoAreaSkill3();
+
+	HRESULT init();
+	void realse();
+	void update();
+	void render();
+
+	void addFireSkill(float x, float y);	// 스킬 생성
 	void moveSkill();						// 스킬 움직임
 
 	vector<tagSkill>getVTagSkill() { return _vTagSkill; }

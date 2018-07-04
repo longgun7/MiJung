@@ -1,7 +1,8 @@
 #pragma once
 #include"gameNode.h"
-#include"mapToolScene.h"
-#include"playScene.h"
+
+
+
 class startScene: public gameNode
 {
 private:
@@ -11,6 +12,8 @@ private:
 	int _index, _loadIndex;
 	bool _isLoadCheck;
 	
+	bool _isCount;		//카운트 돌리늬?
+	int _frameCount;	
 public:
 	startScene();
 	~startScene();
