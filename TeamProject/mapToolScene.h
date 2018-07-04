@@ -43,7 +43,7 @@ private:
 	bool _isLButtonFirstDown;
 	bool _isLButtonDown;
 	bool _isShowTileSet;
-
+	bool _isShowMoveTile;
 	bool _isShowMiniMap;
 
 public:
