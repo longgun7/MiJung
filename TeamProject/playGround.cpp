@@ -55,13 +55,6 @@ void playGround::update(void)
 
 	_im->update();
 
-	if (KEYMANAGER->isOnceKeyDown('B'))
-	{
-		for (int i = 0; i < _em->getSpearMan().size(); ++i)
-		{
-			_em->getSpearMan()[i]->setHitMotion(SPEAR_MAN_HIT);
-		}
-	}
 	SCENEMANAGER->update();
 }
 
@@ -79,10 +72,10 @@ void playGround::render(void)
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
 
+	_im->render();
+
 	_pm->render();
 	_em->render();
-
-	_im->render();
 
 	TIMEMANAGER->render(CAMERA->getCameraDC());
 

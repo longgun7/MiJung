@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 
-enum DIRECTION	// 상태
+enum SKELETONDIRECTION	// 상태
 {
 	SKELETON_RIGHT_MOVE,	// 오른쪽 이동
 	SKELETON_LEFT_MOVE,	// 왼쪽 이동
@@ -12,12 +12,12 @@ enum DIRECTION	// 상태
 
 
 
-class skeleton : public gameNode
+class fildSkeleton : public gameNode
 {
 private:
 
 	image * _img;			// 스켈레톤 이미지
-	DIRECTION _direction;	// 스켈레톤 상태
+	SKELETONDIRECTION _direction;	// 스켈레톤 상태
 	RECT _rc;				// 스켈레톤 렉트
 
 	float _x;				// 스켈레톤 x좌표
@@ -42,7 +42,7 @@ public:
 	void setSkeleton(float x, float y);		// 스켈레톤 배치
 	void move();							// 스켈레톤 이동, 모션
 
-	skeleton();
-	~skeleton();
+	fildSkeleton();
+	~fildSkeleton();
 };
 

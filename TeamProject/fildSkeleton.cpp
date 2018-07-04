@@ -1,28 +1,28 @@
 #include "stdafx.h"
-#include "skeleton.h"
+#include "fildSkeleton.h"
 
 
-HRESULT skeleton::init()
+HRESULT fildSkeleton::init()
 {
-	_img = IMAGEMANAGER->addFrameImage("스켈레톤", "image/enemy/스켈레톤.bmp", 270, 360, 5, 5, true, RGB(255, 0, 255), true);	// 스켈레톤 이미지
+	 _img = IMAGEMANAGER->addFrameImage("스켈레톤", "image/enemy/스켈레톤.bmp", 270, 360, 5, 5, true, RGB(255, 0, 255), true);	// 스켈레톤 이미지
 
-	_alphaValue = 255;					// 알파 블렌딩의 알파값 255면 불투명, 0에 가까울 수록 투명
-	_direction = SKELETON_STAND;				// 기본 상태는 가만히 있는 상태
-	_moveCount2 = 0;					// 일정 시간마다 움직임을 바꾸기 위한 카운트 0으로 초기화
-	_speed = 1.0f;						// 이동속도는 1.0f
-	_currentFrameX = _currentFrameY = 0;		// 프레임 이미지 Y와 프레임 감을 인덱스를 0으로 초기화
-	_count = 0;						// 프레임 감을 카운트
-	_moveCount = 4;					// 방향을 바꾸기 위한 카운트 0~3까지 이동 4는 가만히 있는 상태
-	_setSkeleton = false;				// 스켈레톤은 배치 안함
+	 _alphaValue = 255;							// 알파 블렌딩의 알파값 255면 불투명, 0에 가까울 수록 투명
+	 _direction = SKELETON_STAND;				// 기본 상태는 가만히 있는 상태
+	 _moveCount2 = 0;							// 일정 시간마다 움직임을 바꾸기 위한 카운트 0으로 초기화
+	 _speed = 1.0f;								// 이동속도는 1.0f
+	 _currentFrameX = _currentFrameY = 0;		// 프레임 이미지 Y와 프레임 감을 인덱스를 0으로 초기화
+	 _count = 0;								// 프레임 감을 카운트
+	 _moveCount = 4;							// 방향을 바꾸기 위한 카운트 0~3까지 이동 4는 가만히 있는 상태
+	 _setSkeleton = false;						// 스켈레톤은 배치 안함
 
 	return S_OK;
 }
 
-void skeleton::release()
+void fildSkeleton::release()
 {
 }
 
-void skeleton::update()
+void fildSkeleton::update()
 {
 	if (KEYMANAGER->isOnceKeyDown('Y'))	// Y버튼을 누르면
 	{
@@ -47,7 +47,7 @@ void skeleton::update()
 	move();		// move함수 호출
 }
 
-void skeleton::render()
+void fildSkeleton::render()
 {
 	if (_setSkeleton == true)
 	{
@@ -55,13 +55,13 @@ void skeleton::render()
 	}
 }
 
-void skeleton::setSkeleton(float x, float y)
+void fildSkeleton::setSkeleton(float x, float y)
 {
 	_x = x;			// enemyManager.init에서 x를 불러옴
 	_y = y;			// enemyManager.init에서 y를 불러옴
 }
 
-void skeleton::move()
+void fildSkeleton::move()
 {
 	_moveCount2++;														// _moveCount2를 계속 ++ 해줌
 
@@ -110,30 +110,30 @@ void skeleton::move()
 	_count++;	// _count를 ++해준다
 
 	if (_count % 10 == 0)												// _count 나누기 10이 0이라면
-	{
+	{															
 		if (_direction == SKELETON_STAND)										// 상태가 가만히 있는 상태라면
-		{
+		{														
 			_currentFrameX++;											// _currentFrameX를 ++해준다
 
 			if (_currentFrameX > 1) _currentFrameX = 0;					// _currentFrameX가 1보다 크면 _currentFrameX를 0으로 초기화한다								
-		}
+		}														
 		else															// if 조건이 아니라면
-		{
+		{														
 			if (_currentFrameX >= _img->getMaxFrameX()) _currentFrameX = 0;		// _currentFrameX가 _img의 getMaxFrameX보다 크거나 같을 경우 _currentFrameX를 0으로 초기화한다
-
+																
 			_currentFrameX++;											// _currentFrameX를 ++해준다
-		}
-
+		}														
+																
 		_count = 0;														// _count를 0으로 초기화한다
 	}
 
 }
 
-skeleton::skeleton()
+fildSkeleton::fildSkeleton()
 {
 }
 
 
-skeleton::~skeleton()
+fildSkeleton::~fildSkeleton()
 {
 }
