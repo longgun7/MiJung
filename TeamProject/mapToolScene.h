@@ -3,6 +3,8 @@
 #include "tileNode.h"
 #include <vector>
 
+//#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+
 class mapToolScene : public gameNode
 {
 private:
@@ -10,11 +12,21 @@ private:
 	vector<tagCurrentTile>::iterator	_viCurrentTile;
 
 private:
-	//tagCurrentTile	_currentTile;
 	tagSampleTile	_sampleTile[SAMPLETILEX * SAMPLETILEY];
 	tagTile			_tiles[TILEX * TILEY];
 
 	image*			_sampleImg;
+
+	// 버튼
+	image*			_townButtonImg;
+	image*			_InHouseButtonImg;
+	image*			_field1ButtonImg;
+	image*			_field2ButtonImg;
+	image*			_field3ButtonImg;
+	image*			_saveButtonImg;
+
+	string _tileSetName;
+	string _tileName;
 
 	// 화면에 보여질 타일 인덱스 시작번호, 끝번호
 	int startIdX, endIdX;
@@ -25,6 +37,8 @@ private:
 
 	POINT _ptFirstClick;
 	POINT _ptLastClick;
+
+	RECT drawRc;
 
 	bool _isLButtonFirstDown;
 	bool _isLButtonDown;
@@ -41,8 +55,16 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
+	void setImageInit();
 	void setup();
 	void setMap();
+	void setMoveTile();
+
+	void keyInput();
+	void buttonClick();
+
+	void save();
+	void load();
 
 	// 화면에 보여질 타일 인덱스 번호 설정
 	void setShowTileIndex();
