@@ -854,6 +854,7 @@ void atahoAreaSkill2::moveSkill()
 		{
 			// 스킬이 없어진다
 			_viTagSkill = _vTagSkill.erase(_viTagSkill);
+
 		}
 		else
 		{
