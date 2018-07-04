@@ -104,17 +104,6 @@ void player2::release()
 void player2::angleManager(float x , float y)
 {
 
-	if (KEYMANAGER->isOnceKeyDown('Q'))
-	{
-		_sceneMode = S_FIELDMODE;
-	}
-	if (KEYMANAGER->isOnceKeyDown('W'))
-	{
-		_sceneMode = S_BATTLEMODE;
-		_x = 100;
-		_y = 300;
-		_move = S_FIGHTREADY;
-	}
 
 	if (_sceneMode == S_FIELDMODE)
 	{
@@ -156,7 +145,7 @@ void player2::angleManager(float x , float y)
 			//Á¤ÀÚ¼¼
 			if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
 			{
-				_move = S_FRONT;
+				_move = S_DOWN;
 
 			}
 			if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
@@ -171,7 +160,7 @@ void player2::angleManager(float x , float y)
 			}
 			if (KEYMANAGER->isOnceKeyUp(VK_UP))
 			{
-				_move = S_BACK;
+				_move = S_UP;
 
 			}
 		
@@ -230,10 +219,10 @@ void player2::image()
 	case S_LEFT:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´¿ÞÂÊ");
 		break;
-	case S_FRONT:
+	case S_DOWN:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´Á¤¸é");
 		break;
-	case S_BACK:
+	case S_UP:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´µÞ¸ð½À");
 		break;
 	case S_LEFTMOVE:

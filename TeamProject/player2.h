@@ -4,7 +4,7 @@
 
 enum SMOVE
 {
-	S_LEFT, S_RIGHT, S_FRONT, S_BACK,
+	S_LEFT, S_RIGHT, S_DOWN, S_UP,
 	S_LEFTMOVE, S_RIGHTMOVE, S_DOWNMOVE, S_UPMOVE,
 	S_SOLOSKILL1, S_SOLOSKILL2, S_SOLOSKILL3,
 	S_AREASKILL1, S_AREASKILL2, S_AREASKILL3,
@@ -52,6 +52,13 @@ public:
 	float getY() { return _y; }
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
 	void setMove(SMOVE move) { _move = move; }
+	void setScene(S_SCENEMODE scene, float x, float y, SMOVE move)//¾À ÀüÈ¯
+	{
+		_sceneMode = scene;
+		_x = x;
+		_y = y;
+		_move = move;
+	}
 	player2();
 	~player2();
 };
