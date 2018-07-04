@@ -222,9 +222,6 @@
     <ClInclude Include="playerManager.h">
       <Filter>playGround\playerManager\player</Filter>
     </ClInclude>
-    <ClInclude Include="statusScene.h">
-      <Filter>2DFramework\Scene\startScene\playScene\statusScene</Filter>
-    </ClInclude>
     <ClInclude Include="battleScene.h">
       <Filter>playGround\Scene\startScene\playScene\battleScene</Filter>
     </ClInclude>
@@ -263,6 +260,12 @@
     </ClInclude>
     <ClInclude Include="statusScene.h">
       <Filter>playGround\Scene\startScene\playScene\statusScene</Filter>
+    </ClInclude>
+    <ClInclude Include="statusScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SumsuSkill.h">
+      <Filter>playGround\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -415,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SumsuSkill.cpp">
+      <Filter>playGround\Skill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
