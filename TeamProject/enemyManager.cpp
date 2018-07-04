@@ -5,7 +5,7 @@
 
 HRESULT enemyManager::init()
 {
-	_randNum = RND->getFromIntTo(1, 5);
+	_randNum = 4;
 
 	for (int i = 0; i < _randNum; i++)
 	{

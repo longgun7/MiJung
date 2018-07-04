@@ -97,9 +97,6 @@ void player2::render()
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
 
-	
-
-
 	char str[125];
 
 	sprintf_s(str, "스킬 프레임 : %d", _skillFrame);
@@ -121,11 +118,9 @@ void player2::render()
     
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
+	
 	//이펙트
-	
 	_effectImage.img->frameRender(getMemDC(), _x-40, _y+10);
-	
-	
 
 }
 
@@ -135,7 +130,6 @@ void player2::release()
 
 void player2::angleManager(float x , float y)
 {
-
 
 	if (_sceneMode == S_FIELDMODE)
 	{
@@ -170,7 +164,6 @@ void player2::angleManager(float x , float y)
 				_move = S_DOWNMOVE;
 				_isMotionLive = true;
 			}
-
 
 		}
 
