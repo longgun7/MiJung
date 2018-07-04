@@ -106,8 +106,8 @@
     <Filter Include="playGround\enemy\스켈레톤">
       <UniqueIdentifier>{ca392800-fa52-4bfb-b15a-eb5afec75351}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\enemy\창병">
-      <UniqueIdentifier>{0cb991e4-cbe4-40b8-bb4d-f1657b2a2f91}</UniqueIdentifier>
+    <Filter Include="playGround\enemy\적">
+      <UniqueIdentifier>{d57808cc-3e34-4457-bd31-9fe5fe211a1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -252,11 +252,11 @@
     <ClInclude Include="tileNode.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="skeleton.h">
+    <ClInclude Include="fildSkeleton.h">
       <Filter>playGround\enemy\스켈레톤</Filter>
     </ClInclude>
-    <ClInclude Include="spearMan.h">
-      <Filter>playGround\enemy\창병</Filter>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\enemy\적</Filter>
     </ClInclude>
     <ClInclude Include="playSceneManager.h">
       <Filter>playGround</Filter>
@@ -344,9 +344,6 @@
     <ClCompile Include="startScene.cpp">
       <Filter>2DFramework\Scene\startScene</Filter>
     </ClCompile>
-    <ClCompile Include="spearMan.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -377,53 +374,41 @@
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="cameraManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Skill.cpp">
+    <ClCompile Include="battleScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cameraManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>2DFramework\playerManager\player\inventory</Filter>
-    </ClCompile>
     <ClCompile Include="Skill.cpp">
-      <Filter>playGround\Skill</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
-    </ClCompile>
-    <ClCompile Include="item.cpp">
-      <Filter>2DFramework\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="itemManager.cpp">
-      <Filter>2DFramework\Item</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\enemy\적</Filter>
     </ClCompile>
-    <ClCompile Include="skeleton.cpp">
+    <ClCompile Include="fildSkeleton.cpp">
       <Filter>playGround\enemy\스켈레톤</Filter>
     </ClCompile>
-    <ClCompile Include="spearMan.cpp">
-      <Filter>playGround\enemy\창병</Filter>
-    </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
-    </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>2DFramework\Scene\startScene\playScene\battleScene</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>2DFramework\playerManager\player</Filter>
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy\적</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="playSceneManager.cpp">
       <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

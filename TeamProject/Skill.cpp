@@ -17,9 +17,7 @@ HRESULT atahoTargetSkill1::init()
 	return S_OK;
 }
 
-void atahoTargetSkill1::realse()
-{
-}
+void atahoTargetSkill1::realse(){}
 
 void atahoTargetSkill1::update()
 {
@@ -157,9 +155,7 @@ HRESULT atahoTargetSkill2::init()
 	return S_OK;
 }
 
-void atahoTargetSkill2::realse()
-{
-}
+void atahoTargetSkill2::realse(){}
 
 void atahoTargetSkill2::update()
 {
@@ -270,9 +266,7 @@ HRESULT atahoTargetSkill3::init()
 	return S_OK;
 }
 
-void atahoTargetSkill3::realse()
-{
-}
+void atahoTargetSkill3::realse(){}
 
 void atahoTargetSkill3::update()
 {
@@ -772,9 +766,7 @@ HRESULT atahoAreaSkill2::init()
 	return S_OK;
 }
 
-void atahoAreaSkill2::realse()
-{
-}
+void atahoAreaSkill2::realse(){}
 
 void atahoAreaSkill2::update()
 {
@@ -881,9 +873,7 @@ HRESULT atahoAreaSkill3::init()
 	return S_OK;
 }
 
-void atahoAreaSkill3::realse()
-{
-}
+void atahoAreaSkill3::realse(){}
 
 void atahoAreaSkill3::update()
 {
@@ -1033,6 +1023,161 @@ void atahoAreaSkill3::moveSkill()
 			++_viTagSkill;
 		}
 	}
+}
 
-	
+sumsuCut::sumsuCut(){}
+
+sumsuCut::~sumsuCut(){}
+
+HRESULT sumsuCut::init()
+{
+	// 이펙트 매니저 스마슈 베기 플레이
+	EFFECTMANAGER->addEffect("SumsuCutDown", "image/effect/SumsuCutDown.bmp", 192, 48, 64, 48, 1.0f, 0.15f, 1);
+	return S_OK;
+}
+
+void sumsuCut::realse(){}
+
+void sumsuCut::update()
+{
+	EFFECTMANAGER->update();
+}
+
+void sumsuCut::render()
+{
+	EFFECTMANAGER->render();
+}
+
+void sumsuCut::addFireSkill(float x, float y)
+{
+	// 스마슈 베기 이미지 플레이
+	EFFECTMANAGER->play("SumsuCutDown", x, y);
+}
+
+sumsuTargetSkill2::sumsuTargetSkill2() {}
+
+sumsuTargetSkill2::~sumsuTargetSkill2() {}
+
+HRESULT sumsuTargetSkill2::init()
+{
+	// 스킬 카운트 초기화
+	_count = 0;
+	// 스킬 이미지 이펙트 생성 및 시간
+	EFFECTMANAGER->addEffect("SumsuTargetSkill21", "image/effect/SumsuTargetSkill21.bmp", 240, 64, 80, 64, 1.0f, 0.2f, 1);
+	EFFECTMANAGER->addEffect("SumsuTargetSkill22", "image/effect/SumsuTargetSkill22.bmp", 192, 64, 64, 64, 1.0f, 0.2f, 1);
+	EFFECTMANAGER->addEffect("CutEffect", "image/effect/CutEffect.bmp", 144, 48, 48, 48, 1.0f, 0.2f, 1);
+
+	return S_OK;
+}
+
+void sumsuTargetSkill2::realse() {}
+
+void sumsuTargetSkill2::update()
+{
+	EFFECTMANAGER->update();
+}
+
+void sumsuTargetSkill2::render()
+{
+	EFFECTMANAGER->render();
+}
+
+void sumsuTargetSkill2::addFireSkill(float x, float y)
+{
+	// 카운트 증가
+	_count++;
+	// 카운트 1과 6일때 실행
+	if (_count == 1 || _count == 6)
+	{
+		EFFECTMANAGER->play("SumsuTargetSkill21", x, y);
+	}
+	// 카운트 20일 때 마무리 베기 실행
+	if (_count == 20)
+	{
+		EFFECTMANAGER->play("SumsuTargetSkill22", x, y);
+		EFFECTMANAGER->play("CutEffect", x + 25, y - 25);
+	}
+}
+sumsuTargetSkill3::sumsuTargetSkill3() {}
+
+sumsuTargetSkill3::~sumsuTargetSkill3() {}
+
+HRESULT sumsuTargetSkill3::init()
+{
+	EFFECTMANAGER->addEffect("SumsuCutDown", "SumsuCutDown.bmp", 192, 48, 64, 48, 1.0f, 0.2f, 1);
+	EFFECTMANAGER->addEffect("SumsuCutUp", "SumsuCutUp.bmp", 192, 48, 64, 48, 1.0f, 0.2f, 1);
+	EFFECTMANAGER->addEffect("SumsuTargetSkill22", "SumsuTargetSkill22.bmp", 192, 64, 64, 64, 1.0f, 0.2f, 1);
+	EFFECTMANAGER->addEffect("CutEffect", "CutEffect.bmp", 144, 48, 48, 48, 1.0f, 0.2f, 1);
+	IMAGEMANAGER->addImage("BigCut", "BigCut.bmp", 48, 64, true, RGB(255, 0, 255), true);
+	return S_OK;
+}
+
+void sumsuTargetSkill3::realse() {}
+
+void sumsuTargetSkill3::update()
+{
+	EFFECTMANAGER->update();
+	moveSkill();
+}
+
+void sumsuTargetSkill3::render()
+{
+	EFFECTMANAGER->render();
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	{
+		_viTagSkill->img->alphaRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top, _alphaColor);
+	}
+}
+
+void sumsuTargetSkill3::cutUpSkill(float x, float y)
+{
+	EFFECTMANAGER->play("SumsuCutUp", x, y);
+}
+
+void sumsuTargetSkill3::cutDownSkill(float x, float y)
+{
+	EFFECTMANAGER->play("SumsuCutDown", x, y);
+}
+
+void sumsuTargetSkill3::cutDiagonalSkill(float x, float y)
+{
+	EFFECTMANAGER->play("SumsuTargetSkill22", x, y);
+	EFFECTMANAGER->play("CutEffect", x + 25, y - 25);
+}
+
+void sumsuTargetSkill3::cutBigSkill(float x, float y)
+{
+	tagSkill targetSkill;
+	ZeroMemory(&targetSkill, sizeof(tagSkill));
+	targetSkill.img = IMAGEMANAGER->findImage("BigCut");
+	targetSkill.fireX = targetSkill.x = x;
+	targetSkill.fireY = targetSkill.y = y;
+	_range = 100.0f;
+	_alphaColor = 255;
+	targetSkill.rc = RectMakeCenter(targetSkill.x, targetSkill.y, targetSkill.img->getWidth(), targetSkill.img->getHeight());
+
+	_vTagSkill.push_back(targetSkill);
+}
+
+void sumsuTargetSkill3::moveSkill()
+{
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end();)
+	{
+		_viTagSkill->x += 2;
+		_viTagSkill->rc = RectMakeCenter(_viTagSkill->x, _viTagSkill->y, _viTagSkill->img->getWidth(), _viTagSkill->img->getHeight());
+
+		if (getDistance(_viTagSkill->x, _viTagSkill->y, _viTagSkill->fireX, _viTagSkill->fireY) > 28)
+		{
+			_alphaColor -= 5;
+		}
+
+		if (_range < getDistance(_viTagSkill->x, _viTagSkill->y, _viTagSkill->fireX, _viTagSkill->fireY))
+		{
+			_viTagSkill = _vTagSkill.erase(_viTagSkill);
+		}
+		else
+		{
+			++_viTagSkill;
+		}
+	}
 }

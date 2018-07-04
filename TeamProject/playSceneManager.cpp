@@ -15,6 +15,17 @@ HRESULT playSceneManager::init(void)
 {
 	sceneAdd();
 
+	IMAGEMANAGER->addFrameImage("HP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("MP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("EXP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->findImage("HP")->setFrameX(0);
+	IMAGEMANAGER->findImage("HP")->setFrameY(2);
+	IMAGEMANAGER->findImage("MP")->setFrameX(1);
+	IMAGEMANAGER->findImage("MP")->setFrameY(2);
+	IMAGEMANAGER->findImage("EXP")->setFrameX(2);
+	IMAGEMANAGER->findImage("EXP")->setFrameY(2);
+
 	SCENEMANAGER->changeScene("스타트씬");
 
 	//플레이어매니저 
@@ -70,7 +81,14 @@ void playSceneManager::update(void)
 		_pm->getPlayer()->setScene(FIELDMODE,WINSIZEX / 2, WINSIZEY / 2, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, WINSIZEX / 2, WINSIZEY / 2 - 50, S_DOWN);
 	}
-
+	if (KEYMANAGER->isOnceKeyDown(VK_F4))
+	{
+		SCENEMANAGER->changeScene("술집씬");
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F9))
+	{
+		SCENEMANAGER->changeScene("맵툴씬");
+	}
 }
 
 void playSceneManager::render(void)

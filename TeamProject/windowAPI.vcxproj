@@ -157,6 +157,7 @@
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="endScene.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="fieldScene.h" />
     <ClInclude Include="gameNode.h" />
@@ -180,11 +181,10 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singletonBase.h" />
-    <ClInclude Include="skeleton.h" />
+    <ClInclude Include="fildSkeleton.h" />
     <ClInclude Include="skeletonWizard.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="soundManager.h" />
-    <ClInclude Include="spearMan.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="statusScene.h" />
     <ClInclude Include="stdafx.h" />
@@ -205,6 +205,7 @@
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="endScene.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="fieldScene.cpp" />
     <ClCompile Include="gameNode.cpp" />
@@ -225,10 +226,9 @@
     <ClCompile Include="playSceneManager.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="sceneManager.cpp" />
-    <ClCompile Include="skeleton.cpp" />
+    <ClCompile Include="fildSkeleton.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="soundManager.cpp" />
-    <ClCompile Include="spearMan.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="statusScene.cpp" />
     <ClCompile Include="stdafx.cpp">

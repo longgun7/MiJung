@@ -48,7 +48,6 @@ void playGround::render(void)
 	DeleteObject(brush);
 
 	//============== 이 위로는 건드리지 말자 ==============
-
 	
 	TIMEMANAGER->render(CAMERA->getCameraDC());
 	_psm->render();
