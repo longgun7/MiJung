@@ -88,14 +88,29 @@ public:
 	void levelCheck();
 
 	
-
 	float getX() { return _x; }
+	void setX(float x) { _x = x; }
+	
 	float getY() { return _y; }
+	void setY(float y) { _y = y; }
+	
+	MOVE getMove() { return _move; }
+	void setMove(MOVE move) { _move = move; }
+
 	SCENEMODE getSCENEMODE() { return _sceneMode; }
 	bool getIsJumping() { return _isJumping; }
 	int getSlopeNum() { return _slopeNum; }
-	void EnemyManagerAdressLink(enemyManager* em) { _em = em; }
+	void EnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
+	void setScene(SCENEMODE _scene,float x , float y , MOVE move) //씬전환
+	{
+		_sceneMode = _scene;
+		_x = x;
+		_y = y;
+		_move = move;
+	}
+	
 	int getFrameX() { return _imageFrame; }
+
 	
 	player();
 	~player();

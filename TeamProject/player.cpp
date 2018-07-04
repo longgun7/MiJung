@@ -114,11 +114,13 @@ void player::update()
 	}
 	move();			      //움직임
 	levelCheck();	      //레벨업 여부
+
+	//스킬 이펙트 업데이트
 	_soloSkillEffect1->update(); //호격권 스킬이펙트 업데이트
 	_soloSkillEffect2->update(); //맹호스페셜 스킬 이펙트 업데이트
 	_soloSkillEffect3->update(); //에너지파 스킬 이펙트 업데이트
-	_areaSkillEffect2->update();
-	_areaSkillEffect3->update();
+	_areaSkillEffect2->update(); //화둔 호화구시수시술! 
+	_areaSkillEffect3->update(); //노익장 대폭발!
 	
 }
 
@@ -154,15 +156,7 @@ void player::release()
 
 void player::fieldKeyManager()
 {
-	//필드모드
-	if (KEYMANAGER->isOnceKeyDown('Q'))
-	{
-		_sceneMode = FIELDMODE;
-		_x = WINSIZEX / 2;
-		_y = WINSIZEY / 2;
-		_move = RIGHT;
-	}
-
+	
 	//필드에 있을 때
 	if (_sceneMode == FIELDMODE)
 	{
@@ -216,17 +210,12 @@ void player::fieldKeyManager()
 void player::battleKeyManager()
 {
 	//배틀모드
-	if (KEYMANAGER->isOnceKeyDown('W'))
-	{
-		_sceneMode = BATTLEMODE;
-		_x = 100;
-		_y = 400;
-		_move = FIGHTREADY;
-	}
+			
 
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
-	{
+	{	
+	
 		//스킬
 		if (KEYMANAGER->isOnceKeyDown('A'))
 		{
