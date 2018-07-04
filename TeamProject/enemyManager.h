@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "fildSkeleton.h"
-#include "enemy.h"
+#include "enemys.h"
 
 #define MAXSKELETON 20
 #define PLAYMAPSIZEY 525 
@@ -16,8 +16,8 @@ private:
 	typedef vector<fildSkeleton*> vFildSkeleton;					// skeleton을 담는 벡터 선언
 	typedef vector<fildSkeleton*>::iterator viFildSkeleton;			// 벡터 접근자인 iterator 선언
 
-	typedef vector<spearMan*> vSpearMan;
-	typedef vector<spearMan*>::iterator viSpearMan;
+	typedef vector<kungpu*> vSpearMan;
+	typedef vector<kungpu*>::iterator viSpearMan;
 
 private:
 
@@ -44,6 +44,10 @@ public:
 
 	void setPlayerAddressLink(player* _player) { _ataho = _player; }
 	void setPlayer2AddressLink(player2* _player2) { _smasu = _player2; }
+
+	vector<kungpu*> getVSpearMan() { return _vSpearMan; }
+	vector<kungpu*>::iterator getVISpearMan() { return _viSpearMan; }
+	
 
 	enemyManager();
 	~enemyManager();
