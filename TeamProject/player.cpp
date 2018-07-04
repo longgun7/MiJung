@@ -15,6 +15,8 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호오른쪽이동", "image/player/아타호 오른쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호왼쪽이동", "image/player/아타호 왼쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	
+	IMAGEMANAGER->addFrameImage("아타호정권찌르기", "image/player/아타호 정권찌르기.bmp", 704, 172, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호돌려차기", "image/player/아타호 돌려차기.bmp", 704, 172, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호노익장대폭발", "image/player/아타호 노익장대폭발.bmp", 220, 80, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호맹호광파참", "image/player/아타호 맹호광파참.bmp", 244, 85, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호맹호난무", "image/player/아타호 맹호난무.bmp", 1912, 110, 14, 1, true, RGB(255, 0, 255));
@@ -479,10 +481,10 @@ void player::playerImage()
 	switch (_move)
 	{
 	case BASICSKILL1:
-		
+		_img = IMAGEMANAGER->findImage("아타호정권찌르기");
 		break;
 	case BASICSKILL2:
-		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		_img = IMAGEMANAGER->findImage("아타호돌려차기");
 		break;
 	case BASICSKILL3:
 		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
@@ -655,19 +657,37 @@ void player::move()
 	//정권찌르기
 	if (_move == BASICSKILL1)
 	{
+		_x = WINSIZEX - 200;
 		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
 	}
 	
 	//돌려차기
 	if (_move == BASICSKILL2)
 	{
+		_x = WINSIZEX - 200;
 		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
 	}
 
 	//다리후리기
 	if ( _move == BASICSKILL3)
 	{
+		_x = WINSIZEX - 200;
 		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
 	}
 	////////////////////////////////////
 	//
