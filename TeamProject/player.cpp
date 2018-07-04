@@ -820,7 +820,7 @@ void player::move()
 	if (_move == AREASKILL3)
 	{
 		++_skillFrame;
-		if (_skillFrame % 7 == 0)
+		if (_skillFrame % 7 == 0 && _skillFrame < 150)
 		{
 			_areaSkillEffect3->addFireSkill(_x, _y);
 		}
@@ -828,7 +828,8 @@ void player::move()
 		{
 			_img->setFrameX(_img->getMaxFrameX());
 		}
-		if (_skillFrame >= 150)
+
+		if (_skillFrame >= 300)
 		{
 			_move = FIGHTREADY;
 			_skillFrame = 0;
