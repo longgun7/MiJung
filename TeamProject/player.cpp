@@ -139,6 +139,10 @@ void player::render()
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
 
+	char str2[124];
+	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
+	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
+
 	
 }
 
@@ -262,7 +266,17 @@ void player::battleKeyManager()
 		}
 		if (KEYMANAGER->isOnceKeyDown('Z'))
 		{
-			_move = DRINK;
+			_move = BASICSKILL1;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isOnceKeyDown('X'))
+		{
+			_move = BASICSKILL2;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isOnceKeyDown('C'))
+		{
+			_move = BASICSKILL3;
 			_isMotionLive = true;
 		}
 	}
@@ -465,7 +479,7 @@ void player::playerImage()
 	switch (_move)
 	{
 	case BASICSKILL1:
-		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		
 		break;
 	case BASICSKILL2:
 		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
@@ -639,17 +653,22 @@ void player::move()
 	////////////////////////////////////
 
 	//정권찌르기
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _move == BASICSKILL1)
+	if (_move == BASICSKILL1)
 	{
-
+		++_skillFrame;
 	}
 	
 	//돌려차기
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _move == BASICSKILL1)
+	if (_move == BASICSKILL2)
 	{
-
+		++_skillFrame;
 	}
 
+	//다리후리기
+	if ( _move == BASICSKILL3)
+	{
+		++_skillFrame;
+	}
 	////////////////////////////////////
 	//
 	//              개인기
@@ -657,7 +676,7 @@ void player::move()
 	////////////////////////////////////
 
 	//호격권
-	if (_img == IMAGEMANAGER->findImage("아타호호격권") && _move == SOLOSKILL1)
+	if ( _move == SOLOSKILL1)
 	{
 		if (_img->getFrameX() >= 9)
 		{
@@ -682,7 +701,7 @@ void player::move()
 	}
 	
 	//광파참
-	if (_img == IMAGEMANAGER->findImage("아타호맹호광파참") && _move == SOLOSKILL2)
+	if ( _move == SOLOSKILL2)
 	{
 		
 		++_skillFrame;
@@ -720,7 +739,7 @@ void player::move()
 	}
 
 	//맹호스페셜
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _img->getFrameX() >= 25 && _move == SOLOSKILL3)
+	if ( _img->getFrameX() >= 25 && _move == SOLOSKILL3)
 	{
 		_x += 10;
 		_soloSkillEffect2->addSkill(_x, _y+10);
@@ -738,7 +757,7 @@ void player::move()
 	////////////////////////////////////////////
 
 	//맹호난무
-	if (_img == IMAGEMANAGER->findImage("아타호맹호난무"));
+	if (_move == AREASKILL1);
 	{
 		if (_isJumping)
 		{
@@ -766,7 +785,7 @@ void player::move()
 
 	}
 	//화둔
-	if (_img == IMAGEMANAGER->findImage("아타호화둔"))
+	if (_move == AREASKILL2)
 	{
 		++_skillFrame;
 		_x = WINSIZEX - 200;
@@ -798,7 +817,7 @@ void player::move()
 		}
 	}
 	//노익장 대폭발
-	if (_img == IMAGEMANAGER->findImage("아타호노익장대폭발"))
+	if (_move == AREASKILL3)
 	{
 		++_skillFrame;
 		if (_skillFrame % 7 == 0)
