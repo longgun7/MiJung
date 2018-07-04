@@ -82,7 +82,10 @@ void playSceneManager::update(void)
 	{
 		SCENEMANAGER->changeScene("¼úÁı¾À");
 	}
-
+	if (KEYMANAGER->isOnceKeyDown(VK_F9))
+	{
+		SCENEMANAGER->changeScene("¸ÊÅø¾À");
+	}
 }
 
 void playSceneManager::render(void)

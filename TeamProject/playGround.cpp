@@ -33,10 +33,6 @@ void playGround::update(void)
 	gameNode::update();
 	_psm->update();
 	
-
-
-
-	SCENEMANAGER->update();
 }
 
 void playGround::render(void)
@@ -52,15 +48,7 @@ void playGround::render(void)
 	DeleteObject(brush);
 
 	//============== 이 위로는 건드리지 말자 ==============
-
 	
-	SCENEMANAGER->render();
-
-	//SetTextColor(getMemDC(), RGB(0, 0, 0));
-	//TIMEMANAGER->render(getMemDC());
-
-	
-
 	TIMEMANAGER->render(CAMERA->getCameraDC());
 	_psm->render();
 
