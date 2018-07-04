@@ -17,6 +17,7 @@ struct tagSkill
 	int count;				// 스킬 카운트
 	float speed;			// 스킬 속도
 	float angle;			// 스킬 각도
+	float _width;			// 스킬 이미지 가로 크기
 };
 //======= 아타호 개인 스킬 1번 : 호격권 ========
 class atahoTargetSkill1 : public gameNode
@@ -253,4 +254,37 @@ public:
 	void cutDiagonalSkill(float x, float y);	// 대각선 베기 스킬 생성
 	void cutBigSkill(float x, float y);			// 마무리 베기 스킬 생성
 	void moveSkill();
+	
+	vector<tagSkill>getVTagSkill() { return _vTagSkill; }
+	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
+};
+
+class sumsuAreaSkill1 : public gameNode
+{
+private:
+	vector<tagSkill>			_vTagSkill;
+	vector<tagSkill>::iterator	_viTagSkill;
+
+	int _currentExp;	// 스킬 현재 경험치
+	int _maxExp;		// 스킬 최대 경험치
+	int _level;
+
+	float _range;
+
+public:
+	sumsuAreaSkill1();
+	~sumsuAreaSkill1();
+
+	HRESULT init();
+	void realse();
+	void update();
+	void render();
+
+	void addAreaSkill(float x, float y, int monsterNum);
+
+	vector<tagSkill>getVTagSkill() { return _vTagSkill; }
+	vector<tagSkill>::iterator getVITagSkill() { return _viTagSkill; }
+
+	int getCurrentExp() { return _currentExp; }
+	int getLevel() { return _level; }
 };

@@ -12,7 +12,7 @@ HRESULT atahoTargetSkill1::init()
 	_alphaCount = 0;
 	_currentExp = 0;
 	_maxExp = 100;
-	_level = 2;
+	_level = 1;	
 	_width = 0;
 	return S_OK;
 }
@@ -103,7 +103,7 @@ void atahoTargetSkill1::addSkill(float x, float y)
 	_width = 0;
 	_currentExp += 40;			// 스킬 경험치 40 증가
 
-								// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
+	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
 	{
 		_currentExp = 0;
@@ -1178,5 +1178,200 @@ void sumsuTargetSkill3::moveSkill()
 		{
 			++_viTagSkill;
 		}
+	}
+}
+
+sumsuAreaSkill1::sumsuAreaSkill1() {}
+
+sumsuAreaSkill1::~sumsuAreaSkill1() {}
+
+HRESULT sumsuAreaSkill1::init()
+{
+	IMAGEMANAGER->addFrameImage("SumsuAreaSkill1", "SumsuAreaSkill1.bmp", 4, 2, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("SumsuTargetSkill21", "SumsuTargetSkill21.bmp", 240, 64, 3, 1, true, RGB(255, 0, 255));
+
+	_currentExp = 0;
+	_maxExp = 100;
+	_level = 1;
+	return S_OK;
+}
+
+void sumsuAreaSkill1::realse() {}
+
+void sumsuAreaSkill1::update()
+{
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	{
+		_viTagSkill->count++;
+		if (_level == 1)
+		{
+			if (_viTagSkill->count < 10)
+			{
+				_viTagSkill->_width += 20;
+			}
+			else if (_viTagSkill->count > 20 && _viTagSkill->count < 41)
+			{
+				_viTagSkill->rc.left += 10;
+				_viTagSkill->_width -= 10;
+			}
+		}
+		if (_level == 2)
+		{
+			if (_viTagSkill->count < 10)
+			{
+				_viTagSkill->_width += 40;
+			}
+
+			if (_viTagSkill->count > 20 && _viTagSkill->count < 41)
+			{
+				_viTagSkill->rc.left += 20;
+				_viTagSkill->_width -= 20;
+			}
+		}
+		if (_level == 3)
+		{
+			if (_viTagSkill->count < 10)
+			{
+				_viTagSkill->_width += 57;
+			}
+
+			if (_viTagSkill->count > 20 && _viTagSkill->count < 41)
+			{
+				_viTagSkill->rc.left += 28;
+				_viTagSkill->_width -= 28;
+			}
+		}
+		if (_level == 4)
+		{
+			if (_viTagSkill->count < 10)
+			{
+				_viTagSkill->_width += 74;
+			}
+
+			if (_viTagSkill->count > 20 && _viTagSkill->count < 41)
+			{
+				_viTagSkill->rc.left += 37;
+				_viTagSkill->_width -= 37;
+			}
+		}
+		if (_viTagSkill->count >= 42)
+		{
+			_viTagSkill = _vTagSkill.erase(_viTagSkill);
+			break;
+		}
+	}
+}
+
+void sumsuAreaSkill1::render()
+{
+	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
+	{
+		_viTagSkill->img->frameRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top,
+			_viTagSkill->img->getFrameX(), _viTagSkill->img->getFrameY(),
+			_viTagSkill->_width, _viTagSkill->img->getFrameHeight());
+	}
+}
+
+
+void sumsuAreaSkill1::addAreaSkill(float x, float y, int monsterNum)
+{
+	tagSkill areaSkill[4];
+	_currentExp += 40;									// 스킬 경험치 40 증가
+
+														// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
+	if (_currentExp >= _maxExp)
+	{
+		_currentExp = 0;
+		_level++;
+		if (_level > 4)
+		{
+			_level = 4;
+		}
+	}
+	for (int i = 0; i < monsterNum; ++i)
+	{
+		ZeroMemory(&areaSkill[i], sizeof(tagSkill));
+		areaSkill[i].img = IMAGEMANAGER->findImage("SumsuAreaSkill1");
+		if (_level == 1)
+		{
+			if (monsterNum == 4)
+			{
+				if (i == 0 || i == 3)
+				{
+					areaSkill[i].fireX = areaSkill[i].x = x - 100;
+				}
+				if (i == 1 || i == 2)
+				{
+					areaSkill[i].fireX = areaSkill[i].x = x - 150;
+				}
+			}
+			else
+			{
+				areaSkill[i].fireX = areaSkill[i].x = x - 100 + i * 50;
+			}
+		}
+		else if (_level == 2)
+		{
+			if (monsterNum == 4)
+			{
+				if (i == 0 || i == 3)
+				{
+					areaSkill[i].fireX = areaSkill[i].x = x - 200;
+				}
+				if (i == 1 || i == 2)
+				{
+					areaSkill[i].fireX = areaSkill[i].x = x - 250;
+				}
+			}
+			else
+			{
+				areaSkill[i].fireX = areaSkill[i].x = x - 200 + i * 50;
+			}
+		}
+		else if (_level == 3)
+		{
+			if (monsterNum == 4)
+			{
+				if (i == 0 || i == 3)
+				{
+					areaSkill[i].fireX = areaSkill[i].x = x - 350;
+				}
+				if (i == 1 || i == 2)
+				{
+					areaSkill[i].fireX = areaSkill[i].x = x - 400;
+				}
+			}
+			else
+			{
+				areaSkill[i].fireX = areaSkill[i].x = x - 350 + i * 50;
+			}
+		}
+		else if (_level == 4)
+		{
+			if (monsterNum == 4)
+			{
+				if (i == 0 || i == 3)
+				{
+					areaSkill[i].fireX = areaSkill[i].x = x - 500;
+				}
+				if (i == 1 || i == 2)
+				{
+					areaSkill[i].fireX = areaSkill[i].x = x - 550;
+				}
+			}
+			else
+			{
+				areaSkill[i].fireX = areaSkill[i].x = x - 500 + i * 50;
+			}
+		}
+		areaSkill[i].fireY = areaSkill[i].y = y * (i + 1);
+
+		_range = 50.0f;
+		areaSkill[i]._width = 10;
+
+		areaSkill[i].count = 0;
+		areaSkill[i].rc = RectMakeCenter(areaSkill[i].x, areaSkill[i].y, areaSkill[i].img->getFrameWidth(), areaSkill[i].img->getFrameHeight());
+
+		_vTagSkill.push_back(areaSkill[i]);
 	}
 }
