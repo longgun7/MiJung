@@ -5,38 +5,38 @@
 
 HRESULT enemyManager::init()
 {
-	_randNum = 4;
+	_randNum = RND->getFromIntTo(1, 5);
 
 	for (int i = 0; i < _randNum; i++)
 	{
-		spearMan* spearMans;
-		spearMans = new spearMan;
+		kungpu* kungpus;
+		kungpus = new kungpu;
 
 		if (_randNum == 1)
 		{
-			spearMans->init(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);
+			kungpus->init(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);
 		}
 		if (_randNum == 2)
 		{
-			spearMans->init((WINSIZEX / 2 + 200) + (i * 50), (PLAYMAPSIZEY / 3) * (i + 1));
+			kungpus->init((WINSIZEX / 2 + 200) + (i * 50), (PLAYMAPSIZEY / 3) * (i + 1));
 		}
 		if (_randNum == 3)
 		{
-			spearMans->init((WINSIZEX / 2 + 200) + (i * 50), (PLAYMAPSIZEY / 4) * (i + 1));
+			kungpus->init((WINSIZEX / 2 + 200) + (i * 50), (PLAYMAPSIZEY / 4) * (i + 1));
 		}
 		if (_randNum == 4)
 		{
 			if (i == 0 || i == 3)
 			{
-				spearMans->init(WINSIZEX / 2 + 200, (PLAYMAPSIZEY / 5) * (i + 1));
+				kungpus->init(WINSIZEX / 2 + 200, (PLAYMAPSIZEY / 5) * (i + 1));
 			}
 			if (i == 1 || i == 2)
 			{
-				spearMans->init((WINSIZEX / 2 + 200) - 50, (PLAYMAPSIZEY / 5) * (i + 1));
+				kungpus->init((WINSIZEX / 2 + 200) - 50, (PLAYMAPSIZEY / 5) * (i + 1));
 			}
 		}
 
-		_vSpearMan.push_back(spearMans);
+		_vSpearMan.push_back(kungpus);
 	}
 
 	return S_OK;

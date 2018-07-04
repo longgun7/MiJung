@@ -240,11 +240,14 @@
     <ClInclude Include="fildSkeleton.h">
       <Filter>playGround\enemy\스켈레톤</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>playGround\enemy\적</Filter>
-    </ClInclude>
     <ClInclude Include="playSceneManager.h">
       <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="enemys.h">
+      <Filter>playGround\enemy\적</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\enemy</Filter>
     </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\Scene\startScene\mapToolScene</Filter>
@@ -371,9 +374,6 @@
     <ClCompile Include="player.cpp">
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>playGround\enemy\적</Filter>
-    </ClCompile>
     <ClCompile Include="fildSkeleton.cpp">
       <Filter>playGround\enemy\스켈레톤</Filter>
     </ClCompile>
@@ -403,6 +403,18 @@
     </ClCompile>
     <ClCompile Include="Skill.cpp">
       <Filter>playGround\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemys.cpp">
+      <Filter>playGround\enemy\적</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
