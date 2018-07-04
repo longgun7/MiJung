@@ -30,7 +30,7 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 50, 77, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호세레모니", "image/player/아타호 세레모니.bmp", 287, 67, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호코골이", "image/player/아타호 코골이.bmp", 1145, 50, 12, 1, true, RGB(255, 0, 255));
-	
+	IMAGEMANAGER->addFrameImage("아타호쓰러짐", "image/player/아타호 쓰러짐.bmp", 246, 63, 3, 1, true, RGB(255, 0, 255));
 	//줄타기
 	IMAGEMANAGER->addFrameImage("올라타기", "image/player/올라타기.bmp", 100, 120, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기", "image/player/줄타기.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
@@ -235,64 +235,72 @@ void player::battleKeyManager()
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
 	{	
-	
-		//스킬
-		if (KEYMANAGER->isOnceKeyDown('A'))
+		if (_attribute.currentHp > 0)
 		{
-			_move = SOLOSKILL1;
-			_isMotionLive = true;
+			//스킬
+			if (KEYMANAGER->isOnceKeyDown('A'))
+			{
+				_move = SOLOSKILL1;
+				_isMotionLive = true;
 
-		}
-		if (KEYMANAGER->isOnceKeyDown('S'))
-		{
-			_move = SOLOSKILL2;
-			_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('S'))
+			{
+				_move = SOLOSKILL2;
+				_isMotionLive = true;
 
-		}
-		if (KEYMANAGER->isOnceKeyDown('D'))
-		{
-			_move = SOLOSKILL3;
-			_isMotionLive = true;
-			_x = WINSIZEX - 200;
+			}
+			if (KEYMANAGER->isOnceKeyDown('D'))
+			{
+				_move = SOLOSKILL3;
+				_isMotionLive = true;
+				_x = WINSIZEX - 200;
 
+			}
+			if (KEYMANAGER->isOnceKeyDown('F'))
+			{
+				_move = AREASKILL1;
+				_isMotionLive = true;
+				_x = WINSIZEX - 200;
+				_jumpPower = 5.0f;
+				_gravity = 0.2f;
+			}
+			if (KEYMANAGER->isOnceKeyDown('G'))
+			{
+				_move = DRINK;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('H'))
+			{
+				_move = AREASKILL3;
+				_isMotionLive = true;
+				_x = WINSIZEX / 2;
+			}
+			if (KEYMANAGER->isOnceKeyDown('Z'))
+			{
+				_move = BASICSKILL1;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('X'))
+			{
+				_move = BASICSKILL2;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('C'))
+			{
+				_move = BASICSKILL3;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('V'))
+			{
+				_move = DAMAGE;
+				_isMotionLive = true;
+				_attribute.currentHp -= 4;
+			}
 		}
-		if (KEYMANAGER->isOnceKeyDown('F'))
+		else
 		{
-			_move = AREASKILL1;
-			_isMotionLive = true;
-			_x = WINSIZEX - 200;
-			_jumpPower = 5.0f;
-			_gravity = 0.2f;
-		}
-		if (KEYMANAGER->isOnceKeyDown('G'))
-		{
-			_move = DRINK;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isOnceKeyDown('H'))
-		{
-			_move = AREASKILL3;
-			_isMotionLive = true;
-			_x = WINSIZEX / 2;
-		}
-		if (KEYMANAGER->isOnceKeyDown('Z'))
-		{
-			_move = BASICSKILL1;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isOnceKeyDown('X'))
-		{
-			_move = BASICSKILL2;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isOnceKeyDown('C'))
-		{
-			_move = BASICSKILL3;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isOnceKeyDown('V'))
-		{
-			_move = DAMAGE;
+			_img = IMAGEMANAGER->findImage("아타호쓰러짐");
 			_isMotionLive = true;
 		}
 	}

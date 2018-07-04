@@ -69,7 +69,7 @@ private:
 	bool    _isMotionLive;   //스킬, 상하좌우 움직임 여부
 	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
 	bool    _isSwordMounting; //무기 장착여부
-	
+
 	image*  _img;		     //이미지
 	string	_imageName;      //이미지이름
 	MOVE	_move;		     //움직임 상태
