@@ -18,8 +18,7 @@ HRESULT startScene::init(void)
 	IMAGEMANAGER->addImage("loadChoice", "image/ui/statusChoice2.bmp", 350, 400, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addFrameImage("UIBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("LOADBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
-	
-	
+	IMAGEMANAGER->addImage("화면전환", "image/ui/화면전환.bmp", 1000, 750, false, RGB(0, 0, 0),true);
 
 	IMAGEMANAGER->findImage("UIBUTTON")->setFrameX(7);
 	IMAGEMANAGER->findImage("UIBUTTON")->setFrameY(0);
@@ -35,6 +34,8 @@ HRESULT startScene::init(void)
 	_isLoadCheck = false;
 	_index = 0;
 
+	_frameCount = 0;
+	_isCount = false;
 	return S_OK;
 }
 
@@ -44,7 +45,13 @@ void startScene::release(void)
 
 void startScene::update(void)
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	if(_isCount)
+	{
+		_frameCount+=5;
+		if (_frameCount >= 255) _frameCount = 255;
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F9))
 	{
 		SCENEMANAGER->changeScene("맵툴씬");
 	}
@@ -91,7 +98,9 @@ void startScene::update(void)
 		IMAGEMANAGER->findImage("UIBUTTON")->setFrameY(1);
 		if(_index==0)
 		{
-			SCENEMANAGER->changeScene("타운씬");
+			_isCount = true;
+			
+			
 		}
 		if(_index ==1)
 		{
@@ -131,6 +140,10 @@ void startScene::update(void)
 			_loadY = WINSIZEY / 2 - 100+i*50;
 		}
 	}
+	if (_frameCount >= 255)
+	{
+		SCENEMANAGER->changeScene("타운씬");
+	}
 }
 
 void startScene::render(void)
@@ -143,7 +156,7 @@ void startScene::render(void)
 		IMAGEMANAGER->findImage("loadChoice")->render(CAMERA->getCameraDC(), WINSIZEX / 2 + 150, WINSIZEY / 2 - 150);
 		IMAGEMANAGER->findImage("LOADBUTTON")->frameRender(CAMERA->getCameraDC(), _loadX, _loadY);
 	}
-	
+	IMAGEMANAGER->findImage("화면전환")->alphaRender(CAMERA->getCameraDC(), 0, 0,_frameCount);
 	fontUI();
 }
 
