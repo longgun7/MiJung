@@ -357,10 +357,10 @@ void mapToolScene::keyInput()
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
-		buttonClick();
+	{		
 		_isLButtonDown = true;
 		if (!_isLButtonFirstDown) { _ptFirstClick = _ptBGMouse; _isLButtonFirstDown = true; }
+		if (_isShowTileSet) buttonClick();
 		if (_isShowMoveTile) setMoveTile();
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
