@@ -1,21 +1,12 @@
 #pragma once
 #include "gameNode.h"
-#include "startScene.h"
-#include "endScene.h"
-#include "playerManager.h"
-#include "itemManager.h"
-#include "enemyManager.h"
-
+#include "playSceneManager.h"
 
 //환세이취호전 시작
 class playGround : public gameNode
 {
 private:
-
-	//플레이어 매니저
-	playerManager * _pm;
-	itemManager* _im;
-	enemyManager* _em;
+	playSceneManager * _psm;
 	
 public:
 	virtual HRESULT init(void);
@@ -23,7 +14,7 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
-	void sceneAdd(void);
+	
 
 	playGround();
 	~playGround();

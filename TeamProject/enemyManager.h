@@ -1,9 +1,10 @@
 #pragma once
 #include "gameNode.h"
-#include "skeleton.h"
-#include "spearMan.h"
+#include "fildSkeleton.h"
+#include "enemy.h"
 
 #define MAXSKELETON 20
+#define PLAYMAPSIZEY 525 
 
 class player;
 class player2;
@@ -12,24 +13,27 @@ class enemyManager : public gameNode
 {
 private:
 
-	typedef vector<skeleton*> vSkeleton;					// skeleton을 담는 벡터 선언
-	typedef vector<skeleton*>::iterator viSkeleton;			// 벡터 접근자인 iterator 선언
+	typedef vector<fildSkeleton*> vFildSkeleton;					// skeleton을 담는 벡터 선언
+	typedef vector<fildSkeleton*>::iterator viFildSkeleton;			// 벡터 접근자인 iterator 선언
 
-	typedef vector<spearMan*> vSpearMan;					// spearMan을 담는 벡터 선언
-	typedef vector<spearMan*>::iterator viSpearMan;			// 벡터 접근자는 iterator 선언 
+	typedef vector<spearMan*> vSpearMan;
+	typedef vector<spearMan*>::iterator viSpearMan;
 
 private:
 
-	vSkeleton _vSkeleton;		// 벡터를 사용하기 위한 _vSkeleton 선언
-	viSkeleton _viSkeleton;		// 벡터를 사용하기 위한 _viSkeleton 선언
+	vFildSkeleton _vFildSkeleton;		// 벡터를 사용하기 위한 _vSkeleton 선언
+	viFildSkeleton _viFildSkeleton;		// 벡터를 사용하기 위한 _viSkeleton 선언
 
 	vSpearMan _vSpearMan;
 	viSpearMan _viSpearMan;
 
 	player* _ataho;
 	player2* _smasu;
-	skeleton* _skeleton;		// 스켈레톤 함수를 사용하기 위해 선언
-	spearMan * _spearMan;
+	
+	fildSkeleton* _fildSkeleton;		// 스켈레톤 함수를 사용하기 위해 선언
+	
+	int _randNum;
+	int _interval;
 
 public:
 
@@ -38,21 +42,9 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setSkeleton();
-	void setSpearMan();
-
-	void hitDamge();
-	void hitSpearMan(int index, int damage);
-
 	void setPlayerAddressLink(player* _player) { _ataho = _player; }
 	void setPlayer2AddressLink(player2* _player2) { _smasu = _player2; }
-	vector<spearMan*> getSpearMan()
-	{
-		for (int i = 0; i < _vSpearMan.size(); ++ i)
-		{
-			return _vSpearMan;
-		}
-	}
+
 	enemyManager();
 	~enemyManager();
 };
