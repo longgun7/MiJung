@@ -1104,11 +1104,11 @@ sumsuTargetSkill3::~sumsuTargetSkill3() {}
 
 HRESULT sumsuTargetSkill3::init()
 {
-	EFFECTMANAGER->addEffect("SumsuCutDown", "SumsuCutDown.bmp", 192, 48, 64, 48, 1.0f, 0.2f, 1);
-	EFFECTMANAGER->addEffect("SumsuCutUp", "SumsuCutUp.bmp", 192, 48, 64, 48, 1.0f, 0.2f, 1);
-	EFFECTMANAGER->addEffect("SumsuTargetSkill22", "SumsuTargetSkill22.bmp", 192, 64, 64, 64, 1.0f, 0.2f, 1);
-	EFFECTMANAGER->addEffect("CutEffect", "CutEffect.bmp", 144, 48, 48, 48, 1.0f, 0.2f, 1);
-	IMAGEMANAGER->addImage("BigCut", "BigCut.bmp", 48, 64, true, RGB(255, 0, 255), true);
+	EFFECTMANAGER->addEffect("SumsuCutDown", "image/effect/SumsuCutDown.bmp", 192, 48, 64, 48, 1.0f, 0.2f, 1);
+	EFFECTMANAGER->addEffect("SumsuCutUp", "image/effect/SumsuCutUp.bmp", 192, 48, 64, 48, 1.0f, 0.2f, 1);
+	EFFECTMANAGER->addEffect("SumsuTargetSkill22", "image/effect/SumsuTargetSkill22.bmp", 192, 64, 64, 64, 1.0f, 0.2f, 1);
+	EFFECTMANAGER->addEffect("CutEffect", "image/effect/CutEffect.bmp", 144, 48, 48, 48, 1.0f, 0.2f, 1);
+	IMAGEMANAGER->addImage("BigCut", "image/effect/BigCut.bmp", 48, 64, true, RGB(255, 0, 255), true);
 	return S_OK;
 }
 
@@ -1188,8 +1188,8 @@ sumsuAreaSkill1::~sumsuAreaSkill1() {}
 
 HRESULT sumsuAreaSkill1::init()
 {
-	IMAGEMANAGER->addFrameImage("SumsuAreaSkill1", "SumsuAreaSkill1.bmp", 4, 2, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("SumsuTargetSkill21", "SumsuTargetSkill21.bmp", 240, 64, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("SumsuAreaSkill1", "image/effect/SumsuAreaSkill1.bmp", 4, 2, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("SumsuTargetSkill21", "image/effect/SumsuTargetSkill21.bmp", 240, 64, 3, 1, true, RGB(255, 0, 255));
 
 	_currentExp = 0;
 	_maxExp = 100;
