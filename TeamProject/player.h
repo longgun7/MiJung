@@ -23,24 +23,29 @@ enum SCENEMODE
 	FIELDMODE, BATTLEMODE , EVENTMODE
 };
 
+struct tagAttribute
+{
+	int		atk;	//공격력
+	int     def;   //방어력 
+	int     luck;  //운
+	int		cri;   //크리티컬
+	int     speed; //스피드
+	int     currentHp;    //hp
+	int     maxHp;        //총 hp
+	int     currentMp;    //mp
+	int		maxMp;		   //총 mp
+	int     currentExp;   //exp
+	int		maxExp;       //총 exp
+	int     level;        //level
+	bool    isLevelUp;		 //레벨업 여부
+};
 class enemyManager;
 class player :public gameNode
 
 {
 private:
 
-	int		_atk;	//공격력
-	int     _def;   //방어력 
-	int     _luck;  //운
-	int		_cri;   //크리티컬
-	int     _speed; //스피드
-	int     _currentHp;    //hp
-	int     _maxHp;        //총 hp
-	int     _currentMp;    //mp
-	int		_maxMp;		   //총 mp
-	int     _currentExp;   //exp
-	int		_maxExp;       //총 exp
-	int     _level;        //level
+	
     int		_imageFrame;     //이미지프레임
 	int		_frame;		     //프레임
 	int     _skillFrame;     //스킬프레임
@@ -56,13 +61,14 @@ private:
 	bool    _isJumping;      //점프여부
 	bool    _isMotionLive;   //스킬, 상하좌우 움직임 여부
 	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
-	bool    _isLevelUp;		 //레벨업 여부
+	
 	
 	image*  _img;		     //이미지
 	string	_imageName;      //이미지이름
 	MOVE	_move;		     //움직임 상태
 	RECT	_rc;		     //렉트
 	SCENEMODE _sceneMode;	 //씬에 따라 움직임
+	tagAttribute _attribute; //속성
 
 	atahoTargetSkill1* _soloSkillEffect1;
 	atahoTargetSkill2* _soloSkillEffect2;
@@ -84,7 +90,6 @@ public:
 	void eventKeyManager();
 	void slopeNumImage();    //기울기 넘버에 따라 이미지 변화
 	void move();
-	void ropeWalk();
 	void levelCheck();
 
 	
@@ -94,14 +99,20 @@ public:
 	float getY() { return _y; }
 	void setY(float y) { _y = y; }
 	
-	MOVE getMove() { return _move; }
+	MOVE getMove() { return _move; } //상태정의 접근자
 	void setMove(MOVE move) { _move = move; }
 
-	SCENEMODE getSCENEMODE() { return _sceneMode; }
-	bool getIsJumping() { return _isJumping; }
+	tagAttribute getAttribute() { return _attribute; } //속성접근자
+	void setAttribute(tagAttribute attribute) { _attribute = attribute; }
+
+	SCENEMODE getSCENEMODE() { return _sceneMode; } //씬 접근자
+
+	bool getIsJumping() { return _isJumping; } //점핑여부
 	int getSlopeNum() { return _slopeNum; }
+
 	void EnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
-	void setScene(SCENEMODE _scene,float x , float y , MOVE move) //씬전환
+	
+	void setScene(SCENEMODE _scene,float x , float y , MOVE move) //씬전환모음
 	{
 		_sceneMode = _scene;
 		_x = x;
@@ -109,7 +120,7 @@ public:
 		_move = move;
 	}
 	
-	int getFrameX() { return _imageFrame; }
+	int getFrameX() { return _imageFrame; } //이미지프레임 접근자
 
 	
 	player();
