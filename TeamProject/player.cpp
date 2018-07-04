@@ -27,7 +27,7 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호화둔", "image/player/아타호 화둔.bmp", 290, 90, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호술마시기", "image/player/아타호 술마시기.bmp", 655, 95, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호전투상태", "image/player/아타호 전투상태.bmp", 55, 86, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 41, 63, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 50, 77, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호세레모니", "image/player/아타호 세레모니.bmp", 287, 67, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호코골이", "image/player/아타호 코골이.bmp", 1145, 50, 12, 1, true, RGB(255, 0, 255));
 	
@@ -66,18 +66,18 @@ HRESULT player::init()
 	_moveSpeed  = 5;
 	_isMotionLive = false;
 	_isJumping = false;
-	_atk = 5;
-	_def = 10;
-	_luck = 10;
-	_cri = 5;
-	_speed = 10;
-	_currentHp = 20;
-	_maxHp = 20;
-	_currentMp = 20;
-	_maxMp = 20;
-	_currentExp = 0;
-	_maxExp = 100;
-	_level = 1;
+	_attribute.atk = 5;
+	_attribute.def = 10;
+	_attribute.luck = 10;
+	_attribute.cri = 5;
+	_attribute.speed = 10;
+	_attribute.currentHp = 20;
+	_attribute.maxHp = 20;
+	_attribute.currentMp = 20;
+	_attribute.maxMp = 20;
+	_attribute.currentExp = 0;
+	_attribute.maxExp = 100;
+	_attribute.level = 1;
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
 	//아타호 타겟 스킬 
@@ -129,13 +129,17 @@ void player::render()
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
 	
-	//image
-	_img->frameRender(getMemDC(), _rc.left, _rc.top);
+	
 
+	char str2[124];
+	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
+	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
 	//기울기 프레임
 	char str[125];
 	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
 	TextOut(getMemDC(), 100, 410, str, strlen(str));
+	//image
+	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 	//스킬 이펙트 렌더
 	_soloSkillEffect1->render(); 
 	_soloSkillEffect2->render();
@@ -143,15 +147,18 @@ void player::render()
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
 
-	char str2[124];
-	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
-	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
+	
 
 	
 }
 
 void player::release()
 {
+	SAFE_DELETE(_soloSkillEffect1);
+	SAFE_DELETE(_soloSkillEffect2);
+	SAFE_DELETE(_soloSkillEffect3);
+	SAFE_DELETE(_areaSkillEffect2);
+	SAFE_DELETE(_areaSkillEffect3);
 }
 
 void player::fieldKeyManager()
@@ -268,6 +275,11 @@ void player::battleKeyManager()
 		if (KEYMANAGER->isOnceKeyDown('C'))
 		{
 			_move = BASICSKILL3;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isOnceKeyDown('V'))
+		{
+			_move = DAMAGE;
 			_isMotionLive = true;
 		}
 	}
@@ -506,6 +518,9 @@ void player::playerImage()
 		_img = IMAGEMANAGER->findImage("아타호전투상태");
 		_x = 100;
 		_y = 400;
+		break;
+	case DAMAGE:
+		_img = IMAGEMANAGER->findImage("아타호피격");
 		break;
 	default:
 		break;
@@ -888,45 +903,72 @@ void player::move()
 		}
 	}
 
+	//피격당했을 때
+	if (_move == DAMAGE)
+	{
+		++_skillFrame;
+		
+		if (_skillFrame < 20 )
+		{
+			int randMove = RND->getInt(2);
+
+
+			if (randMove == 0)
+			{
+				_x -= 3;
+			}
+			if (randMove == 1)
+			{
+				_x += 3;
+			}
+		}
+		if (_skillFrame > 20)
+		{
+			_x = 100;
+		}
+		if (_skillFrame > 50)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
+	}
+
 
 
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
-void player::ropeWalk()
-{
-}
 
 void player::levelCheck()
 {
 	//레벨업
-	if (_currentExp >= _maxExp)
+	if (_attribute.currentExp >= _attribute.maxExp)
 	{
-		_isLevelUp = true;
+		_attribute.isLevelUp = true;
 	}
 
 	//레벨업 했을 때
-	if (_isLevelUp) 
+	if (_attribute.isLevelUp)
 	{
-		_atk += 5;          
-		_def += 5;			
-		_luck += 5;			
-		_cri  += 5;			
-		_speed += 5;		
+		_attribute.atk += 5;          
+		_attribute.def += 5;			
+		_attribute.luck += 5;			
+		_attribute.cri  += 5;			
+		_attribute.speed += 5;		
+						
+		_attribute.maxHp += 10;		
+		_attribute.currentHp = _attribute.maxHp;
 							
-		_maxHp += 10;		
-		_currentHp = _maxHp;
+		_attribute.maxMp += 10;		
+		_attribute.currentMp = _attribute.maxMp;
 							
-		_maxMp += 10;		
-		_currentMp = _maxMp;
-							
-		_currentExp = 0;	
-		_maxExp += 100;	
-
-		_level += 1;
-							
-		_isLevelUp = false;	
+		_attribute.currentExp = 0;	
+		_attribute.maxExp += 100;	
+		
+		_attribute.level += 1;
+						
+		_attribute.isLevelUp = false;	
 	}
 
 }
