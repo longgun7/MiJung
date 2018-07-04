@@ -15,6 +15,8 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호오른쪽이동", "image/player/아타호 오른쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호왼쪽이동", "image/player/아타호 왼쪽이동.bmp", 200, 80, 4, 1, true, RGB(255, 0, 255));
 	
+	IMAGEMANAGER->addFrameImage("아타호정권찌르기", "image/player/아타호 정권찌르기.bmp", 704, 172, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호돌려차기", "image/player/아타호 돌려차기.bmp", 704, 172, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호노익장대폭발", "image/player/아타호 노익장대폭발.bmp", 220, 80, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호맹호광파참", "image/player/아타호 맹호광파참.bmp", 244, 85, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호맹호난무", "image/player/아타호 맹호난무.bmp", 1912, 110, 14, 1, true, RGB(255, 0, 255));
@@ -139,6 +141,10 @@ void player::render()
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
 
+	char str2[124];
+	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
+	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
+
 	
 }
 
@@ -262,7 +268,17 @@ void player::battleKeyManager()
 		}
 		if (KEYMANAGER->isOnceKeyDown('Z'))
 		{
-			_move = DRINK;
+			_move = BASICSKILL1;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isOnceKeyDown('X'))
+		{
+			_move = BASICSKILL2;
+			_isMotionLive = true;
+		}
+		if (KEYMANAGER->isOnceKeyDown('C'))
+		{
+			_move = BASICSKILL3;
 			_isMotionLive = true;
 		}
 	}
@@ -465,10 +481,10 @@ void player::playerImage()
 	switch (_move)
 	{
 	case BASICSKILL1:
-		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		_img = IMAGEMANAGER->findImage("아타호정권찌르기");
 		break;
 	case BASICSKILL2:
-		_img = IMAGEMANAGER->findImage("아타호맹호스페셜");
+		_img = IMAGEMANAGER->findImage("아타호돌려차기");
 		break;
 	case BASICSKILL3:
 		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
@@ -639,17 +655,40 @@ void player::move()
 	////////////////////////////////////
 
 	//정권찌르기
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _move == BASICSKILL1)
+	if (_move == BASICSKILL1)
 	{
-
+		_x = WINSIZEX - 200;
+		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
 	}
 	
 	//돌려차기
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _move == BASICSKILL1)
+	if (_move == BASICSKILL2)
 	{
-
+		_x = WINSIZEX - 200;
+		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
 	}
 
+	//다리후리기
+	if ( _move == BASICSKILL3)
+	{
+		_x = WINSIZEX - 200;
+		++_skillFrame;
+		if (_skillFrame > 100)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
+	}
 	////////////////////////////////////
 	//
 	//              개인기
@@ -657,7 +696,7 @@ void player::move()
 	////////////////////////////////////
 
 	//호격권
-	if (_img == IMAGEMANAGER->findImage("아타호호격권") && _move == SOLOSKILL1)
+	if ( _move == SOLOSKILL1)
 	{
 		if (_img->getFrameX() >= 9)
 		{
@@ -682,7 +721,7 @@ void player::move()
 	}
 	
 	//광파참
-	if (_img == IMAGEMANAGER->findImage("아타호맹호광파참") && _move == SOLOSKILL2)
+	if ( _move == SOLOSKILL2)
 	{
 		
 		++_skillFrame;
@@ -720,7 +759,7 @@ void player::move()
 	}
 
 	//맹호스페셜
-	if (_img == IMAGEMANAGER->findImage("아타호맹호스페셜") && _img->getFrameX() >= 25 && _move == SOLOSKILL3)
+	if ( _img->getFrameX() >= 25 && _move == SOLOSKILL3)
 	{
 		_x += 10;
 		_soloSkillEffect2->addSkill(_x, _y+10);
@@ -738,7 +777,7 @@ void player::move()
 	////////////////////////////////////////////
 
 	//맹호난무
-	if (_img == IMAGEMANAGER->findImage("아타호맹호난무"));
+	if (_move == AREASKILL1);
 	{
 		if (_isJumping)
 		{
@@ -766,7 +805,7 @@ void player::move()
 
 	}
 	//화둔
-	if (_img == IMAGEMANAGER->findImage("아타호화둔"))
+	if (_move == AREASKILL2)
 	{
 		++_skillFrame;
 		_x = WINSIZEX - 200;
@@ -798,10 +837,10 @@ void player::move()
 		}
 	}
 	//노익장 대폭발
-	if (_img == IMAGEMANAGER->findImage("아타호노익장대폭발"))
+	if (_move == AREASKILL3)
 	{
 		++_skillFrame;
-		if (_skillFrame % 7 == 0)
+		if (_skillFrame % 7 == 0 && _skillFrame < 150)
 		{
 			_areaSkillEffect3->addFireSkill(_x, _y);
 		}
@@ -809,7 +848,8 @@ void player::move()
 		{
 			_img->setFrameX(_img->getMaxFrameX());
 		}
-		if (_skillFrame >= 150)
+
+		if (_skillFrame >= 300)
 		{
 			_move = FIGHTREADY;
 			_skillFrame = 0;

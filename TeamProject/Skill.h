@@ -167,12 +167,13 @@ private:
 	vector<tagSkill>			_vTagSkill;
 	vector<tagSkill>::iterator	_viTagSkill;
 
-	float _randnumFireX;
-	float _randnumFireY;
-	float _randnumStoneX;
-	float _randnumStoneY;
+	float _randnumFireX;					// 불 x 좌표 랜덤
+	float _randnumFireY;					// 불 y 좌표 랜덤
+	float _randnumStoneX;					// 돌 x 좌표 랜덤
+	float _randnumStoneY;					// 돌 y 좌표 랜덤
 
-	int _randStone;
+	int _randStone;							// 돌 프레임 0 or 1 랜덤
+	int _stoneCount;						// 돌 4개만 생성 되게 해주는 카운트
 
 public:
 	atahoAreaSkill3();
@@ -183,7 +184,7 @@ public:
 	void update();
 	void render();
 
-	void addFireSkill(float x, float y);		// 스킬 생성
+	void addFireSkill(float x, float y);	// 스킬 생성
 	void moveSkill();						// 스킬 움직임
 
 	vector<tagSkill>getVTagSkill() { return _vTagSkill; }

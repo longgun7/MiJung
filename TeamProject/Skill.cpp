@@ -876,6 +876,7 @@ atahoAreaSkill3::~atahoAreaSkill3(){}
 
 HRESULT atahoAreaSkill3::init()
 {
+	IMAGEMANAGER->addImage("NULL", 0, 0);		// 빈 이미지 생성
 	return S_OK;
 }
 
@@ -890,11 +891,13 @@ void atahoAreaSkill3::update()
 	{
 		_viTagSkill->count++;
 
-		if (_viTagSkill->count % 10 == 0)
+		// 카운트 5마다 다음 프레임
+		if (_viTagSkill->count % 5 == 0)
 		{
 			if (_viTagSkill->img->getMaxFrameX() <= _viTagSkill->img->getFrameX())
 			{
-				_viTagSkill = _vTagSkill.erase(_viTagSkill);
+				// 최대 프레임 가면 빈 이미지로 바꾼다
+				_viTagSkill->img = IMAGEMANAGER->findImage("NULL");
 				break;
 			}
 			else
@@ -912,33 +915,52 @@ void atahoAreaSkill3::render()
 		_viTagSkill->img->frameRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top,
 			_viTagSkill->img->getFrameX(), _viTagSkill->img->getFrameY());
 
-		_viTagSkill->img1->frameRender(getMemDC(), _viTagSkill->rc1.left, _viTagSkill->rc1.top,
-			_viTagSkill->img1->getFrameX(), _viTagSkill->img1->getFrameY());
+		if (_viTagSkill->img1 != NULL)
+		{
+			_viTagSkill->img1->frameRender(getMemDC(), _viTagSkill->rc1.left, _viTagSkill->rc1.top,
+				_viTagSkill->img1->getFrameX(), _viTagSkill->img1->getFrameY());
+		}
 	}
 }
 
 void atahoAreaSkill3::addFireSkill(float x, float y)
 {
 	tagSkill areaSkill;
-	ZeroMemory(&areaSkill, sizeof(tagSkill));
-	areaSkill.img = new image;
-	areaSkill.img1 = new image;
+	ZeroMemory(&areaSkill, sizeof(tagSkill));	
+	areaSkill.img = new image;	
 	areaSkill.img->init("image/effect/AreaSkillFire3.bmp", 192, 48, 4, 1, true, RGB(255, 0, 255));
-	areaSkill.img1->init("image/effect/AreaSkillStone3.bmp", 64, 48, 2, 1, true, RGB(255, 0, 255));
-
+	// 돌 개수 카운트
+	if (_stoneCount < 4)
+	{
+		areaSkill.img1 = new image;
+		areaSkill.img1->init("image/effect/AreaSkillStone3.bmp", 64, 48, 2, 1, true, RGB(255, 0, 255));
+		_stoneCount++;
+	}
+	// 돌 4개 모두 생성 됫으면 빈 이미지로 나와라
+	else
+	{
+		areaSkill.img1 = new image;
+		areaSkill.img1 = IMAGEMANAGER->findImage("NULL");
+	}
+	// 불 좌표 아타호 중점으로 -100 ~ +100
 	_randnumFireX = RND->getFromFloatTo(x - 100, x + 100);
+	// 불 좌표가 아타호 중점으로 -50 ~ +50 이라면
 	if (_randnumFireX > x - 50 && _randnumFireX < x + 50)
 	{
+		// y 좌표를 위 아래 중 랜덤
 		_randnumFireY = RND->getInt(2);
 		if (_randnumFireY == 0)
 		{
+			// 위
 			_randnumFireY = y - 50;
 		}
 		else if (_randnumFireY == 1)
 		{
+			// 아래
 			_randnumFireY = y + 50;
 		}
 	}
+	// 아타호 주변이 아니라면
 	else
 	{
 		_randnumFireY = y;
@@ -946,30 +968,36 @@ void atahoAreaSkill3::addFireSkill(float x, float y)
 
 	areaSkill.x = _randnumFireX;
 	areaSkill.y = _randnumFireY;
-
+	// 돌 좌표 아타호 중점으로 -100 ~ +100
 	_randnumStoneX = RND->getFromFloatTo(x - 100, x + 100);
+	// 돌 좌표가 아타호 중점으로 -50 ~ +50 이라면
 	if (_randnumStoneX > x - 50 && _randnumStoneX < x + 50)
 	{
+		// y 좌표를 위 아래 중 랜덤
 		_randnumStoneY = RND->getInt(2);
 		if (_randnumStoneY == 0)
 		{
+			// 위
 			_randnumStoneY = y - 50;
 		}
-		else if (_randnumStoneY == 1)
+		else if(_randnumStoneY == 1)
 		{
+			// 아래
 			_randnumStoneY = y + 50;
 		}
 	}
+	// 아타호 주변이 아니라면
 	else
 	{
 		_randnumStoneY = y;
 	}
+	// 돌 프레임 0 or 1 중 랜덤
 	_randStone = RND->getInt(2);
 	areaSkill.img->setFrameX(_randStone);
 
 	areaSkill.stoneX = _randnumStoneX;
 	areaSkill.stoneY = _randnumStoneY;
-	areaSkill.count = 0;
+	areaSkill.count = 0;					// 카운트 초기화
 
 	areaSkill.rc = RectMakeCenter(areaSkill.x, areaSkill.y, areaSkill.img->getFrameWidth(), areaSkill.img->getFrameHeight());
 	areaSkill.rc1 = RectMakeCenter(areaSkill.stoneX, areaSkill.stoneY, areaSkill.img1->getFrameWidth(), areaSkill.img1->getFrameHeight());
@@ -981,18 +1009,29 @@ void atahoAreaSkill3::moveSkill()
 {
 	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end();)
 	{
-		_viTagSkill->stoneY -= 7;
+		// 카운트가 5 아래 또는 50 위면
+		if (_viTagSkill->count < 5 || _viTagSkill->count > 50)
+		{
+			// 돌아 올라가라
+			_viTagSkill->stoneY -= 7;
+		}
 
 		_viTagSkill->rc1 = RectMakeCenter(_viTagSkill->stoneX, _viTagSkill->stoneY,
 			_viTagSkill->img1->getFrameWidth(), _viTagSkill->img1->getFrameHeight());
 
+		// 돌이 다 올라갔다면
 		if (_viTagSkill->stoneY < 0)
 		{
+			// 지워랏
 			_viTagSkill = _vTagSkill.erase(_viTagSkill);
+			// 벡터의 사이즈가 다 없어지면 돌의 개수를 0으로 초기화 시기칸다
+			if (_vTagSkill.size() <= 0) _stoneCount = 0;
 		}
 		else
 		{
 			++_viTagSkill;
 		}
 	}
+
+	
 }
