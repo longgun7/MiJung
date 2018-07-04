@@ -90,7 +90,7 @@ void mapToolScene::render(void)
 		// 선택한 타일셋이 무언인지 알려주는 사각형, 선으로 표시, 안쪽 색은 투명색
 		for (_viCurrentTile = _vCurrentTile.begin(); _viCurrentTile != _vCurrentTile.end(); ++_viCurrentTile)
 		{
-			IMAGEMANAGER->findImage("선택한타일")->render(CAMERA->getCameraDC(), _viCurrentTile->x * TILESIZE + 10, _viCurrentTile->y * TILESIZE + WINSIZEY - _sampleImg->getHeight() - 5);
+			IMAGEMANAGER->findImage("선택한타일")->render(CAMERA->getCameraDC(), _viCurrentTile->x * TILESIZE + 6, _viCurrentTile->y * TILESIZE + WINSIZEY - _sampleImg->getHeight() - 5);
 		}
 
 		if (KEYMANAGER->isToggleKey(VK_TAB))
@@ -338,8 +338,8 @@ void mapToolScene::keyInput()
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		buttonClick();
-
 		_isLButtonDown = true;
+		if (!_isLButtonFirstDown) { _ptFirstClick = _ptBGMouse; _isLButtonFirstDown = true; }
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
 	{
