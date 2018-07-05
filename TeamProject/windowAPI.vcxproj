@@ -161,6 +161,7 @@
     <ClInclude Include="enemys.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="fieldScene.h" />
+    <ClInclude Include="gameEffect.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="enemys.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="fieldScene.cpp" />
+    <ClCompile Include="gameEffect.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />

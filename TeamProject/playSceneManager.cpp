@@ -35,6 +35,11 @@ HRESULT playSceneManager::init(void)
 
 	//전방선언
 	_pm->itemManagerAdressLink(_im);
+	_em->AdressLinkPlayerManager(_pm);
+
+	
+	_pm->getPlayer()->setEnemyManagerAdressLink(_em);
+	_pm->getPlayer2()->setEnemyManagerAdressLink(_em);
 	return S_OK;
 }
 

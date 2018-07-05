@@ -755,7 +755,7 @@ void atahoTargetSkill3::fireSkill4(float x, float y)
 
 	_vTagSkill.push_back(targetSkill);
 }
-
+//======= 아타호 단체 스킬 2번 : 화둔! ========
 atahoAreaSkill2::atahoAreaSkill2(){}
 
 atahoAreaSkill2::~atahoAreaSkill2(){}
@@ -863,7 +863,7 @@ void atahoAreaSkill2::moveSkill()
 		}
 	}
 }
-
+//======= 아타호 개인 스킬 3번 : 노익장 대폭발 ========
 atahoAreaSkill3::atahoAreaSkill3(){}
 
 atahoAreaSkill3::~atahoAreaSkill3(){}
