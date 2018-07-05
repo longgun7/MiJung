@@ -3,29 +3,30 @@
 
 // 창병
 // 해당 에너미의 출현 장소 : 스테이지 1
-HRESULT spearMan::init(float x, float y)
+HRESULT spearMan::init(float x, float y) 
 {
-	_spearMan.img = IMAGEMANAGER->addFrameImage("창병", "image/enemy/창병.bmp", 576, 64, 4, 1, true, RGB(255, 0, 255), true);
+	// 이미지 ~ 능력치 기본 설정 
+	_enemy.img = IMAGEMANAGER->addFrameImage("창병", "image/enemy/창병.bmp", 576, 64, 4, 1, true, RGB(255, 0, 255), true);
 
-	_spearMan.alphaValue = 255;
+	_enemy.alphaValue = 255;
 
-	_spearMan.hp = 10;
-	_spearMan.att = 10;
-	_spearMan.def = 10;
-	_spearMan.miss = 10;
+	_enemy.hp = 10;
+	_enemy.att = 10;
+	_enemy.def = 10;
+	_enemy.miss = 10;
 
-	_spearMan.count = 0;
-	_spearMan.currentFrameX = 0;
-	_spearMan.currentFrameY = 0;
+	_enemy.count = 0;
+	_enemy.deadCount = 0;
+	_enemy.hitCount = 0;
+	_enemy.currentFrameX = 0;
+	_enemy.currentFrameY = 0;
 
-	_spearMan.direction = STAND;
+	_enemy.direction = STAND;
 
-	_spearMan.x = x;
-	_spearMan.y = y;
+	_enemy.x = x;	// 함수의 매개변수를 통해 받아옴
+	_enemy.y = y;	// 함수의 매개변수를 통해 받아옴
 
-	_spearMan.hitCount = 0;
-
-	_spearMan.rc = RectMakeCenter(_spearMan.x, _spearMan.y, _spearMan.img->getFrameWidth(), _spearMan.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -36,26 +37,17 @@ void spearMan::release()
 
 void spearMan::update()
 {
-	if (_spearMan.hp <= 0)
-	{
-		_spearMan.direction = HIT;
-
-		if (_spearMan.alphaValue >= 5)
-		{
-			_spearMan.alphaValue -= 5;
-		}
-	}
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
-		_spearMan.direction = ATTACK;
+		_enemy.direction = ATTACK;
 	}
 	if (KEYMANAGER->isOnceKeyDown('X'))
 	{
-		_spearMan.direction = HIT;
+		_enemy.direction = HIT;
 	}
 	if (KEYMANAGER->isOnceKeyDown('C'))
 	{
-		_spearMan.hp -= 20;
+		_enemy.direction = DEAD;
 	}
 
 	motion();
@@ -63,47 +55,80 @@ void spearMan::update()
 
 void spearMan::render()
 {
-	_spearMan.img->alphaFrameRender(getMemDC(), _spearMan.rc.left, _spearMan.rc.top, _spearMan.currentFrameX, _spearMan.currentFrameY, _spearMan.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void spearMan::motion()
 {
-	_spearMan.count++;
+	++_enemy.count;
 
-	if (_spearMan.direction == HIT)
+	if (_enemy.count == 18)
 	{
-		_spearMan.currentFrameX = 3;
-
-		_spearMan.rc.left += 1;
-	}
-	if (_spearMan.direction == STAND)
-	{
-		_spearMan.currentFrameX = 0;
-
-		_spearMan.rc.left = _spearMan.x;
-	}
-
-	if (_spearMan.count % 18 == 0)
-	{
-		if (_spearMan.currentFrameX == 2) _spearMan.direction = STAND;
-
-		if (_spearMan.direction == ATTACK)
+		if (_enemy.direction == STAND)
 		{
-			++_spearMan.currentFrameX;
+			_enemy.currentFrameX = 0;
 		}
-		if (_spearMan.direction == HIT)
+
+		if (_enemy.direction == ATTACK)
 		{
-			_spearMan.hitCount++;
+			_enemy.currentFrameX++;
 
-			if (_spearMan.hitCount == 3)
+			if (_enemy.currentFrameX == 2)
 			{
-				_spearMan.direction = STAND;
+				_enemy.direction = STAND;
+			}
+		}
+		if (_enemy.direction == HIT)
+		{
+			_enemy.hitCount++;
 
-				_spearMan.hitCount = 0;
+			_enemy.currentFrameX = 3;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
 			}
 		}
 
-		_spearMan.count = 0;
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 3;
+	
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+		
+				_enemy.fadeCount += 1;
+			}
+			else if(_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+		
+				_enemy.fadeCount += 1;
+			}
+		
+			_enemy.deadCount = 0;
+		}
 	}
 }
 
@@ -120,27 +145,27 @@ spearMan::~spearMan()
 // 해당 에너미의 출현 장소 : 스테이지 1
 HRESULT kungpu::init(float x, float y)
 {
-	_kungpu.img = IMAGEMANAGER->addFrameImage("쿵푸", "image/enemy/쿵푸.bmp", 1215, 153, 9, 1, true, RGB(255, 0, 255), true);
+	_enemy.img = IMAGEMANAGER->addFrameImage("쿵푸", "image/enemy/쿵푸.bmp", 1215, 153, 9, 1, true, RGB(255, 0, 255), true);
 
-	_kungpu.alphaValue = 255;
+	_enemy.alphaValue = 255;
 
-	_kungpu.hp = 10;
-	_kungpu.att = 10;
-	_kungpu.def = 10;
-	_kungpu.miss = 10;
+	_enemy.hp = 10;
+	_enemy.att = 10;
+	_enemy.def = 10;
+	_enemy.miss = 10;
 
-	_kungpu.count = 0;
-	_kungpu.currentFrameX = 0;
-	_kungpu.currentFrameY = 0;
+	_enemy.count = 0;
+	_enemy.deadCount = 0;
+	_enemy.fadeCount = 0;
+	_enemy.currentFrameX = 0;
+	_enemy.currentFrameY = 0;
 
-	_kungpu.direction = STAND;
+	_enemy.x = x;
+	_enemy.y = y;
 
-	_kungpu.x = x;
-	_kungpu.y = y;
+	_enemy.hitCount = 0;
 
-	_kungpu.hitCount = 0;
-
-	_kungpu.rc = RectMakeCenter(_kungpu.x, _kungpu.y, _kungpu.img->getFrameWidth(), _kungpu.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 	
 	return S_OK;
 }
@@ -151,36 +176,28 @@ void kungpu::release()
 
 void kungpu::update()
 {
-	if (_kungpu.hp <= 0)
-	{
-		_kungpu.direction = HIT;
-
-		if (_kungpu.alphaValue >= 5)
-		{
-			_kungpu.alphaValue -= 5;
-		}
-	}
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
-		_kungpu.direction = ATTACK;
-	}
-	if (KEYMANAGER->isOnceKeyDown('1'))
-	{
-		_kungpu.direction = SKILL;
+		_enemy.direction = ATTACK;
 
-		_kungpu.currentFrameX = 4;
-	}
-	if (KEYMANAGER->isOnceKeyDown('2'))
-	{
-		_kungpu.direction = SKILL2;
+		_enemy.randAttack = RND->getInt(3);
+
+		if (_enemy.randAttack == 1)
+		{
+			_enemy.currentFrameX = 4;
+		}
+		if (_enemy.randAttack == 2)
+		{
+			_enemy.currentFrameX = 7;
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown('X'))
 	{
-		_kungpu.direction = HIT;
+		_enemy.direction = HIT;
 	}
 	if (KEYMANAGER->isOnceKeyDown('C'))
 	{
-		_kungpu.hp -= 20;
+		_enemy.direction = DEAD;
 	}
 
 	motion();
@@ -188,52 +205,106 @@ void kungpu::update()
 
 void kungpu::render()
 {
-	_kungpu.img->alphaFrameRender(getMemDC(), _kungpu.rc.left, _kungpu.rc.top, _kungpu.currentFrameX, _kungpu.currentFrameY, _kungpu.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void kungpu::motion()
 {
-	_kungpu.count++;
+	_enemy.count++;
 
-	if (_kungpu.direction == HIT)
+	if (_enemy.count == 18)
 	{
-		_kungpu.currentFrameX = 8;
-
-		_kungpu.rc.left += 1;
-	}
-	if (_kungpu.direction == STAND)
-	{
-		_kungpu.currentFrameX = 0;
-
-		_kungpu.rc.left = _kungpu.x;
-	}
-
-	if (_kungpu.count % 18 == 0)
-	{
-		if (_kungpu.direction == ATTACK)
+		if (_enemy.direction == STAND)
 		{
-			++_kungpu.currentFrameX;
-
-			if (_kungpu.currentFrameX > 3) _kungpu.direction = STAND;
+			_enemy.currentFrameX = 0;
 		}
-		if (_kungpu.direction == SKILL)
+		if (_enemy.direction == ATTACK)
 		{
-			++_kungpu.currentFrameX;
-
-			if (_kungpu.currentFrameX == 7) _kungpu.direction = STAND;
-		}
-		if (_kungpu.direction == HIT)
-		{
-			_kungpu.hitCount++;
-
-			if (_kungpu.hitCount == 3)
+			switch (_enemy.randAttack)
 			{
-				_kungpu.direction = STAND;
+			case 0:
 
-				_kungpu.hitCount = 0;
+				_enemy.currentFrameX++;
+
+				if (_enemy.currentFrameX == 3)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+
+			case 1:
+
+				_enemy.currentFrameX++;
+
+				if (_enemy.currentFrameX == 6)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+
+			case 2:
+
+				if (_enemy.currentFrameX == 7)
+				{
+					_enemy.direction = STAND;
+				}
 			}
 		}
 
+		if (_enemy.direction == HIT)
+		{
+			_enemy.hitCount++;
+
+			_enemy.currentFrameX = 8;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 8;
+
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+
+				_enemy.fadeCount += 1;
+			}
+
+			_enemy.deadCount = 0;
+		}
 	}
 }
 
@@ -249,25 +320,23 @@ kungpu::~kungpu()
 // 해당 에너미의 출현 장소 : 스테이지 1
 HRESULT spirit::init(float x, float y)
 {
-	_spirit.img = IMAGEMANAGER->addFrameImage("정령", "image/enemy/정령.bmp", 1494, 88, 9, 1, true, RGB(255, 0, 255), true);
+	_enemy.img = IMAGEMANAGER->addFrameImage("정령", "image/enemy/정령.bmp", 1494, 88, 9, 1, true, RGB(255, 0, 255), true);
 
-	_spirit.alphaValue = 255;
+	_enemy.alphaValue = 255;
 
-	_spirit.hp = 10;
-	_spirit.att = 10;
-	_spirit.def = 10;
-	_spirit.miss = 10;
+	_enemy.hp = 10;
+	_enemy.att = 10;
+	_enemy.def = 10;
+	_enemy.miss = 10;
 
-	_spirit.count = 0;
-	_spirit.currentFrameX = 0;
-	_spirit.currentFrameY = 0;
+	_enemy.count = 0;
+	_enemy.currentFrameX = 0;
+	_enemy.currentFrameY = 0;
 
-	_spirit.direction = STAND;
+	_enemy.x = x;
+	_enemy.y = y;
 
-	_spirit.x = x;
-	_spirit.y = y;
-
-	_spirit.rc = RectMake(_spirit.x, _spirit.y, _spirit.img->getFrameWidth(), _spirit.img->getFrameHeight());
+	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -278,6 +347,7 @@ void spirit::release()
 
 void spirit::update()
 {
+	motion();
 }
 
 void spirit::render()
@@ -300,7 +370,7 @@ spirit::~spirit()
 // 해당 에너미의 출현 장소 : 스테이지 2
 HRESULT bat::init(float x, float y)
 {
-	_bat.img = IMAGEMANAGER->addFrameImage("박쥐", "imgae/enemy/박쥐.bmp", 276, 65, 4, 1, true, RGB(255, 0, 255), true);
+	_bat.img = IMAGEMANAGER->addFrameImage("박쥐", "image/enemy/박쥐.bmp", 276, 65, 4, 1, true, RGB(255, 0, 255), true);
 
 	_bat.alphaValue = 255;
 
@@ -312,8 +382,6 @@ HRESULT bat::init(float x, float y)
 	_bat.count = 0;
 	_bat.currentFrameX = 0;
 	_bat.currentFrameY = 0;
-
-	_bat.direction = STAND;
 	
 	_bat.x = x;
 	_bat.y = y;
@@ -329,6 +397,7 @@ void bat::release()
 
 void bat::update()
 {
+	motion();
 }
 
 void bat::render()
@@ -364,8 +433,6 @@ HRESULT snake::init(float x, float y)
 	_snake.currentFrameX = 0;
 	_snake.currentFrameY = 0;
 
-	_snake.direction = STAND;
-
 	_snake.x = x;
 	_snake.y = y;
 
@@ -380,6 +447,7 @@ void snake::release()
 
 void snake::update()
 {
+	motion();
 }
 
 void snake::render()
@@ -429,6 +497,7 @@ void wildboar::release()
 
 void wildboar::update()
 {
+	motion();
 }
 
 void wildboar::render()
@@ -451,7 +520,7 @@ wildboar::~wildboar()
 // 해당 에너미의 출현 장소 : 스테이지 3
 HRESULT skeleton::init(float x, float y)
 {
-	_skeleton.img = IMAGEMANAGER->addFrameImage("스켈레톤", "image/enemy/스켈레톤.bmp", 261, 64, 3, 1, true, RGB(255, 0, 255), true);
+	_skeleton.img = IMAGEMANAGER->addFrameImage("해골 공격", "image/enemy/해골 공격.bmp", 261, 64, 3, 1, true, RGB(255, 0, 255), true);
 
 	_skeleton.alphaValue = 255;
 
@@ -474,6 +543,7 @@ void skeleton::release()
 
 void skeleton::update()
 {
+	motion();
 }
 
 void skeleton::render()
@@ -496,7 +566,7 @@ skeleton::~skeleton()
 // 해당 에너미의 출현 장소 : 스테이지 3
 HRESULT skeletonMage::init(float x, float y)
 {
-	_skeletonMage.img = IMAGEMANAGER->addFrameImage("스켈레톤마법사", "imgae/enemy/스켈레톤마법사.bmp", 612, 80, 4, 1, true, RGB(255, 0, 255));
+	_skeletonMage.img = IMAGEMANAGER->addFrameImage("스켈레톤마법사", "image/enemy/스켈레톤마법사.bmp", 612, 80, 4, 1, true, RGB(255, 0, 255));
 
 	_skeletonMage.alphaValue = 255;
 
@@ -504,8 +574,6 @@ HRESULT skeletonMage::init(float x, float y)
 	_skeletonMage.att = 10;
 	_skeletonMage.def = 10;
 	_skeletonMage.miss = 10;
-
-	_skeletonMage.direction = STAND;
 
 	_skeletonMage.x = x;
 	_skeletonMage.y = y;
@@ -521,6 +589,7 @@ void skeletonMage::release()
 
 void skeletonMage::update()
 {
+	motion();
 }
 
 void skeletonMage::render()
@@ -552,8 +621,6 @@ HRESULT dragon::init(float x, float y)
 	_dragon.def = 10;
 	_dragon.miss = 10;
 
-	_dragon.direction = STAND;
-
 	_dragon.count = 0;
 	_dragon.currentFrameX = 0;
 	_dragon.currentFrameY = 0;
@@ -570,6 +637,7 @@ void dragon::release()
 
 void dragon::update()
 {
+	motion();
 }
 
 void dragon::render()
@@ -601,6 +669,7 @@ void boss::release()
 
 void boss::update()
 {
+	motion();
 }
 
 void boss::render()
