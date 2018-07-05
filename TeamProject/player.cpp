@@ -286,7 +286,7 @@ void player::battleKeyManager()
 			if (KEYMANAGER->isOnceKeyDown('X'))
 			{
 				_move = BASICSKILL2;
-				_isMotionLive = true;
+				_isMotionLive = true; 
 			}
 			if (KEYMANAGER->isOnceKeyDown('C'))
 			{
@@ -686,6 +686,15 @@ void player::move()
 	{
 		_x = WINSIZEX - 200;
 		++_skillFrame;
+		if (_skillFrame == 50)
+		{
+			for (int i = 0; i < _em->getVSpearMan().size(); i++)
+			{
+				
+			}
+			
+		}
+
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;

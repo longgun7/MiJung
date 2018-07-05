@@ -111,6 +111,7 @@ public:
 	void setY(float y) { _y = y; }
 	
 	MOVE getMove() { return _move; } //상태정의 접근자
+
 	void setMove(MOVE move) { _move = move; }
 
 	tagAttribute getAttribute() { return _attribute; } //속성접근자
@@ -123,7 +124,7 @@ public:
 
 	void setSwordMounting(bool mounting) { _isWeaponMounting = mounting; } //무기 장착여부
 	
-	void EnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
+	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
 	
 	void setScene(SCENEMODE _scene,float x , float y , MOVE move) //씬전환모음
 	{
