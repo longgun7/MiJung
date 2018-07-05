@@ -44,6 +44,8 @@ HRESULT playSceneManager::init(void)
 
 	//전방선언
 	_pm->itemManagerAdressLink(_im);
+	_em->AdressLinkPlayerManager(_pm);
+
 	return S_OK;
 }
 

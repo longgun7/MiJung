@@ -40,6 +40,9 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 1
 class spirit : public enemy
 {
+private:
+
+	tagEnemy _spirit;
 
 public:
 
@@ -58,6 +61,9 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class bat : public enemy
 {
+private:
+
+	tagEnemy _bat;
 
 public:
 
@@ -76,6 +82,9 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class snake : public enemy
 {
+private:
+
+	tagEnemy _snake;
 
 public:
 
@@ -94,6 +103,9 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class wildboar : public enemy
 {
+private:
+
+	tagEnemy _wildboar;
 
 public:
 
@@ -112,6 +124,9 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 3
 class skeleton : public enemy
 {
+private:
+
+	tagEnemy _skeleton;
 
 public:
 
@@ -130,6 +145,9 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 3
 class skeletonMage : public enemy
 {
+private:
+
+	tagEnemy _skeletonMage;
 
 public:
 
