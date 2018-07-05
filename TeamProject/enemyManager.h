@@ -15,9 +15,19 @@ private:
 	vector<enemy*>			 _vEnemy;
 	vector<enemy*>::iterator _viEnemy;
 
+	typedef vector<kungpu*> vSpearMan;
+	typedef vector<kungpu*>::iterator viSpearMan;
+
 private:
 
-	playerManager* _pm;
+	vFildSkeleton _vFildSkeleton;		// 벡터를 사용하기 위한 _vSkeleton 선언
+	viFildSkeleton _viFildSkeleton;		// 벡터를 사용하기 위한 _viSkeleton 선언
+
+	vSpearMan _vSpearMan;
+	viSpearMan _viSpearMan;
+
+	player* _ataho;
+	player2* _smasu;
 	
 	fildSkeleton* _fildSkeleton;		// 스켈레톤 함수를 사용하기 위해 선언
 	
@@ -33,7 +43,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setEnmey();
+	void setEnmey(float x ,float y);
 	void hitEnemy(int index, int damage);
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }
