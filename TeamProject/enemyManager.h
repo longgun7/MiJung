@@ -13,19 +13,10 @@ class enemyManager : public gameNode
 {
 private:
 
-	typedef vector<fildSkeleton*> vFildSkeleton;					// skeleton을 담는 벡터 선언
-	typedef vector<fildSkeleton*>::iterator viFildSkeleton;			// 벡터 접근자인 iterator 선언
-
-	typedef vector<kungpu*> vSpearMan;
-	typedef vector<kungpu*>::iterator viSpearMan;
+	vector<enemy*>			 _vEnemy;
+	vector<enemy*>::iterator _viEnemy;
 
 private:
-
-	vFildSkeleton _vFildSkeleton;		// 벡터를 사용하기 위한 _vSkeleton 선언
-	viFildSkeleton _viFildSkeleton;		// 벡터를 사용하기 위한 _viSkeleton 선언
-
-	vSpearMan _vSpearMan;
-	viSpearMan _viSpearMan;
 
 	player* _ataho;
 	player2* _smasu;
@@ -35,6 +26,8 @@ private:
 	int _randNum;
 	int _interval;
 
+	int _enemyIndex;
+
 public:
 
 	virtual HRESULT init();
@@ -42,12 +35,13 @@ public:
 	virtual void update();
 	virtual void render();
 
+	void setEnmey();
 	void setPlayerAddressLink(player* _player) { _ataho = _player; }
 	void setPlayer2AddressLink(player2* _player2) { _smasu = _player2; }
+	void hitEnemy(int index, int damage);
 
-	vector<kungpu*> getVSpearMan() { return _vSpearMan; }
-	vector<kungpu*>::iterator getVISpearMan() { return _viSpearMan; }
-	
+	vector<enemy*>			 getVEnmey() { return _vEnemy; }
+	vector<enemy*>::iterator getVIEnmey() { return _viEnemy; }
 
 	enemyManager();
 	~enemyManager();

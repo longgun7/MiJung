@@ -1,42 +1,11 @@
 #pragma once
-#include "gameNode.h"
+#include "enemy.h"
 
-enum DIRECTION
-{
-	STAND,
-	ATTACK,
-	HIT,
-	SKILL,
-	SKILL2,
-};
-
-struct tagEnemy
-{
-	image* img;
-	DIRECTION direction;
-	RECT rc;
-
-	int hp;					// 체력
-	int att;				// 공격력
-	int def;				// 방어력
-	int miss;				// 회피율
-	int currentFrameX;		// 현재 프레임 X
-	int currentFrameY;		// 프레임 Y
-	int alphaValue;			// 알파 블렌딩 수치
-	int count;				// 프레임 감을 카운트
-	int hitCount;
-
-	float x;				// X좌표
-	float y;				// Y좌표
-};
 
 // 창병
 // 해당 에너미의 출현 장소 : 스테이지 1
-class spearMan : public gameNode
+class spearMan : public enemy
 {
-private:
-
-	tagEnemy _spearMan;
 
 public:
 
@@ -46,19 +15,14 @@ public:
 	virtual void render();
 
 	void motion();
-	void setDirection(DIRECTION _direction) { _spearMan.direction = _direction; }
 	spearMan();
 	~spearMan();
 };
 
 // 쿵푸
 // 해당 에너미의 출현 장소 : 스테이지 1 
-class kungpu : public gameNode
+class kungpu : public enemy
 {
-private:
-
-	tagEnemy _kungpu;
-
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -74,11 +38,8 @@ public:
 
 // 정령
 // 해당 에너미의 출현 장소 : 스테이지 1
-class spirit : public gameNode
+class spirit : public enemy
 {
-private:
-
-	tagEnemy _spirit;
 
 public:
 
@@ -95,11 +56,8 @@ public:
 
 // 박쥐
 // 해당 에너미의 출현 장소 : 스테이지 2
-class bat : public gameNode
+class bat : public enemy
 {
-private:
-
-	tagEnemy _bat;
 
 public:
 
@@ -116,11 +74,8 @@ public:
 
 // 뱀
 // 해당 에너미의 출현 장소 : 스테이지 2
-class snake : public gameNode
+class snake : public enemy
 {
-private:
-
-	tagEnemy _snake;
 
 public:
 
@@ -137,11 +92,8 @@ public:
 
 // 멧돼지
 // 해당 에너미의 출현 장소 : 스테이지 2
-class wildboar : public gameNode
+class wildboar : public enemy
 {
-private:
-
-	tagEnemy _wildboar;
 
 public:
 
@@ -158,11 +110,8 @@ public:
 
 // 스켈레톤
 // 해당 에너미의 출현 장소 : 스테이지 3
-class skeleton : public gameNode
+class skeleton : public enemy
 {
-private:
-
-	tagEnemy _skeleton;
 
 public:
 
@@ -179,11 +128,8 @@ public:
 
 // 스켈레톤 메이지
 // 해당 에너미의 출현 장소 : 스테이지 3
-class skeletonMage : public gameNode
+class skeletonMage : public enemy
 {
-private:
-
-	tagEnemy _skeletonMage;
 
 public:
 
@@ -200,7 +146,7 @@ public:
 
 // 드래곤
 // 해당 에너미의 출현 장소 : 스테이지 3
-class dragon : public gameNode
+class dragon : public enemy
 {
 private:
 
@@ -221,7 +167,7 @@ public:
 
 // 보스
 // 해당 에너미의 출현 장소 : 보스룸
-class boss : public gameNode
+class boss : public enemy
 {
 private:
 
@@ -240,7 +186,7 @@ public:
 	~boss();
 };
 
-//class middleBoss : public gameNode
+//class middleBoss : public enemy
 //{
 //private:
 //
