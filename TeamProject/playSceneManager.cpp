@@ -46,6 +46,8 @@ HRESULT playSceneManager::init(void)
 	_pm->itemManagerAdressLink(_im);
 	_em->AdressLinkPlayerManager(_pm);
 
+	_pm->getPlayer()->EnemyManagerAdressLink(_em);
+	_pm->getPlayer2()->setEnemyManagerAdressLink(_em);
 	return S_OK;
 }
 

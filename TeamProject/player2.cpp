@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "player2.h"
-
+#include "enemyManager.h"
 HRESULT player2::init(float x , float y)
 {
 
@@ -26,22 +26,15 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÇÇ°Ý", "image/player/½º¸¶½´ ÇÇ°Ý.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÀüÅõ»óÅÂ", "image/player/½º¸¶½´ ÀüÅõ»óÅÂ.bmp", 55, 80, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³«»ç", "image/player/½º¸¶½´ ÇÇ°Ý.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("½º¸¶½´¾²·¯Áü", "image/player/½º¸¶½´ ¾²·¯Áü.bmp", 246, 51, 3, 1, true, RGB(255, 0, 255));
 	//½º¸¶½´ ÁÙÅ¸±â
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÁÙÅ¸±â", "image/player/½º¸¶½´ ÁÙÅ¸±â2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³î¶÷", "image/player/½º¸¶½´ ³î¶÷2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
-	//ÀÌÆåÆ®
-	IMAGEMANAGER->addFrameImage("½º¸¶½´È¸¿À¸®", "image/player/½º¸¶½´ È¸¿À¸®.bmp", 400, 42, 5, 1, true, RGB(255, 0, 255));
+	
 
 	//ÃÊ±â ½º¸¶½´¸ð½À
 	_img = IMAGEMANAGER->findImage("½º¸¶½´Á¤¸é");
 
-	//ÀÌÆåÆ®
-
-	_effectImage.img = IMAGEMANAGER->findImage("½º¸¶½´È¸¿À¸®");
-	
-
-	_effectImage.frameImage = 0;
-	_effectImage.frame = 0;
 	//½º¸¶½´ Á¤º¸
 	_x = x - 60;
 	_y = y;
@@ -54,6 +47,7 @@ HRESULT player2::init(float x , float y)
 	_moveSpeed = 5;
 	_isMotionLive = false;
 	_isJumping = false;
+	_isSwordMounting = false;
 	_sceneMode = S_FIELDMODE;
 	_attribute.atk = 5;
 	_attribute.def = 10;
@@ -73,29 +67,28 @@ HRESULT player2::init(float x , float y)
 	return S_OK;
 }
 
+//µ¥Çò ¤·_<
+//³»°¡ ÀÌ¸À¿¡ ÄÚµùÀ» ¸ø²÷Áö
+
 void player2::update()
 {
-	image();		 //ÀÌ¹ÌÁö
-	
+	image();		 //ÀÌ¹ÌÁö	
 	if (_isMotionLive)
 	{
 		imageFrame();	 //ÀÌ¹ÌÁöÇÁ·¹ÀÓ
 	}
 	move();
 	s_event(); //½º¸¶½´ ÀÌº¥Æ®
+	battleKeyManager(); //¹èÆ²¸ðµåÀÏ ¶§
 	//½ºÅ³
 	_soloSkillEffect->update();
 
-	effectImage();
 }
 
 void player2::render()
 {
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-
-	
-
 
 	char str[125];
 
@@ -113,14 +106,9 @@ void player2::render()
 	}
 	char str4[234];
 	
-	//½ºÅ³
-	_soloSkillEffect->render();
-    
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
-	//ÀÌÆåÆ®
-	
-	_effectImage.img->frameRender(getMemDC(), _x-40, _y+10);
+	strongestSwordEffect();
 	
 	
 
@@ -130,12 +118,17 @@ void player2::release()
 {
 }
 
-void player2::angleManager(float x , float y)
+void player2::fieldKeyManager(float x , float y)
 {
-
 
 	if (_sceneMode == S_FIELDMODE)
 	{
+		++_skillFrame;
+		if (_skillFrame % 7 == 0)
+		{
+			_soloSkillEffect->addSkill(_x, _y-10);
+			_skillFrame = 0;
+		}
 		//¾ÆÅ¸È£ÀÇ À§Ä¡¿¡ µû¶ó ¾Þ±ÛÀÌ ¹Ù²ï´Ù.
 		_angle = getAngle(_x, _y, x, y);
 
@@ -168,7 +161,6 @@ void player2::angleManager(float x , float y)
 				_isMotionLive = true;
 			}
 
-
 		}
 
 			//Á¤ÀÚ¼¼
@@ -194,46 +186,58 @@ void player2::angleManager(float x , float y)
 			}
 		
 	}
+}
 
-	if (_sceneMode == S_BATTLEMODE)
+//¹èÆ²¸ðµå
+void player2::battleKeyManager()
+{
+	if (_attribute.currentHp > 0)
 	{
-		//½ºÅ³
-		if (KEYMANAGER->isOnceKeyDown('A'))
+		if (_sceneMode == S_BATTLEMODE)
 		{
-			_move = S_SOLOSKILL1;
-			_isMotionLive = true;
-			_skillFrame = 0;
+			//½ºÅ³
+			if (KEYMANAGER->isOnceKeyDown('A'))
+			{
+				_move = S_SOLOSKILL1;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('S'))
+			{
+				_move = S_SOLOSKILL2;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('D'))
+			{
+				_move = S_SOLOSKILL3;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('F'))
+			{
+				_move = S_AREASKILL1;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('G'))
+			{
+				_move = S_AREASKILL2;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('H'))
+			{
+				_move = S_AREASKILL3;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
 		}
-		if (KEYMANAGER->isOnceKeyDown('S'))
-		{
-			_move = S_SOLOSKILL2;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
-		if (KEYMANAGER->isOnceKeyDown('D'))
-		{
-			_move = S_SOLOSKILL3;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
-		if (KEYMANAGER->isOnceKeyDown('F'))
-		{
-			_move = S_AREASKILL1;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
-		if (KEYMANAGER->isOnceKeyDown('G'))
-		{
-			_move = S_AREASKILL2;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
-		if (KEYMANAGER->isOnceKeyDown('H'))
-		{
-			_move = S_AREASKILL3;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
+	}
+	else
+	{
+		_move = S_NOCKDOWN;
+		_isMotionLive = true;
 	}
 }
 
@@ -292,12 +296,18 @@ void player2::image()
 	case S_ROPEWALKING:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´ÁÙÅ¸±â");
 		break;
-	case S_FALLING:
+	case S_DANGER:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´³«»ç");
 		break;	
 	case S_AFRAID:
 			_img = IMAGEMANAGER->findImage("½º¸¶½´³î¶÷");
 			break;
+	case S_DEFENCE:
+		_img = IMAGEMANAGER->findImage("½º¸¶½´¹æ¾î");
+		break;
+	case S_NOCKDOWN:
+		_img = IMAGEMANAGER->findImage("½º¸¶½´¾²·¯Áü");
+		break;
 	default:
 		break;
 	}
@@ -500,27 +510,48 @@ void player2::s_event()
 	}
 }
 
-//ÀÌÆåÆ®
-void player2::effectImage()
+void player2::strongestSwordEffect()
 {
-	++_effectImage.frame;
-
-	if (_effectImage.frame % 5 == 0)
-	{
-		++_effectImage.frameImage;
-
-		_effectImage.img->setFrameX(_effectImage.frameImage);
-		
-		if (_effectImage.img->getFrameX() >= _effectImage.img->getMaxFrameX())
+	if (_isSwordMounting)
+	{//ÀÌÆåÆ®
+		if (_move == S_RIGHT || _move == S_UP || _move == S_RIGHTMOVE || _move == S_UPMOVE)
 		{
-			_effectImage.frameImage = 0;
+			//image
+			_img->frameRender(getMemDC(), _rc.left, _rc.top);
+			//½ºÅ³
+			_soloSkillEffect->render();
 		}
-		_effectImage.frame = 0;
+		else
+		{
+			//½ºÅ³
+			_soloSkillEffect->render();
+			//image
+			_img->frameRender(getMemDC(), _rc.left, _rc.top);
+		}
 	}
 }
 
 
+void player2::setDamage(int damage)
+{
+	
+	if (_sceneMode == S_BATTLEMODE)
+	{
+		if (damage > _attribute.def)
+		{
+			damage -= _attribute.def;
+			_move = S_DANGER;
+		}
+		else
+		{
+			damage = 0;
+			_move = S_DEFENCE;
+			_isMotionLive = true;
+		}
 
+		_attribute.currentHp -= damage;
+	}
+}
 
 player2::player2()
 {

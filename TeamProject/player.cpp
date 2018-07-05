@@ -27,10 +27,11 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호화둔", "image/player/아타호 화둔.bmp", 290, 90, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호술마시기", "image/player/아타호 술마시기.bmp", 655, 95, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호전투상태", "image/player/아타호 전투상태.bmp", 55, 86, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 41, 63, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("아타호세레모니", "image/player/아타호 세레모니.bmp", 287, 67, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 50, 77, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호세레모니", "image/player/아타호 세레모니3.bmp", 870, 90, 10, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호코골이", "image/player/아타호 코골이.bmp", 1145, 50, 12, 1, true, RGB(255, 0, 255));
-	
+	IMAGEMANAGER->addFrameImage("아타호쓰러짐", "image/player/아타호 쓰러짐.bmp", 246, 63, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호방어","image/player/아타호 방어.bmp", 45, 64, 1, 1, true, RGB(255, 0, 255));
 	//줄타기
 	IMAGEMANAGER->addFrameImage("올라타기", "image/player/올라타기.bmp", 100, 120, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기", "image/player/줄타기.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
@@ -52,6 +53,13 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("물통줄타기-3", "image/player/물통줄타기-3.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("물통줄타기-4", "image/player/물통줄타기-4.bmp", 81, 112, 1, 1, true, RGB(255, 0, 255));
 	
+	//이펙트
+	IMAGEMANAGER->addFrameImage("스마슈회오리", "image/player/스마슈 회오리.bmp", 400, 42, 5, 1, true, RGB(255, 0, 255));
+
+	//이펙트
+	_effectImage.img = IMAGEMANAGER->findImage("스마슈회오리");
+	_effectImage.frameImage = 0;
+	_effectImage.frame = 0;
 
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
@@ -66,6 +74,8 @@ HRESULT player::init()
 	_moveSpeed  = 5;
 	_isMotionLive = false;
 	_isJumping = false;
+	_isWeaponMounting = false;
+	_attribute.isLevelUp = false;
 	_attribute.atk = 5;
 	_attribute.def = 10;
 	_attribute.luck = 10;
@@ -122,32 +132,41 @@ void player::update()
 	_areaSkillEffect2->update(); //화둔 호화구시수시술! 
 	_areaSkillEffect3->update(); //노익장 대폭발!
 	
+	effectImage();
 }
 
 void player::render()
 {
 	//RECT
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-	
-	//image
-	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 
+	char str2[124];
+	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
+	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
 	//기울기 프레임
 	char str[125];
 	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
 	TextOut(getMemDC(), 100, 410, str, strlen(str));
+	//image
+	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 	//스킬 이펙트 렌더
 	_soloSkillEffect1->render(); 
 	_soloSkillEffect2->render();
 	_soloSkillEffect3->render();
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
-
-	char str2[124];
-	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
-	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
-
 	
+	if (_isWeaponMounting)
+	{//이펙트
+		if (_move != AREASKILL1)
+		{
+			_effectImage.img->frameRender(getMemDC(), _x - 40, _y + 5);
+		}
+		if (_move == AREASKILL1)
+		{
+			_effectImage.img->frameRender(getMemDC(), _x - 30 , _y + 5);
+		}
+	}
 }
 
 void player::release()
@@ -214,65 +233,78 @@ void player::fieldKeyManager()
 
 void player::battleKeyManager()
 {
-	//배틀모드
-			
 
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
 	{	
-	
-		//스킬
-		if (KEYMANAGER->isOnceKeyDown('A'))
+		if (_attribute.currentHp > 0)
 		{
-			_move = SOLOSKILL1;
-			_isMotionLive = true;
+			//스킬
+			if (KEYMANAGER->isOnceKeyDown('A'))
+			{
+				_move = SOLOSKILL1;
+				_isMotionLive = true;
 
-		}
-		if (KEYMANAGER->isOnceKeyDown('S'))
-		{
-			_move = SOLOSKILL2;
-			_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('S'))
+			{
+				_move = SOLOSKILL2;
+				_isMotionLive = true;
 
-		}
-		if (KEYMANAGER->isOnceKeyDown('D'))
-		{
-			_move = SOLOSKILL3;
-			_isMotionLive = true;
-			_x = WINSIZEX - 200;
+			}
+			if (KEYMANAGER->isOnceKeyDown('D'))
+			{
+				_move = SOLOSKILL3;
+				_isMotionLive = true;
+				_x = WINSIZEX - 200;
 
+			}
+			if (KEYMANAGER->isOnceKeyDown('F'))
+			{
+				_move = AREASKILL1;
+				_isMotionLive = true;
+				_x = WINSIZEX - 200;
+				_jumpPower = 5.0f;
+				_gravity = 0.2f;
+			}
+			if (KEYMANAGER->isOnceKeyDown('G'))
+			{
+				_move = DRINK;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('H'))
+			{
+				_move = AREASKILL3;
+				_isMotionLive = true;
+				_x = WINSIZEX / 2;
+			}
+			if (KEYMANAGER->isOnceKeyDown('Z'))
+			{
+				_move = BASICSKILL1;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('X'))
+			{
+				_move = BASICSKILL2;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('C'))
+			{
+				_move = BASICSKILL3;
+				_isMotionLive = true;
+			}
+			if (KEYMANAGER->isOnceKeyDown('V'))
+			{
+				setDamage(11);
+			}
+			if (KEYMANAGER->isOnceKeyDown('B'))
+			{
+				_attribute.currentExp += 50;
+			}
 		}
-		if (KEYMANAGER->isOnceKeyDown('F'))
+		else
 		{
-			_move = AREASKILL1;
-			_isMotionLive = true;
-			_x = WINSIZEX - 200;
-			_jumpPower = 5.0f;
-			_gravity = 0.2f;
-		}
-		if (KEYMANAGER->isOnceKeyDown('G'))
-		{
-			_move = DRINK;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isOnceKeyDown('H'))
-		{
-			_move = AREASKILL3;
-			_isMotionLive = true;
-			_x = WINSIZEX / 2;
-		}
-		if (KEYMANAGER->isOnceKeyDown('Z'))
-		{
-			_move = BASICSKILL1;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isOnceKeyDown('X'))
-		{
-			_move = BASICSKILL2;
-			_isMotionLive = true;
-		}
-		if (KEYMANAGER->isOnceKeyDown('C'))
-		{
-			_move = BASICSKILL3;
+			_img = IMAGEMANAGER->findImage("아타호쓰러짐");
 			_isMotionLive = true;
 		}
 	}
@@ -291,7 +323,6 @@ void player::eventKeyManager()
 		_move = FRONT;
 		_slopeNum = 4;
 		_isWoodDrop = false;
-
 	}
 
 	//아래키 누르면 움직인다
@@ -316,8 +347,7 @@ void player::eventKeyManager()
 	{
 		_isWoodDrop = true;
 	}
-	
-	
+		
 }
 
 
@@ -432,11 +462,8 @@ void player::slopeNumImage()
 				_move = WOODRIGHT4;
 			}
 		}
-
 	}
 }
-
-
 
 void player::playerImage()
 {
@@ -512,6 +539,15 @@ void player::playerImage()
 		_x = 100;
 		_y = 400;
 		break;
+	case DAMAGE:
+		_img = IMAGEMANAGER->findImage("아타호피격");
+		break;
+	case DEFENCE:
+		_img = IMAGEMANAGER->findImage("아타호방어");
+		break;
+	case SEREMONI:
+		_img = IMAGEMANAGER->findImage("아타호세레모니");
+		break;
 	default:
 		break;
 	}
@@ -576,8 +612,7 @@ void player::playerImage()
 
 	default:
 		break;
-	}
-	
+	}	
 }
 void player::imageFrame()
 {
@@ -601,8 +636,6 @@ void player::imageFrame()
 		}
 		
 }
-
-
 
 void player::move()
 {
@@ -733,7 +766,6 @@ void player::move()
 			_img->setFrameX(1);
 		}
 
-
 		if (_skillFrame > 120 && _skillFrame < 122)
 		{
 			_soloSkillEffect3->fireAddSkill(_x + 50, _y);
@@ -785,6 +817,7 @@ void player::move()
 			_isJumping = true;
 			++_skillFrame;
 			_soloSkillEffect2->addSkill(_x+60, _y-29);
+			
 			if (_skillFrame >= 50)
 			{
 				_move = FIGHTREADY;
@@ -893,48 +926,129 @@ void player::move()
 		}
 	}
 
+	//피격당했을 때
+	if (_move == DAMAGE)
+	{
+		++_skillFrame;
+		
+		if (_skillFrame < 20 )
+		{
+			int randMove = RND->getInt(2);
 
+			if (randMove == 0)
+			{
+				_x -= 3;
+			}
+			if (randMove == 1)
+			{
+				_x += 3;
+			}
+		}
+		if (_skillFrame > 20)
+		{
+			_x = 100;
+		}
+		if (_skillFrame > 50)
+		{
+			_skillFrame = 0;
+			_move = FIGHTREADY;
+		}
+	}
 
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
-
+//레벨업 
 void player::levelCheck()
 {
-	//레벨업
-	if (_attribute.currentExp >= _attribute.maxExp)
+	if (_sceneMode == BATTLEMODE)
 	{
-		_attribute.isLevelUp = true;
-	}
+		//레벨업
+		if (_attribute.currentExp >= _attribute.maxExp)
+		{
+			
+			_attribute.isLevelUp = true;
+		}
 
-	//레벨업 했을 때
-	if (_attribute.isLevelUp)
-	{
-		_attribute.atk += 5;          
-		_attribute.def += 5;			
-		_attribute.luck += 5;			
-		_attribute.cri  += 5;			
-		_attribute.speed += 5;		
-						
-		_attribute.maxHp += 10;		
-		_attribute.currentHp = _attribute.maxHp;
-							
-		_attribute.maxMp += 10;		
-		_attribute.currentMp = _attribute.maxMp;
-							
-		_attribute.currentExp = 0;	
-		_attribute.maxExp += 100;	
+		//레벨업 했을 때
+		if (_attribute.isLevelUp)
+		{
+			_x += 20;
+			_y -= 10;
+			_imageFrame = 0;
+			_move = SEREMONI;
+			_isMotionLive = true;
+			_skillFrame = 0;
+			_attribute.atk += 5;
+			_attribute.def += 5;
+			_attribute.luck += 5;
+			_attribute.cri += 5;
+			_attribute.speed += 5;
+
+			_attribute.maxHp += 10;
+			_attribute.currentHp = _attribute.maxHp;
+
+			_attribute.maxMp += 10;
+			_attribute.currentMp = _attribute.maxMp;
+
+			_attribute.currentExp = 0;
+			_attribute.maxExp += 100;
+
+			_attribute.level += 1;
+			_attribute.isLevelUp = false;
 		
-		_attribute.level += 1;
-						
-		_attribute.isLevelUp = false;	
+		}
+
+		if (_move == SEREMONI)
+		{
+			++_skillFrame;
+			if (_skillFrame > 75 )
+			{
+				_move = FIGHTREADY;
+			}
+		}
 	}
 
 }
 
+//에너미가 데미지 넣을 것
+void player::setDamage(int damage)
+{
+	
+	if (damage > _attribute.def)
+	{
+		_move = DAMAGE;
+		_isMotionLive = true;
+		damage -= _attribute.def;
+		_attribute.currentHp -= damage;
+	}
+	else
+	{
+		_move = DEFENCE;
+		_isMotionLive = true;
+		_attribute.currentHp -= 0;
+	}
 
+}
 
+void player::effectImage()
+{
+	++_effectImage.frame;
+
+	if (_effectImage.frame % 5 == 0)
+	{
+		++_effectImage.frameImage;
+
+		_effectImage.img->setFrameX(_effectImage.frameImage);
+
+		if (_effectImage.img->getFrameX() >= _effectImage.img->getMaxFrameX())
+		{
+			_effectImage.frameImage = 0;
+		}
+		_effectImage.frame = 0;
+	}
+}
 
 
 player::player()

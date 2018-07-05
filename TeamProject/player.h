@@ -12,7 +12,8 @@ enum MOVE
 	BASICSKILL1, BASICSKILL2, BASICSKILL3,
 	SOLOSKILL1, SOLOSKILL2, SOLOSKILL3,
 	AREASKILL1, AREASKILL2, AREASKILL3,
-	DRINK,DRUNKEN, FIGHTREADY,
+	DRINK,DRUNKEN, FIGHTREADY, DAMAGE,
+	DEFENCE, SEREMONI,
 	//EVENTMODE
 	FRONT,LEFT1,LEFT2,LEFT3,LEFT4,RIGHT1,RIGHT2,RIGHT3,RIGHT4,
 	WOODFRONT, WOODLEFT1, WOODLEFT2, WOODLEFT3, WOODLEFT4, WOODRIGHT1, WOODRIGHT2, WOODRIGHT3, WOODRIGHT4
@@ -23,6 +24,13 @@ enum SCENEMODE
 	FIELDMODE, BATTLEMODE , EVENTMODE
 };
 
+struct tagEffectImage1
+{
+	int frame;
+	int frameImage;
+	image*  img;
+
+};
 struct tagAttribute
 {
 	int		atk;	//공격력
@@ -39,6 +47,7 @@ struct tagAttribute
 	int     level;        //level
 	bool    isLevelUp;		 //레벨업 여부
 };
+
 class enemyManager;
 class player :public gameNode
 
@@ -61,15 +70,15 @@ private:
 	bool    _isJumping;      //점프여부
 	bool    _isMotionLive;   //스킬, 상하좌우 움직임 여부
 	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
-	
-	
+	bool    _isWeaponMounting; //무기 장착여부
+
 	image*  _img;		     //이미지
 	string	_imageName;      //이미지이름
 	MOVE	_move;		     //움직임 상태
 	RECT	_rc;		     //렉트
 	SCENEMODE _sceneMode;	 //씬에 따라 움직임
 	tagAttribute _attribute; //속성
-
+	tagEffectImage1 _effectImage;
 	atahoTargetSkill1* _soloSkillEffect1;
 	atahoTargetSkill2* _soloSkillEffect2;
 	atahoTargetSkill3* _soloSkillEffect3;
@@ -91,7 +100,9 @@ public:
 	void slopeNumImage();    //기울기 넘버에 따라 이미지 변화
 	void move();
 	void levelCheck();
+	void setDamage(int damage); //데미지 넣을 것
 
+	void effectImage();
 	
 	float getX() { return _x; }
 	void setX(float x) { _x = x; }
@@ -110,6 +121,8 @@ public:
 	bool getIsJumping() { return _isJumping; } //점핑여부
 	int getSlopeNum() { return _slopeNum; }
 
+	void setSwordMounting(bool mounting) { _isWeaponMounting = mounting; } //무기 장착여부
+	
 	void EnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
 	
 	void setScene(SCENEMODE _scene,float x , float y , MOVE move) //씬전환모음
@@ -122,6 +135,7 @@ public:
 	
 	int getFrameX() { return _imageFrame; } //이미지프레임 접근자
 
+	
 	
 	player();
 	~player();
