@@ -4,39 +4,8 @@
 
 HRESULT enemyManager::init()
 {
-	_randNum = RND->getFromIntTo(1, 5);
-	_enemyIndex = 0;
-	//for (int i = 0; i < _randNum; i++)
-	//{
-	//	kungpu* kungpus;
-	//	kungpus = new kungpu;
-	//
-	//	if (_randNum == 1)
-	//	{
-	//		kungpus->init(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);
-	//	}
-	//	if (_randNum == 2)
-	//	{
-	//		kungpus->init((WINSIZEX / 2 + 200) + (i * 50), (PLAYMAPSIZEY / 3) * (i + 1));
-	//	}
-	//	if (_randNum == 3)
-	//	{
-	//		kungpus->init((WINSIZEX / 2 + 200) + (i * 50), (PLAYMAPSIZEY / 4) * (i + 1));
-	//	}
-	//	if (_randNum == 4)
-	//	{
-	//		if (i == 0 || i == 3)
-	//		{
-	//			kungpus->init(WINSIZEX / 2 + 200, (PLAYMAPSIZEY / 5) * (i + 1));
-	//		}
-	//		if (i == 1 || i == 2)
-	//		{
-	//			kungpus->init((WINSIZEX / 2 + 200) - 50, (PLAYMAPSIZEY / 5) * (i + 1));
-	//		}
-	//	}
-	//
-	//	_vSpearMan.push_back(kungpus);
-	//}
+
+
 
 	return S_OK;
 }
@@ -57,16 +26,64 @@ void enemyManager::update()
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
 		_enemyIndex = 1;
-		setEnmey();
+		setEnmey(WINSIZEX/2+200,50);
 	}
 
 	if (KEYMANAGER->isOnceKeyDown('X'))
 	{
 
 		_enemyIndex = 2;
-		setEnmey();
+		setEnmey(WINSIZEX / 2 + 200, 100);
 	}
-	
+
+	if (KEYMANAGER->isOnceKeyDown('V'))
+	{
+
+		_enemyIndex = 3;
+		setEnmey(WINSIZEX / 2 + 200, 150);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('V'))
+	{
+
+		_enemyIndex = 4;
+		setEnmey(WINSIZEX / 2 + 200, 200);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('B'))
+	{
+
+		_enemyIndex = 5;
+		setEnmey(WINSIZEX / 2 + 200, 250);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('N'))
+	{
+
+		_enemyIndex = 6;
+		setEnmey(WINSIZEX / 2 + 200, 300);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('M'))
+	{
+
+		_enemyIndex = 7;
+		setEnmey(WINSIZEX / 2 + 200, 350);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('K'))
+	{
+
+		_enemyIndex = 8;
+		setEnmey(WINSIZEX / 2 + 200, 400);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('L'))
+	{
+
+		_enemyIndex = 9;
+		setEnmey(WINSIZEX / 2 + 200, 450);
+	}
 }
 
 
@@ -85,28 +102,80 @@ void enemyManager::render()
 	}
 }
 
-void enemyManager::setEnmey()
+void enemyManager::setEnmey(float x, float y)
 {
 	switch (_enemyIndex)
 	{
 
 	case 1:
-		spearMan* enemy;
-		enemy = new spearMan;
-		enemy->init(WINSIZEX / 2 + 200, 200);
-
-		_vEnemy.push_back(enemy);
-	break;
-
-	case 2:
-		kungpu* enemy1;
-		enemy1 = new kungpu;
-		enemy1->init(WINSIZEX / 2 + 200, 400);
+		spearMan* enemy1;
+		enemy1 = new spearMan;
+		enemy1->init(x, y);
 
 		_vEnemy.push_back(enemy1);
 	break;
-	case 3:
 
+	case 2:
+		kungpu* enemy2;
+		enemy2 = new kungpu;
+		enemy2->init(x, y);
+
+		_vEnemy.push_back(enemy2);
+	break;
+	case 3:
+		spirit * enemy3;
+		enemy3 = new spirit;
+		enemy3->init(x, y);
+
+		_vEnemy.push_back(enemy3);
+	break;
+
+	case 4:
+		bat * enemy4;
+		enemy4 = new bat;
+		enemy4->init(x, y);
+
+		_vEnemy.push_back(enemy4);
+	break;
+
+	case 5:
+		snake * enemy5;
+		enemy5 = new snake;
+		enemy5->init(x, y);
+
+		_vEnemy.push_back(enemy5);
+	break;
+
+	case 6:
+		wildboar * enemy6;
+		enemy6 = new wildboar;
+		enemy6->init(x, y);
+
+		_vEnemy.push_back(enemy6);
+	break;
+
+	case 7:
+		skeleton * enemy7;
+		enemy7 = new skeleton;
+		enemy7->init(x, y);
+
+		_vEnemy.push_back(enemy7);
+	break;
+
+	case 8:
+		skeletonMage * enemy8;
+		enemy8 = new skeletonMage;
+		enemy8->init(x, y);
+
+		_vEnemy.push_back(enemy8);
+	break;
+
+	case 9:
+		dragon * enemy9;
+		enemy9 = new dragon;
+		enemy9->init(x, y);
+
+		_vEnemy.push_back(enemy9);
 	break;
 	}
 	

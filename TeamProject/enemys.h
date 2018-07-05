@@ -40,10 +40,6 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 1
 class spirit : public enemy
 {
-private:
-
-	tagEnemy _spirit;
-
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -61,10 +57,6 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class bat : public enemy
 {
-private:
-
-	tagEnemy _bat;
-
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -82,10 +74,6 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class snake : public enemy
 {
-private:
-
-	tagEnemy _snake;
-
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -103,10 +91,6 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class wildboar : public enemy
 {
-private:
-
-	tagEnemy _wildboar;
-
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -124,9 +108,6 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 3
 class skeleton : public enemy
 {
-private:
-
-	tagEnemy _skeleton;
 
 public:
 
@@ -145,9 +126,6 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 3
 class skeletonMage : public enemy
 {
-private:
-
-	tagEnemy _skeletonMage;
 
 public:
 
@@ -166,9 +144,6 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 3
 class dragon : public enemy
 {
-private:
-
-	tagEnemy _dragon;
 
 public:
 
@@ -187,9 +162,6 @@ public:
 // 해당 에너미의 출현 장소 : 보스룸
 class boss : public enemy
 {
-private:
-
-	tagEnemy _boss;
 
 public:
 

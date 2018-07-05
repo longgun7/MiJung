@@ -33,7 +33,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setEnmey();
+	void setEnmey(float x ,float y);
 	void hitEnemy(int index, int damage);
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }
