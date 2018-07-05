@@ -28,9 +28,10 @@ HRESULT player::init()
 	IMAGEMANAGER->addFrameImage("아타호술마시기", "image/player/아타호 술마시기.bmp", 655, 95, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호전투상태", "image/player/아타호 전투상태.bmp", 55, 86, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호피격", "image/player/아타호 피격.bmp", 50, 77, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("아타호세레모니", "image/player/아타호 세레모니.bmp", 287, 67, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호세레모니", "image/player/아타호 세레모니3.bmp", 870, 90, 10, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호코골이", "image/player/아타호 코골이.bmp", 1145, 50, 12, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("아타호쓰러짐", "image/player/아타호 쓰러짐.bmp", 246, 63, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("아타호방어","image/player/아타호 방어.bmp", 45, 64, 1, 1, true, RGB(255, 0, 255));
 	//줄타기
 	IMAGEMANAGER->addFrameImage("올라타기", "image/player/올라타기.bmp", 100, 120, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("줄타기", "image/player/줄타기.bmp", 300, 120, 3, 1, true, RGB(255, 0, 255));
@@ -73,7 +74,8 @@ HRESULT player::init()
 	_moveSpeed  = 5;
 	_isMotionLive = false;
 	_isJumping = false;
-	_isSwordMounting = false;
+	_isWeaponMounting = false;
+	_attribute.isLevelUp = false;
 	_attribute.atk = 5;
 	_attribute.def = 10;
 	_attribute.luck = 10;
@@ -154,15 +156,15 @@ void player::render()
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
 	
-	if (_isSwordMounting)
+	if (_isWeaponMounting)
 	{//이펙트
 		if (_move != AREASKILL1)
 		{
-			_effectImage.img->frameRender(getMemDC(), _x - 40, _y + 10);
+			_effectImage.img->frameRender(getMemDC(), _x - 40, _y + 5);
 		}
 		if (_move == AREASKILL1)
 		{
-			_effectImage.img->frameRender(getMemDC(), _x - 30, _y + 10);
+			_effectImage.img->frameRender(getMemDC(), _x - 30 , _y + 5);
 		}
 	}
 }
@@ -284,7 +286,7 @@ void player::battleKeyManager()
 			if (KEYMANAGER->isOnceKeyDown('X'))
 			{
 				_move = BASICSKILL2;
-				_isMotionLive = true;
+				_isMotionLive = true; 
 			}
 			if (KEYMANAGER->isOnceKeyDown('C'))
 			{
@@ -293,9 +295,11 @@ void player::battleKeyManager()
 			}
 			if (KEYMANAGER->isOnceKeyDown('V'))
 			{
-				_move = DAMAGE;
-				_isMotionLive = true;
-				_attribute.currentHp -= 4;
+				setDamage(11);
+			}
+			if (KEYMANAGER->isOnceKeyDown('B'))
+			{
+				_attribute.currentExp += 50;
 			}
 		}
 		else
@@ -538,6 +542,12 @@ void player::playerImage()
 	case DAMAGE:
 		_img = IMAGEMANAGER->findImage("아타호피격");
 		break;
+	case DEFENCE:
+		_img = IMAGEMANAGER->findImage("아타호방어");
+		break;
+	case SEREMONI:
+		_img = IMAGEMANAGER->findImage("아타호세레모니");
+		break;
 	default:
 		break;
 	}
@@ -676,6 +686,15 @@ void player::move()
 	{
 		_x = WINSIZEX - 200;
 		++_skillFrame;
+		if (_skillFrame == 50)
+		{
+			for (int i = 0; i < _em->getVSpearMan().size(); i++)
+			{
+				
+			}
+			
+		}
+
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;
@@ -925,7 +944,6 @@ void player::move()
 		{
 			int randMove = RND->getInt(2);
 
-
 			if (randMove == 0)
 			{
 				_x -= 3;
@@ -950,35 +968,75 @@ void player::move()
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
+//레벨업 
 void player::levelCheck()
 {
-	//레벨업
-	if (_attribute.currentExp >= _attribute.maxExp)
+	if (_sceneMode == BATTLEMODE)
 	{
-		_attribute.isLevelUp = true;
+		//레벨업
+		if (_attribute.currentExp >= _attribute.maxExp)
+		{
+			
+			_attribute.isLevelUp = true;
+		}
+
+		//레벨업 했을 때
+		if (_attribute.isLevelUp)
+		{
+			_x += 20;
+			_y -= 10;
+			_imageFrame = 0;
+			_move = SEREMONI;
+			_isMotionLive = true;
+			_skillFrame = 0;
+			_attribute.atk += 5;
+			_attribute.def += 5;
+			_attribute.luck += 5;
+			_attribute.cri += 5;
+			_attribute.speed += 5;
+
+			_attribute.maxHp += 10;
+			_attribute.currentHp = _attribute.maxHp;
+
+			_attribute.maxMp += 10;
+			_attribute.currentMp = _attribute.maxMp;
+
+			_attribute.currentExp = 0;
+			_attribute.maxExp += 100;
+
+			_attribute.level += 1;
+			_attribute.isLevelUp = false;
+		
+		}
+
+		if (_move == SEREMONI)
+		{
+			++_skillFrame;
+			if (_skillFrame > 75 )
+			{
+				_move = FIGHTREADY;
+			}
+		}
 	}
 
-	//레벨업 했을 때
-	if (_attribute.isLevelUp)
+}
+
+//에너미가 데미지 넣을 것
+void player::setDamage(int damage)
+{
+	
+	if (damage > _attribute.def)
 	{
-		_attribute.atk += 5;          
-		_attribute.def += 5;			
-		_attribute.luck += 5;			
-		_attribute.cri  += 5;			
-		_attribute.speed += 5;		
-						
-		_attribute.maxHp += 10;		
-		_attribute.currentHp = _attribute.maxHp;
-							
-		_attribute.maxMp += 10;		
-		_attribute.currentMp = _attribute.maxMp;
-							
-		_attribute.currentExp = 0;	
-		_attribute.maxExp += 100;	
-		
-		_attribute.level += 1;
-						
-		_attribute.isLevelUp = false;	
+		_move = DAMAGE;
+		_isMotionLive = true;
+		damage -= _attribute.def;
+		_attribute.currentHp -= damage;
+	}
+	else
+	{
+		_move = DEFENCE;
+		_isMotionLive = true;
+		_attribute.currentHp -= 0;
 	}
 
 }

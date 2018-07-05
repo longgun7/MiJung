@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "player2.h"
-
+#include "enemyManager.h"
 HRESULT player2::init(float x , float y)
 {
 
@@ -26,6 +26,7 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÇÇ°Ý", "image/player/½º¸¶½´ ÇÇ°Ý.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÀüÅõ»óÅÂ", "image/player/½º¸¶½´ ÀüÅõ»óÅÂ.bmp", 55, 80, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³«»ç", "image/player/½º¸¶½´ ÇÇ°Ý.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("½º¸¶½´¾²·¯Áü", "image/player/½º¸¶½´ ¾²·¯Áü.bmp", 246, 51, 3, 1, true, RGB(255, 0, 255));
 	//½º¸¶½´ ÁÙÅ¸±â
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÁÙÅ¸±â", "image/player/½º¸¶½´ ÁÙÅ¸±â2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³î¶÷", "image/player/½º¸¶½´ ³î¶÷2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
@@ -71,14 +72,14 @@ HRESULT player2::init(float x , float y)
 
 void player2::update()
 {
-	image();		 //ÀÌ¹ÌÁö
-	
+	image();		 //ÀÌ¹ÌÁö	
 	if (_isMotionLive)
 	{
 		imageFrame();	 //ÀÌ¹ÌÁöÇÁ·¹ÀÓ
 	}
 	move();
 	s_event(); //½º¸¶½´ ÀÌº¥Æ®
+	battleKeyManager(); //¹èÆ²¸ðµåÀÏ ¶§
 	//½ºÅ³
 	_soloSkillEffect->update();
 
@@ -117,7 +118,7 @@ void player2::release()
 {
 }
 
-void player2::angleManager(float x , float y)
+void player2::fieldKeyManager(float x , float y)
 {
 
 	if (_sceneMode == S_FIELDMODE)
@@ -185,46 +186,58 @@ void player2::angleManager(float x , float y)
 			}
 		
 	}
+}
 
-	if (_sceneMode == S_BATTLEMODE)
+//¹èÆ²¸ðµå
+void player2::battleKeyManager()
+{
+	if (_attribute.currentHp > 0)
 	{
-		//½ºÅ³
-		if (KEYMANAGER->isOnceKeyDown('A'))
+		if (_sceneMode == S_BATTLEMODE)
 		{
-			_move = S_SOLOSKILL1;
-			_isMotionLive = true;
-			_skillFrame = 0;
+			//½ºÅ³
+			if (KEYMANAGER->isOnceKeyDown('A'))
+			{
+				_move = S_SOLOSKILL1;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('S'))
+			{
+				_move = S_SOLOSKILL2;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('D'))
+			{
+				_move = S_SOLOSKILL3;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('F'))
+			{
+				_move = S_AREASKILL1;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('G'))
+			{
+				_move = S_AREASKILL2;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
+			if (KEYMANAGER->isOnceKeyDown('H'))
+			{
+				_move = S_AREASKILL3;
+				_isMotionLive = true;
+				_skillFrame = 0;
+			}
 		}
-		if (KEYMANAGER->isOnceKeyDown('S'))
-		{
-			_move = S_SOLOSKILL2;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
-		if (KEYMANAGER->isOnceKeyDown('D'))
-		{
-			_move = S_SOLOSKILL3;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
-		if (KEYMANAGER->isOnceKeyDown('F'))
-		{
-			_move = S_AREASKILL1;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
-		if (KEYMANAGER->isOnceKeyDown('G'))
-		{
-			_move = S_AREASKILL2;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
-		if (KEYMANAGER->isOnceKeyDown('H'))
-		{
-			_move = S_AREASKILL3;
-			_isMotionLive = true;
-			_skillFrame = 0;
-		}
+	}
+	else
+	{
+		_move = S_NOCKDOWN;
+		_isMotionLive = true;
 	}
 }
 
@@ -283,12 +296,18 @@ void player2::image()
 	case S_ROPEWALKING:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´ÁÙÅ¸±â");
 		break;
-	case S_FALLING:
+	case S_DANGER:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´³«»ç");
 		break;	
 	case S_AFRAID:
 			_img = IMAGEMANAGER->findImage("½º¸¶½´³î¶÷");
 			break;
+	case S_DEFENCE:
+		_img = IMAGEMANAGER->findImage("½º¸¶½´¹æ¾î");
+		break;
+	case S_NOCKDOWN:
+		_img = IMAGEMANAGER->findImage("½º¸¶½´¾²·¯Áü");
+		break;
 	default:
 		break;
 	}
@@ -512,6 +531,27 @@ void player2::strongestSwordEffect()
 	}
 }
 
+
+void player2::setDamage(int damage)
+{
+	
+	if (_sceneMode == S_BATTLEMODE)
+	{
+		if (damage > _attribute.def)
+		{
+			damage -= _attribute.def;
+			_move = S_DANGER;
+		}
+		else
+		{
+			damage = 0;
+			_move = S_DEFENCE;
+			_isMotionLive = true;
+		}
+
+		_attribute.currentHp -= damage;
+	}
+}
 
 player2::player2()
 {

@@ -8,7 +8,8 @@ enum SMOVE
 	S_LEFTMOVE, S_RIGHTMOVE, S_DOWNMOVE, S_UPMOVE,
 	S_SOLOSKILL1, S_SOLOSKILL2, S_SOLOSKILL3,
 	S_AREASKILL1, S_AREASKILL2, S_AREASKILL3,
-	S_FIGHTREADY , S_ROPEWALKING , S_FALLING , S_AFRAID
+	S_FIGHTREADY , S_ROPEWALKING , S_DANGER , S_AFRAID,
+	S_DEFENCE,S_NOCKDOWN
 };
 
 enum S_SCENEMODE
@@ -34,7 +35,7 @@ struct S_TagAttribute
 	int     level;        //level
 	bool    isLevelUp;		 //레벨업 여부
 };
-
+class enemyManager;
 class player2 :public gameNode
 {
 private:
@@ -60,6 +61,7 @@ private:
 	
 	//아타호 이펙트 빌려와서 쓴거
 	atahoTargetSkill2* _soloSkillEffect;
+	enemyManager* _em; //전방선언
 	//스마슈 고유 스킬
 //	sumsuCut* _attackEffect;
 	//sumsuAreaSkill1* _areaSkill1;
@@ -73,14 +75,20 @@ public:
 	void release();
 	void image();
 	void imageFrame();
-	void angleManager(float x , float y);
+	void fieldKeyManager(float x , float y);
+	void battleKeyManager();
 	void move();
 	void s_event();
 	void strongestSwordEffect(); //제일 센 무기 이펙트
+	
 	float getY() { return _y; }
+	
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
+	
 	void setMove(SMOVE move) { _move = move; }
+	
 	void setMounting(bool mounting) { _isSwordMounting = mounting; } //무기 장착여부
+	
 	S_TagAttribute getAttribute() { return _attribute; } //속성접근자
 	void setAttribute(S_TagAttribute attribute) { _attribute = attribute; }
 
@@ -92,6 +100,10 @@ public:
 		_y = y;
 		_move = move;
 	}
+
+	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
+	void setDamage(int damage);
+	
 	player2();
 	~player2();
 };
