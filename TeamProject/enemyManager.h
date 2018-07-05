@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "fildSkeleton.h"
 #include "enemys.h"
+#include "playerManager.h"
 
 #define MAXSKELETON 20
 #define PLAYMAPSIZEY 525 
@@ -16,6 +17,9 @@ private:
 	vector<enemy*>::iterator _viEnemy;
 
 private:
+
+	//vFildSkeleton _vFildSkeleton;		// 벡터를 사용하기 위한 _vSkeleton 선언
+	//viFildSkeleton _viFildSkeleton;		// 벡터를 사용하기 위한 _viSkeleton 선언
 
 	playerManager* _pm;
 	
@@ -33,7 +37,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setEnmey();
+	void setEnmey(float x ,float y);
 	void hitEnemy(int index, int damage);
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }

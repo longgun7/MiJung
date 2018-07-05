@@ -351,6 +351,8 @@
       <Filter>playGround\Scene\endScene</Filter>
     </ClCompile>
     <ClCompile Include="startScene.cpp">
+      <Filter>2DFramework\Scene\startScene</Filter>
+    </ClCompile>
       <Filter>playGround\Scene\startScene</Filter>
     </ClCompile>
     <ClCompile Include="townScene.cpp">
@@ -385,9 +387,6 @@
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>playGround\enemy\적</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>소스 파일</Filter>
@@ -427,6 +426,12 @@
     </ClCompile>
     <ClCompile Include="gameEffect.cpp">
       <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
