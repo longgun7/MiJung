@@ -14,7 +14,7 @@ HRESULT playerManager::init()
 	_smasyu->init(_ataho->getX() , _ataho->getY());
 
 	//인벤토리 init()
-
+	_money = 1000;
 	
 	//아이템 매니저 전방선언
 	_itemManager = new itemManager;
@@ -204,7 +204,10 @@ void playerManager::mounting()
 		//포션
 		for (int i = 0; i < _vPorInven.size(); i++)
 		{
-			
+			if (PtInRect(&_vPorInven[i].rc, _ptMouse))
+			{
+
+			}
 		}
 	}
 }
@@ -223,7 +226,7 @@ void playerManager::getItemValue()
 				tagInventory inventory;
 				ZeroMemory(&inventory, sizeof(inventory));
 
-				inventory.name = _itemManager->getA_Weapon()->getName(i);
+				inventory.name = _itemManager->getA_Weapon()->getItemName(i);
 				inventory.atk = _itemManager->getA_Weapon()->getVItem()[i].atk;
 				inventory.def = _itemManager->getA_Weapon()->getVItem()[i].def;
 				inventory.luck = _itemManager->getA_Weapon()->getVItem()[i].luck;
@@ -242,7 +245,7 @@ void playerManager::getItemValue()
 				tagInventory inventory;
 				ZeroMemory(&inventory, sizeof(inventory));
 
-				inventory.name = _itemManager->getA_Armor()->getName(i);
+				inventory.name = _itemManager->getA_Armor()->getItemName(i);
 				inventory.atk = _itemManager->getA_Armor()->getVItem()[i].atk;
 				inventory.def = _itemManager->getA_Armor()->getVItem()[i].def;
 				inventory.luck = _itemManager->getA_Armor()->getVItem()[i].luck;
@@ -260,7 +263,7 @@ void playerManager::getItemValue()
 				tagInventory inventory;
 				ZeroMemory(&inventory, sizeof(inventory));
 
-				inventory.name = _itemManager->getS_Weapon()->getName(i);
+				inventory.name = _itemManager->getS_Weapon()->getItemName(i);
 				inventory.atk = _itemManager->getS_Weapon()->getVItem()[i].atk;
 				inventory.def = _itemManager->getS_Weapon()->getVItem()[i].def;
 				inventory.luck = _itemManager->getS_Weapon()->getVItem()[i].luck;
@@ -278,7 +281,7 @@ void playerManager::getItemValue()
 				tagInventory inventory;
 				ZeroMemory(&inventory, sizeof(inventory));
 
-				inventory.name = _itemManager->getS_Armor()->getName(i);
+				inventory.name = _itemManager->getS_Armor()->getItemName(i);
 				inventory.atk = _itemManager->getS_Armor()->getVItem()[i].atk;
 				inventory.def = _itemManager->getS_Armor()->getVItem()[i].def;
 				inventory.luck = _itemManager->getS_Armor()->getVItem()[i].luck;
@@ -290,19 +293,15 @@ void playerManager::getItemValue()
 		}
 
 		//포션
-		for (int i = 0; i < _itemManager->getPortion()->getVItem().size(); i++)
+		for (int i = 0; i < _itemManager->getPortion()->getVPotion().size(); i++)
 		{
-			if (PtInRect(&_itemManager->getPortion()->getVItem()[i].rc, _ptMouse))
+			if (PtInRect(&_itemManager->getPortion()->getVPotion()[i].rc, _ptMouse))
 			{
 				tagInventory inventory;
 				ZeroMemory(&inventory, sizeof(inventory));
 
-				inventory.name = _itemManager->getPortion()->getName(i);
-				inventory.atk = _itemManager->getPortion()->getVItem()[i].atk;
-				inventory.def = _itemManager->getPortion()->getVItem()[i].def;
-				inventory.luck = _itemManager->getPortion()->getVItem()[i].luck;
-				inventory.cri = _itemManager->getPortion()->getVItem()[i].critical;
-				inventory.speed = _itemManager->getPortion()->getVItem()[i].speed;
+				inventory.name = _itemManager->getPortion()->getPorName(i);
+				inventory.hp = _itemManager->getPortion()->getVPotion()[i].hp;
 				
 				_vPorInven.push_back(inventory);
 			}

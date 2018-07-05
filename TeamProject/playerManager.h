@@ -19,7 +19,8 @@ struct tagInventory
 	int luck;
 	int cri;
 	int speed;
-	
+	int hp;
+	int mp;
 };
 
 struct saveBeforItem
@@ -61,7 +62,7 @@ private:
 	//포션
 	vector<tagInventory>  _vPorInven; //포션 담는 벡터
 	vector<tagInventory>::iterator  _viPorInven;
-
+	int _money;
 	int _mountingIndex;
 public:
 

@@ -89,9 +89,13 @@ public:
 	vector<tagItem>				getVItem() { 
 		return _vItem; 
 	}
-	string getName(int i)
+	string getItemName(int i)
 	{
 		return _vItem[i].name;
+	}
+	string getPorName(int i)
+	{
+		return _vPotion[i].name;
 	}
 
 	vector<tagItem>::iterator	getVIItem() { return _viItem; }
