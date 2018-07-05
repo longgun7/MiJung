@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "fildSkeleton.h"
 #include "enemys.h"
+#include "playerManager.h"
 
 #define MAXSKELETON 20
 #define PLAYMAPSIZEY 525 
@@ -15,19 +16,12 @@ private:
 	vector<enemy*>			 _vEnemy;
 	vector<enemy*>::iterator _viEnemy;
 
-	typedef vector<kungpu*> vSpearMan;
-	typedef vector<kungpu*>::iterator viSpearMan;
-
 private:
 
-	vFildSkeleton _vFildSkeleton;		// 벡터를 사용하기 위한 _vSkeleton 선언
-	viFildSkeleton _viFildSkeleton;		// 벡터를 사용하기 위한 _viSkeleton 선언
+	//vFildSkeleton _vFildSkeleton;		// 벡터를 사용하기 위한 _vSkeleton 선언
+	//viFildSkeleton _viFildSkeleton;		// 벡터를 사용하기 위한 _viSkeleton 선언
 
-	vSpearMan _vSpearMan;
-	viSpearMan _viSpearMan;
-
-	player* _ataho;
-	player2* _smasu;
+	playerManager* _pm;
 	
 	fildSkeleton* _fildSkeleton;		// 스켈레톤 함수를 사용하기 위해 선언
 	

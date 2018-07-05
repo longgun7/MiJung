@@ -168,7 +168,7 @@ HRESULT kungpu::init(float x, float y)
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
 
-	_kungpu.direction = STAND;
+	_enemy.direction = STAND;
 
 	_enemy.x = x;
 	_enemy.y = y;

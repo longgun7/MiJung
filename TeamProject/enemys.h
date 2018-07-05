@@ -14,7 +14,6 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void motion();
 	void motion();								// 공격, 방어, 히트, 모션
 
 	spearMan();
