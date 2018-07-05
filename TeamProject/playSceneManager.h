@@ -20,6 +20,8 @@ private:
 	playerManager * _pm;
 	itemManager* _im;
 	enemyManager* _em;
+
+	bool _isStatus;
 public:
 	playSceneManager();
 	~playSceneManager();
@@ -30,5 +32,7 @@ public:
 	virtual void render(void);
 
 	void sceneAdd(void);
+	void basicUI(void);
+	void fontUI(void);
 };
 

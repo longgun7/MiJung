@@ -14,6 +14,7 @@ private:
 	
 	bool _isCount;		//카운트 돌리늬?
 	int _frameCount;	
+	bool _isPlay;	//게임이 시작됐늬?
 public:
 	startScene();
 	~startScene();
@@ -22,6 +23,8 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+
+	bool getIsPlay() { return _isPlay; }
 
 	void fontUI();//폰트 배치
 };
