@@ -36,6 +36,7 @@ HRESULT startScene::init(void)
 
 	_frameCount = 0;
 	_isCount = false;
+	_isPlay = false;
 	return S_OK;
 }
 
@@ -140,6 +141,7 @@ void startScene::update(void)
 	if (_frameCount >= 255)
 	{
 		SCENEMANAGER->changeScene("Å¸¿î¾À");
+		_isPlay = true;
 	}
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 
+
 class statusScene : public gameNode
 {
 private:
@@ -13,6 +14,8 @@ private:
 
 	int _setIndex;
 	int _invenIndex;
+
+
 	
 public:
 	statusScene();
@@ -23,6 +26,7 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
+	
 	void fontUI(void);
 };
 

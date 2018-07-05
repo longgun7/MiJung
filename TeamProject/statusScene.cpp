@@ -2,6 +2,7 @@
 #include "statusScene.h"
 
 
+
 statusScene::statusScene()
 {
 }
@@ -55,6 +56,8 @@ HRESULT statusScene::init(void)
 	
 	_isCheck = false;
 	_isItemCheck = false;
+
+	
 
 	return S_OK;
 }
@@ -220,6 +223,20 @@ void statusScene::fontUI(void)
 	char str21[] = "선제";
 	char str22[] = "반격";
 	
+//char currentHP1[128];	//아타호 현재체력 / 최대체력
+//sprintf_s(currentHP1, "%d / %d", _pm->getPlayer()->getAttribute().currentHp, _pm->getPlayer()->getAttribute().maxHp);
+//char currentHP2[128];	//스마슈 현재체력 / 최대체력
+//sprintf_s(currentHP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentHp, _pm->getPlayer2()->getAttribute().maxHp);
+//
+//char currentMP1[128];	//아타호 현재마력 / 최대마력
+//sprintf_s(currentMP1, "%d / %d", _pm->getPlayer()->getAttribute().currentMp, _pm->getPlayer()->getAttribute().maxMp);
+//char currentMP2[128];	//스마슈 현재마력 / 최대마력
+//sprintf_s(currentMP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentMp, _pm->getPlayer2()->getAttribute().maxMp);
+//
+//char currentEXP1[128];	//아타호 현재경험치 / 최대경험치
+//sprintf_s(currentEXP1, "%d / %d", _pm->getPlayer()->getAttribute().currentExp, _pm->getPlayer()->getAttribute().maxExp);
+//char currentEXP2[128];	//스마슈 현재경험치 / 최대경험치
+//sprintf_s(currentEXP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentExp, _pm->getPlayer2()->getAttribute().maxExp);
 
 	
 
@@ -243,14 +260,24 @@ void statusScene::fontUI(void)
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 160, str4, strlen(str4));
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 210, str5, strlen(str5));
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 250, str6, strlen(str6));
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 290, str7, strlen(str7));
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 330, str8, strlen(str8));
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 370, str9, strlen(str9));
+	//TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 290, str7, strlen(str7)); //기술력 삭제
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 290, str8, strlen(str8));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 330, str9, strlen(str9));
 
 	//착용장비
 	TextOut(CAMERA->getCameraDC(), 20, WINSIZEY/2-190, str10, strlen(str10));
 	TextOut(CAMERA->getCameraDC(), 20, WINSIZEY/2-100, str11, strlen(str11));
-	
+
+	//캐릭터 정보
+	//TextOut(CAMERA->getCameraDC(), 180, WINSIZEY - 150, currentHP1, strlen(currentHP1));
+	//TextOut(CAMERA->getCameraDC(), 180, WINSIZEY - 100, currentHP2, strlen(currentHP2));
+	//
+	//TextOut(CAMERA->getCameraDC(), 330, WINSIZEY - 150, currentMP1, strlen(currentMP1));
+	//TextOut(CAMERA->getCameraDC(), 330, WINSIZEY - 100, currentMP2, strlen(currentMP2));
+	//
+	//TextOut(CAMERA->getCameraDC(), 480, WINSIZEY - 150, currentEXP1, strlen(currentEXP1));
+	//TextOut(CAMERA->getCameraDC(), 480, WINSIZEY - 100, currentEXP2, strlen(currentEXP2));
+
 
 	//인벤토리
 	if (_setIndex == 0) TextOut(CAMERA->getCameraDC(), WINSIZEX - 212, 160, str12, strlen(str12));

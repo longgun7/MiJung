@@ -88,6 +88,7 @@ HRESULT player::init()
 	_attribute.currentExp = 0;
 	_attribute.maxExp = 100;
 	_attribute.level = 1;
+	_enemyIndex = 0;
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
 	//아타호 타겟 스킬 
@@ -141,13 +142,15 @@ void player::render()
 	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
 
 	char str2[124];
-	sprintf_s(str2, "아타호 스킬프레임: %d", _skillFrame);
+	sprintf_s(str2, "아타호 이미지프레임: %d", _imageFrame);
 	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
 	//기울기 프레임
 	char str[125];
-	sprintf_s(str, "기울기 프레임 : %d", _slopeFrame);
-	TextOut(getMemDC(), 100, 410, str, strlen(str));
-	//image
+	if (KEYMANAGER->isToggleKey('Z'))
+	{
+		sprintf_s(str, "에너미 hp : %d", _em->getVEnmey()[0]->getTagEnmey().hp);
+		TextOut(getMemDC(), 100, 410, str, strlen(str));
+	}//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 	//스킬 이펙트 렌더
 	_soloSkillEffect1->render(); 
@@ -256,14 +259,15 @@ void player::battleKeyManager()
 			{
 				_move = SOLOSKILL3;
 				_isMotionLive = true;
-				_x = WINSIZEX - 200;
-
+				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
+				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
 			}
 			if (KEYMANAGER->isOnceKeyDown('F'))
 			{
 				_move = AREASKILL1;
 				_isMotionLive = true;
-				_x = WINSIZEX - 200;
+				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x -100;
+				_y = WINSIZEY/3;
 				_jumpPower = 5.0f;
 				_gravity = 0.2f;
 			}
@@ -295,7 +299,7 @@ void player::battleKeyManager()
 			}
 			if (KEYMANAGER->isOnceKeyDown('V'))
 			{
-				setDamage(11);
+				setPlayerDamage(11);
 			}
 			if (KEYMANAGER->isOnceKeyDown('B'))
 			{
@@ -684,15 +688,11 @@ void player::move()
 	//정권찌르기
 	if (_move == BASICSKILL1)
 	{
-		_x = WINSIZEX - 200;
+		
 		++_skillFrame;
 		if (_skillFrame == 50)
 		{
-			for (int i = 0; i < _em->getVSpearMan().size(); i++)
-			{
-				
-			}
-			
+			setSoloDamage(0);
 		}
 
 		if (_skillFrame > 100)
@@ -705,8 +705,12 @@ void player::move()
 	//돌려차기
 	if (_move == BASICSKILL2)
 	{
-		_x = WINSIZEX - 200;
 		++_skillFrame;
+		if (_skillFrame == 50)
+		{
+			setSoloDamage(0);
+		}
+		
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;
@@ -717,8 +721,12 @@ void player::move()
 	//다리후리기
 	if ( _move == BASICSKILL3)
 	{
-		_x = WINSIZEX - 200;
 		++_skillFrame;
+		if (_skillFrame == 50)
+		{
+			setSoloDamage(0);
+		}
+		
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;
@@ -737,9 +745,11 @@ void player::move()
 		if (_img->getFrameX() >= 9)
 		{
 			++_skillFrame;
+
 			
 			if (_skillFrame < 2)
-			{
+			{	
+				setSoloDamage(10);
 				_soloSkillEffect1->addSkill(WINSIZEX - 200, WINSIZEY / 2);
 			}
 			if (_skillFrame >= 200 )
@@ -751,17 +761,15 @@ void player::move()
 		}
 	}
 
-	if (KEYMANAGER->isOnceKeyDown('B'))
-	{
-		_soloSkillEffect1->addSkill(WINSIZEX - 200, WINSIZEY / 2);
-	}
 	
 	//광파참
 	if ( _move == SOLOSKILL2)
 	{
-		
+		_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 250;
+		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
 		++_skillFrame;
-
+		
+		//기모으는 중~
 		if (_skillFrame < 50)
 		{
 			_img->setFrameX(0);
@@ -775,14 +783,20 @@ void player::move()
 			_img->setFrameX(1);
 		}
 
+		//때릴 때~~~
 		if (_skillFrame > 120 && _skillFrame < 122)
 		{
+			//스킬
 			_soloSkillEffect3->fireAddSkill(_x + 50, _y);
 		}
 		if(_skillFrame > 122 && _skillFrame < 300)
 		{
-			_img->setFrameX(2);
-			
+			_img->setFrameX(2);	
+			//데미지
+			if (_skillFrame % 30 == 0)
+			{
+				setSoloDamage(10);
+			}		
 		}
 		if (_skillFrame > 300)
 		{	
@@ -794,17 +808,31 @@ void player::move()
 	}
 
 	//맹호스페셜
-	if ( _img->getFrameX() >= 25 && _move == SOLOSKILL3)
+	if (_move == SOLOSKILL3)
 	{
-		_x += 10;
-		_soloSkillEffect2->addSkill(_x, _y+10);
+		++_skillFrame;
+		//데미지 넣기~
+		if ((_skillFrame% 10 ==0 && _imageFrame == 1) || (_skillFrame % 10 == 0 && _imageFrame == 5) ||
+			(_skillFrame % 10 == 0 && _imageFrame == 8) || (_skillFrame % 10 == 0 && _imageFrame == 13) || 
+			(_skillFrame % 10 == 0 && _imageFrame == 18) || (_skillFrame % 10 == 0 && _imageFrame == 23) || 
+			(_skillFrame % 10 == 0 && _imageFrame == 25))
+		{
+			setSoloDamage(10);
+		}
+		//날라까기~
+		if (_img->getFrameX() >= 25)
+		{
+			_x += 10;
+			_soloSkillEffect2->addSkill(_x, _y + 10);
+		}
 		if (_x >= WINSIZEX)
 		{
+			_skillFrame = 0;
 			_move = FIGHTREADY;
 			_img->setFrameX(0);
 		}
-	}
 
+	}
 	////////////////////////////////////////////
 	// 
 	//                단체기
@@ -814,11 +842,17 @@ void player::move()
 	//맹호난무
 	if (_move == AREASKILL1);
 	{
+		
 		if (_isJumping)
 		{
 			_y -= _jumpPower;
 			_jumpPower -= _gravity;
 			
+		}
+		//데미지 넣기
+		if (_skillFrame % 10 == 0 && _imageFrame == 12)
+		{
+			setAreaDamage(10);
 		}
 
 		if (_img->getFrameX() >= 12 && _move == AREASKILL1)
@@ -844,7 +878,8 @@ void player::move()
 	if (_move == AREASKILL2)
 	{
 		++_skillFrame;
-		_x = WINSIZEX - 200;
+		_x = WINSIZEX / 2;
+		_y = WINSIZEY / 2;
 		if (_skillFrame < 20)
 		{
 			_imageFrame = -1;
@@ -860,9 +895,15 @@ void player::move()
 		if (_skillFrame > 60 && _skillFrame < 200)
 		{
 			_imageFrame = 2;
+			//스킬 이펙트 나오기~
 			if (_skillFrame % 5 == 0)
 			{
 				_areaSkillEffect2->addSkill(_x + 40, _y-2);
+			}
+			//데미지 넣기~
+			if (_skillFrame % 20 == 0)
+			{
+				setAreaDamage(10);
 			}
 		}
 		if (_skillFrame > 200)
@@ -876,17 +917,24 @@ void player::move()
 	if (_move == AREASKILL3)
 	{
 		++_skillFrame;
+		//스킬 이펙트 나오기~
 		if (_skillFrame % 7 == 0 && _skillFrame < 150)
 		{
 			_areaSkillEffect3->addFireSkill(_x, _y);
 		}
+		
 		if (_img->getFrameX() >= _img->getMaxFrameX())
 		{
 			_img->setFrameX(_img->getMaxFrameX());
 		}
-
+		//데미지 넣기
+		if (_skillFrame% 100 == 0)
+		{
+			setAreaDamage(20); //데미지 넣기~
+		}
 		if (_skillFrame >= 300)
 		{
+			
 			_move = FIGHTREADY;
 			_skillFrame = 0;
 		}
@@ -1022,7 +1070,7 @@ void player::levelCheck()
 }
 
 //에너미가 데미지 넣을 것
-void player::setDamage(int damage)
+void player::setPlayerDamage(int damage)
 {
 	
 	if (damage > _attribute.def)
@@ -1041,6 +1089,22 @@ void player::setDamage(int damage)
 
 }
 
+//에너미에게 공격을 넣는 함수를 간단하게 만든 함수
+void player::setSoloDamage(int plusDamage)
+{
+	_em->hitEnemy(_enemyIndex, _attribute.atk+ plusDamage);
+}
+
+void player::setAreaDamage(int plusDamage)
+{
+	for (int i = 0; i < _em->getVEnmey().size(); i++)
+	{
+		_em->hitEnemy(i, _attribute.atk + plusDamage);
+	}
+}
+
+
+
 void player::effectImage()
 {
 	++_effectImage.frame;
@@ -1058,6 +1122,7 @@ void player::effectImage()
 		_effectImage.frame = 0;
 	}
 }
+
 
 
 player::player()
