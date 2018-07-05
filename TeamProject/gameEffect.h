@@ -15,12 +15,6 @@ public:
 	void update();
 	void render();
 
-
-	HRESULT init();
-	void realse();
-	void update();
-	void render();
-
 	// 왼쪽 위로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
 	void hitLUDiagonal(float x, float y);
 	// 왼쪽 아래로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
