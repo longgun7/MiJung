@@ -15,7 +15,7 @@ HRESULT playerManager::init()
 
 	//인벤토리 init()
 
-
+	
 	//아이템 매니저 전방선언
 	_itemManager = new itemManager;
 	
@@ -30,7 +30,8 @@ void playerManager::update()
 	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	getItemValue(); //아이템 인벤
-	
+	inventory(); //인벤토리
+	mounting();//장착하기
 	//인벤토리
 	
 	
@@ -57,15 +58,16 @@ void playerManager::render()
 	{
 		sprintf_s(str, "이름 : %s", _vA_WeapInven[i].name.c_str());
 		TextOut(getMemDC(), 100 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
-		sprintf_s(str, "공격력 : %d", _vA_WeapInven[i].atk);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 150 + 120, str, strlen(str));
-		sprintf_s(str, "방어력 : %d", _vA_WeapInven[i].def);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 150 + 140, str, strlen(str));
-		sprintf_s(str, "운 : %d", _vA_WeapInven[i].luck);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 150 + 160, str, strlen(str));
-		sprintf_s(str, "스피드 : %d", _vA_WeapInven[i].speed);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 150 + 180, str, strlen(str));
 	}
+		sprintf_s(str, "아타호 공격력 : %d", _ataho->getAttribute().atk);
+		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 120, str, strlen(str));
+		sprintf_s(str, "아타호 방어력 : %d", _ataho->getAttribute().def);
+		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 140, str, strlen(str));
+		sprintf_s(str, "아타호 운 : %d", _ataho->getAttribute().luck);
+		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 160, str, strlen(str));
+		sprintf_s(str, "아타호 스피드 : %d", _ataho->getAttribute().speed);
+		TextOut(getMemDC(), 100, WINSIZEY / 2 - 150 + 180, str, strlen(str));
+	
 	for (int i = 0; i < _vA_ArmorInven.size(); i++)
 	{
 		sprintf_s(str, "이름 : %s", _vA_ArmorInven[i].name.c_str());
@@ -78,6 +80,10 @@ void playerManager::render()
 		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 160, str, strlen(str));
 		sprintf_s(str, "스피드 : %d", _vA_ArmorInven[i].speed);
 		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 180, str, strlen(str));
+	}
+	for (int i = 0; i < _vA_WeapInven.size(); i++)
+	{
+		Rectangle(getMemDC(), _vA_WeapInven[i].rc.left, _vA_WeapInven[i].rc.top, _vA_WeapInven[i].rc.right, _vA_WeapInven[i].rc.bottom);
 	}
 }
 
@@ -95,6 +101,7 @@ void playerManager::eventMode()
 {
 	if (_ataho->getSCENEMODE() == EVENTMODE)
 	{
+		
 		if (_ataho->getIsJumping() == true)
 		{
 			_smasyu->setIsJumping(true);
@@ -103,6 +110,23 @@ void playerManager::eventMode()
 		if (_ataho->getSlopeNum() <= 2 || _ataho->getSlopeNum() >= 6)
 		{
 			_smasyu->setMove(S_AFRAID);
+		}
+	}
+}
+//장착하기
+void playerManager::mounting()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _vA_WeapInven.size(); i++)
+		{
+			if (PtInRect(&_vA_WeapInven[i].rc, _ptMouse))
+			{	
+				_ataho->setStat(-_A_saveBeforWeapon.atk, 0, -_A_saveBeforWeapon.luck, 0, 0);
+				_ataho->setStat(_vA_WeapInven[i].atk, _vA_WeapInven[i].def, _vA_WeapInven[i].luck, _vA_WeapInven[i].cri, _vA_WeapInven[i].speed);
+				_A_saveBeforWeapon.atk = _vA_WeapInven[i].atk;
+				_A_saveBeforWeapon.luck = _vA_WeapInven[i].luck;
+			}
 		}
 	}
 }
@@ -127,6 +151,8 @@ void playerManager::getItemValue()
 				inventory.luck = _itemManager->getA_Weapon()->getVItem()[i].luck;
 				inventory.cri = _itemManager->getA_Weapon()->getVItem()[i].critical;
 				inventory.speed = _itemManager->getA_Weapon()->getVItem()[i].speed;
+
+				_invenAttribute = MOUNTING; //무기를 장착했다
 				
 				if (inventory.luck == 25)
 				{
@@ -223,6 +249,14 @@ void playerManager::getItemValue()
 
 	}
 
+}
+
+void playerManager::inventory()
+{
+	for (int i = 0; i < _vA_WeapInven.size(); i++)
+	{
+		_vA_WeapInven[i].rc = RectMakeCenter(500+ i * 50, 400, 50, 50);
+	}
 }
 
 playerManager::playerManager()

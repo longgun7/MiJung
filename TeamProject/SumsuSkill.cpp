@@ -376,7 +376,7 @@ sumsuAreaSkill2::~sumsuAreaSkill2(){}
 
 HRESULT sumsuAreaSkill2::init()
 {
-	IMAGEMANAGER->addFrameImage("SumsuAreaSkill2", "SumsuAreaSkill2.bmp", 480, 85, 6, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("SumsuAreaSkill2", "image/effect/SumsuAreaSkill2.bmp", 480, 85, 6, 1, true, RGB(255, 0, 255), true);
 
 	_currentExp = 0;
 	_maxExp = 100;

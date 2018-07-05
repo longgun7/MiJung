@@ -4,8 +4,15 @@
 #include "player2.h"
 #include "inventory.h"
 
+enum INVENATTRIBUTE
+{
+	MOUNTING, UNMOUNTING, MOUNTINGEND,DIFFRENTMOUNTING
+};
 struct tagInventory
 {
+	RECT rc;
+	int x;
+	int y;
 	string name;
 	int atk;
 	int def;
@@ -15,6 +22,15 @@ struct tagInventory
 	
 };
 
+struct saveBeforItem
+{
+	int atk;
+	int def;
+	int luck;
+	int cri;
+	int speed;
+
+};
 class itemManager;
 class playerManager :public gameNode
 {
@@ -22,7 +38,9 @@ private:
 	player * _ataho;    //아타호
 	player2* _smasyu;   //스마슈
 	itemManager* _itemManager; //아이템 매니저 전방선언
+	saveBeforItem _A_saveBeforWeapon;
 
+	INVENATTRIBUTE _invenAttribute; //장착상태
 	//아타호
 	vector<tagInventory>  _vA_WeapInven; //무기 담는 벡터
 	vector<tagInventory>::iterator  _viA_WeapInven;
@@ -41,6 +59,7 @@ private:
 	vector<tagInventory>  _vPorInven; //포션 담는 벡터
 	vector<tagInventory>::iterator  _viPorInven;
 
+	int _mountingIndex;
 public:
 
 	HRESULT init();
@@ -48,9 +67,9 @@ public:
 	void render();
 	void release();
 	void eventMode();
-
+	void mounting();
 	void getItemValue(); //받을 아이템 종류
-	
+	void inventory(); //인벤토리
 	void itemManagerAdressLink(itemManager* im) { _itemManager = im;}
 	player* getPlayer() { return _ataho; }
 	player2* getPlayer2() { return _smasyu; }

@@ -108,6 +108,9 @@ HRESULT player::init()
 	//광역스킬3
 	_areaSkillEffect3 = new atahoAreaSkill3;
 	_areaSkillEffect3->init();
+	//게임 이펙트
+	_gameEffect = new gameEffect;
+	_gameEffect->init();
 	return S_OK;
 }
 
@@ -132,7 +135,7 @@ void player::update()
 	_soloSkillEffect3->update(); //에너지파 스킬 이펙트 업데이트
 	_areaSkillEffect2->update(); //화둔 호화구시수시술! 
 	_areaSkillEffect3->update(); //노익장 대폭발!
-	
+	_gameEffect->update();//게임 이펙트
 	effectImage();
 }
 
@@ -158,7 +161,7 @@ void player::render()
 	_soloSkillEffect3->render();
 	_areaSkillEffect2->render();
 	_areaSkillEffect3->render();
-	
+	_gameEffect->render();
 	if (_isWeaponMounting)
 	{//이펙트
 		if (_move != AREASKILL1)
@@ -179,6 +182,7 @@ void player::release()
 	SAFE_DELETE(_soloSkillEffect3);
 	SAFE_DELETE(_areaSkillEffect2);
 	SAFE_DELETE(_areaSkillEffect3);
+	SAFE_DELETE(_gameEffect);
 }
 
 void player::fieldKeyManager()
@@ -247,11 +251,12 @@ void player::battleKeyManager()
 			{
 				_move = SOLOSKILL1;
 				_isMotionLive = true;
+				
 
 			}
 			if (KEYMANAGER->isOnceKeyDown('S'))
 			{
-				_move = SOLOSKILL2;
+				_move = AREASKILL22;
 				_isMotionLive = true;
 
 			}
@@ -282,10 +287,12 @@ void player::battleKeyManager()
 				_isMotionLive = true;
 				_x = WINSIZEX / 2;
 			}
-			if (KEYMANAGER->isOnceKeyDown('Z'))
+			if (KEYMANAGER->isOnceKeyDown('T'))
 			{
 				_move = BASICSKILL1;
 				_isMotionLive = true;
+				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
+				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
 			}
 			if (KEYMANAGER->isOnceKeyDown('X'))
 			{
@@ -517,7 +524,7 @@ void player::playerImage()
 	case SOLOSKILL1:
 		_img = IMAGEMANAGER->findImage("아타호호격권");
 		break;
-	case SOLOSKILL2:
+	case AREASKILL22:
 		_img = IMAGEMANAGER->findImage("아타호맹호광파참");
 		break;
 	case SOLOSKILL3:
@@ -690,8 +697,9 @@ void player::move()
 	{
 		
 		++_skillFrame;
-		if (_skillFrame == 50)
+		if (_skillFrame == 30)
 		{
+			randGameEffect();
 			setSoloDamage(0);
 		}
 
@@ -706,8 +714,9 @@ void player::move()
 	if (_move == BASICSKILL2)
 	{
 		++_skillFrame;
-		if (_skillFrame == 50)
+		if (_skillFrame == 30)
 		{
+			randGameEffect();
 			setSoloDamage(0);
 		}
 		
@@ -722,8 +731,9 @@ void player::move()
 	if ( _move == BASICSKILL3)
 	{
 		++_skillFrame;
-		if (_skillFrame == 50)
+		if (_skillFrame == 30)
 		{
+			randGameEffect();
 			setSoloDamage(0);
 		}
 		
@@ -749,6 +759,7 @@ void player::move()
 			
 			if (_skillFrame < 2)
 			{	
+				randGameEffect();
 				setSoloDamage(10);
 				_soloSkillEffect1->addSkill(WINSIZEX - 200, WINSIZEY / 2);
 			}
@@ -763,7 +774,7 @@ void player::move()
 
 	
 	//광파참
-	if ( _move == SOLOSKILL2)
+	if ( _move == AREASKILL22)
 	{
 		_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 250;
 		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
@@ -795,6 +806,7 @@ void player::move()
 			//데미지
 			if (_skillFrame % 30 == 0)
 			{
+				randGameEffect();
 				setSoloDamage(10);
 			}		
 		}
@@ -813,11 +825,13 @@ void player::move()
 		++_skillFrame;
 		//데미지 넣기~
 		if ((_skillFrame% 10 ==0 && _imageFrame == 1) || (_skillFrame % 10 == 0 && _imageFrame == 5) ||
-			(_skillFrame % 10 == 0 && _imageFrame == 8) || (_skillFrame % 10 == 0 && _imageFrame == 13) || 
-			(_skillFrame % 10 == 0 && _imageFrame == 18) || (_skillFrame % 10 == 0 && _imageFrame == 23) || 
-			(_skillFrame % 10 == 0 && _imageFrame == 25))
+			(_skillFrame % 10 == 0 && _imageFrame == 8) || (_skillFrame % 10 == 0 && _imageFrame == 13) ||
+			(_skillFrame % 10 == 0 && _imageFrame == 18) || (_skillFrame % 10 == 0 && _imageFrame == 23) 
+			)
 		{
-			setSoloDamage(10);
+			randGameEffect();
+			setSoloDamage(6);
+			_skillFrame = 0;
 		}
 		//날라까기~
 		if (_img->getFrameX() >= 25)
@@ -827,7 +841,7 @@ void player::move()
 		}
 		if (_x >= WINSIZEX)
 		{
-			_skillFrame = 0;
+			setSoloDamage(6);
 			_move = FIGHTREADY;
 			_img->setFrameX(0);
 		}
@@ -850,8 +864,9 @@ void player::move()
 			
 		}
 		//데미지 넣기
-		if (_skillFrame % 10 == 0 && _imageFrame == 12)
+		if (_skillFrame % 10 == 0 && _imageFrame == 12 && _move == AREASKILL1)
 		{
+			randGameEffect();
 			setAreaDamage(10);
 		}
 
@@ -903,6 +918,7 @@ void player::move()
 			//데미지 넣기~
 			if (_skillFrame % 20 == 0)
 			{
+				randGameEffect();
 				setAreaDamage(10);
 			}
 		}
@@ -930,6 +946,7 @@ void player::move()
 		//데미지 넣기
 		if (_skillFrame% 100 == 0)
 		{
+			randGameEffect();
 			setAreaDamage(20); //데미지 넣기~
 		}
 		if (_skillFrame >= 300)
@@ -1100,6 +1117,53 @@ void player::setAreaDamage(int plusDamage)
 	for (int i = 0; i < _em->getVEnmey().size(); i++)
 	{
 		_em->hitEnemy(i, _attribute.atk + plusDamage);
+	}
+}
+
+void player::setStat(int atk, int def, int luck, int cri, int speed)
+{
+	_attribute.atk += atk;
+	_attribute.cri += cri;
+	_attribute.def += def;
+	_attribute.luck += luck;
+	_attribute.speed += speed;
+}
+
+void player::randGameEffect()
+{
+	int randEffect = RND->getInt(8);
+
+	if (randEffect == 0)
+	{// 왼쪽 위로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+		_gameEffect->hitLUDiagonal(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x-10, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y-20);
+	}
+	if (randEffect == 1)
+	{// 왼쪽 아래로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+		_gameEffect->hitLDDiagonal(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x- 10, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y + 30);
+	}
+	if (randEffect == 2)
+	{// 오른쪽 위로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+		_gameEffect->hitRUDiagonal(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x + 30, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y - 20);
+	}
+	if (randEffect == 3)
+	{// 오른쪽 아래로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+		_gameEffect->hitRDDiagonal(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x + 30, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y + 30);
+	}
+	if (randEffect == 4)
+	{// 왼쪽 위로 튀기는 작은 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+		_gameEffect->hitLUDiagonal2(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 10, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y - 20);
+	}
+	if (randEffect == 5)
+	{// 왼쪽 아래로 튀기는 작은 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+		_gameEffect->hitLDDiagonal2(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 10, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y + 30);
+	}
+	if (randEffect == 6)
+	{// 오른쪽 위로 튀기는 작은 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+		_gameEffect->hitRUDiagonal2(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x + 30, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y - 20);
+	}
+	if (randEffect == 7)
+	{// 오른쪽 아래로 튀기는 작은 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+		_gameEffect->hitRDDiagonal2(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x + 30, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y + 30);
 	}
 }
 

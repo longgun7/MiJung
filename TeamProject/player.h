@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "Skill.h"
-
+#include "gameEffect.h"
 
 enum MOVE
 {
@@ -10,7 +10,7 @@ enum MOVE
 	LEFTMOVE, RIGHTMOVE, DOWNMOVE, UPMOVE,
 	//BATTLEMODE
 	BASICSKILL1, BASICSKILL2, BASICSKILL3,
-	SOLOSKILL1, SOLOSKILL2, SOLOSKILL3,
+	SOLOSKILL1, AREASKILL22, SOLOSKILL3,
 	AREASKILL1, AREASKILL2, AREASKILL3,
 	DRINK,DRUNKEN, FIGHTREADY, DAMAGE,
 	DEFENCE, SEREMONI,
@@ -85,6 +85,7 @@ private:
 	atahoTargetSkill3* _soloSkillEffect3;
 	atahoAreaSkill2* _areaSkillEffect2;
 	atahoAreaSkill3* _areaSkillEffect3;
+	gameEffect* _gameEffect;
 	//에너미 매니저 전방선언
 	enemyManager* _em;
 public:
@@ -104,8 +105,9 @@ public:
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
+	void setStat(int atk, int def, int luck, int cri, int speed);
+	void randGameEffect();
 	
-	void setImgIndex(int index); //프레임 이미지 넣을 것
 	
 	void effectImage();
 	
@@ -142,6 +144,8 @@ public:
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 
 	void setMove(MOVE move) { _move = move; }
+	
+
 	
 	player();
 	~player();
