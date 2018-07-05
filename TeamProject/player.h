@@ -62,6 +62,7 @@ private:
 	int     _slopeFrame;     //기울기 프레임
 	int     _slopeNum;		 //기울기 번호
 	int     _rndDirection;   //랜덤으로 기울기
+	int     _enemyIndex;     //적 인덱스
 
 	float	_x, _y;		     //좌표
 	float   _gravity;	     //중력
@@ -100,8 +101,12 @@ public:
 	void slopeNumImage();    //기울기 넘버에 따라 이미지 변화
 	void move();
 	void levelCheck();
-	void setDamage(int damage); //데미지 넣을 것
-
+	void setPlayerDamage(int damage); //데미지 넣을 것
+	void setSoloDamage(int plusDamage);
+	void setAreaDamage(int plusDamage);
+	
+	void setImgIndex(int index); //프레임 이미지 넣을 것
+	
 	void effectImage();
 	
 	float getX() { return _x; }
@@ -111,7 +116,6 @@ public:
 	void setY(float y) { _y = y; }
 	
 	MOVE getMove() { return _move; } //상태정의 접근자
-	void setMove(MOVE move) { _move = move; }
 
 	tagAttribute getAttribute() { return _attribute; } //속성접근자
 	void setAttribute(tagAttribute attribute) { _attribute = attribute; }
@@ -123,7 +127,7 @@ public:
 
 	void setSwordMounting(bool mounting) { _isWeaponMounting = mounting; } //무기 장착여부
 	
-	void EnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
+	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
 	
 	void setScene(SCENEMODE _scene,float x , float y , MOVE move) //씬전환모음
 	{
@@ -135,7 +139,9 @@ public:
 	
 	int getFrameX() { return _imageFrame; } //이미지프레임 접근자
 
-	
+	void setEnemyIndex(int index) { _enemyIndex = index; }
+
+	void setMove(MOVE move) { _move = move; }
 	
 	player();
 	~player();

@@ -4,8 +4,10 @@
 #define PI2 PI * 2
 
 //프레임회전을 위한 각도값
+#define PI4		float(PI / 2.0f)
 #define PI6		float(PI / 3.0f)
 #define PI8		float(PI / 4.0f)
+#define PI10	float(PI / 5.0f)
 #define PI16	float(PI / 16.0f)
 #define PI32	float(PI / 32.0f)
 #define PI64	float(PI / 64.0f)

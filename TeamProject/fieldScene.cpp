@@ -25,10 +25,7 @@ void fieldScene::release(void)
 
 void fieldScene::update(void)
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
-	{
-		SCENEMANAGER->changeScene("╩Себ╬ю");
-	}
+	
 	
 }
 
