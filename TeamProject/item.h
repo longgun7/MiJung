@@ -28,6 +28,7 @@ struct tagItem
 	string name;
 	RECT rc;
 	itemKind itemCheck; //아이템이 어떤 아이템인지 
+	
 
 };
 

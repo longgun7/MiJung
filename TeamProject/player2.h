@@ -86,6 +86,7 @@ public:
 	void strongestSwordEffect(); //제일 센 무기 이펙트
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
+	void setStat(int atk, int def, int luck, int cri, int speed);
 	float getY() { return _y; }
 	
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
