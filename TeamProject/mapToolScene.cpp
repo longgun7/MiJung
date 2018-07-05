@@ -15,10 +15,11 @@ HRESULT mapToolScene::init(void)
 	setImageInit();
 	setup();
 	
-	_tileSetName = _tileName = "field2Tile";
+	_tileSetName = _tileName = "town";
 	load();
 
 	_zoom = 1.0f;
+	_isShowMoveTile = false;
 
 	return S_OK;
 }
@@ -32,7 +33,7 @@ void mapToolScene::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F1)) SCENEMANAGER->changeScene("스타트씬");
 
 	keyInput();
-	if (_isLButtonDown) setMap();
+	if (_isLButtonDown && !_isShowMoveTile) setMap();
 
 	// 카메라 좌표 설정
 	if (!_isShowTileSet) CAMERA->setPosition(_ptMouse.x, _ptMouse.y);
@@ -92,18 +93,26 @@ void mapToolScene::render(void)
 		{
 			IMAGEMANAGER->findImage("선택한타일")->render(CAMERA->getCameraDC(), _viCurrentTile->x * TILESIZE + 6, _viCurrentTile->y * TILESIZE + WINSIZEY - _sampleImg->getHeight() - 5);
 		}
+	}
 
-		if (KEYMANAGER->isToggleKey(VK_TAB))
+	// 타일 움직일수 있는지 여부 렌더
+	if (_isShowMoveTile)
+	{
+		//Rectangle(CAMERA->getCameraDC(), drawRc.left, drawRc.top, drawRc.right, drawRc.bottom);
+		for (int ii = 0; ii < SAMPLETILEY; ++ii)
 		{
-			for (int i = 0; i < SAMPLETILEY; ++i)
+			for (int jj = 0; jj < SAMPLETILEX; ++jj)
 			{
-				for (int j = 0; j < SAMPLETILEX; ++j)
-				{
-					Rectangle(CAMERA->getCameraDC(), _sampleTile[i * TILESIZE + j].rcTile.left, _sampleTile[i * TILESIZE + j].rcTile.top, _sampleTile[i * TILESIZE + j].rcTile.right, _sampleTile[i * TILESIZE + j].rcTile.bottom);
-				}
+				int frameX;
+				if (_sampleTile[ii * SAMPLETILEX + jj].terrain == TR_MOVE) frameX = 0;
+				else if (_sampleTile[ii * SAMPLETILEX + jj].terrain == TR_UNMOVE) frameX = 1;
+
+				IMAGEMANAGER->findImage("타일움직임OX")->frameRender(CAMERA->getCameraDC(), _sampleTile[ii * SAMPLETILEX + jj].rcTile.left, _sampleTile[ii * SAMPLETILEX + jj].rcTile.top,
+					frameX, 0);
 			}
 		}
 	}
+
 
 	// 미니맵 기능(작동되면 즉시 엄청 느려짐)
 	if (KEYMANAGER->isToggleKey('M'))
@@ -179,6 +188,10 @@ void mapToolScene::setup()
 		{
 			_sampleTile[i * SAMPLETILEX + j].terrainFrameX = j;
 			_sampleTile[i * SAMPLETILEX + j].terrainFrameY = i;
+			_sampleTile[i * SAMPLETILEX + j].objFrameX = j;
+			_sampleTile[i * SAMPLETILEX + j].objFrameY = i;
+			_sampleTile[i * SAMPLETILEX + j].terrain = terrainSelect(j, i);// _sampleTile[i].terrainFrameX, _tiles[i].terrainFrameY);
+			_sampleTile[i * SAMPLETILEX + j].obj = OBJ_NONE;
 
 			//렉트 셋팅 함수 SetRect
 			//렉트 메모리 번지, left, top, right, bottom
@@ -296,6 +309,14 @@ void mapToolScene::setMap()
 
 void mapToolScene::setMoveTile()
 {
+	for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
+	{
+		if (PtInRect(&_sampleTile[i].rcTile, _ptMouse))
+		{
+			(_sampleTile[i].terrain == TR_MOVE) ? _sampleTile[i].terrain = TR_UNMOVE : _sampleTile[i].terrain = TR_MOVE;
+			return;
+		}
+	}
 }
 
 void mapToolScene::keyInput()
@@ -336,10 +357,11 @@ void mapToolScene::keyInput()
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
-		buttonClick();
+	{		
 		_isLButtonDown = true;
 		if (!_isLButtonFirstDown) { _ptFirstClick = _ptBGMouse; _isLButtonFirstDown = true; }
+		if (_isShowTileSet) buttonClick();
+		if (_isShowMoveTile) setMoveTile();
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
 	{
@@ -348,8 +370,13 @@ void mapToolScene::keyInput()
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
 		if (!_isShowTileSet) { _vCurrentTile.clear(); _isShowTileSet = true; }
-		else _isShowTileSet = false;
+		else _isShowTileSet = _isShowMoveTile = false;
 	}
+	if (KEYMANAGER->isOnceKeyDown('Q'))
+	{
+		(_isShowMoveTile) ? _isShowMoveTile = false : _isShowMoveTile = true;
+	}
+
 }
 
 void mapToolScene::buttonClick()
@@ -424,11 +451,13 @@ void mapToolScene::load()
 
 TERRAIN mapToolScene::terrainSelect(int frameX, int frameY)
 {
-	if (frameX == 3 && frameY == 0)
+	for (int i = 0; i < 5; ++i)
 	{
-		return TR_MOVE;
+		if (frameX == i && frameY == 0)
+		{
+			return TR_MOVE;
+		}
 	}
-
 	return TR_UNMOVE;
 }
 

@@ -12,7 +12,7 @@ HRESULT atahoTargetSkill1::init()
 	_alphaCount = 0;
 	_currentExp = 0;
 	_maxExp = 100;
-	_level = 2;
+	_level = 1;	
 	_width = 0;
 	return S_OK;
 }
@@ -103,7 +103,7 @@ void atahoTargetSkill1::addSkill(float x, float y)
 	_width = 0;
 	_currentExp += 40;			// 스킬 경험치 40 증가
 
-								// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
+	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
 	{
 		_currentExp = 0;
@@ -238,6 +238,7 @@ void atahoTargetSkill2::moveSkill()
 		_viTagSkill->x += cosf(_viTagSkill->angle) * _viTagSkill->speed;
 		_viTagSkill->y += -sinf(_viTagSkill->angle) * _viTagSkill->speed;
 
+		
 		// 스킬 상자 갱신
 		_viTagSkill->rc = RectMakeCenter(_viTagSkill->x, _viTagSkill->y,
 			_viTagSkill->img->getFrameWidth(), _viTagSkill->img->getFrameHeight());
@@ -754,7 +755,7 @@ void atahoTargetSkill3::fireSkill4(float x, float y)
 
 	_vTagSkill.push_back(targetSkill);
 }
-
+//======= 아타호 단체 스킬 2번 : 화둔! ========
 atahoAreaSkill2::atahoAreaSkill2(){}
 
 atahoAreaSkill2::~atahoAreaSkill2(){}
@@ -862,7 +863,7 @@ void atahoAreaSkill2::moveSkill()
 		}
 	}
 }
-
+//======= 아타호 개인 스킬 3번 : 노익장 대폭발 ========
 atahoAreaSkill3::atahoAreaSkill3(){}
 
 atahoAreaSkill3::~atahoAreaSkill3(){}
@@ -1017,163 +1018,6 @@ void atahoAreaSkill3::moveSkill()
 			_viTagSkill = _vTagSkill.erase(_viTagSkill);
 			// 벡터의 사이즈가 다 없어지면 돌의 개수를 0으로 초기화 시기칸다
 			if (_vTagSkill.size() <= 0) _stoneCount = 0;
-		}
-		else
-		{
-			++_viTagSkill;
-		}
-	}
-}
-
-sumsuCut::sumsuCut(){}
-
-sumsuCut::~sumsuCut(){}
-
-HRESULT sumsuCut::init()
-{
-	// 이펙트 매니저 스마슈 베기 플레이
-	EFFECTMANAGER->addEffect("SumsuCutDown", "image/effect/SumsuCutDown.bmp", 192, 48, 64, 48, 1.0f, 0.15f, 1);
-	return S_OK;
-}
-
-void sumsuCut::realse(){}
-
-void sumsuCut::update()
-{
-	EFFECTMANAGER->update();
-}
-
-void sumsuCut::render()
-{
-	EFFECTMANAGER->render();
-}
-
-void sumsuCut::addFireSkill(float x, float y)
-{
-	// 스마슈 베기 이미지 플레이
-	EFFECTMANAGER->play("SumsuCutDown", x, y);
-}
-
-sumsuTargetSkill2::sumsuTargetSkill2() {}
-
-sumsuTargetSkill2::~sumsuTargetSkill2() {}
-
-HRESULT sumsuTargetSkill2::init()
-{
-	// 스킬 카운트 초기화
-	_count = 0;
-	// 스킬 이미지 이펙트 생성 및 시간
-	EFFECTMANAGER->addEffect("SumsuTargetSkill21", "image/effect/SumsuTargetSkill21.bmp", 240, 64, 80, 64, 1.0f, 0.2f, 1);
-	EFFECTMANAGER->addEffect("SumsuTargetSkill22", "image/effect/SumsuTargetSkill22.bmp", 192, 64, 64, 64, 1.0f, 0.2f, 1);
-	EFFECTMANAGER->addEffect("CutEffect", "image/effect/CutEffect.bmp", 144, 48, 48, 48, 1.0f, 0.2f, 1);
-
-	return S_OK;
-}
-
-void sumsuTargetSkill2::realse() {}
-
-void sumsuTargetSkill2::update()
-{
-	EFFECTMANAGER->update();
-}
-
-void sumsuTargetSkill2::render()
-{
-	EFFECTMANAGER->render();
-}
-
-void sumsuTargetSkill2::addFireSkill(float x, float y)
-{
-	// 카운트 증가
-	_count++;
-	// 카운트 1과 6일때 실행
-	if (_count == 1 || _count == 6)
-	{
-		EFFECTMANAGER->play("SumsuTargetSkill21", x, y);
-	}
-	// 카운트 20일 때 마무리 베기 실행
-	if (_count == 20)
-	{
-		EFFECTMANAGER->play("SumsuTargetSkill22", x, y);
-		EFFECTMANAGER->play("CutEffect", x + 25, y - 25);
-	}
-}
-sumsuTargetSkill3::sumsuTargetSkill3() {}
-
-sumsuTargetSkill3::~sumsuTargetSkill3() {}
-
-HRESULT sumsuTargetSkill3::init()
-{
-	EFFECTMANAGER->addEffect("SumsuCutDown", "SumsuCutDown.bmp", 192, 48, 64, 48, 1.0f, 0.2f, 1);
-	EFFECTMANAGER->addEffect("SumsuCutUp", "SumsuCutUp.bmp", 192, 48, 64, 48, 1.0f, 0.2f, 1);
-	EFFECTMANAGER->addEffect("SumsuTargetSkill22", "SumsuTargetSkill22.bmp", 192, 64, 64, 64, 1.0f, 0.2f, 1);
-	EFFECTMANAGER->addEffect("CutEffect", "CutEffect.bmp", 144, 48, 48, 48, 1.0f, 0.2f, 1);
-	IMAGEMANAGER->addImage("BigCut", "BigCut.bmp", 48, 64, true, RGB(255, 0, 255), true);
-	return S_OK;
-}
-
-void sumsuTargetSkill3::realse() {}
-
-void sumsuTargetSkill3::update()
-{
-	EFFECTMANAGER->update();
-	moveSkill();
-}
-
-void sumsuTargetSkill3::render()
-{
-	EFFECTMANAGER->render();
-	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
-	{
-		_viTagSkill->img->alphaRender(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top, _alphaColor);
-	}
-}
-
-void sumsuTargetSkill3::cutUpSkill(float x, float y)
-{
-	EFFECTMANAGER->play("SumsuCutUp", x, y);
-}
-
-void sumsuTargetSkill3::cutDownSkill(float x, float y)
-{
-	EFFECTMANAGER->play("SumsuCutDown", x, y);
-}
-
-void sumsuTargetSkill3::cutDiagonalSkill(float x, float y)
-{
-	EFFECTMANAGER->play("SumsuTargetSkill22", x, y);
-	EFFECTMANAGER->play("CutEffect", x + 25, y - 25);
-}
-
-void sumsuTargetSkill3::cutBigSkill(float x, float y)
-{
-	tagSkill targetSkill;
-	ZeroMemory(&targetSkill, sizeof(tagSkill));
-	targetSkill.img = IMAGEMANAGER->findImage("BigCut");
-	targetSkill.fireX = targetSkill.x = x;
-	targetSkill.fireY = targetSkill.y = y;
-	_range = 100.0f;
-	_alphaColor = 255;
-	targetSkill.rc = RectMakeCenter(targetSkill.x, targetSkill.y, targetSkill.img->getWidth(), targetSkill.img->getHeight());
-
-	_vTagSkill.push_back(targetSkill);
-}
-
-void sumsuTargetSkill3::moveSkill()
-{
-	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end();)
-	{
-		_viTagSkill->x += 2;
-		_viTagSkill->rc = RectMakeCenter(_viTagSkill->x, _viTagSkill->y, _viTagSkill->img->getWidth(), _viTagSkill->img->getHeight());
-
-		if (getDistance(_viTagSkill->x, _viTagSkill->y, _viTagSkill->fireX, _viTagSkill->fireY) > 28)
-		{
-			_alphaColor -= 5;
-		}
-
-		if (_range < getDistance(_viTagSkill->x, _viTagSkill->y, _viTagSkill->fireX, _viTagSkill->fireY))
-		{
-			_viTagSkill = _vTagSkill.erase(_viTagSkill);
 		}
 		else
 		{

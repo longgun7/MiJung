@@ -27,7 +27,7 @@ void playerManager::update()
 	//플레이어
 	_ataho->update();
 	_smasyu->update();
-	_smasyu->angleManager(_ataho->getX(), _ataho->getY());
+	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	getItemValue(); //아이템 인벤
 	
@@ -127,7 +127,15 @@ void playerManager::getItemValue()
 				inventory.luck = _itemManager->getA_Weapon()->getVItem()[i].luck;
 				inventory.cri = _itemManager->getA_Weapon()->getVItem()[i].critical;
 				inventory.speed = _itemManager->getA_Weapon()->getVItem()[i].speed;
-
+				
+				if (inventory.luck == 25)
+				{
+					_ataho->setSwordMounting(true);
+				}
+				else
+				{
+					_ataho->setSwordMounting(false);
+				}
 				_vA_WeapInven.push_back(inventory);
 			}
 		}
@@ -164,6 +172,14 @@ void playerManager::getItemValue()
 				inventory.cri = _itemManager->getS_Weapon()->getVItem()[i].critical;
 				inventory.speed = _itemManager->getS_Weapon()->getVItem()[i].speed;
 
+				if (inventory.atk == 50)
+				{
+					_smasyu->setMounting(true);
+				}
+				else
+				{
+					_smasyu->setMounting(false);
+				}
 				_vS_WeapInven.push_back(inventory);
 			}
 		}

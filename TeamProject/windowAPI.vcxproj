@@ -161,6 +161,7 @@
     <ClInclude Include="enemys.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="fieldScene.h" />
+    <ClInclude Include="gameEffect.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="startScene.h" />
     <ClInclude Include="statusScene.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SumsuSkill.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tileNode.h" />
     <ClInclude Include="timeManager.h" />
@@ -210,6 +212,7 @@
     <ClCompile Include="enemys.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="fieldScene.cpp" />
+    <ClCompile Include="gameEffect.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
@@ -239,6 +242,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SumsuSkill.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="townScene.cpp" />

@@ -47,6 +47,9 @@ public:
 	virtual void update();
 	virtual void render();
 
+
+	tagEnemy getTagEnmey() { return _enemy; }
+	void setHp(int damage);
 	enemy();
 	~enemy();
 };

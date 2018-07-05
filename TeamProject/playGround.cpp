@@ -15,9 +15,15 @@ playGround::~playGround()
 HRESULT playGround::init(void)
 {
 	gameNode::init(true);
+
+	SCENEMANAGER->addScene("스타트씬", new startScene);
+	SCENEMANAGER->addScene("엔드씬", new endScene);
+
+	SCENEMANAGER->changeScene("스타트씬");
 	_psm = new playSceneManager;
 	_psm->init();
-
+	_startScene = new startScene;
+	_startScene->init();
 	return S_OK;
 }
 
@@ -30,8 +36,13 @@ void playGround::release(void)
 
 void playGround::update(void)
 {
+	
 	gameNode::update();
-	_psm->update();
+	SCENEMANAGER->update();
+	if (!_startScene->getIsPlay())_startScene->update();
+	if(_startScene->getIsPlay()) _psm->update();
+	
+	
 	
 }
 
@@ -50,8 +61,13 @@ void playGround::render(void)
 	//============== 이 위로는 건드리지 말자 ==============
 	
 	TIMEMANAGER->render(CAMERA->getCameraDC());
-	_psm->render();
-
+	
+	SCENEMANAGER->render();
+	if (_startScene->getIsPlay())
+	{
+		_psm->render();
+	}
+	
 	//================이 밑으로도 건드리지 말자 =============
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
 	CAMERA->render(getMemDC());
