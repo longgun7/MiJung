@@ -267,6 +267,9 @@
     <ClInclude Include="playerManager.h">
       <Filter>playGround\playerManager</Filter>
     </ClInclude>
+    <ClInclude Include="gameEffect.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -421,6 +424,9 @@
     </ClCompile>
     <ClCompile Include="SumsuSkill.cpp">
       <Filter>playGround\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="gameEffect.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
