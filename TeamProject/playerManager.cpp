@@ -83,6 +83,7 @@ void playerManager::render()
 	}
 	for (int i = 0; i < _vA_WeapInven.size(); i++)
 	{
+
 		Rectangle(getMemDC(), _vA_WeapInven[i].rc.left, _vA_WeapInven[i].rc.top, _vA_WeapInven[i].rc.right, _vA_WeapInven[i].rc.bottom);
 	}
 }
@@ -126,6 +127,16 @@ void playerManager::mounting()
 				_ataho->setStat(_vA_WeapInven[i].atk, _vA_WeapInven[i].def, _vA_WeapInven[i].luck, _vA_WeapInven[i].cri, _vA_WeapInven[i].speed);
 				_A_saveBeforWeapon.atk = _vA_WeapInven[i].atk;
 				_A_saveBeforWeapon.luck = _vA_WeapInven[i].luck;
+				
+				if (_vA_WeapInven[i].luck == 25)
+				{
+					_ataho->setSwordMounting(true);
+				}
+				else
+				{
+					_ataho->setSwordMounting(false);
+				}
+				
 			}
 		}
 	}
@@ -152,16 +163,6 @@ void playerManager::getItemValue()
 				inventory.cri = _itemManager->getA_Weapon()->getVItem()[i].critical;
 				inventory.speed = _itemManager->getA_Weapon()->getVItem()[i].speed;
 
-				_invenAttribute = MOUNTING; //무기를 장착했다
-				
-				if (inventory.luck == 25)
-				{
-					_ataho->setSwordMounting(true);
-				}
-				else
-				{
-					_ataho->setSwordMounting(false);
-				}
 				_vA_WeapInven.push_back(inventory);
 			}
 		}
@@ -255,7 +256,7 @@ void playerManager::inventory()
 {
 	for (int i = 0; i < _vA_WeapInven.size(); i++)
 	{
-		_vA_WeapInven[i].rc = RectMakeCenter(500+ i * 50, 400, 50, 50);
+		_vA_WeapInven[i].rc = RectMakeCenter(500+ i * 50, 100, 50, 50);
 	}
 }
 
