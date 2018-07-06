@@ -140,6 +140,7 @@ void item::makepotion(string potionName, float x, float y)
 	potion.hp = INIDATA->loadDataInterger("item", potionName.c_str(), "HP회복");
 	potion.mp = INIDATA->loadDataInterger("item", potionName.c_str(), "MP회복");
 	potion.name = INIDATA->loadDataString("item", potionName.c_str(), "이름");
+	potion.cost = INIDATA->loadDataInterger("item", potionName.c_str(), "비용");
 
 	potion.x = x;
 	potion.y = y;

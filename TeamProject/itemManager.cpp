@@ -86,7 +86,7 @@ void itemManager::render()
 	}
 
 	char str[128];
-	sprintf_s(str, "%d", _potion->getVPotion()[0].hp);
+	sprintf_s(str, "%d", _potion->getVPotion()[0].cost);
 	TextOut(getMemDC(), 100, 250, str, strlen(str));
 }
 
@@ -258,12 +258,13 @@ void itemManager::setItem()
 	INIDATA->addData("약초", "HP회복", "50");
 	INIDATA->addData("약초", "frameX", "0");
 	INIDATA->addData("약초", "frameY", "3");
-	
+	INIDATA->addData("약초", "비용", "10");
 
 	INIDATA->addData("마법의 물약", "이름", "마법의 물약");
 	INIDATA->addData("마법의 물약", "MP회복", "50");
 	INIDATA->addData("마법의 물약", "frameX", "2");
 	INIDATA->addData("마법의 물약", "frameY", "3");
+	INIDATA->addData("마법의 물약", "비용", "200");
 
 	INIDATA->iniSave("item");
 }
