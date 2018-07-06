@@ -23,6 +23,7 @@ struct tagItem
 	int atk;    
 	int def;
 	int luck;
+	int cost;
 	float speed;
 	int critical;
 	string name;

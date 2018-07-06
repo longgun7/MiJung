@@ -94,6 +94,7 @@ void item::makeItem(string itemName,float x ,float y)
 	item.frameX = INIDATA->loadDataInterger("item", itemName.c_str(), "frameX");
 	item.frameY = INIDATA->loadDataInterger("item", itemName.c_str(), "frameY");
 	item.name = INIDATA->loadDataString("item", itemName.c_str(), "이름");
+	item.cost = INIDATA->loadDataInterger("item", itemName.c_str(), "비용");
 
 	item.x = x;
 	item.y = y;
