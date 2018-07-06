@@ -12,6 +12,9 @@ private:
 	item* _s_Weapon;
 	item* _s_Armor;
 	
+	item* _pItem;
+	item* _shopItem;
+	
 public:
 	itemManager();
 	~itemManager();
@@ -22,10 +25,15 @@ public:
 	void render();
 	void setItem();
 
+	void itemMakeSet(string itemName, float x, float y);
+
 	item* getA_Weapon() { return _a_Weapon; }
 	item* getA_Armor() { return _a_Armor; }
 	item* getS_Weapon() { return _s_Weapon; }
 	item* getS_Armor() { return _s_Armor; }
 	item* getPortion() { return _potion; }
+
+	item* getPItem() { return _pItem; }
+	item* getShopItem() { return _shopItem; }
 };
 

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "barScnen.h"
 
-
 barScnen::barScnen()
 {
 }
@@ -75,4 +74,9 @@ void barScnen::fontUI(void)
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
+}
+
+void barScnen::setItem()
+{
+	
 }

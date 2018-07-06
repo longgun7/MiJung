@@ -28,6 +28,8 @@ HRESULT itemManager::init()
 	_s_Armor = new item;
 	_s_Armor->init(3);
 	
+	_shopItem = new item;
+	_shopItem->init(5);
 
 	setItem();
 
@@ -46,6 +48,8 @@ HRESULT itemManager::init()
 	
 	_potion->makepotion("약초", 100, 300);
 	_potion->makepotion("마법의 물약", 200, 300);
+
+	_shopItem->makeItem("특급주", 200, 100);
 
 	return S_OK;
 }
@@ -215,5 +219,15 @@ void itemManager::setItem()
 	INIDATA->addData("마법의 물약", "비용", "200");
 
 	INIDATA->iniSave("item");
+}
+
+void itemManager::itemMakeSet(string itemName, float x, float y)
+{
+
+	_pItem = new item;
+	_pItem->init(16);
+
+	_pItem->makeItem(itemName, x, y);
+
 }
 
