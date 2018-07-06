@@ -84,6 +84,7 @@ void playerManager::render()
 	}
 	for (int i = 0; i < _vA_WeapInven.size(); i++)
 	{
+
 		Rectangle(getMemDC(), _vA_WeapInven[i].rc.left, _vA_WeapInven[i].rc.top, _vA_WeapInven[i].rc.right, _vA_WeapInven[i].rc.bottom);
 	}
 	for (int i = 0; i < _vA_ArmorInven.size(); i++)
