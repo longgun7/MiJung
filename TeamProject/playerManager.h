@@ -80,6 +80,7 @@ public:
 	
 	player* getPlayer() { return _ataho; }
 	player2* getPlayer2() { return _smasyu; }
+	void setMoney(int money) { _money = money; }
 	playerManager();
 	~playerManager();
 };

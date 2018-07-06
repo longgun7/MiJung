@@ -53,6 +53,11 @@ void barScnen::update(void)
 		}
 	}
 }
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		SCENEMANAGER->changeScene("╩Себ╬ю");
+	}
+}
 
 void barScnen::render(void)
 {

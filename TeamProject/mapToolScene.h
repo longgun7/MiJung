@@ -4,6 +4,23 @@
 #include <vector>
 
 //#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+enum CTRL
+{
+	CTRL_TOWN,
+	CTRL_INHOUSE,
+	CTRL_FIELD1,
+	CTRL_FIELD2,
+	CTRL_FIELD3,
+	CTRL_SAVE,			//세이브 버튼
+	CTRL_LOAD,			//로드 버튼
+	CTRL_END
+};
+
+struct tagButton
+{
+	RECT rc;
+	string ctrlName;
+};
 
 class mapToolScene : public gameNode
 {
@@ -14,19 +31,12 @@ private:
 private:
 	tagSampleTile	_sampleTile[SAMPLETILEX * SAMPLETILEY];
 	tagTile			_tiles[TILEX * TILEY];
+	tagButton		_button[6];
+	CTRL			_ctrl;
 
 	image*			_sampleImg;
-
-	// 버튼
-	image*			_townButtonImg;
-	image*			_InHouseButtonImg;
-	image*			_field1ButtonImg;
-	image*			_field2ButtonImg;
-	image*			_field3ButtonImg;
-	image*			_saveButtonImg;
-
-	string _tileSetName;
-	string _tileName;
+	
+	string			_tileSetName;
 
 	// 화면에 보여질 타일 인덱스 시작번호, 끝번호
 	int startIdX, endIdX;
@@ -58,7 +68,7 @@ public:
 	void setImageInit();
 	void setup();
 	void setMap();
-	void setMoveTile();
+	void setChangeMoveTile();
 
 	void keyInput();
 	void buttonClick();

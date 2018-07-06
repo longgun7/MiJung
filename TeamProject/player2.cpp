@@ -76,6 +76,7 @@ HRESULT player2::init(float x , float y)
 	_areaSkill2->init();
 	_gameEffect = new gameEffect;
 	_gameEffect->init();
+	
 	return S_OK;
 }
 
@@ -99,6 +100,7 @@ void player2::update()
 	_areaSkill1->update();
 	_areaSkill2->update();
 	_gameEffect->update();
+
 }
 
 void player2::render()
@@ -275,6 +277,11 @@ void player2::battleKeyManager()
 				_skillFrame = 0;
 				_attribute.currentMp -= 3;
 			}
+			if (KEYMANAGER->isOnceKeyDown('J'))
+			{
+				_move = S_ESCAPE;
+				_isMotionLive = true;
+			}
 		}
 	}
 	else
@@ -354,6 +361,9 @@ void player2::image()
 	case S_NOCKDOWN:
 		_img = IMAGEMANAGER->findImage("스마슈쓰러짐");
 		break;
+	case S_ESCAPE:
+		_img = IMAGEMANAGER->findImage("스마슈방어");
+		break;
 	default:
 		break;
 	}
@@ -378,7 +388,7 @@ void player2::imageFrame()
 		}
 		_frame = 0;
 	}
-
+	
 }
 
 
@@ -387,7 +397,6 @@ void player2::move()
 {
 	
 	//스킬 이동
-
 	//대타격
 	if (_move == S_SOLOSKILL1)
 	{
@@ -552,7 +561,17 @@ void player2::move()
 			_isMotionLive = true;
 		}
 	}
-
+	
+	if (_move == S_ESCAPE)
+	{
+		++_skillFrame;
+		_x -= 2;
+		if (_skillFrame % 10 == 0)
+		{
+			_gameEffect->summonLCloud(_x+ 20, _y+ 30);
+			_gameEffect->summonRCloud(_x + 20, _y + 30);
+		}
+	}
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 

@@ -319,6 +319,10 @@ void player::battleKeyManager()
 			{
 				_attribute.currentExp += 50;
 			}
+			if (KEYMANAGER->isOnceKeyDown('J'))
+			{
+				_move = ESCAPE;
+			}
 		}
 		else
 		{
@@ -681,6 +685,15 @@ void player::move()
 		_y -= _moveSpeed;
 		break;
 	case FIGHTREADY:
+		break;
+	case ESCAPE:
+		_x -= 2;
+		++_skillFrame;
+		if (_skillFrame % 10 == 0)
+		{
+			_gameEffect->summonLCloud(_x + 20, _y + 30);
+			_gameEffect->summonRCloud(_x + 20, _y + 30);
+		}
 		break;
 	default:
 		break;

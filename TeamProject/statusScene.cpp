@@ -55,7 +55,7 @@ HRESULT statusScene::init(void)
 	_isCheck = false;
 	_isItemCheck = false;
 
-	
+	_isState = false;
 
 	return S_OK;
 }
@@ -108,7 +108,6 @@ void statusScene::update(void)
 				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(1);
 			}
 		}
-		
 	}
 
 	if(KEYMANAGER->isOnceKeyDown(VK_LEFT))
@@ -185,10 +184,14 @@ void statusScene::render(void)
 	fontUI();
 }
 
+void statusScene::loadData()
+{
+
+}
+
 void statusScene::fontUI(void)
 {
 	HFONT font, ofont;
-	
 	
 	char strName1[] = "아타호";
 	char strName2[] = "스마슈";
@@ -233,8 +236,6 @@ void statusScene::fontUI(void)
 //sprintf_s(currentEXP1, "%d / %d", _pm->getPlayer()->getAttribute().currentExp, _pm->getPlayer()->getAttribute().maxExp);
 //char currentEXP2[128];	//스마슈 현재경험치 / 최대경험치
 //sprintf_s(currentEXP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentExp, _pm->getPlayer2()->getAttribute().maxExp);
-
-	
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
@@ -283,7 +284,6 @@ void statusScene::fontUI(void)
 	if (_setIndex == 4) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str16, strlen(str16));
 	if (_setIndex == 5) TextOut(CAMERA->getCameraDC(), WINSIZEX - 225, 160, str17, strlen(str17));
 	
-		
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }
