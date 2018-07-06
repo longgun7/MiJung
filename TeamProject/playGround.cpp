@@ -18,7 +18,7 @@ HRESULT playGround::init(void)
 
 	SCENEMANAGER->addScene("½ºÅ¸Æ®¾À", new startScene);
 	SCENEMANAGER->addScene("¿£µå¾À", new endScene);
-
+	SCENEMANAGER->addScene("¸ÊÅø¾À", new mapToolScene);
 	SCENEMANAGER->changeScene("½ºÅ¸Æ®¾À");
 	_psm = new playSceneManager;
 	_psm->init();

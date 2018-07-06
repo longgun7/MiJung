@@ -52,7 +52,11 @@ void startScene::update(void)
 		if (_frameCount >= 255) _frameCount = 255;
 	}
 
-	
+	if (KEYMANAGER->isOnceKeyDown(VK_F9))
+	{
+
+		SCENEMANAGER->changeScene("¸ÊÅø¾À");
+	}
 	
 	if(KEYMANAGER->isOnceKeyDown(VK_UP))
 	{

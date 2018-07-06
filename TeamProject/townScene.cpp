@@ -30,7 +30,10 @@ void townScene::update(void)
 	{
 		SCENEMANAGER->changeScene("╪ЗаЩ╬ю");
 	}
-	
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		SCENEMANAGER->changeScene("╩Себ╬ю");
+	}
 }
 
 void townScene::render(void)
