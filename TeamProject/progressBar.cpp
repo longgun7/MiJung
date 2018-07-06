@@ -18,8 +18,8 @@ HRESULT progressBar::init(int x, int y, int width, int height)
 
 	_rcProgress = RectMake(x, y, width, height);
 
-	_progressBarTop = IMAGEMANAGER->addImage("frontBar", "hpBarTop.bmp", x, y, width, height, true, RGB(255, 0, 255));
-	_progressBarBottom = IMAGEMANAGER->addImage("backBar", "hpBarBottom.bmp", x, y, width, height, true, RGB(255, 0, 255));
+	_progressBarTop = IMAGEMANAGER->addImage("frontBar", "image/ui/topBar.bmp", x, y, width, height, true, RGB(255, 0, 255));
+	_progressBarBottom = IMAGEMANAGER->addImage("backBar", "image/ui/bottomBar.bmp", x, y, width, height, true, RGB(255, 0, 255));
 
 	//가로크기는 이미지의 가로크기로!
 	_width = _progressBarTop->getWidth();
@@ -40,13 +40,13 @@ void progressBar::update()
 void progressBar::render()
 {
 	//그려줄땐 뒤에 게이지부터 먼저 그린다
-	IMAGEMANAGER->render("backBar", getMemDC(),
+	IMAGEMANAGER->render("backBar", CAMERA->getCameraDC(),
 		_rcProgress.left + _progressBarBottom->getWidth() / 2,
 		_y + _progressBarBottom->getHeight() / 2, 0, 0,
 		_progressBarBottom->getWidth(), _progressBarBottom->getHeight());
 
 	//앞에 게이지는 가로크기 혹은 세로크기가 변해야하기때문에 변수가 크기값에 들어간다
-	IMAGEMANAGER->render("frontBar", getMemDC(), 
+	IMAGEMANAGER->render("frontBar", CAMERA->getCameraDC(),
 		_rcProgress.left + _progressBarBottom->getWidth() / 2,
 		_y + _progressBarBottom->getHeight() / 2, 0, 0,
 		_width, _progressBarBottom->getHeight());
