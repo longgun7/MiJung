@@ -5,7 +5,7 @@
 #include "playerManager.h"
 
 #define MAXSKELETON 20
-#define PLAYMAPSIZEY 525 
+#define PLAYMAPSIZEY 525
 
 class playerManager;
 
@@ -26,8 +26,6 @@ private:
 	fildSkeleton* _fildSkeleton;		// 스켈레톤 함수를 사용하기 위해 선언
 	
 	int _randNum;
-	int _interval;
-
 	int _enemyIndex;
 
 public:
@@ -37,8 +35,9 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setEnmey(float x ,float y);
+	void setEnemy(float x ,float y);
 	void hitEnemy(int index, int damage);
+	void randEnemy();
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }
 	vector<enemy*>::iterator getVIEnmey() { return _viEnemy; }
