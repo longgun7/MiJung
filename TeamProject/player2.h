@@ -108,7 +108,7 @@ public:
 	}
 
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
-	void setDamage(int damage);
+	void setPlayerDamage(int damage);
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 	player2();
 	~player2();

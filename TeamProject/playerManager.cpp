@@ -58,16 +58,16 @@ void playerManager::render()
 	for (int i = 0; i < _vA_WeapInven.size(); ++i)
 	{
 		sprintf_s(str, "이름 : %s", _vA_WeapInven[i].name.c_str());
-		TextOut(getMemDC(), 100 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
+		TextOut(getMemDC(), 200 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
 	}
 		sprintf_s(str, "아타호 공격력 : %d", _ataho->getAttribute().atk);
-		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 120, str, strlen(str));
+		TextOut(getMemDC(), 200, WINSIZEY / 2 - 150 + 120, str, strlen(str));
 		sprintf_s(str, "아타호 방어력 : %d", _ataho->getAttribute().def);
-		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 140, str, strlen(str));
+		TextOut(getMemDC(), 200, WINSIZEY / 2 - 150 + 140, str, strlen(str));
 		sprintf_s(str, "아타호 운 : %d", _ataho->getAttribute().luck);
-		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 160, str, strlen(str));
+		TextOut(getMemDC(), 200, WINSIZEY / 2 - 150 + 160, str, strlen(str));
 		sprintf_s(str, "아타호 스피드 : %d", _ataho->getAttribute().speed);
-		TextOut(getMemDC(), 100, WINSIZEY / 2 - 150 + 180, str, strlen(str));
+		TextOut(getMemDC(), 200, WINSIZEY / 2 - 150 + 180, str, strlen(str));
 	
 	for (int i = 0; i < _vA_ArmorInven.size(); i++)
 	{
@@ -213,7 +213,7 @@ void playerManager::mounting()
 	}
 }
 
-//인벤토리 종류
+//받아서 푸쉬할 아이템 종류
 void playerManager::getItemValue()
 {
 	
