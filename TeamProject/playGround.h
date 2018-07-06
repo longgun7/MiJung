@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "startScene.h"
 #include "endScene.h"
+#include"mapToolScene.h"
 #include "playSceneManager.h"
 
 //환세이취호전 시작

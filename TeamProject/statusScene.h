@@ -15,7 +15,7 @@ private:
 	int _setIndex;
 	int _invenIndex;
 
-
+	bool _isState;
 	
 public:
 	statusScene();
@@ -26,7 +26,8 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
-	
+	bool getIsState() { return _isState; }
+	void loadData();
 	void fontUI(void);
 };
 

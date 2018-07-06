@@ -16,8 +16,6 @@ HRESULT statusScene::init(void)
 	IMAGEMANAGER->addImage("statusMain", "image/ui/statusMain.bmp", 650, 550, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("statusChoice", "image/ui/statusChoice.bmp", 350, 150, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("statusChoice2", "image/ui/statusChoice2.bmp", 350, 400, false, RGB(0, 0, 0));
-	IMAGEMANAGER->addImage("기본status", "image/ui/기본status.bmp", 650, 200, false, RGB(0, 0, 0));
-	IMAGEMANAGER->addImage("infoStatus", "image/ui/infoStatus.bmp", 350, 200, false, RGB(0, 0, 0));
 	
 	IMAGEMANAGER->addFrameImage("캐릭터이미지", "image/ui/캐릭터이미지.bmp", 1000, 250, 8, 2, false, RGB(0, 0, 0));
 	IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(0);
@@ -57,7 +55,7 @@ HRESULT statusScene::init(void)
 	_isCheck = false;
 	_isItemCheck = false;
 
-	
+	_isState = false;
 
 	return S_OK;
 }
@@ -110,7 +108,6 @@ void statusScene::update(void)
 				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(1);
 			}
 		}
-		
 	}
 
 	if(KEYMANAGER->isOnceKeyDown(VK_LEFT))
@@ -159,8 +156,6 @@ void statusScene::render(void)
 	IMAGEMANAGER->findImage("statusMain")->render(CAMERA->getCameraDC(), 0, 0);
 	IMAGEMANAGER->findImage("statusChoice")->render(CAMERA->getCameraDC(), 650, 0);
 	IMAGEMANAGER->findImage("statusChoice2")->render(CAMERA->getCameraDC(), 650, 150);
-	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
-	IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
 	IMAGEMANAGER->findImage("캐릭터이미지")->frameRender(CAMERA->getCameraDC(), 60, 50);
 	IMAGEMANAGER->findImage("HP")->frameRender(CAMERA->getCameraDC(), 200, 562);
 	IMAGEMANAGER->findImage("MP")->frameRender(CAMERA->getCameraDC(), 350, 562);
@@ -183,16 +178,20 @@ void statusScene::render(void)
 	{
 		IMAGEMANAGER->findImage("캐릭터선택UP")->frameRender(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 0);
 	}
-	
-	
+	char str123[128];
 
+	
 	fontUI();
+}
+
+void statusScene::loadData()
+{
+
 }
 
 void statusScene::fontUI(void)
 {
 	HFONT font, ofont;
-	
 	
 	char strName1[] = "아타호";
 	char strName2[] = "스마슈";
@@ -237,8 +236,6 @@ void statusScene::fontUI(void)
 //sprintf_s(currentEXP1, "%d / %d", _pm->getPlayer()->getAttribute().currentExp, _pm->getPlayer()->getAttribute().maxExp);
 //char currentEXP2[128];	//스마슈 현재경험치 / 최대경험치
 //sprintf_s(currentEXP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentExp, _pm->getPlayer2()->getAttribute().maxExp);
-
-	
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
@@ -287,7 +284,6 @@ void statusScene::fontUI(void)
 	if (_setIndex == 4) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str16, strlen(str16));
 	if (_setIndex == 5) TextOut(CAMERA->getCameraDC(), WINSIZEX - 225, 160, str17, strlen(str17));
 	
-		
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }

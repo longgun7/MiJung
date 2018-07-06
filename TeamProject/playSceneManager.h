@@ -1,4 +1,5 @@
 #pragma once
+#include "progressBar.h"
 #include "gameNode.h"
 #include "startScene.h"
 #include "endScene.h"
@@ -8,7 +9,7 @@
 #include"fieldScene.h"
 #include"battleScene.h"
 #include"barScnen.h"
-#include"mapToolScene.h"
+
 #include "playerManager.h"
 #include "itemManager.h"
 #include "enemyManager.h"
@@ -22,6 +23,14 @@ private:
 	enemyManager* _em;
 
 	bool _isStatus;
+
+	//플레이어 1,2 프로그래스 바
+	progressBar* _hp1;
+	progressBar* _hp2;
+	progressBar* _mp1;
+	progressBar* _mp2;
+	progressBar* _exp1;
+	progressBar* _exp2;
 public:
 	playSceneManager();
 	~playSceneManager();
@@ -34,5 +43,11 @@ public:
 	void sceneAdd(void);
 	void basicUI(void);
 	void fontUI(void);
+	void setProgressBar(void);
+
+	void renderProgressBar(void);
+	void updateProgressBar(void);
+
+	void saveData(void);
 };
 

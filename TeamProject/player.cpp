@@ -247,27 +247,28 @@ void player::battleKeyManager()
 		if (_attribute.currentHp > 0)
 		{
 			//스킬
-			if (KEYMANAGER->isOnceKeyDown('A'))
+			if (KEYMANAGER->isOnceKeyDown('A') && _attribute.currentMp >= 3)
 			{
 				_move = SOLOSKILL1;
 				_isMotionLive = true;
-				
+				_attribute.currentMp -= 3;
 
 			}
-			if (KEYMANAGER->isOnceKeyDown('S'))
+			if (KEYMANAGER->isOnceKeyDown('S') && _attribute.currentMp >= 3)
 			{
 				_move = AREASKILL22;
 				_isMotionLive = true;
-
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('D'))
+			if (KEYMANAGER->isOnceKeyDown('D') && _attribute.currentMp >= 3)
 			{
 				_move = SOLOSKILL3;
 				_isMotionLive = true;
 				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
 				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('F'))
+			if (KEYMANAGER->isOnceKeyDown('F') && _attribute.currentMp >= 3)
 			{
 				_move = AREASKILL1;
 				_isMotionLive = true;
@@ -275,17 +276,20 @@ void player::battleKeyManager()
 				_y = WINSIZEY/3;
 				_jumpPower = 5.0f;
 				_gravity = 0.2f;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('G'))
+			if (KEYMANAGER->isOnceKeyDown('G') && _attribute.currentMp >= 3)
 			{
 				_move = DRINK;
 				_isMotionLive = true;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('H'))
+			if (KEYMANAGER->isOnceKeyDown('H') && _attribute.currentMp >= 3)
 			{
 				_move = AREASKILL3;
 				_isMotionLive = true;
 				_x = WINSIZEX / 2;
+				_attribute.currentMp -= 3;
 			}
 			if (KEYMANAGER->isOnceKeyDown('T'))
 			{
@@ -293,16 +297,19 @@ void player::battleKeyManager()
 				_isMotionLive = true;
 				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
 				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+				
 			}
 			if (KEYMANAGER->isOnceKeyDown('X'))
 			{
 				_move = BASICSKILL2;
 				_isMotionLive = true; 
+				
 			}
 			if (KEYMANAGER->isOnceKeyDown('C'))
 			{
 				_move = BASICSKILL3;
 				_isMotionLive = true;
+				
 			}
 			if (KEYMANAGER->isOnceKeyDown('V'))
 			{
@@ -824,9 +831,9 @@ void player::move()
 	{
 		++_skillFrame;
 		//데미지 넣기~
-		if ((_skillFrame% 10 ==0 && _imageFrame == 1) || (_skillFrame % 10 == 0 && _imageFrame == 5) ||
-			(_skillFrame % 10 == 0 && _imageFrame == 8) || (_skillFrame % 10 == 0 && _imageFrame == 13) ||
-			(_skillFrame % 10 == 0 && _imageFrame == 18) || (_skillFrame % 10 == 0 && _imageFrame == 23) 
+		if ((_skillFrame% 7 ==0 && _imageFrame == 1) || (_skillFrame % 7 == 0 && _imageFrame == 5) ||
+			(_skillFrame % 7 == 0 && _imageFrame == 8) || (_skillFrame % 7 == 0 && _imageFrame == 13) ||
+			(_skillFrame % 7 == 0 && _imageFrame == 18) || (_skillFrame % 7 == 0 && _imageFrame == 23) 
 			)
 		{
 			randGameEffect();
@@ -1120,6 +1127,7 @@ void player::setAreaDamage(int plusDamage)
 	}
 }
 
+//스텟 넣기
 void player::setStat(int atk, int def, int luck, int cri, int speed)
 {
 	_attribute.atk += atk;
@@ -1127,6 +1135,20 @@ void player::setStat(int atk, int def, int luck, int cri, int speed)
 	_attribute.def += def;
 	_attribute.luck += luck;
 	_attribute.speed += speed;
+}
+
+//포션먹기
+void player::setPortion(int hp, int mp)
+{
+	if (_attribute.currentMp <= _attribute.maxMp)
+	{
+		_attribute.currentHp += hp;
+		_attribute.currentMp += mp;
+		if (_attribute.currentMp >= _attribute.maxMp)
+		{
+			_attribute.currentMp = _attribute.maxMp;
+		}
+	}	
 }
 
 void player::randGameEffect()
