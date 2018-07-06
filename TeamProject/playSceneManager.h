@@ -44,5 +44,8 @@ public:
 	void basicUI(void);
 	void fontUI(void);
 	void setProgressBar(void);
+
+	void renderProgressBar(void);
+	void updateProgressBar(void);
 };
 
