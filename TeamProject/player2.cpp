@@ -15,6 +15,7 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("스마슈왼쪽이동", "image/player/스마슈 왼쪽이동.bmp", 180, 85, 4, 1, true, RGB(255, 0, 255));
 	
 	//스마슈 스킬
+	IMAGEMANAGER->addFrameImage("스마슈베기", "image/player/스마슈 베기.bmp", 438, 140, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈대타격", "image/player/스마슈 대타격.bmp", 402, 85, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈용오름", "image/player/스마슈 용오름.bmp", 2000, 87, 16, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈베고날아가기", "image/player/스마슈 베고 날아가기2.bmp", 2675, 120, 24, 1, true, RGB(255, 0, 255));
@@ -219,6 +220,16 @@ void player2::battleKeyManager()
 		if (_sceneMode == S_BATTLEMODE)
 		{
 			//스킬
+			if (KEYMANAGER->isOnceKeyDown('C'))
+			{
+				_move = S_BASICSKILL1;
+				_isMotionLive = true;
+				_skillFrame = 0;
+				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 50;
+				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+				setSoloDamage(6);
+				
+			}
 			if (KEYMANAGER->isOnceKeyDown('A') && _attribute.currentMp >= 3)
 			{
 				_move = S_SOLOSKILL1;
@@ -302,13 +313,15 @@ void player2::image()
 	case S_UPMOVE:
 		_img = IMAGEMANAGER->findImage("스마슈위로이동");
 		break;
+	case S_BASICSKILL1:
+		_img = IMAGEMANAGER->findImage("스마슈베기");
+		break;
 	case S_SOLOSKILL1:
 		_img = IMAGEMANAGER->findImage("스마슈대타격");
 		break;
 	case S_SOLOSKILL2:
 		_img = IMAGEMANAGER->findImage("스마슈난도질");
 		break;
-	
 	case S_SOLOSKILL3:
 		_img = IMAGEMANAGER->findImage("스마슈베고날아가기");
 		break;

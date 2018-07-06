@@ -4,7 +4,6 @@
 
 HRESULT playerManager::init()
 {
-	
 	//아타호 init()
 	_ataho = new player;
 	_ataho->init();
@@ -14,7 +13,7 @@ HRESULT playerManager::init()
 	_smasyu->init(_ataho->getX() , _ataho->getY());
 
 	//인벤토리 init()
-	_money = 1000;
+	_money = 10000;
 	
 	//아이템 매니저 전방선언
 	_itemManager = new itemManager;
@@ -72,8 +71,8 @@ void playerManager::render()
 	
 	for (int i = 0; i < _vA_WeapInven.size(); i++)
 	{
-
 		Rectangle(getMemDC(), _vA_WeapInven[i].rc.left, _vA_WeapInven[i].rc.top, _vA_WeapInven[i].rc.right, _vA_WeapInven[i].rc.bottom);
+		_vA_WeapInven[i].img->render(getMemDC(), _vA_WeapInven[i].rc.left, _vA_WeapInven[i].rc.top);
 	}
 	for (int i = 0; i < _vA_ArmorInven.size(); i++)
 	{
@@ -225,7 +224,6 @@ void playerManager::getItemValue()
 				if (_itemManager->getA_Weapon()->getVItem()[i].cost <= _money)
 				{
 					_money -= _itemManager->getA_Weapon()->getVItem()[i].cost;
-
 					inventory.name = _itemManager->getA_Weapon()->getItemName(i);
 					inventory.atk = _itemManager->getA_Weapon()->getVItem()[i].atk;
 					inventory.def = _itemManager->getA_Weapon()->getVItem()[i].def;

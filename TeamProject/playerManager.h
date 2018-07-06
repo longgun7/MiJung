@@ -10,6 +10,7 @@ enum INVENATTRIBUTE
 };
 struct tagInventory
 {
+	image* img;
 	RECT rc;
 	int x;
 	int y;
