@@ -9,7 +9,7 @@
 #include"fieldScene.h"
 #include"battleScene.h"
 #include"barScnen.h"
-#include"mapToolScene.h"
+
 #include "playerManager.h"
 #include "itemManager.h"
 #include "enemyManager.h"
@@ -47,5 +47,7 @@ public:
 
 	void renderProgressBar(void);
 	void updateProgressBar(void);
+
+	void saveData(void);
 };
 

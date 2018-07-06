@@ -89,17 +89,10 @@ void playSceneManager::update(void)
 	{
 		SCENEMANAGER->changeScene("술집씬");
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F9))
-	{
-		
-		SCENEMANAGER->changeScene("맵툴씬");
-	}
+	
 	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
-
-		if (!_isStatus) { SCENEMANAGER->changeScene("상태씬"); _isStatus = true; }
-		else if (_isStatus) { _isStatus = false; }	//나중에 자신이 있던씬으로 돌아가야함
-		
+		saveData();
 	}
 	
 	updateProgressBar();
@@ -127,7 +120,6 @@ void playSceneManager::render(void)
 	}
 	
 	fontUI();
-	
 }
 
 void playSceneManager::sceneAdd(void)
@@ -138,7 +130,7 @@ void playSceneManager::sceneAdd(void)
 	SCENEMANAGER->addScene("필드씬", new fieldScene);
 	SCENEMANAGER->addScene("배틀씬", new battleScene);
 	SCENEMANAGER->addScene("술집씬", new barScnen);
-	SCENEMANAGER->addScene("맵툴씬", new mapToolScene);
+	
 	SCENEMANAGER->addScene("플레이씬", new playScene);
 
 }
@@ -304,6 +296,37 @@ void playSceneManager::updateProgressBar(void)
 	_exp1->setGauge(_pm->getPlayer()->getAttribute().currentExp, _pm->getPlayer()->getAttribute().maxExp);
 	_exp2->update();
 	_exp2->setGauge(_pm->getPlayer2()->getAttribute().currentExp, _pm->getPlayer2()->getAttribute().maxExp);
+}
+void playSceneManager::saveData(void)
+{
+	//플레이어 1(아타호) 정보 저장
+	char temp[128];
+	vector<string> vStr;
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().level, temp, 10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentHp,temp,10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentMp, temp, 10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentExp, temp, 10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().atk, temp, 10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().def, temp, 10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().speed, temp, 10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().luck, temp, 10));
+
+	TXTDATA->txtSave("playerData.txt", vStr);
+
+	//플레이어 2(스마슈) 정보 저장
+	char temp2[128];
+	vector<string> vStr2;
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().level, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentHp, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentMp, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentExp, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().atk, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().def, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().speed, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().luck, temp2, 10));
+
+	TXTDATA->txtSave("player2Data.txt", vStr2);
+
 }
 void playSceneManager::renderProgressBar(void)
 {

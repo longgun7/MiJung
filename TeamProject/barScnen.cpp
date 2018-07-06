@@ -37,7 +37,10 @@ void barScnen::update(void)
 		if (!_isShopCheck) _isShopCheck = true;
 		else if (_isShopCheck) _isShopCheck = false;
 	}
-	
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		SCENEMANAGER->changeScene("╩Себ╬ю");
+	}
 }
 
 void barScnen::render(void)
