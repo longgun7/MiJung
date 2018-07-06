@@ -23,6 +23,7 @@ struct tagItem
 	int atk;    
 	int def;
 	int luck;
+	int cost;
 	float speed;
 	int critical;
 	string name;
@@ -41,6 +42,7 @@ struct tagPotion
 	float y;
 	int hp;
 	int mp;
+	int cost;
 	string name;
 	RECT rc;
 	potionKind potionCheck;
@@ -86,9 +88,7 @@ public:
 	void potionAbility(potionKind potionkind);
 	void reMoveItem(int arrNum);
 	void reMovePotion(int arrNum);
-	vector<tagItem>				getVItem() { 
-		return _vItem; 
-	}
+
 	string getItemName(int i)
 	{
 		return _vItem[i].name;
@@ -98,6 +98,7 @@ public:
 		return _vPotion[i].name;
 	}
 
+	vector<tagItem>				getVItem() { return _vItem; }
 	vector<tagItem>::iterator	getVIItem() { return _viItem; }
 	
 	vector<tagPotion>			getVPotion() { return _vPotion; }

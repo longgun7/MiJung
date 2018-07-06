@@ -30,13 +30,13 @@ void item::render()
 	for (_viItem = _vItem.begin(); _viItem != _vItem.end(); ++_viItem)
 	{
 		Rectangle(getMemDC(),_viItem->rc.left , _viItem->rc.top , _viItem->rc.right , _viItem->rc.bottom );
-		_image->frameRender(getMemDC(), _viItem->rc.left, _viItem->rc.top, _viItem->frameX, _viItem->frameY);
+		_image->frameRender(CAMERA->getCameraDC(), _viItem->rc.left, _viItem->rc.top, _viItem->frameX, _viItem->frameY);
 	}
 
 	for (_viPotion = _vPotion.begin(); _viPotion != _vPotion.end(); ++_viPotion)
 	{
 		Rectangle(getMemDC(), _viPotion->rc.left, _viPotion->rc.top, _viPotion->rc.right, _viPotion->rc.bottom);
-		_image->frameRender(getMemDC(), _viPotion->rc.left, _viPotion->rc.top, _viPotion->frameX, _viPotion->frameY);
+		_image->frameRender(CAMERA->getCameraDC(), _viPotion->rc.left, _viPotion->rc.top, _viPotion->frameX, _viPotion->frameY);
 	}
 }
 
@@ -86,14 +86,15 @@ void item::makeItem(string itemName,float x ,float y)
 	tagItem item;
 	ZeroMemory(&item, sizeof(item));
 
-	item.atk = INIDATA->loadDataInterger("item", itemName.c_str(), "공격력");
-	item.luck = INIDATA->loadDataInterger("item", itemName.c_str(), "운");
+	item.atk =		INIDATA->loadDataInterger("item", itemName.c_str(), "공격력");
+	item.luck =		INIDATA->loadDataInterger("item", itemName.c_str(), "운");
 	item.critical = INIDATA->loadDataInterger("item", itemName.c_str(), "크리티컬확률");
-	item.def = INIDATA->loadDataInterger("item", itemName.c_str(), "방어력");
-	item.speed = INIDATA->loadDataInterger("item", itemName.c_str(), "스피드");
-	item.frameX = INIDATA->loadDataInterger("item", itemName.c_str(), "frameX");
-	item.frameY = INIDATA->loadDataInterger("item", itemName.c_str(), "frameY");
-	item.name = INIDATA->loadDataString("item", itemName.c_str(), "이름");
+	item.def =		INIDATA->loadDataInterger("item", itemName.c_str(), "방어력");
+	item.speed =	INIDATA->loadDataInterger("item", itemName.c_str(), "스피드");
+	item.frameX =	INIDATA->loadDataInterger("item", itemName.c_str(), "frameX");
+	item.frameY =	INIDATA->loadDataInterger("item", itemName.c_str(), "frameY");
+	item.name =		INIDATA->loadDataString("item", itemName.c_str(), "이름");
+	item.cost =		INIDATA->loadDataInterger("item", itemName.c_str(), "비용");
 
 	item.x = x;
 	item.y = y;
@@ -137,9 +138,10 @@ void item::makepotion(string potionName, float x, float y)
 
 	potion.frameX = INIDATA->loadDataInterger("item", potionName.c_str(), "frameX");
 	potion.frameY = INIDATA->loadDataInterger("item", potionName.c_str(), "frameY");
-	potion.hp = INIDATA->loadDataInterger("item", potionName.c_str(), "HP회복");
-	potion.mp = INIDATA->loadDataInterger("item", potionName.c_str(), "MP회복");
-	potion.name = INIDATA->loadDataString("item", potionName.c_str(), "이름");
+	potion.hp =		INIDATA->loadDataInterger("item", potionName.c_str(), "HP회복");
+	potion.mp =		INIDATA->loadDataInterger("item", potionName.c_str(), "MP회복");
+	potion.name =	INIDATA->loadDataString("item", potionName.c_str(), "이름");
+	potion.cost =	INIDATA->loadDataInterger("item", potionName.c_str(), "비용");
 
 	potion.x = x;
 	potion.y = y;

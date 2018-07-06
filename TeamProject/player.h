@@ -13,7 +13,7 @@ enum MOVE
 	SOLOSKILL1, AREASKILL22, SOLOSKILL3,
 	AREASKILL1, AREASKILL2, AREASKILL3,
 	DRINK,DRUNKEN, FIGHTREADY, DAMAGE,
-	DEFENCE, SEREMONI,
+	DEFENCE, SEREMONI,ESCAPE,
 	//EVENTMODE
 	FRONT,LEFT1,LEFT2,LEFT3,LEFT4,RIGHT1,RIGHT2,RIGHT3,RIGHT4,
 	WOODFRONT, WOODLEFT1, WOODLEFT2, WOODLEFT3, WOODLEFT4, WOODRIGHT1, WOODRIGHT2, WOODRIGHT3, WOODRIGHT4
@@ -106,6 +106,7 @@ public:
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
 	void setStat(int atk, int def, int luck, int cri, int speed);
+	void setPortion(int hp, int mp);
 	void randGameEffect();
 	
 	

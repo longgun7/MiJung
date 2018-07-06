@@ -13,13 +13,24 @@ mapToolScene::~mapToolScene()
 HRESULT mapToolScene::init(void)
 {
 	setImageInit();
-	setup();
-	
-	_tileSetName = _tileName = "town";
-	load();
+
+	_tileSetName = "InHouse";
+	_sampleImg = IMAGEMANAGER->findImage(_tileSetName);
+	_ctrl = CTRL_INHOUSE;
+
+	string str[5] = { "town", "InHouse", "field1Tile", "field2Tile", "field3Tile" };
+	for (int i = 0; i < 5; ++i)
+	{
+		_button[i].ctrlName = str[i];
+		_button[i].rc = RectMake(i * 120, WINSIZEY - _sampleImg->getHeight() - 45, 120, 45);
+	}
+	_button[CTRL_SAVE].rc = IMAGEMANAGER->findImage("SAVE버튼")->boundingBox();
 
 	_zoom = 1.0f;
 	_isShowMoveTile = false;
+
+	setup();
+	load();
 
 	return S_OK;
 }
@@ -33,29 +44,60 @@ void mapToolScene::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F1)) SCENEMANAGER->changeScene("스타트씬");
 
 	keyInput();
-	if (_isLButtonDown && !_isShowMoveTile) setMap();
+	if (_isLButtonDown && !_isShowMoveTile)
+	{
+		_ptLastClick = _ptBGMouse;
+		setMap();
+	}
 
 	// 카메라 좌표 설정
 	if (!_isShowTileSet) CAMERA->setPosition(_ptMouse.x, _ptMouse.y);
 	setShowTileIndex();
-
 }
 
 void mapToolScene::render(void)
 {
+	// 타일
 	for (int i = startIdY; i < endIdY; ++i)
 	{
 		for (int j = startIdX; j < endIdX; ++j)
 		{
-			IMAGEMANAGER->frameRender(_tileName, getMemDC(),
+			// 격자
+			HPEN pen = CreatePen(PS_SOLID, 1, RGB(150, 150, 150));
+			HPEN oldPen = (HPEN)SelectObject(getMemDC(), pen);
+			Rectangle(getMemDC(), _tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
+				_tiles[i * TILEX + j].rc.right, _tiles[i * TILEX + j].rc.bottom);
+			SelectObject(getMemDC(), GetStockObject(NULL_BRUSH));
+			SelectObject(getMemDC(), oldPen);
+			DeleteObject(pen);
+
+			if (_tiles[i * TILEX + j].terrain == TR_NONE) continue;
+
+			IMAGEMANAGER->frameRender(_tileSetName, getMemDC(),
 				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
 				_tiles[i * TILEX + j].terrainFrameX, _tiles[i * TILEX + j].terrainFrameY,
 				_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left,
 				_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top);
+		}
+	}
+
+	for (int i = startIdY; i < endIdY; ++i)
+	{
+		for (int j = startIdX; j < endIdX; ++j)
+		{
+			if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
+
+			IMAGEMANAGER->frameRender(_tileSetName, getMemDC(),
+				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
+				_tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY,
+				(_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left),
+				(_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top));
 
 		}
 	}
 
+
+	// 타일 인덱스 번호
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = startIdY; i < endIdY; ++i)
@@ -77,28 +119,26 @@ void mapToolScene::render(void)
 	if (_isShowTileSet)
 	{
 		// 타일셋 버튼
-		_townButtonImg->render(CAMERA->getCameraDC());
-		_InHouseButtonImg->render(CAMERA->getCameraDC());
-		_field1ButtonImg->render(CAMERA->getCameraDC());
-		_field2ButtonImg->render(CAMERA->getCameraDC());
-		_field3ButtonImg->render(CAMERA->getCameraDC());
-		_saveButtonImg->render(CAMERA->getCameraDC());
+		for (int i = 0; i < 5; ++i)
+		{
+			IMAGEMANAGER->findImage("씬타일셋버튼")->frameRender(CAMERA->getCameraDC(), i * 120, WINSIZEY - _sampleImg->getHeight() - 50, i, 0);
+		}
+		IMAGEMANAGER->findImage("SAVE버튼")->render(CAMERA->getCameraDC());
 
-		IMAGEMANAGER->findImage("타일셋배경")->render(CAMERA->getCameraDC(), 0, WINSIZEY - 336);
+		IMAGEMANAGER->findImage("타일셋배경")->frameRender(CAMERA->getCameraDC(), 0, WINSIZEY - 336);
+
 		// 타일셋 그림
 		_sampleImg->render(CAMERA->getCameraDC(), 6, WINSIZEY - _sampleImg->getHeight() - 5);
 
-		// 선택한 타일셋이 무언인지 알려주는 사각형, 선으로 표시, 안쪽 색은 투명색
+		// 선택한 타일셋이 무언인지 알려주는 사각형
 		for (_viCurrentTile = _vCurrentTile.begin(); _viCurrentTile != _vCurrentTile.end(); ++_viCurrentTile)
 		{
 			IMAGEMANAGER->findImage("선택한타일")->render(CAMERA->getCameraDC(), _viCurrentTile->x * TILESIZE + 6, _viCurrentTile->y * TILESIZE + WINSIZEY - _sampleImg->getHeight() - 5);
 		}
 	}
-
 	// 타일 움직일수 있는지 여부 렌더
 	if (_isShowMoveTile)
 	{
-		//Rectangle(CAMERA->getCameraDC(), drawRc.left, drawRc.top, drawRc.right, drawRc.bottom);
 		for (int ii = 0; ii < SAMPLETILEY; ++ii)
 		{
 			for (int jj = 0; jj < SAMPLETILEX; ++jj)
@@ -113,15 +153,14 @@ void mapToolScene::render(void)
 		}
 	}
 
-
 	// 미니맵 기능(작동되면 즉시 엄청 느려짐)
 	if (KEYMANAGER->isToggleKey('M'))
 	{
-		for (int i = 0; i < TILEY; ++i)
+		for (int i = 0; i < SAMPLETILEY; ++i)
 		{
-			for (int j = 0; j < TILEX; ++j)
+			for (int j = 0; j < SAMPLETILEX; ++j)
 			{
-				IMAGEMANAGER->frameRender("mapTiles", getMemDC(),
+				IMAGEMANAGER->frameRender(_tileSetName, getMemDC(),
 					_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
 					_tiles[i * TILEX + j].terrainFrameX, _tiles[i * TILEX + j].terrainFrameY,
 					_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left,
@@ -131,29 +170,28 @@ void mapToolScene::render(void)
 
 		getBackBuffer()->render(CAMERA->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY);
 	}
-
 }
 
 void mapToolScene::setImageInit()
 {
-	//IMAGEMANAGER->addImage("타일셋배경", "image/maptool/tileSetbackground2.bmp", 1000, 336, true, RGB(255, 0, 255));	
 	IMAGEMANAGER->addFrameImage("타일셋배경", "image/maptool/tileSetbackground3.bmp", 1000, 1750, 1, 5, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("field1Tile", "image/maptool/field1.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("field2Tile", "image/maptool/field2.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("field3Tile", "image/maptool/field3.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("InHouse", "image/maptool/inHouse.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-	_sampleImg = IMAGEMANAGER->addFrameImage("town", "image/maptool/town.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-
 	IMAGEMANAGER->addImage("선택한타일", "image/maptool/selectTile.bmp", 25, 25, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("타일움직임OX", "image/maptool/ox.bmp", 50, 25, 2, 1, true, RGB(255, 0, 255));
 
-	_townButtonImg = IMAGEMANAGER->addImage("타운버튼", "image/maptool/Buttontown.bmp", 0, WINSIZEY - _sampleImg->getHeight() - 50, 120, 45, true, RGB(255, 0, 255));
-	_InHouseButtonImg = IMAGEMANAGER->addImage("실내버튼", "image/maptool/ButtoninHouse.bmp", 120, WINSIZEY - _sampleImg->getHeight() - 50, 120, 45, true, RGB(255, 0, 255));;
-	_field1ButtonImg = IMAGEMANAGER->addImage("필드1버튼", "image/maptool/Buttonfield1.bmp", 240, WINSIZEY - _sampleImg->getHeight() - 50, 120, 45, true, RGB(255, 0, 255));;
-	_field2ButtonImg = IMAGEMANAGER->addImage("필드2버튼", "image/maptool/Buttonfield2.bmp", 360, WINSIZEY - _sampleImg->getHeight() - 50, 120, 45, true, RGB(255, 0, 255));;
-	_field3ButtonImg = IMAGEMANAGER->addImage("필드3버튼", "image/maptool/Buttonfield3.bmp", 480, WINSIZEY - _sampleImg->getHeight() - 50, 120, 45, true, RGB(255, 0, 255));;
-	_saveButtonImg = IMAGEMANAGER->addImage("SAVE버튼", "image/maptool/Buttonsave.bmp", WINSIZEX - 55, WINSIZEY - _sampleImg->getHeight() - 50, 55, 45, true, RGB(255, 0, 255));;
+	IMAGEMANAGER->addFrameImage("town", "image/maptool/town.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("InHouse", "image/maptool/inHouse.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field1Tile", "image/maptool/field1.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field2Tile", "image/maptool/field2.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field3Tile", "image/maptool/field3.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addFrameImage("씬타일셋버튼", "image/maptool/ButtonScene.bmp", 600, 45, 5, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("SAVE버튼", "image/maptool/Buttonsave.bmp", WINSIZEX - 55, WINSIZEY - 325 - 50, 55, 45, true, RGB(255, 0, 255));;
+
+	IMAGEMANAGER->addFrameImage("townObj", "image/maptool/objecttown.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addFrameImage("field1Obj", "image/maptool/objectfield1.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field2Obj", "image/maptool/objectfield2.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field3Obj", "image/maptool/objectfield3.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("미니맵", 3750, 3750);
 
@@ -172,12 +210,12 @@ void mapToolScene::setup()
 				j * TILESIZE + TILESIZE,
 				i * TILESIZE + TILESIZE);
 
-			_tiles[i * TILEX + j].terrainFrameX = 1;
+			_tiles[i * TILEX + j].terrainFrameX = 0;
 			_tiles[i * TILEX + j].terrainFrameY = 0;
 			_tiles[i * TILEX + j].objFrameX = 0;
 			_tiles[i * TILEX + j].objFrameY = 0;
-			_tiles[i * TILEX + j].terrain = terrainSelect(_tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
-			_tiles[i * TILEX + j].obj = OBJ_NONE;
+			_tiles[i * TILEX + j].terrain = terrainSelect(_tiles[i * TILEX + j].terrainFrameX, _tiles[i * TILEX + j].terrainFrameY);
+			_tiles[i * TILEX + j].obj = objSelect(_tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY);
 		}
 	}
 
@@ -190,8 +228,8 @@ void mapToolScene::setup()
 			_sampleTile[i * SAMPLETILEX + j].terrainFrameY = i;
 			_sampleTile[i * SAMPLETILEX + j].objFrameX = j;
 			_sampleTile[i * SAMPLETILEX + j].objFrameY = i;
-			_sampleTile[i * SAMPLETILEX + j].terrain = terrainSelect(j, i);// _sampleTile[i].terrainFrameX, _tiles[i].terrainFrameY);
-			_sampleTile[i * SAMPLETILEX + j].obj = OBJ_NONE;
+			_sampleTile[i * SAMPLETILEX + j].terrain = terrainSelect(j, i);
+			_sampleTile[i * SAMPLETILEX + j].obj = objSelect(j, i);
 
 			//렉트 셋팅 함수 SetRect
 			//렉트 메모리 번지, left, top, right, bottom
@@ -215,7 +253,6 @@ void mapToolScene::setShowTileIndex()
 	endIdY = (camera.y / (TILESIZE*_zoom) + SHOWTILEY >= TILEY) ? TILEY : camera.y / (TILESIZE * _zoom) + SHOWTILEY + 1;
 
 }
-
 
 vector<tagCurrentTile> mapToolScene::sortVCurrentTile()
 {
@@ -260,54 +297,48 @@ void mapToolScene::setMap()
 
 		return;
 	}
+
 	// 선택한 타일이 하나도 없다면 setMap() 종료
-	if (_vCurrentTile.size() <= 0) return;
+	if (_vCurrentTile.size() <= 0 || _isShowTileSet) return;
 
 	// 현재 선택한 타일 정렬
 	sortVCurrentTile();
 
-	// 타일 2개 이상 선택했을때, 여러개 선택된 타일 그리기
-	for (int i = startIdY; i < endIdY; ++i)
-	{
-		for (int j = startIdX; j < endIdX; ++j)
-		{
-			if (PtInRect(&_tiles[i * TILEX + j].rc, _ptBGMouse))
-			{
-				_ptLastClick = _ptBGMouse;
-				int countX = 0, countY = 0;
-				for (int k = 0; k < _vCurrentTile.size(); ++k)
-				{
-					if (k > 1 && _vCurrentTile[k].y > _vCurrentTile[k - 1].y)	++countY, countX = 0;
+	// 타일 그리기
+	int drawStartX = _ptFirstClick.x / TILESIZE, drawStartY = _ptFirstClick.y / TILESIZE;
+	int drawEndX = _ptLastClick.x / TILESIZE, drawEndY = _ptLastClick.y / TILESIZE;
 
+	if (drawStartX > drawEndX) swap(drawStartX, drawEndX);
+	if (drawStartY > drawEndY) swap(drawStartY, drawEndY);
+
+	for (int i = drawStartY; i <= drawEndY; ++i)
+	{
+		for (int j = drawStartX; j <= drawEndX; ++j)
+		{
+			int countX = 0, countY = 0;
+			for (int k = 0; k < _vCurrentTile.size(); ++k)
+			{
+				if (k > 1 && _vCurrentTile[k].y > _vCurrentTile[k - 1].y)	++countY, countX = 0;
+
+				_tiles[(i + countY) * TILEX + (j + countX)].objFrameX = _vCurrentTile[k].x;
+				_tiles[(i + countY) * TILEX + (j + countX)].objFrameY = _vCurrentTile[k].y;
+				_tiles[(i + countY) * TILEX + (j + countX)].obj = objSelect(_vCurrentTile[k].x, _vCurrentTile[k].y);
+
+				if (_tiles[(i + countY) * TILEX + (j + countX)].obj == OBJ_NONE)
+				{
 					_tiles[(i + countY) * TILEX + (j + countX)].terrainFrameX = _vCurrentTile[k].x;
 					_tiles[(i + countY) * TILEX + (j + countX)].terrainFrameY = _vCurrentTile[k].y;
 					_tiles[(i + countY) * TILEX + (j + countX)].terrain = terrainSelect(_vCurrentTile[k].x, _vCurrentTile[k].y);
-
-					++countX;
 				}
+
+				++countX;
 			}
 		}
 	}
 
-	// 타일1개만 선택했을때, 사각형 영역으로 타일 그리기
-	int rcX, rcY;
-	(_ptFirstClick.x < _ptLastClick.x) ? rcX = _ptFirstClick.x : rcX = _ptLastClick.x;
-	(_ptFirstClick.y < _ptLastClick.y) ? rcY = _ptFirstClick.y : rcY = _ptLastClick.y;
-	RECT rc = RectMake(rcX, rcY, abs(_ptFirstClick.x - _ptLastClick.x), abs(_ptFirstClick.y - _ptLastClick.y));
-
-	for (int i = rc.top / TILESIZE; i <= rc.bottom / TILESIZE; ++i)
-	{
-		for (int j = rc.left / TILESIZE; j <= rc.right / TILESIZE; ++j)
-		{
-			if (_vCurrentTile.size() > 1) return;
-			_tiles[i * TILEX + j].terrainFrameX = _vCurrentTile[0].x;
-			_tiles[i * TILEX + j].terrainFrameY = _vCurrentTile[0].y;
-			_tiles[i * TILEX + j].terrain = terrainSelect(_vCurrentTile[0].x, _vCurrentTile[0].y);
-		}
-	}
 }
-
-void mapToolScene::setMoveTile()
+// 움직일수 있는 타일, 움직일수 없는 타일 바꾸기
+void mapToolScene::setChangeMoveTile()
 {
 	for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
 	{
@@ -324,7 +355,7 @@ void mapToolScene::keyInput()
 	// 줌인
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
-		_zoom += 1.0f;	if (_zoom > 9.0f) _zoom = 9.0f;
+		_zoom += 0.5f;	if (_zoom > 9.0f) _zoom = 9.0f;
 
 		for (int i = 0; i < TILEY; ++i)
 		{
@@ -357,11 +388,11 @@ void mapToolScene::keyInput()
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{		
+	{
 		_isLButtonDown = true;
 		if (!_isLButtonFirstDown) { _ptFirstClick = _ptBGMouse; _isLButtonFirstDown = true; }
 		if (_isShowTileSet) buttonClick();
-		if (_isShowMoveTile) setMoveTile();
+		if (_isShowMoveTile) setChangeMoveTile();
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
 	{
@@ -372,53 +403,35 @@ void mapToolScene::keyInput()
 		if (!_isShowTileSet) { _vCurrentTile.clear(); _isShowTileSet = true; }
 		else _isShowTileSet = _isShowMoveTile = false;
 	}
-	if (KEYMANAGER->isOnceKeyDown('Q'))
+
+	if (KEYMANAGER->isOnceKeyDown('C'))
 	{
 		(_isShowMoveTile) ? _isShowMoveTile = false : _isShowMoveTile = true;
 	}
-
 }
 
 void mapToolScene::buttonClick()
 {
-	if (PtInRect(&_townButtonImg->boundingBox(), _ptMouse))
+	for (int i = 0; i < 5; ++i)
 	{
-		_tileSetName = "town";
-		IMAGEMANAGER->findImage("타일셋배경")->setFrameY(0);
-		load();
-	}
-	if (PtInRect(&_InHouseButtonImg->boundingBox(), _ptMouse))
-	{
-		_tileSetName = "InHouse";
-		IMAGEMANAGER->findImage("타일셋배경")->setFrameY(1);
-		load();
-	}
-	if (PtInRect(&_field1ButtonImg->boundingBox(), _ptMouse))
-	{
-		_tileSetName = "field1Tile";
-		IMAGEMANAGER->findImage("타일셋배경")->setFrameY(2);
-		load();
-	}
-	if (PtInRect(&_field2ButtonImg->boundingBox(), _ptMouse))
-	{
-		_tileSetName = "field2Tile";
-		IMAGEMANAGER->findImage("타일셋배경")->setFrameY(3);
-		load();
-	}
-	if (PtInRect(&_field3ButtonImg->boundingBox(), _ptMouse))
-	{
-		_tileSetName = "field3Tile";
-		IMAGEMANAGER->findImage("타일셋배경")->setFrameY(4);
-		load();
+		if (PtInRect(&_button[i].rc, _ptMouse))
+		{
+			_tileSetName = _button[i].ctrlName;
+
+			_sampleImg = IMAGEMANAGER->findImage(_tileSetName);
+			IMAGEMANAGER->findImage("타일셋배경")->setFrameY(i);
+			_ctrl = (CTRL)i;
+
+			//save();
+			load();
+			break;
+		}
 	}
 
-	if (PtInRect(&_saveButtonImg->boundingBox(), _ptMouse))
+	if (PtInRect(&_button[CTRL_SAVE].rc, _ptMouse))
 	{
 		save();
 	}
-
-	_tileName = _tileSetName;
-	_sampleImg = IMAGEMANAGER->findImage(_tileSetName);
 }
 
 void mapToolScene::save()
@@ -451,17 +464,55 @@ void mapToolScene::load()
 
 TERRAIN mapToolScene::terrainSelect(int frameX, int frameY)
 {
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
 		if (frameX == i && frameY == 0)
 		{
-			return TR_MOVE;
+			return TR_NONE;
 		}
 	}
+
 	return TR_UNMOVE;
 }
 
 OBJECT mapToolScene::objSelect(int frameX, int frameY)
 {
+	switch (_ctrl)
+	{
+	case CTRL_TOWN:
+	{
+
+	}
+	break;
+	case CTRL_INHOUSE:
+	{		
+		for (int i = 10; i < SAMPLETILEY; ++i)
+		{
+			for (int j = 21; j < SAMPLETILEX; ++j)
+			{
+				if (frameX == j && frameY == i)
+					return OBJ_EXIST;
+			}
+		}
+	}
+	break;
+	case CTRL_FIELD1:
+	{
+
+	}
+	break;
+	case CTRL_FIELD2:
+	{
+
+	}
+	break;
+	case CTRL_FIELD3:
+	{
+
+	}
+	break;
+	}
+
+
 	return OBJ_NONE;
 }

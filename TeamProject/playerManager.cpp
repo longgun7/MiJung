@@ -4,7 +4,6 @@
 
 HRESULT playerManager::init()
 {
-	
 	//아타호 init()
 	_ataho = new player;
 	_ataho->init();
@@ -14,11 +13,11 @@ HRESULT playerManager::init()
 	_smasyu->init(_ataho->getX() , _ataho->getY());
 
 	//인벤토리 init()
-	_money = 1000;
+	_money = 10000;
 	
 	//아이템 매니저 전방선언
 	_itemManager = new itemManager;
-	
+
 	return S_OK;
 }
 
@@ -34,7 +33,11 @@ void playerManager::update()
 	
 	mounting();//장착하기
 	//인벤토리
-	
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_itemManager->itemMakeSet("마인아수라", 100, 100);
+		_itemManager->itemMakeSet("명주 귀신살", 100, 200);
+	}
 	
 
 }
@@ -58,33 +61,20 @@ void playerManager::render()
 	for (int i = 0; i < _vA_WeapInven.size(); ++i)
 	{
 		sprintf_s(str, "이름 : %s", _vA_WeapInven[i].name.c_str());
-		TextOut(getMemDC(), 100 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
+		TextOut(getMemDC(), 250 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
 	}
-		sprintf_s(str, "아타호 공격력 : %d", _ataho->getAttribute().atk);
-		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 120, str, strlen(str));
+		sprintf_s(str, "아타호 돈 : %d", _money);
+		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 120, str, strlen(str));
 		sprintf_s(str, "아타호 방어력 : %d", _ataho->getAttribute().def);
-		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 140, str, strlen(str));
+		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 140, str, strlen(str));
 		sprintf_s(str, "아타호 운 : %d", _ataho->getAttribute().luck);
-		TextOut(getMemDC(), 100 , WINSIZEY / 2 - 150 + 160, str, strlen(str));
+		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 160, str, strlen(str));
 		sprintf_s(str, "아타호 스피드 : %d", _ataho->getAttribute().speed);
-		TextOut(getMemDC(), 100, WINSIZEY / 2 - 150 + 180, str, strlen(str));
+		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 180, str, strlen(str));
 	
-	for (int i = 0; i < _vA_ArmorInven.size(); i++)
-	{
-		sprintf_s(str, "이름 : %s", _vA_ArmorInven[i].name.c_str());
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50+100, str, strlen(str));
-		sprintf_s(str, "공격력 : %d", _vA_ArmorInven[i].atk);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 120, str, strlen(str));
-		sprintf_s(str, "방어력 : %d", _vA_ArmorInven[i].def);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 140, str, strlen(str));
-		sprintf_s(str, "운 : %d", _vA_ArmorInven[i].luck);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 160, str, strlen(str));
-		sprintf_s(str, "스피드 : %d", _vA_ArmorInven[i].speed);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 180, str, strlen(str));
-	}
+	
 	for (int i = 0; i < _vA_WeapInven.size(); i++)
 	{
-
 		Rectangle(getMemDC(), _vA_WeapInven[i].rc.left, _vA_WeapInven[i].rc.top, _vA_WeapInven[i].rc.right, _vA_WeapInven[i].rc.bottom);
 	}
 	for (int i = 0; i < _vA_ArmorInven.size(); i++)
@@ -93,6 +83,7 @@ void playerManager::render()
 	}
 	for (int i = 0; i < _vS_WeapInven.size(); i++)
 	{
+		_itemManager->itemMakeSet(_vS_WeapInven[i].name, _vS_WeapInven[i].rc.left+25, _vS_WeapInven[i].rc.top+25);
 		Rectangle(getMemDC(), _vS_WeapInven[i].rc.left, _vS_WeapInven[i].rc.top, _vS_WeapInven[i].rc.right, _vS_WeapInven[i].rc.bottom);
 	}
 	for (int i = 0; i < _vS_ArmorInven.size(); i++)
@@ -147,7 +138,7 @@ void playerManager::mounting()
 				_A_saveBeforWeapon.atk = _vA_WeapInven[i].atk;
 				_A_saveBeforWeapon.luck = _vA_WeapInven[i].luck;
 
-				if (_vA_WeapInven[i].luck == 25)
+				if (_vA_WeapInven[i].name == "명주 귀신살")
 				{
 					_ataho->setSwordMounting(true);
 				}
@@ -181,13 +172,14 @@ void playerManager::mounting()
 				_S_saveBeforWeapon.atk = _vS_WeapInven[i].atk;
 				_S_saveBeforWeapon.luck = _vS_WeapInven[i].luck;
 
-				if (_vS_WeapInven[i].atk == 50)
+				if (_vS_WeapInven[i].name == "마인아수라")
 				{
 					_smasyu->setMounting(true);
 				}
 				else
 				{
 					_smasyu->setMounting(false);
+
 				}
 			}
 		}
@@ -207,109 +199,116 @@ void playerManager::mounting()
 		{
 			if (PtInRect(&_vPorInven[i].rc, _ptMouse))
 			{
+				//아타호일 때
+				_ataho->setPortion(_vPorInven[i].hp, _vPorInven[i].mp);
+				
+				//스마슈일 때
+				_smasyu->setPortion(_vPorInven[i].hp, _vPorInven[i].mp);
 
+				_vPorInven.erase(_vPorInven.begin() + i);
 			}
 		}
 	}
 }
 
-//인벤토리 종류
+//받아서 푸쉬할 아이템 종류
 void playerManager::getItemValue()
 {
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		//아타호 무기
-		for (int i = 0; i < _itemManager->getA_Weapon()->getVItem().size(); ++i)
+		for (int i = 0; i < _itemManager->getPItem()->getVItem().size(); ++i)
 		{
-			if (PtInRect(&_itemManager->getA_Weapon()->getVItem()[i].rc, _ptMouse))
+			if (PtInRect(&_itemManager->getPItem()->getVItem()[i].rc, _ptMouse))
 			{
-				tagInventory inventory;
-				ZeroMemory(&inventory, sizeof(inventory));
+				if (_itemManager->getPItem()->getVItem()[i].frameY == 0)
+				{
+					if (_itemManager->getPItem()->getVItem()[i].frameX < 6)
+					{
+						tagInventory inventory;
+						ZeroMemory(&inventory, sizeof(inventory));
 
-				inventory.name = _itemManager->getA_Weapon()->getItemName(i);
-				inventory.atk = _itemManager->getA_Weapon()->getVItem()[i].atk;
-				inventory.def = _itemManager->getA_Weapon()->getVItem()[i].def;
-				inventory.luck = _itemManager->getA_Weapon()->getVItem()[i].luck;
-				inventory.cri = _itemManager->getA_Weapon()->getVItem()[i].critical;
-				inventory.speed = _itemManager->getA_Weapon()->getVItem()[i].speed;
-				
-					_vA_WeapInven.push_back(inventory);
-				
+						if (_itemManager->getPItem()->getVItem()[i].cost <= _money)
+						{
+							_money -= _itemManager->getPItem()->getVItem()[i].cost;
+							inventory.name = _itemManager->getPItem()->getItemName(i);
+
+							_vA_WeapInven.push_back(inventory);
+						}
+					}
+
+					//아타호 방어구
+
+					if (_itemManager->getPItem()->getVItem()[i].frameX >= 6)
+					{
+						tagInventory inventory;
+						ZeroMemory(&inventory, sizeof(inventory));
+						if (_itemManager->getPItem()->getVItem()[i].cost <= _money)
+						{
+							_money -= _itemManager->getPItem()->getVItem()[i].cost;
+							inventory.name = _itemManager->getPItem()->getItemName(i);
+
+							_vA_ArmorInven.push_back(inventory);
+						}
+					}
+
+				}
+
+				//스마슈 무기
+				if (_itemManager->getPItem()->getVItem()[i].frameY == 2)
+				{
+					if (_itemManager->getPItem()->getVItem()[i].frameX < 6)
+					{
+						tagInventory inventory;
+						ZeroMemory(&inventory, sizeof(inventory));
+						if (_itemManager->getPItem()->getVItem()[i].cost <= _money)
+						{
+							_money -= _itemManager->getPItem()->getVItem()[i].cost;
+							inventory.name = _itemManager->getPItem()->getItemName(i);
+
+							_vS_WeapInven.push_back(inventory);
+						}
+					}
+
+					//스마슈 방어구
+					if (_itemManager->getPItem()->getVItem()[i].frameX >= 6)
+					{
+						tagInventory inventory;
+						ZeroMemory(&inventory, sizeof(inventory));
+						if (_itemManager->getPItem()->getVItem()[i].cost <= _money)
+						{
+							_money -= _itemManager->getPItem()->getVItem()[i].cost;
+							inventory.name = _itemManager->getPItem()->getItemName(i);
+
+							_vS_ArmorInven.push_back(inventory);
+						}
+					}
+				}
+
 			}
 		}
-		//아타호 방어구
-		for (int i = 0; i < _itemManager->getA_Armor()->getVItem().size(); i++)
-		{
-			if (PtInRect(&_itemManager->getA_Armor()->getVItem()[i].rc, _ptMouse))
+			//포션
+			for (int i = 0; i < _itemManager->getPortion()->getVPotion().size(); i++)
 			{
-				tagInventory inventory;
-				ZeroMemory(&inventory, sizeof(inventory));
+				if (PtInRect(&_itemManager->getPortion()->getVPotion()[i].rc, _ptMouse))
+				{
+					if (_itemManager->getPortion()->getVPotion()[i].cost <= _money)
+					{
+						_money -= _itemManager->getPortion()->getVPotion()[i].cost;
+						tagInventory inventory;
+						ZeroMemory(&inventory, sizeof(inventory));
 
-				inventory.name = _itemManager->getA_Armor()->getItemName(i);
-				inventory.atk = _itemManager->getA_Armor()->getVItem()[i].atk;
-				inventory.def = _itemManager->getA_Armor()->getVItem()[i].def;
-				inventory.luck = _itemManager->getA_Armor()->getVItem()[i].luck;
-				inventory.cri = _itemManager->getA_Armor()->getVItem()[i].critical;
-				inventory.speed = _itemManager->getA_Armor()->getVItem()[i].speed;
-				
-				_vA_ArmorInven.push_back(inventory);
+						inventory.name = _itemManager->getPortion()->getPorName(i);
+						inventory.hp = _itemManager->getPortion()->getVPotion()[i].hp;
+						inventory.mp = _itemManager->getPortion()->getVPotion()[i].mp;
+						_vPorInven.push_back(inventory);
+					}
+				}
 			}
-		}
-		//스마슈 무기
-		for (int i = 0; i < _itemManager->getS_Weapon()->getVItem().size(); i++)
-		{
-			if (PtInRect(&_itemManager->getS_Weapon()->getVItem()[i].rc, _ptMouse))
-			{
-				tagInventory inventory;
-				ZeroMemory(&inventory, sizeof(inventory));
 
-				inventory.name = _itemManager->getS_Weapon()->getItemName(i);
-				inventory.atk = _itemManager->getS_Weapon()->getVItem()[i].atk;
-				inventory.def = _itemManager->getS_Weapon()->getVItem()[i].def;
-				inventory.luck = _itemManager->getS_Weapon()->getVItem()[i].luck;
-				inventory.cri = _itemManager->getS_Weapon()->getVItem()[i].critical;
-				inventory.speed = _itemManager->getS_Weapon()->getVItem()[i].speed;
-				
-				_vS_WeapInven.push_back(inventory);
-			}
-		}
-		//스마슈 방어구
-		for (int i = 0; i < _itemManager->getS_Armor()->getVItem().size(); i++)
-		{
-			if (PtInRect(&_itemManager->getS_Armor()->getVItem()[i].rc, _ptMouse))
-			{
-				tagInventory inventory;
-				ZeroMemory(&inventory, sizeof(inventory));
-
-				inventory.name = _itemManager->getS_Armor()->getItemName(i);
-				inventory.atk = _itemManager->getS_Armor()->getVItem()[i].atk;
-				inventory.def = _itemManager->getS_Armor()->getVItem()[i].def;
-				inventory.luck = _itemManager->getS_Armor()->getVItem()[i].luck;
-				inventory.cri = _itemManager->getS_Armor()->getVItem()[i].critical;
-				inventory.speed = _itemManager->getS_Armor()->getVItem()[i].speed;
-				
-				_vS_ArmorInven.push_back(inventory);
-			}
-		}
-
-		//포션
-		for (int i = 0; i < _itemManager->getPortion()->getVPotion().size(); i++)
-		{
-			if (PtInRect(&_itemManager->getPortion()->getVPotion()[i].rc, _ptMouse))
-			{
-				tagInventory inventory;
-				ZeroMemory(&inventory, sizeof(inventory));
-
-				inventory.name = _itemManager->getPortion()->getPorName(i);
-				inventory.hp = _itemManager->getPortion()->getVPotion()[i].hp;
-				
-				_vPorInven.push_back(inventory);
-			}
-		}
-
+		
 	}
-
 }
 
 void playerManager::inventory()

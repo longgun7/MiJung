@@ -2,15 +2,17 @@
 #include "gameNode.h"
 #include "Skill.h"
 #include "SumsuSkill.h"
+#include "gameEffect.h"
 //#include "SumsuSkill.h"
 enum SMOVE
 {
 	S_LEFT, S_RIGHT, S_DOWN, S_UP,
 	S_LEFTMOVE, S_RIGHTMOVE, S_DOWNMOVE, S_UPMOVE,
+	S_BASICSKILL1,
 	S_SOLOSKILL1, S_AREASKILL2, S_SOLOSKILL3,
 	S_AREASKILL1, S_SOLOSKILL2, S_AREASKILL3,
 	S_FIGHTREADY , S_ROPEWALKING , S_DANGER , S_AFRAID,
-	S_DEFENCE,S_NOCKDOWN
+	S_DEFENCE,S_NOCKDOWN,S_ESCAPE
 };
 
 enum S_SCENEMODE
@@ -70,6 +72,7 @@ private:
 	sumsuAreaSkill2* _areaSkill2;
 	sumsuTargetSkill2* _soloSkill2;
 	sumsuTargetSkill3* _soloSkill3;
+	gameEffect* _gameEffect;
 public:
 	
 	HRESULT init(float x , float y);
@@ -82,11 +85,13 @@ public:
 	void battleKeyManager();
 	void move();
 	void randEffect();
+	void randAreaEffect();
 	void s_event();
 	void strongestSwordEffect(); //제일 센 무기 이펙트
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
 	void setStat(int atk, int def, int luck, int cri, int speed);
+	void setPortion(int hp, int mp);
 	float getY() { return _y; }
 	
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
@@ -108,8 +113,10 @@ public:
 	}
 
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
-	void setDamage(int damage);
+	void setPlayerDamage(int damage);
 	void setEnemyIndex(int index) { _enemyIndex = index; }
+
+	
 	player2();
 	~player2();
 };
