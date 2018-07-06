@@ -1,15 +1,27 @@
 #pragma once
 #include"gameNode.h"
-#include "item.h"
+#include <vector>
+#include "itemManager.h"
+
+struct tagShop
+{
+	string name;
+	int num;
+	int cost;
+};
+
 class barScnen : public gameNode
 {
 private:
 
-	vector<item*>			_vShop;
-	vector<item*>::iterator _viShop;
+	vector<tagShop*>			_vShop;
+	vector<tagShop*>::iterator  _viShop;
+
+	itemManager* _im;
 
 	bool _isShopCheck;		//상점이 체크되었늬?
 	bool _isHotelCheck;		//여관이 체크되었늬?
+
 public:
 	barScnen();
 	~barScnen();

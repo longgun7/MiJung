@@ -109,6 +109,9 @@
     <Filter Include="playGround\camera">
       <UniqueIdentifier>{e1b6cccb-ca68-410d-86eb-f3e62476ea38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\shop">
+      <UniqueIdentifier>{2607bd5f-32c7-4908-b512-926e6000248b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -429,7 +432,7 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="startScene.cpp">
-      <Filter>playGround\Scene\startScene</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

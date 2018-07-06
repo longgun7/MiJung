@@ -2,9 +2,6 @@
 #include "gameNode.h"
 #include <vector>
 
-
-
-
 class inventory :public gameNode
 {
 private:

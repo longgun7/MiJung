@@ -41,7 +41,7 @@ void itemManager::render()
 {
 	_pItem->render();
 	_potion->render();
-
+	_shopItem->render();
 }
 
 void itemManager::setItem()
@@ -180,9 +180,12 @@ void itemManager::setItem()
 
 void itemManager::itemMakeSet(string itemName, float x, float y)
 {
-	
 	_pItem->makeItem(itemName, x, y);
+}
 
+void itemManager::shopItemSet(string itemName, float x, float y)
+{
+	_shopItem->makeItem(itemName, x, y);
 }
 
 
