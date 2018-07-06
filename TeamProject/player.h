@@ -106,6 +106,7 @@ public:
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
 	void setStat(int atk, int def, int luck, int cri, int speed);
+	void setPortion(int hp, int mp);
 	void randGameEffect();
 	
 	

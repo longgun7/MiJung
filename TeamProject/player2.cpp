@@ -219,44 +219,50 @@ void player2::battleKeyManager()
 		if (_sceneMode == S_BATTLEMODE)
 		{
 			//스킬
-			if (KEYMANAGER->isOnceKeyDown('A'))
+			if (KEYMANAGER->isOnceKeyDown('A') && _attribute.currentMp >= 3)
 			{
 				_move = S_SOLOSKILL1;
 				_isMotionLive = true;
 				_skillFrame = 0;
 				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('S'))
+			if (KEYMANAGER->isOnceKeyDown('S') && _attribute.currentMp >= 3)
 			{
 				_move = S_AREASKILL2;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('D'))
+			if (KEYMANAGER->isOnceKeyDown('D') && _attribute.currentMp >= 3)
 			{
 				_move = S_SOLOSKILL3;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('F'))
+			if (KEYMANAGER->isOnceKeyDown('F') && _attribute.currentMp >= 3)
 			{
 				_move = S_AREASKILL1;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('G'))
+			if (KEYMANAGER->isOnceKeyDown('G') && _attribute.currentMp >= 3)
 			{
 				_move = S_SOLOSKILL2;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('H'))
+			if (KEYMANAGER->isOnceKeyDown('H') && _attribute.currentMp >= 3)
 			{
 				_x = WINSIZEX / 2;
 				_y = WINSIZEY / 3;
 				_move = S_AREASKILL3;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
 		}
 	}
@@ -670,7 +676,7 @@ void player2::setAreaDamage(int plusDamage)
 		_em->hitEnemy(i, _attribute.atk + plusDamage);
 	}
 }
-
+//스텟 넣기
 void player2::setStat(int atk, int def, int luck, int cri, int speed)
 {
 	_attribute.atk += atk;
@@ -678,6 +684,20 @@ void player2::setStat(int atk, int def, int luck, int cri, int speed)
 	_attribute.def += def;
 	_attribute.luck += luck;
 	_attribute.speed += speed;
+}
+
+//포션넣기
+void player2::setPortion(int hp, int mp)
+{
+	if (_attribute.currentMp <= _attribute.maxMp)
+	{
+		_attribute.currentHp += hp;
+		_attribute.currentMp += mp;
+		if (_attribute.currentMp >= _attribute.maxMp)
+		{
+			_attribute.currentMp = _attribute.maxMp;
+		}
+	}
 }
 
 
