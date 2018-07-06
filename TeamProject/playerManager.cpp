@@ -58,30 +58,18 @@ void playerManager::render()
 	for (int i = 0; i < _vA_WeapInven.size(); ++i)
 	{
 		sprintf_s(str, "이름 : %s", _vA_WeapInven[i].name.c_str());
-		TextOut(getMemDC(), 200 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
+		TextOut(getMemDC(), 250 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
 	}
 		sprintf_s(str, "아타호 공격력 : %d", _ataho->getAttribute().atk);
-		TextOut(getMemDC(), 200, WINSIZEY / 2 - 150 + 120, str, strlen(str));
+		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 120, str, strlen(str));
 		sprintf_s(str, "아타호 방어력 : %d", _ataho->getAttribute().def);
-		TextOut(getMemDC(), 200, WINSIZEY / 2 - 150 + 140, str, strlen(str));
+		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 140, str, strlen(str));
 		sprintf_s(str, "아타호 운 : %d", _ataho->getAttribute().luck);
-		TextOut(getMemDC(), 200, WINSIZEY / 2 - 150 + 160, str, strlen(str));
+		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 160, str, strlen(str));
 		sprintf_s(str, "아타호 스피드 : %d", _ataho->getAttribute().speed);
-		TextOut(getMemDC(), 200, WINSIZEY / 2 - 150 + 180, str, strlen(str));
+		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 180, str, strlen(str));
 	
-	for (int i = 0; i < _vA_ArmorInven.size(); i++)
-	{
-		sprintf_s(str, "이름 : %s", _vA_ArmorInven[i].name.c_str());
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50+100, str, strlen(str));
-		sprintf_s(str, "공격력 : %d", _vA_ArmorInven[i].atk);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 120, str, strlen(str));
-		sprintf_s(str, "방어력 : %d", _vA_ArmorInven[i].def);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 140, str, strlen(str));
-		sprintf_s(str, "운 : %d", _vA_ArmorInven[i].luck);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 160, str, strlen(str));
-		sprintf_s(str, "스피드 : %d", _vA_ArmorInven[i].speed);
-		TextOut(getMemDC(), 100 + i * 100, WINSIZEY / 2 - 50 + 180, str, strlen(str));
-	}
+	
 	for (int i = 0; i < _vA_WeapInven.size(); i++)
 	{
 
@@ -219,6 +207,7 @@ void playerManager::getItemValue()
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
+
 		//아타호 무기
 		for (int i = 0; i < _itemManager->getA_Weapon()->getVItem().size(); ++i)
 		{
@@ -227,6 +216,7 @@ void playerManager::getItemValue()
 				tagInventory inventory;
 				ZeroMemory(&inventory, sizeof(inventory));
 
+				
 				inventory.name = _itemManager->getA_Weapon()->getItemName(i);
 				inventory.atk = _itemManager->getA_Weapon()->getVItem()[i].atk;
 				inventory.def = _itemManager->getA_Weapon()->getVItem()[i].def;
