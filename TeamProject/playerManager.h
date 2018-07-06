@@ -26,6 +26,7 @@ struct tagInventory
 
 struct saveBeforItem
 {
+
 	int atk;
 	int def;
 	int luck;

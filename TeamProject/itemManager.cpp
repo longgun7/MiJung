@@ -13,40 +13,18 @@ itemManager::~itemManager()
 
 HRESULT itemManager::init()
 {
-	_a_Weapon = new item;
-	_a_Weapon->init(3);
-
-	_a_Armor = new item;
-	_a_Armor->init(3);
 
 	_potion = new item;
 	_potion->init(1);
-
-	_s_Weapon = new item;
-	_s_Weapon->init(3);
-
-	_s_Armor = new item;
-	_s_Armor->init(3);
 	
+	_shopItem = new item;
+	_shopItem->init(5);
+
+	_pItem = new item;
+	_pItem->init(16);
 
 	setItem();
-
-	_a_Weapon->makeItem("특급주", 200, 100);
-	_a_Weapon->makeItem("명주 귀신살", 400, 100);
-
-	_a_Armor->makeItem("권법가 도복", 200, 150);
-	_a_Armor->makeItem("호랑이 도복", 400, 150);
-
-	_s_Weapon->makeItem("마인아수라", 100, 200);
-	_s_Weapon->makeItem("청룡도", 200, 200);
-	_s_Weapon->makeItem("불타는 마검", 300, 200);
-
-	_s_Armor->makeItem("가죽 갑옷", 200, 250);
-	_s_Armor->makeItem("투신의 갑옷", 400, 250);
 	
-	_potion->makepotion("약초", 100, 300);
-	_potion->makepotion("마법의 물약", 200, 300);
-
 	return S_OK;
 }
 
@@ -56,31 +34,14 @@ void itemManager::release()
 
 void itemManager::update()
 {
-	_a_Weapon->update();
-	_a_Armor->update();
-	_s_Weapon->update();
-	_s_Armor->update();
 	_potion->update();
 }
 
 void itemManager::render()
 {
-	_a_Weapon->render();
-	_a_Armor->render();
-	_s_Weapon->render();
-	_s_Armor->render();
+	_pItem->render();
 	_potion->render();
 
-	for (int i = 0; i < _a_Weapon->getVItem().size(); ++i)
-	{
-		char str[128];
-		sprintf_s(str, "%d", _a_Weapon->getVItem()[i].cost);
-		TextOut(getMemDC(), 400 + (100 * i), 300, str, strlen(str));
-	}
-
-	char str[128];
-	sprintf_s(str, "%d", _potion->getVPotion()[0].cost);
-	TextOut(getMemDC(), 100, 250, str, strlen(str));
 }
 
 void itemManager::setItem()
@@ -216,4 +177,13 @@ void itemManager::setItem()
 
 	INIDATA->iniSave("item");
 }
+
+void itemManager::itemMakeSet(string itemName, float x, float y)
+{
+	
+	_pItem->makeItem(itemName, x, y);
+
+}
+
+
 
