@@ -8,7 +8,7 @@ class spearMan : public enemy
 {
 
 public:
-
+	// ¿¡³Ê¹Ì
 	virtual HRESULT init(float x, float y);
 	virtual void release();
 	virtual void update();
