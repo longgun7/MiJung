@@ -16,7 +16,7 @@ HRESULT playSceneManager::init(void)
 	sceneAdd();
 
 	basicUI();
-
+	
 	//플레이어매니저 
 	_pm = new playerManager;
 	_pm->init();
@@ -40,6 +40,10 @@ HRESULT playSceneManager::init(void)
 	
 	_pm->getPlayer()->setEnemyManagerAdressLink(_em);
 	_pm->getPlayer2()->setEnemyManagerAdressLink(_em);
+
+	setProgressBar();	//프로그래스바 셋팅!
+
+
 	return S_OK;
 }
 
@@ -97,6 +101,9 @@ void playSceneManager::update(void)
 		else if (_isStatus) { _isStatus = false; }	//나중에 자신이 있던씬으로 돌아가야함
 		
 	}
+	
+	updateProgressBar();
+	
 }
 
 void playSceneManager::render(void)
@@ -110,7 +117,7 @@ void playSceneManager::render(void)
 	IMAGEMANAGER->findImage("MP")->frameRender(CAMERA->getCameraDC(), 350, 562);
 	IMAGEMANAGER->findImage("EXP")->frameRender(CAMERA->getCameraDC(), 500, 562);
 
-	
+	renderProgressBar();	//프로그래스바 렌더
 
 	if (_pm->getPlayer()->getSCENEMODE() == FIELDMODE || _pm->getPlayer()->getSCENEMODE() == BATTLEMODE)
 	{
@@ -118,7 +125,9 @@ void playSceneManager::render(void)
 		_em->render();
 		_im->render();
 	}
+	
 	fontUI();
+	
 }
 
 void playSceneManager::sceneAdd(void)
@@ -259,3 +268,51 @@ void playSceneManager::fontUI(void)
 	SelectObject(CAMERA->getCameraDC(), ofont2);
 	DeleteObject(font2);
 }
+//프로그래스바 세팅
+void playSceneManager::setProgressBar(void)
+{
+	_hp1 = new progressBar;
+	_hp1->init(210, WINSIZEY - 150, 137, 12);
+
+	_hp2 = new progressBar;
+	_hp2->init(210, WINSIZEY - 100, 137, 12);
+
+	_mp1 = new progressBar;
+	_mp1->init(355, WINSIZEY - 150, 137, 12);
+
+	_mp2 = new progressBar;
+	_mp2->init(355, WINSIZEY - 100, 137, 12);
+
+	_exp1 = new progressBar;
+	_exp1->init(500, WINSIZEY - 150, 137, 12);
+
+	_exp2 = new progressBar;
+	_exp2->init(500, WINSIZEY - 100, 137, 12);
+	
+}
+void playSceneManager::updateProgressBar(void)
+{
+	_hp1->update();
+	_hp1->setGauge(_pm->getPlayer()->getAttribute().currentHp, _pm->getPlayer()->getAttribute().maxHp);
+	_hp2->update();
+	_hp2->setGauge(_pm->getPlayer2()->getAttribute().currentHp, _pm->getPlayer2()->getAttribute().maxHp);
+	_mp1->update();
+	_mp1->setGauge(_pm->getPlayer()->getAttribute().currentMp, _pm->getPlayer()->getAttribute().maxMp);
+	_mp2->update();
+	_mp2->setGauge(_pm->getPlayer2()->getAttribute().currentMp, _pm->getPlayer2()->getAttribute().maxMp);
+	_exp1->update();
+	_exp1->setGauge(_pm->getPlayer()->getAttribute().currentExp, _pm->getPlayer()->getAttribute().maxExp);
+	_exp2->update();
+	_exp2->setGauge(_pm->getPlayer2()->getAttribute().currentExp, _pm->getPlayer2()->getAttribute().maxExp);
+}
+void playSceneManager::renderProgressBar(void)
+{
+	_hp1->render();
+	_hp2->render();
+	_mp1->render();
+	_mp2->render();
+	_exp1->render();
+	_exp2->render();
+}
+
+

@@ -10,6 +10,7 @@ enum INVENATTRIBUTE
 };
 struct tagInventory
 {
+	image* img;
 	RECT rc;
 	int x;
 	int y;
@@ -25,6 +26,7 @@ struct tagInventory
 
 struct saveBeforItem
 {
+
 	int atk;
 	int def;
 	int luck;

@@ -15,6 +15,7 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("스마슈왼쪽이동", "image/player/스마슈 왼쪽이동.bmp", 180, 85, 4, 1, true, RGB(255, 0, 255));
 	
 	//스마슈 스킬
+	IMAGEMANAGER->addFrameImage("스마슈베기", "image/player/스마슈 베기.bmp", 438, 140, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈대타격", "image/player/스마슈 대타격.bmp", 402, 85, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈용오름", "image/player/스마슈 용오름.bmp", 2000, 87, 16, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스마슈베고날아가기", "image/player/스마슈 베고 날아가기2.bmp", 2675, 120, 24, 1, true, RGB(255, 0, 255));
@@ -73,7 +74,8 @@ HRESULT player2::init(float x , float y)
 	_areaSkill1->init();
 	_areaSkill2 = new sumsuAreaSkill2;
 	_areaSkill2->init();
-	
+	_gameEffect = new gameEffect;
+	_gameEffect->init();
 	return S_OK;
 }
 
@@ -96,7 +98,7 @@ void player2::update()
 	_soloSkill3->update();
 	_areaSkill1->update();
 	_areaSkill2->update();
-		
+	_gameEffect->update();
 }
 
 void player2::render()
@@ -127,7 +129,7 @@ void player2::render()
 	_soloSkill3->render();
 	_areaSkill1->render();
 	_areaSkill2->render();
-	
+	_gameEffect->render();
 
 }
 
@@ -137,6 +139,7 @@ void player2::release()
 	SAFE_DELETE(_soloSkill3);
 	SAFE_DELETE(_areaSkill1);
 	SAFE_DELETE(_areaSkill2);
+	SAFE_DELETE(_gameEffect);
 }
 
 void player2::fieldKeyManager(float x , float y)
@@ -217,43 +220,60 @@ void player2::battleKeyManager()
 		if (_sceneMode == S_BATTLEMODE)
 		{
 			//스킬
-			if (KEYMANAGER->isOnceKeyDown('A'))
+			if (KEYMANAGER->isOnceKeyDown('C'))
+			{
+				_move = S_BASICSKILL1;
+				_isMotionLive = true;
+				_skillFrame = 0;
+				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 50;
+				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+				setSoloDamage(6);
+				
+			}
+			if (KEYMANAGER->isOnceKeyDown('A') && _attribute.currentMp >= 3)
 			{
 				_move = S_SOLOSKILL1;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('S'))
+			if (KEYMANAGER->isOnceKeyDown('S') && _attribute.currentMp >= 3)
 			{
 				_move = S_AREASKILL2;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('D'))
+			if (KEYMANAGER->isOnceKeyDown('D') && _attribute.currentMp >= 3)
 			{
 				_move = S_SOLOSKILL3;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('F'))
+			if (KEYMANAGER->isOnceKeyDown('F') && _attribute.currentMp >= 3)
 			{
 				_move = S_AREASKILL1;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('G'))
+			if (KEYMANAGER->isOnceKeyDown('G') && _attribute.currentMp >= 3)
 			{
 				_move = S_SOLOSKILL2;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
-			if (KEYMANAGER->isOnceKeyDown('H'))
+			if (KEYMANAGER->isOnceKeyDown('H') && _attribute.currentMp >= 3)
 			{
 				_x = WINSIZEX / 2;
 				_y = WINSIZEY / 3;
 				_move = S_AREASKILL3;
 				_isMotionLive = true;
 				_skillFrame = 0;
+				_attribute.currentMp -= 3;
 			}
 		}
 	}
@@ -293,13 +313,15 @@ void player2::image()
 	case S_UPMOVE:
 		_img = IMAGEMANAGER->findImage("스마슈위로이동");
 		break;
+	case S_BASICSKILL1:
+		_img = IMAGEMANAGER->findImage("스마슈베기");
+		break;
 	case S_SOLOSKILL1:
 		_img = IMAGEMANAGER->findImage("스마슈대타격");
 		break;
 	case S_SOLOSKILL2:
 		_img = IMAGEMANAGER->findImage("스마슈난도질");
 		break;
-	
 	case S_SOLOSKILL3:
 		_img = IMAGEMANAGER->findImage("스마슈베고날아가기");
 		break;
@@ -377,10 +399,13 @@ void player2::move()
 			_x += 20;
 			_soloSkillEffect->addSkill(_x, _y -  35);
 		}
-
+		if (_img->getFrameX() >= _img->getMaxFrameX() && _skillFrame%20==0 )
+		{
+               setSoloDamage(6);
+		}
 		if (_img->getFrameX() >= _img->getMaxFrameX())
 		{
-			_soloSkill2->addFireSkill(_x + 50, _y);
+			_soloSkill2->addFireSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
 			_imageFrame = _img->getMaxFrameX();
 		}
 		if (_skillFrame > 100)
@@ -398,6 +423,7 @@ void player2::move()
 		++_skillFrame;
 		if (_skillFrame % 30 == 0 && _img->getFrameX() < 40)
 		{
+			setSoloDamage(6);
 			randEffect();
 		}
 		if (_img->getFrameX() == 43)
@@ -427,6 +453,7 @@ void player2::move()
 			_x += 20;
 			_img->setFrameX(23);
 			_imageFrame = 23;
+			_soloSkillEffect->addSkill(_x, _y-35);
 		}
 		if (_x >= WINSIZEX )
 		{	
@@ -447,6 +474,11 @@ void player2::move()
 		if (_img->getFrameX() >= _img->getMaxFrameX() )
 		{
 			_imageFrame = 0;
+		}
+		if (_skillFrame % 30 == 0)
+		{
+			setAreaDamage(6);
+			randAreaEffect();
 		}
 		if (_skillFrame > 200)
 		{
@@ -470,11 +502,13 @@ void player2::move()
 		}
 		if (_skillFrame == 50)
 		{
+			setAreaDamage(6);
 			_areaSkill1->addAreaSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y, _enemyIndex+1);
 		}
 		//스킬 넣기
 		if ((_skillFrame % 5==0 &&_imageFrame == 5 )||( _skillFrame % 5 == 0 && _imageFrame == 9) )
 		{
+			setAreaDamage(6);
 			randEffect();
 		}
 		if (_img->getFrameX() >= _img->getMaxFrameX())
@@ -505,7 +539,12 @@ void player2::move()
 		{
 			_img->setFrameX(1);
 		}
-		if (_skillFrame > 400 )
+		if (_skillFrame > 150 && _skillFrame %30 == 0)
+		{
+			setAreaDamage(6);
+			randAreaEffect();
+		}
+		if ( _skillFrame > 400 )
 		{
 			_skillFrame = 0;
 			_img->setFrameX(0);
@@ -534,6 +573,47 @@ void player2::randEffect()
 	if (randCut == 2)
 	{
 		_soloSkill3->cutUpSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
+	}
+}
+
+void player2::randAreaEffect()
+{
+	int randEffect = RND->getInt(8);
+
+	for (int i = 0; i < _em->getVEnmey().size(); i++)
+	{
+		if (randEffect == 0)
+		{// 왼쪽 위로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+			_gameEffect->hitLUDiagonal(_em->getVEnmey()[i]->getTagEnmey().x - 10, _em->getVEnmey()[i]->getTagEnmey().y - 20);
+		}
+		if (randEffect == 1)
+		{// 왼쪽 아래로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+			_gameEffect->hitLDDiagonal(_em->getVEnmey()[i]->getTagEnmey().x - 10, _em->getVEnmey()[i]->getTagEnmey().y + 30);
+		}
+		if (randEffect == 2)
+		{// 오른쪽 위로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+			_gameEffect->hitRUDiagonal(_em->getVEnmey()[i]->getTagEnmey().x + 30, _em->getVEnmey()[i]->getTagEnmey().y - 20);
+		}
+		if (randEffect == 3)
+		{// 오른쪽 아래로 튀기는 큰 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+			_gameEffect->hitRDDiagonal(_em->getVEnmey()[i]->getTagEnmey().x + 30, _em->getVEnmey()[i]->getTagEnmey().y + 30);
+		}
+		if (randEffect == 4)
+		{// 왼쪽 위로 튀기는 작은 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+			_gameEffect->hitLUDiagonal2(_em->getVEnmey()[i]->getTagEnmey().x - 10, _em->getVEnmey()[i]->getTagEnmey().y - 20);
+		}
+		if (randEffect == 5)
+		{// 왼쪽 아래로 튀기는 작은 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+			_gameEffect->hitLDDiagonal2(_em->getVEnmey()[i]->getTagEnmey().x - 10, _em->getVEnmey()[i]->getTagEnmey().y + 30);
+		}
+		if (randEffect == 6)
+		{// 오른쪽 위로 튀기는 작은 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+			_gameEffect->hitRUDiagonal2(_em->getVEnmey()[i]->getTagEnmey().x + 30, _em->getVEnmey()[i]->getTagEnmey().y - 20);
+		}
+		if (randEffect == 7)
+		{// 오른쪽 아래로 튀기는 작은 타격 이미지 x(그릴 중점 좌표), y(그릴 중점 좌표)
+			_gameEffect->hitRDDiagonal2(_em->getVEnmey()[i]->getTagEnmey().x + 30, _em->getVEnmey()[i]->getTagEnmey().y + 30);
+		}
 	}
 }
 
@@ -609,7 +689,7 @@ void player2::setAreaDamage(int plusDamage)
 		_em->hitEnemy(i, _attribute.atk + plusDamage);
 	}
 }
-
+//스텟 넣기
 void player2::setStat(int atk, int def, int luck, int cri, int speed)
 {
 	_attribute.atk += atk;
@@ -619,8 +699,22 @@ void player2::setStat(int atk, int def, int luck, int cri, int speed)
 	_attribute.speed += speed;
 }
 
+//포션넣기
+void player2::setPortion(int hp, int mp)
+{
+	if (_attribute.currentMp <= _attribute.maxMp)
+	{
+		_attribute.currentHp += hp;
+		_attribute.currentMp += mp;
+		if (_attribute.currentMp >= _attribute.maxMp)
+		{
+			_attribute.currentMp = _attribute.maxMp;
+		}
+	}
+}
 
-void player2::setDamage(int damage)
+
+void player2::setPlayerDamage(int damage)
 {
 	
 	if (_sceneMode == S_BATTLEMODE)
