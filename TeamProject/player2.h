@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "Skill.h"
 #include "SumsuSkill.h"
+#include "gameEffect.h"
 //#include "SumsuSkill.h"
 enum SMOVE
 {
@@ -70,6 +71,7 @@ private:
 	sumsuAreaSkill2* _areaSkill2;
 	sumsuTargetSkill2* _soloSkill2;
 	sumsuTargetSkill3* _soloSkill3;
+	gameEffect* _gameEffect;
 public:
 	
 	HRESULT init(float x , float y);
@@ -82,6 +84,7 @@ public:
 	void battleKeyManager();
 	void move();
 	void randEffect();
+	void randAreaEffect();
 	void s_event();
 	void strongestSwordEffect(); //제일 센 무기 이펙트
 	void setSoloDamage(int plusDamage);
@@ -108,8 +111,10 @@ public:
 	}
 
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
-	void setDamage(int damage);
+	void setPlayerDamage(int damage);
 	void setEnemyIndex(int index) { _enemyIndex = index; }
+
+	
 	player2();
 	~player2();
 };

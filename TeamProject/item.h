@@ -23,6 +23,7 @@ struct tagItem
 	int atk;    
 	int def;
 	int luck;
+	int cost;
 	float speed;
 	int critical;
 	string name;
@@ -41,6 +42,7 @@ struct tagPotion
 	float y;
 	int hp;
 	int mp;
+	int cost;
 	string name;
 	RECT rc;
 	potionKind potionCheck;
