@@ -28,6 +28,7 @@ struct tagItem
 	string name;
 	RECT rc;
 	itemKind itemCheck; //아이템이 어떤 아이템인지 
+	
 
 };
 
@@ -88,9 +89,13 @@ public:
 	vector<tagItem>				getVItem() { 
 		return _vItem; 
 	}
-	string getName(int i)
+	string getItemName(int i)
 	{
 		return _vItem[i].name;
+	}
+	string getPorName(int i)
+	{
+		return _vPotion[i].name;
 	}
 
 	vector<tagItem>::iterator	getVIItem() { return _viItem; }

@@ -610,6 +610,15 @@ void player2::setAreaDamage(int plusDamage)
 	}
 }
 
+void player2::setStat(int atk, int def, int luck, int cri, int speed)
+{
+	_attribute.atk += atk;
+	_attribute.cri += cri;
+	_attribute.def += def;
+	_attribute.luck += luck;
+	_attribute.speed += speed;
+}
+
 
 void player2::setDamage(int damage)
 {
