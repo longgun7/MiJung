@@ -3,35 +3,36 @@
 
 enum DIRECTION
 {
-	STAND,
-	ATTACK,
-	HIT,
-	DEAD
+	STAND,	// 가만히 있는 상태
+	ATTACK,	// 공격
+	HIT,	// 맞는 상태
+	DEAD	// 죽음
 };
 
-struct tagEnemy
+struct tagEnemy	// 에너미 구조체
 {
-	image* img;
+	image* img;	// 이미지
 
-	RECT rc;
+	RECT rc;	// 렉트
 	
-	DIRECTION direction;
+	DIRECTION direction;	// 상태
 
-	int hp;
-	int att;
-	int def;
-	int miss;
-	int currentFrameX;
-	int currentFrameY;
-	int alphaValue;
-	int count;
-	int hitCount;
-	int deadCount;
-	int fadeCount;
-	int randAttack;
+	int hp;					// 체력
+	int att;				// 공격력
+	int def;				// 방어력
+	int miss;				// 회피율
+	int currentFrameX;		// 현재 X프레임
+	int currentFrameY;		// 현재 Y프레임
+	int alphaValue;			// 투명 불투명 수치
+	int count;				// 프레임 감을 카운트
+	int hitCount;			// 맞는 프레임 지속시간을 정해주는 카운트
+	int deadCount;			// 죽을 때 깜빡거리면서 사라지게 하기 위한 카운트
+	int fadeCount;			// 서서히 투명화 되면서 사라지게 해주는 카운트
+	int randAttack;			// 어떤 공격을 할지 랜덤값
+	int dropGold;			// 드랍 골드
 
-	float x;
-	float y;
+	float x;				// X좌표
+	float y;				// Y좌표
 };
 
 class enemy : public gameNode

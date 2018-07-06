@@ -353,6 +353,9 @@
     <ClCompile Include="endScene.cpp">
       <Filter>playGround\Scene\endScene</Filter>
     </ClCompile>
+    <ClCompile Include="startScene.cpp">
+      <Filter>2DFramework\Scene\startScene</Filter>
+    </ClCompile>
     <ClCompile Include="townScene.cpp">
       <Filter>playGround\Scene\startScene\playScene\townScene</Filter>
     </ClCompile>

@@ -4,10 +4,6 @@
 
 HRESULT enemyManager::init()
 {
-	_randNum = RND->getFromIntTo(1, 5);
-	_enemyIndex = RND->getFromIntTo(1, 4);
-
-
 
 	return S_OK;
 }
@@ -18,73 +14,14 @@ void enemyManager::release()
 
 void enemyManager::update()
 {
-
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
 	}
 
-
-	if (KEYMANAGER->isOnceKeyDown('Z'))
+	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
-		_enemyIndex = 1;
-		setEnmey(WINSIZEX/2+200,50);
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-
-		_enemyIndex = 2;
-		setEnmey(WINSIZEX / 2 + 200, 100);
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('V'))
-	{
-
-		_enemyIndex = 3;
-		setEnmey(WINSIZEX / 2 + 200, 150);
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('V'))
-	{
-
-		_enemyIndex = 4;
-		setEnmey(WINSIZEX / 2 + 200, 200);
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('B'))
-	{
-
-		_enemyIndex = 5;
-		setEnmey(WINSIZEX / 2 + 200, 250);
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('N'))
-	{
-
-		_enemyIndex = 6;
-		setEnmey(WINSIZEX / 2 + 200, 300);
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('M'))
-	{
-
-		_enemyIndex = 7;
-		setEnmey(WINSIZEX / 2 + 200, 350);
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('K'))
-	{
-
-		_enemyIndex = 8;
-		setEnmey(WINSIZEX / 2 + 200, 400);
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('L'))
-	{
-
-		_enemyIndex = 9;
-		setEnmey(WINSIZEX / 2 + 200, 450);
+		randEnemy();
 	}
 }
 
@@ -104,7 +41,7 @@ void enemyManager::render()
 	}
 }
 
-void enemyManager::setEnmey(float x, float y)
+void enemyManager::setEnemy(float x, float y)
 {
 	switch (_enemyIndex)
 	{
@@ -179,14 +116,53 @@ void enemyManager::setEnmey(float x, float y)
 
 		_vEnemy.push_back(enemy9);
 	break;
+
+	case 10:
+		boss * enemy10;
+		enemy10 = new boss;
+		enemy10->init(x, y);
+
+		_vEnemy.push_back(enemy10);
 	}
-	
-	
 }
 
 void enemyManager::hitEnemy(int index, int damage)
 {
 	_vEnemy[index]->setHp(damage);
+}
+
+void enemyManager::randEnemy()
+{
+	_randNum = RND->getFromIntTo(1, 5);
+
+	for (int i = 0; i < _randNum; i++)
+	{
+		_enemyIndex = RND->getFromIntTo(1, 11);
+
+		if (_randNum == 1)
+		{
+			setEnemy(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);
+		}
+		if (_randNum == 2)
+		{
+			setEnemy((WINSIZEX / 2 + 200) + (i * 30), (PLAYMAPSIZEY / 3) * (i + 1));
+		}
+		if (_randNum == 3)
+		{
+			setEnemy((WINSIZEX / 2 + 200) + (i * 30), (PLAYMAPSIZEY / 4) * (i + 1));
+		}
+		if (_randNum == 4)
+		{
+			if (i == 0 || i == 3)
+			{
+				setEnemy(WINSIZEX / 2 + 200, (PLAYMAPSIZEY / 5) * (i + 1));
+			}
+			if (i == 1 || i == 2)
+			{
+				setEnemy((WINSIZEX / 2 + 200) - 30, (PLAYMAPSIZEY / 5) * (i + 1));
+			}
+		}
+	}
 }
 
 enemyManager::enemyManager()

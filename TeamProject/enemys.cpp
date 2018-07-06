@@ -5,6 +5,7 @@
 // 해당 에너미의 출현 장소 : 스테이지 1
 HRESULT spearMan::init(float x, float y) 
 {
+	// 기본 정보 세팅
 	_enemy.img = IMAGEMANAGER->addFrameImage("창병", "image/enemy/창병.bmp", 576, 64, 4, 1, true, RGB(255, 0, 255), true);
 	
 	_enemy.alphaValue = 255;
@@ -13,6 +14,8 @@ HRESULT spearMan::init(float x, float y)
 	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+
+	_enemy.dropGold = RND->getFromIntTo(100, 200);
 	 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
@@ -34,13 +37,6 @@ void spearMan::release()
 
 void spearMan::update()
 {
-	if (_enemy.hp <= 0)
-	{
-		if (_enemy.alphaValue >= 5)
-		{
-			_enemy.alphaValue -= 5;
-		}
-	}
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
 		_enemy.direction = ATTACK;
@@ -49,8 +45,10 @@ void spearMan::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (KEYMANAGER->isOnceKeyDown('C'))
+	// 피가 0이하가 되면
+	if (_enemy.hp <= 0)
 	{
+		// 에너미 상태를 죽는 상태로 만든다
 		_enemy.direction = DEAD;
 	}
 
@@ -157,14 +155,10 @@ HRESULT kungpu::init(float x, float y)
 	_enemy.att = 5;
 	_enemy.def = 10;
 	_enemy.miss = 10;
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
-	_enemy.miss = 10;
+
+	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
 	_enemy.count = 0;
-	_enemy.deadCount = 0;
-	_enemy.fadeCount = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
 
@@ -206,7 +200,7 @@ void kungpu::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (KEYMANAGER->isOnceKeyDown('C'))
+	if (_enemy.hp <= 0)
 	{
 		_enemy.direction = DEAD;
 	}
@@ -340,9 +334,13 @@ HRESULT spirit::init(float x, float y)
 	_enemy.def = 10;
 	_enemy.miss = 10;
 
+	_enemy.dropGold = RND->getFromIntTo(100, 200);
+
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+
+	_enemy.direction = STAND;
 
 	_enemy.x = x;
 	_enemy.y = y;
@@ -358,16 +356,107 @@ void spirit::release()
 
 void spirit::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.currentFrameX = 3;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		_enemy.direction = HIT;
+	}
+	if (_enemy.hp <= 0)
+	{
+		_enemy.direction = DEAD;
+	}
+
 	motion();
 }
 
 void spirit::render()
 {
-	_enemy.img->alphaFrameRender(getMemDC(), _enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight(),_enemy.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY,_enemy.alphaValue);
 }
 
 void spirit::motion()
 {
+	_enemy.count++;
+
+	if (_enemy.count == 18)
+	{
+		if (_enemy.direction == STAND)
+		{
+			_enemy.currentFrameX++;
+
+			if (_enemy.currentFrameX > 1)
+			{
+				_enemy.currentFrameX = 0;
+			}
+		}
+		if (_enemy.direction == ATTACK)
+		{
+			_enemy.currentFrameX++;
+
+			if (_enemy.currentFrameX == 7)
+			{
+				_enemy.direction = STAND;
+			}
+		}
+		if (_enemy.direction == HIT)
+		{
+			_enemy.hitCount++;
+
+			_enemy.currentFrameX = 2;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 8;
+
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+
+				
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+
+				_enemy.fadeCount += 1;
+			}
+
+			_enemy.deadCount = 0;
+		}
+	}
 }
 
 spirit::spirit()
@@ -391,9 +480,13 @@ HRESULT bat::init(float x, float y)
 	_enemy.def = 10;
 	_enemy.miss = 10;
 
+	_enemy.dropGold = RND->getFromIntTo(400, 800);
+
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+
+	_enemy.direction = STAND;
 	
 	_enemy.x = x;
 	_enemy.y = y;
@@ -409,16 +502,104 @@ void bat::release()
 
 void bat::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.currentFrameX = 2;
+
+		_enemy.count = 0;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		_enemy.direction = HIT;
+	}
+	if (_enemy.hp <= 0)
+	{
+		_enemy.direction = DEAD;
+	}
 	motion();
 }
 
 void bat::render()
 {
-	_enemy.img->alphaFrameRender(getMemDC(), _enemy.x, _enemy.y, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void bat::motion()
 {
+	_enemy.count++;
+
+	if (_enemy.count == 20)
+	{
+		if (_enemy.direction == STAND)
+		{
+			_enemy.currentFrameX++;
+
+			if (_enemy.currentFrameX > 1)
+			{
+				_enemy.currentFrameX = 0;
+			}
+		}
+		if (_enemy.direction == ATTACK)
+		{
+			if (_enemy.currentFrameX == 2)
+			{
+				_enemy.direction = STAND;
+			}
+		}
+		if (_enemy.direction == HIT)
+		{
+			_enemy.hitCount++;
+
+			_enemy.currentFrameX = 3;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 3;
+
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+
+				_enemy.fadeCount += 1;
+			}
+
+			_enemy.deadCount = 0;
+		}
+	}
 }
 
 bat::bat()
@@ -442,9 +623,13 @@ HRESULT snake::init(float x, float y)
 	_enemy.def = 10;
 	_enemy.miss = 10;
 
+	_enemy.dropGold = RND->getFromIntTo(400, 800);
+
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+
+	_enemy.direction = STAND;
 
 	_enemy.x = x;
 	_enemy.y = y;
@@ -460,16 +645,102 @@ void snake::release()
 
 void snake::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.currentFrameX = 1;
+
+		_enemy.count = 0;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		_enemy.direction = HIT;
+	}
+	if (_enemy.hp <= 0)
+	{
+		_enemy.direction = DEAD;
+	}
+
 	motion();
 }
 
 void snake::render()
 {
-	_enemy.img->alphaFrameRender(getMemDC(), _enemy.x, _enemy.y, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void snake::motion()
 {
+	_enemy.count++;
+
+	if (_enemy.count == 20)
+	{
+		if (_enemy.direction == STAND)
+		{
+			_enemy.currentFrameX = 0;
+		}
+
+		if (_enemy.direction == ATTACK)
+		{
+			if (_enemy.currentFrameX == 1)
+			{
+				_enemy.direction = STAND;
+			}
+		}
+
+		if (_enemy.direction == HIT)
+		{
+			_enemy.currentFrameX = 2;
+
+			_enemy.hitCount++;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 4;
+
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+
+				_enemy.fadeCount += 1;
+			}
+
+			_enemy.deadCount = 0;
+		}
+	}
 }
 
 snake::snake()
@@ -493,9 +764,13 @@ HRESULT wildboar::init(float x, float y)
 	_enemy.def = 10;
 	_enemy.miss = 10;
 
+	_enemy.dropGold = RND->getFromIntTo(400, 800);
+
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+
+	_enemy.direction = STAND;
 
 	_enemy.x = x;
 	_enemy.y = y;
@@ -511,16 +786,100 @@ void wildboar::release()
 
 void wildboar::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.currentFrameX = 4;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		_enemy.direction = HIT;
+	}
+	if (_enemy.hp <= 0)
+	{
+		_enemy.direction = DEAD;
+	}
+
 	motion();
 }
 
 void wildboar::render()
 {
-	_enemy.img->alphaFrameRender(getMemDC(), _enemy.x, _enemy.y, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void wildboar::motion()
 {
+	_enemy.count++;
+
+	if (_enemy.count == 20)
+	{
+		if (_enemy.direction == STAND)
+		{
+			_enemy.currentFrameX = 0;
+		}
+		if (_enemy.direction == ATTACK)
+		{
+			--_enemy.currentFrameX;
+			
+			if (_enemy.currentFrameX == 2)
+			{
+				_enemy.direction = STAND;
+			}
+		}
+		if (_enemy.direction == HIT)
+		{
+			_enemy.currentFrameX = 1;
+
+			_enemy.hitCount++;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 1;
+
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+
+				_enemy.fadeCount += 1;
+			}
+
+			_enemy.deadCount = 0;
+		}
+	}
 }
 
 wildboar::wildboar()
@@ -544,6 +903,14 @@ HRESULT skeleton::init(float x, float y)
 	_enemy.def = 10;
 	_enemy.miss = 10;
 
+	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
+
+	_enemy.count = 0;
+	_enemy.currentFrameX = 0;
+	_enemy.currentFrameY = 0;
+
+	_enemy.direction = STAND;
+
 	_enemy.x = x;
 	_enemy.y = y;
 
@@ -558,16 +925,98 @@ void skeleton::release()
 
 void skeleton::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.currentFrameX = 1;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		_enemy.direction = HIT;
+	}
+	if (_enemy.hp <= 0)
+	{
+		_enemy.direction = DEAD;
+	}
+
 	motion();
 }
 
 void skeleton::render()
 {
-	_enemy.img->alphaFrameRender(getMemDC(), _enemy.x, _enemy.y, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void skeleton::motion()
 {
+	_enemy.count++;
+
+	if (_enemy.count == 20)
+	{
+		if (_enemy.direction == STAND)
+		{
+			_enemy.currentFrameX = 0;
+		}
+		if (_enemy.direction == ATTACK)
+		{
+			if (_enemy.currentFrameX == 1)
+			{
+				_enemy.direction = STAND;
+			}
+		}
+		if (_enemy.direction == HIT)
+		{
+			_enemy.currentFrameX = 2;
+
+			_enemy.hitCount++;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 2;
+
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+
+				_enemy.fadeCount += 1;
+			}
+
+			_enemy.deadCount = 0;
+		}
+	}
 }
 
 skeleton::skeleton()
@@ -591,6 +1040,14 @@ HRESULT skeletonMage::init(float x, float y)
 	_enemy.def = 10;
 	_enemy.miss = 10;
 
+	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
+
+	_enemy.count = 0;
+	_enemy.currentFrameX = 0;
+	_enemy.currentFrameY = 0;
+
+	_enemy.direction = STAND;
+
 	_enemy.x = x;
 	_enemy.y = y;
 
@@ -605,17 +1062,124 @@ void skeletonMage::release()
 
 void skeletonMage::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.randAttack = RND->getFromIntTo(1, 3);
+
+		if (_enemy.randAttack == 1)
+		{
+			_enemy.currentFrameX = 1;
+		}
+		if (_enemy.randAttack == 2)
+		{
+			_enemy.currentFrameX = 2;
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		_enemy.direction = HIT;
+	}
+	if (_enemy.hp <= 0)
+	{
+		_enemy.direction = DEAD;
+	}
 	motion();
 }
 
 void skeletonMage::render()
 {
-	_enemy.img->alphaFrameRender(getMemDC(), _enemy.x, _enemy.y, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void skeletonMage::motion()
 {
+	_enemy.count++;
+
+	if (_enemy.count == 20)
+	{
+		if (_enemy.direction == STAND)
+		{
+			_enemy.currentFrameX = 0;
+		}
+		if (_enemy.direction == ATTACK)
+		{
+			switch (_enemy.randAttack)
+			{
+			case 1:
+
+				if (_enemy.currentFrameX == 1)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+
+			case 2:
+
+				if (_enemy.currentFrameX == 2)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+			}
+		}
+		if (_enemy.direction == HIT)
+		{
+			_enemy.currentFrameX = 3;
+
+			_enemy.hitCount++;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 3;
+
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+
+				_enemy.fadeCount += 1;
+			}
+
+			_enemy.deadCount = 0;
+		}
+	}
 }
+
 
 skeletonMage::skeletonMage()
 {
@@ -638,12 +1202,18 @@ HRESULT dragon::init(float x, float y)
 	_enemy.def = 10;
 	_enemy.miss = 10;
 
+	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
+
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
 
+	_enemy.direction = STAND;
+
 	_enemy.x = x;	
 	_enemy.y = y;
+
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -654,6 +1224,22 @@ void dragon::release()
 
 void dragon::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.currentFrameX = 5;
+
+		_enemy.count = 0;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		_enemy.direction = HIT;
+	}
+	if (_enemy.hp <= 0)
+	{
+		_enemy.direction = DEAD;
+	}
 	motion();
 }
 
@@ -664,6 +1250,70 @@ void dragon::render()
 
 void dragon::motion()
 {
+	_enemy.count++;
+
+	if (_enemy.count == 20)
+	{
+		if (_enemy.direction == STAND)
+		{
+			_enemy.currentFrameX = 0;
+		}
+		if (_enemy.direction == ATTACK)
+		{
+			_enemy.direction = STAND;
+		}
+		if (_enemy.direction == HIT)
+		{
+			_enemy.currentFrameX = 4;
+
+			_enemy.hitCount++;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 4;
+
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+
+				_enemy.fadeCount += 1;
+			}
+
+			_enemy.deadCount = 0;
+		}
+	}
 }
 
 dragon::dragon()
@@ -678,6 +1328,26 @@ dragon::~dragon()
 // 해당 에너미의 출현 장소 : 스테이지 3
 HRESULT boss::init(float x, float y)
 {
+	_enemy.img = IMAGEMANAGER->addFrameImage("보스", "image/enemy/보스.bmp", 1200, 792, 8, 6, true, RGB(255, 0, 255), true);
+
+	_enemy.alphaValue = 255;
+
+	_enemy.hp = 10;
+	_enemy.att = 10;
+	_enemy.def = 10;
+	_enemy.miss = 10;
+
+	_enemy.count = 0;
+	_enemy.currentFrameX = 0;
+	_enemy.currentFrameY = 0;
+
+	_enemy.direction = STAND;
+
+	_enemy.x = x;
+	_enemy.y = y;
+
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+
 	return S_OK;
 }
 
@@ -687,15 +1357,192 @@ void boss::release()
 
 void boss::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.randAttack = RND->getFromIntTo(1, 6);
+
+		switch (_enemy.randAttack)
+		{
+		case 1:
+
+			_enemy.currentFrameX = 0;
+			_enemy.currentFrameY = 1;
+
+			break;
+
+		case 2:
+
+			_enemy.currentFrameX = 0;
+			_enemy.currentFrameY = 2;
+
+			break;
+
+		case 3:
+
+			_enemy.currentFrameX = 0;
+			_enemy.currentFrameY = 3;
+
+			break;
+
+		case 4:
+
+			_enemy.currentFrameX = 0;
+			_enemy.currentFrameY = 4;
+
+			break;
+
+		case 5:
+
+			_enemy.currentFrameX = 0;
+			_enemy.currentFrameY = 5;
+
+			break;
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		_enemy.direction = HIT;
+	}
+	if (_enemy.hp <= 0)
+	{
+		_enemy.direction = DEAD;
+	}
+
 	motion();
 }
 
 void boss::render()
 {
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void boss::motion()
 {
+	_enemy.count++;
+
+	if (_enemy.count == 20)
+	{
+		if (_enemy.direction == STAND)
+		{
+			_enemy.currentFrameX = 0;
+			_enemy.currentFrameY = 0;
+		}
+		if (_enemy.direction == ATTACK)
+		{
+			switch (_enemy.randAttack)
+			{
+			case 1:
+
+				_enemy.currentFrameX++;
+
+				if (_enemy.currentFrameX == 3)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+
+			case 2:
+
+				_enemy.currentFrameX++;
+
+				if (_enemy.currentFrameX == 7)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+
+			case 3:
+
+				_enemy.currentFrameX++;
+
+				if (_enemy.currentFrameX == 5)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+
+			case 4:
+
+				_enemy.currentFrameX++;
+
+				if (_enemy.currentFrameX == 3)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+
+			case 5:
+
+				_enemy.currentFrameX++;
+
+				if (_enemy.currentFrameX == 2)
+				{
+					_enemy.direction = STAND;
+				}
+
+				break;
+			}
+		}
+		if (_enemy.direction == HIT)
+		{
+			_enemy.currentFrameX = 1;
+			_enemy.currentFrameY = 0;
+
+			_enemy.hitCount++;
+
+			if (_enemy.hitCount == 5)
+			{
+				_enemy.direction = STAND;
+
+				_enemy.hitCount = 0;
+			}
+		}
+
+		_enemy.count = 0;
+	}
+
+	if (_enemy.direction == DEAD)
+	{
+		_enemy.currentFrameX = 1;
+		_enemy.currentFrameY = 0;
+	
+		if (_enemy.fadeCount >= 6)
+		{
+			_enemy.alphaValue -= 5;
+	
+			if (_enemy.alphaValue <= 0)
+			{
+				_enemy.alphaValue = 0;
+			}
+		}
+		else
+		{
+			_enemy.deadCount++;
+		}
+		if (_enemy.deadCount == 10)
+		{
+			if (_enemy.alphaValue == 255)
+			{
+				_enemy.alphaValue = 0;
+	
+				_enemy.fadeCount += 1;
+			}
+			else if (_enemy.alphaValue == 0)
+			{
+				_enemy.alphaValue = 255;
+	
+				_enemy.fadeCount += 1;
+			}
+	
+			_enemy.deadCount = 0;
+		}
+	}
 }
 
 boss::boss()
