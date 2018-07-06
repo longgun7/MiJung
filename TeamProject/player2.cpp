@@ -427,6 +427,7 @@ void player2::move()
 			_x += 20;
 			_img->setFrameX(23);
 			_imageFrame = 23;
+			_soloSkillEffect->addSkill(_x, _y-35);
 		}
 		if (_x >= WINSIZEX )
 		{	
@@ -620,7 +621,7 @@ void player2::setStat(int atk, int def, int luck, int cri, int speed)
 }
 
 
-void player2::setDamage(int damage)
+void player2::setPlayerDamage(int damage)
 {
 	
 	if (_sceneMode == S_BATTLEMODE)

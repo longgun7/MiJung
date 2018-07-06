@@ -824,9 +824,9 @@ void player::move()
 	{
 		++_skillFrame;
 		//데미지 넣기~
-		if ((_skillFrame% 10 ==0 && _imageFrame == 1) || (_skillFrame % 10 == 0 && _imageFrame == 5) ||
-			(_skillFrame % 10 == 0 && _imageFrame == 8) || (_skillFrame % 10 == 0 && _imageFrame == 13) ||
-			(_skillFrame % 10 == 0 && _imageFrame == 18) || (_skillFrame % 10 == 0 && _imageFrame == 23) 
+		if ((_skillFrame% 7 ==0 && _imageFrame == 1) || (_skillFrame % 7 == 0 && _imageFrame == 5) ||
+			(_skillFrame % 7 == 0 && _imageFrame == 8) || (_skillFrame % 7 == 0 && _imageFrame == 13) ||
+			(_skillFrame % 7 == 0 && _imageFrame == 18) || (_skillFrame % 7 == 0 && _imageFrame == 23) 
 			)
 		{
 			randGameEffect();
