@@ -48,9 +48,10 @@ public:
 	virtual void update();
 	virtual void render();
 
+	void setHp(int damage);
+	void setDirection(DIRECTION direction);
 
 	tagEnemy getTagEnmey() { return _enemy; }
-	void setHp(int damage);
 	enemy();
 	~enemy();
 };

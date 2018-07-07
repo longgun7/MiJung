@@ -36,7 +36,7 @@ public:
 	virtual void render();
 
 	void setEnemy(float x ,float y);
-	void hitEnemy(int index, int damage);
+	void hitEnemy(int index, DIRECTION direction);
 	void randEnemy();
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }

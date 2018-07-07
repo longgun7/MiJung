@@ -36,7 +36,7 @@ void enemyManager::render()
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
 		char str[128];
-		sprintf_s(str, "%d", _vEnemy[i]->getTagEnmey().att);
+		sprintf_s(str, "%d", _vEnemy[i]->getTagEnmey().dropGold);
 		TextOut(getMemDC(), 100 * i + WINSIZEX/2, 100, str, strlen(str));
 	}
 }
@@ -126,9 +126,9 @@ void enemyManager::setEnemy(float x, float y)
 	}
 }
 
-void enemyManager::hitEnemy(int index, int damage)
+void enemyManager::hitEnemy(int index, DIRECTION direction)
 {
-	_vEnemy[index]->setHp(damage);
+	_vEnemy[index]->setHp(direction);
 }
 
 void enemyManager::randEnemy()
