@@ -54,9 +54,6 @@
     <Filter Include="playGround\Skill">
       <UniqueIdentifier>{4f1858b1-5d42-4e2f-884d-90a0327ee732}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\enemy\스켈레톤">
-      <UniqueIdentifier>{ca392800-fa52-4bfb-b15a-eb5afec75351}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\enemy\적">
       <UniqueIdentifier>{d57808cc-3e34-4457-bd31-9fe5fe211a1f}</UniqueIdentifier>
     </Filter>
@@ -111,6 +108,9 @@
     </Filter>
     <Filter Include="playGround\shop">
       <UniqueIdentifier>{2607bd5f-32c7-4908-b512-926e6000248b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\필드스켈레톤">
+      <UniqueIdentifier>{ca392800-fa52-4bfb-b15a-eb5afec75351}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -232,7 +232,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="fildSkeleton.h">
-      <Filter>playGround\enemy\스켈레톤</Filter>
+      <Filter>playGround\enemy\필드스켈레톤</Filter>
     </ClInclude>
     <ClInclude Include="playSceneManager.h">
       <Filter>playGround</Filter>
@@ -353,9 +353,6 @@
     <ClCompile Include="endScene.cpp">
       <Filter>playGround\Scene\endScene</Filter>
     </ClCompile>
-    <ClCompile Include="startScene.cpp">
-      <Filter>2DFramework\Scene\startScene</Filter>
-    </ClCompile>
     <ClCompile Include="townScene.cpp">
       <Filter>playGround\Scene\startScene\playScene\townScene</Filter>
     </ClCompile>
@@ -384,7 +381,7 @@
       <Filter>2DFramework\playerManager\player</Filter>
     </ClCompile>
     <ClCompile Include="fildSkeleton.cpp">
-      <Filter>playGround\enemy\스켈레톤</Filter>
+      <Filter>playGround\enemy\필드스켈레톤</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>소스 파일</Filter>
@@ -432,6 +429,9 @@
       <Filter>playGround\enemy</Filter>
     </ClCompile>
     <ClCompile Include="item.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="startScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="startScene.cpp">

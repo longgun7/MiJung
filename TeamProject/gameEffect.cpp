@@ -28,6 +28,8 @@ HRESULT gameEffect::init()
 
 	EFFECTMANAGER->addEffect("LSpeed", "image/effect/LSpeed.bmp", 256, 48, 64, 48, 1.0f, 0.5f, 3);
 	EFFECTMANAGER->addEffect("RSpeed", "image/effect/RSpeed.bmp", 256, 48, 64, 48, 1.0f, 0.5f, 3);
+
+	IMAGEMANAGER->addFrameImage("Money", "image/effect/Money.bmp", 112, 16, 7, 1, true, RGB(255, 0, 255));
 	return S_OK;
 }
 
@@ -37,11 +39,18 @@ void gameEffect::realse()
 
 void gameEffect::update()
 {
+	moveMoney();
 	EFFECTMANAGER->update();
 }
 
 void gameEffect::render()
 {
+	for (_viTagEffect = _vTagEffect.begin(); _viTagEffect != _vTagEffect.end(); ++_viTagEffect)
+	{
+		_viTagEffect->img->frameRender(getMemDC(), _viTagEffect->rc.left, _viTagEffect->rc.top,
+			_viTagEffect->img->getFrameX(), _viTagEffect->img->getFrameY());
+	}
+
 	EFFECTMANAGER->render();
 }
 
@@ -115,4 +124,78 @@ void gameEffect::summonLSpeed(float x, float y)
 void gameEffect::summonRSpeed(float x, float y)
 {
 	EFFECTMANAGER->play("RSpeed", x, y);
+}
+
+// 돈 떨어지는 이미지 생성 x(적 중점 좌표), y(적 중점 좌표)
+void gameEffect::addMoney(float x, float y)
+{
+	tagEffect effect;
+	ZeroMemory(&effect, sizeof(tagEffect));
+	effect.img = IMAGEMANAGER->findImage("Money");
+	effect.x = x;
+	effect.y = y;
+	effect.count = 0;
+
+	effect.rc = RectMakeCenter(effect.x, effect.y, effect.img->getFrameWidth(), effect.img->getFrameHeight());
+
+	_vTagEffect.push_back(effect);
+}
+void gameEffect::moveMoney()
+{
+	for (_viTagEffect = _vTagEffect.begin(); _viTagEffect != _vTagEffect.end();)
+	{
+		// 각 카운터 증가
+		_viTagEffect->count++;
+		// 카운트 20 미만이면
+		if (_viTagEffect->count < 20)
+		{
+			// y좌표 증가
+			_viTagEffect->y += 1;
+		}
+		else if (_viTagEffect->count < 30)
+		{
+			// y좌표 감소
+			_viTagEffect->y -= 1;
+		}
+		else if (_viTagEffect->count < 40)
+		{
+			// y좌표 증가
+			_viTagEffect->y += 1;
+		}
+		else if (_viTagEffect->count < 70)
+		{
+			if (_viTagEffect->count % 6 == 0)
+			{
+				_viTagEffect->img->setFrameX(_viTagEffect->img->getFrameX() + 1);
+				if (6 < _viTagEffect->img->getFrameX()) _viTagEffect->img->setFrameX(4);
+			}
+		}
+		else if (_viTagEffect->count < 75)
+		{
+			_viTagEffect->img->setFrameX(6);
+		}
+
+		if (_viTagEffect->count < 40)
+		{
+			if (_viTagEffect->count % 4 == 0)
+			{
+				// 이미지 프레임 번호 증가
+				_viTagEffect->img->setFrameX(_viTagEffect->img->getFrameX() + 1);
+				// 번호가 3번 넘어가면 0번으로 초기화
+				if (3 < _viTagEffect->img->getFrameX()) _viTagEffect->img->setFrameX(0);
+			}
+		}
+
+		_viTagEffect->rc = RectMakeCenter(_viTagEffect->x, _viTagEffect->y,
+			_viTagEffect->img->getFrameX(), _viTagEffect->img->getFrameY());
+
+		if (_viTagEffect->count > 85)
+		{
+			_viTagEffect = _vTagEffect.erase(_viTagEffect);
+		}
+		else
+		{
+			++_viTagEffect;
+		}
+	}
 }
