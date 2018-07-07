@@ -13,6 +13,8 @@ itemManager::~itemManager()
 
 HRESULT itemManager::init()
 {
+	_pItem = new item;
+	_pItem->init(16);
 
 	_potion = new item;
 	_potion->init(1);
@@ -20,8 +22,8 @@ HRESULT itemManager::init()
 	_shopItem = new item;
 	_shopItem->init(5);
 
-	_pItem = new item;
-	_pItem->init(16);
+	_shopPotion = new item;
+	_shopPotion->init(20);
 
 	setItem();
 	
@@ -42,6 +44,7 @@ void itemManager::render()
 	_pItem->render();
 	_potion->render();
 	_shopItem->render();
+	_shopPotion->render();
 }
 
 void itemManager::setItem()
@@ -187,6 +190,17 @@ void itemManager::shopItemSet(string itemName, float x, float y)
 {
 	_shopItem->makeItem(itemName, x, y);
 }
+
+void itemManager::potionMakeSet(string potionName, float x, float y)
+{
+	_potion->makepotion(potionName, x, y);
+}
+
+void itemManager::shopPotionSet(string potionName, float x, float y)
+{
+	_shopPotion->makepotion(potionName, x, y);
+}
+
 
 
 

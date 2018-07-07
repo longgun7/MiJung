@@ -3,12 +3,15 @@
 #include <vector>
 #include "itemManager.h"
 
+
 struct tagShop
 {
 	string name;
 	int num;
 	int cost;
 };
+
+class  itemManager;
 
 class barScnen : public gameNode
 {
@@ -33,5 +36,8 @@ public:
 
 	void fontUI(void);
 	void setItem();
+	void buyItem();
+
+	//void AdressLinkItemManager(itemManager* im) { _im = im; }
 };
 
