@@ -29,7 +29,7 @@ HRESULT gameEffect::init()
 	EFFECTMANAGER->addEffect("LSpeed", "image/effect/LSpeed.bmp", 256, 48, 64, 48, 1.0f, 0.5f, 3);
 	EFFECTMANAGER->addEffect("RSpeed", "image/effect/RSpeed.bmp", 256, 48, 64, 48, 1.0f, 0.5f, 3);
 
-	IMAGEMANAGER->addFrameImage("Money", "Money.bmp", 112, 16, 7, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("Money", "image/effect/Money.bmp", 112, 16, 7, 1, true, RGB(255, 0, 255));
 	return S_OK;
 }
 
