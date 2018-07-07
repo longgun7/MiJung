@@ -107,8 +107,8 @@ public:
 	void setAreaDamage(int plusDamage);
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
-	void randGameEffect();
-	
+	void randEffect();
+	void randAreaEffect();
 	
 	void effectImage();
 	

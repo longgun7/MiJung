@@ -40,7 +40,7 @@ HRESULT playSceneManager::init(void)
 	
 	_pm->getPlayer()->setEnemyManagerAdressLink(_em);
 	_pm->getPlayer2()->setEnemyManagerAdressLink(_em);
-
+	_pm->enemyManagerAdressLink(_em);
 	setProgressBar();	//프로그래스바 셋팅!
 
 
