@@ -36,7 +36,7 @@ void enemyManager::render()
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
 		char str[128];
-		sprintf_s(str, "%d", _vEnemy[i]->getTagEnmey().dropGold);
+		sprintf_s(str, "%d", _vEnemy[i]->getTagEnmey().att);
 		TextOut(getMemDC(), 100 * i + WINSIZEX/2, 100, str, strlen(str));
 	}
 }
