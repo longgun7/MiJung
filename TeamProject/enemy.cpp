@@ -5,13 +5,13 @@
 
 HRESULT enemy::init(float x, float y)
 {
-
 	_enemy.currentFrameX = 0;
 	_enemy.count = 0;
 	_enemy.x = x;
 	_enemy.y = y;
 	_enemy.alphaValue = 255;
 	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+
 	return S_OK;
 }
 
@@ -37,6 +37,16 @@ void enemy::setHp(int damage)
 	}
 
 	_enemy.hp -= damage;
+
+	if (_enemy.hp <= 0)
+	{
+		_enemy.hp = 0;
+	}
+}
+
+void enemy::setDirection(DIRECTION direction)
+{
+	_enemy.direction = direction;
 }
 
 enemy::enemy()

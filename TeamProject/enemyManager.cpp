@@ -126,9 +126,9 @@ void enemyManager::setEnemy(float x, float y)
 	}
 }
 
-void enemyManager::hitEnemy(int index, int damage)
+void enemyManager::hitEnemy(int index, int damge)
 {
-	_vEnemy[index]->setHp(damage);
+	_vEnemy[index]->setHp(damge);
 }
 
 void enemyManager::randEnemy()
