@@ -126,6 +126,11 @@ void enemyManager::setEnemy(float x, float y)
 	}
 }
 
+void enemyManager::setDirection(int index, DIRECTION direction)
+{
+	_vEnemy[index]->setDirection(direction);
+}
+
 void enemyManager::hitEnemy(int index, int damge)
 {
 	_vEnemy[index]->setHp(damge);
