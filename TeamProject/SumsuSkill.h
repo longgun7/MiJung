@@ -13,8 +13,10 @@ struct tagSumsuSkill
 	float width;			// 스킬 이미지 가로 크기
 	int currentFrameX;		// 현재 프레임 번호
 	float angle;			// 스킬 각도
+	float angle1;			// 스마슈 3단계 전체기 용 각도 추가
 	float speed;			// 스킬 스피드
-
+	float speedx;			// 스마슈 3단계 전체기 용 스피드 추가
+	int number;				// 스마슈 3단계 전체기 용 바퀴 회전 수
 };
 //======= 스마슈 베기 이미지 ========
 class sumsuCut : public gameNode
@@ -143,6 +145,50 @@ public:
 	void render();
 
 	// 분신 캐릭터 설정 x(캐릭터 x좌표), y(캐릭터 y좌표)
+	void addAreaSkill(float x, float y);
+	void addAreaSkill1(float x, float y);
+	void addAreaSkill2(float x, float y);
+	void addAreaSkill3(float x, float y);
+	void addAreaSkill4(float x, float y);
+	void moveSkill();
+
+	vector<tagSumsuSkill>getVTagSkill() { return _vTagSumsuSkill; }
+	vector<tagSumsuSkill>::iterator getVITagSkill() { return _viTagSumsuSkill; }
+
+	int getCurrentExp() { return _currentExp; }
+	int getLevel() { return _level; }
+};
+
+class sumsuAreaSkill3 : public gameNode
+{
+private:
+	vector<tagSumsuSkill>			_vTagSumsuSkill;
+	vector<tagSumsuSkill>::iterator	_viTagSumsuSkill;
+
+	image* _img[2];
+	RECT _rc[2];
+
+	float _range;
+
+	int _currentExp;	// 스킬 현재 경험치
+	int _maxExp;		// 스킬 최대 경험치
+	int _level;
+
+	int _currentFrameX1;
+	int _currentFrameX2;
+
+	int _count;
+	int _expCount;
+public:
+	sumsuAreaSkill3();
+	~sumsuAreaSkill3();
+
+	HRESULT init();
+	void realse();
+	void update();
+	void render();
+
+	// 스마슈 x(중점 좌표), y(중점 좌표)
 	void addAreaSkill(float x, float y);
 	void addAreaSkill1(float x, float y);
 	void addAreaSkill2(float x, float y);
