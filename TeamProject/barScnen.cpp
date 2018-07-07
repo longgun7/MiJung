@@ -52,7 +52,7 @@ void barScnen::update(void)
 			_im->getShopItem()->reMoveItem(i);
 		}
 	}
-}
+
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		SCENEMANAGER->changeScene("╩Себ╬ю");

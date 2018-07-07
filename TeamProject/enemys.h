@@ -1,13 +1,12 @@
 #pragma once
 #include "enemy.h"
 
-
 // 창병
 // 해당 에너미의 출현 장소 : 스테이지 1
 class spearMan : public enemy
 {
-
 public:
+
 	// 에너미
 	virtual HRESULT init(float x, float y);
 	virtual void release();
