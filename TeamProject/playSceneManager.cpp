@@ -14,7 +14,6 @@ playSceneManager::~playSceneManager()
 HRESULT playSceneManager::init(void)
 {
 	sceneAdd();
-
 	basicUI();
 	
 	//플레이어매니저 
@@ -29,20 +28,16 @@ HRESULT playSceneManager::init(void)
 
 	_isStatus = false;
 	
-
-	
 	//아타호와 에너미 매니저 전방선언
 
 	//전방선언
 	_pm->itemManagerAdressLink(_im);
 	_em->AdressLinkPlayerManager(_pm);
 
-	
 	_pm->getPlayer()->setEnemyManagerAdressLink(_em);
 	_pm->getPlayer2()->setEnemyManagerAdressLink(_em);
 	_pm->enemyManagerAdressLink(_em);
 	setProgressBar();	//프로그래스바 셋팅!
-
 
 	return S_OK;
 }
@@ -55,8 +50,6 @@ void playSceneManager::release(void)
 
 void playSceneManager::update(void)
 {
-	
-	
 	if (_pm->getPlayer()->getSCENEMODE() == FIELDMODE || _pm->getPlayer()->getSCENEMODE() == BATTLEMODE)
 	{
 		_pm->update();
@@ -65,21 +58,18 @@ void playSceneManager::update(void)
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
-	
 		SCENEMANAGER->changeScene("타운씬");
 		_pm->getPlayer()->setScene(FIELDMODE,WINSIZEX/2,WINSIZEY/2, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, WINSIZEX / 2, WINSIZEY / 2 - 50,S_DOWN);
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
-		
 		SCENEMANAGER->changeScene("배틀씬");
 		_pm->getPlayer()->setScene(BATTLEMODE, 100, 400, FIGHTREADY);
 		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, 100, 300, S_FIGHTREADY);
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
-		
 		SCENEMANAGER->changeScene("필드씬");
 		_pm->getPlayer()->setScene(FIELDMODE,WINSIZEX / 2, WINSIZEY / 2, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, WINSIZEX / 2, WINSIZEY / 2 - 50, S_DOWN);
@@ -88,6 +78,7 @@ void playSceneManager::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{
 		SCENEMANAGER->changeScene("술집씬");
+		
 	}
 	
 	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
@@ -187,7 +178,6 @@ void playSceneManager::fontUI(void)
 	sprintf_s(currentAtk1, "%d", _pm->getPlayer()->getAttribute().atk);
 	char currentAtk2[128];
 	sprintf_s(currentAtk2, "%d", _pm->getPlayer2()->getAttribute().atk);
-
 	char currentDef1[128];
 	sprintf_s(currentDef1, "%d", _pm->getPlayer()->getAttribute().def);
 	char currentDef2[128];
@@ -304,8 +294,11 @@ void playSceneManager::saveData(void)
 	vector<string> vStr;
 	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().level, temp, 10));
 	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentHp,temp,10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().maxHp, temp, 10));
 	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentMp, temp, 10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().maxMp, temp, 10));
 	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentExp, temp, 10));
+	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().maxExp, temp, 10));
 	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().atk, temp, 10));
 	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().def, temp, 10));
 	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().speed, temp, 10));
@@ -318,8 +311,11 @@ void playSceneManager::saveData(void)
 	vector<string> vStr2;
 	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().level, temp2, 10));
 	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentHp, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().maxHp, temp2, 10));
 	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentMp, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().maxMp, temp2, 10));
 	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentExp, temp2, 10));
+	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().maxExp, temp2, 10));
 	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().atk, temp2, 10));
 	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().def, temp2, 10));
 	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().speed, temp2, 10));

@@ -1,10 +1,25 @@
 #pragma once
 #include "gameNode.h"
-
+struct tagPlayerData
+{
+	int level;
+	int currentHp;
+	int maxHp;
+	int currentMp;
+	int maxMp;
+	int currentExp;
+	int maxExp;
+	int atk;
+	int def;
+	int speed;
+	int luck;
+};
 
 class statusScene : public gameNode
 {
 private:
+	tagPlayerData _player1Data;
+	tagPlayerData _player2Data;
 
 	bool _isCheck;		
 	bool _isItemCheck;	

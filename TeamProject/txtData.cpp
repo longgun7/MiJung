@@ -86,6 +86,13 @@ vector<string> txtData::charArraySeparation(char charArray[])
 	char* token;
 
 	token = strtok_s(charArray, separator, &temp);
+
+	if (token == NULL)
+	{
+		vArray.push_back("ÆãÆã");
+		return vArray;
+	}
+
 	vArray.push_back(token);
 
 	while (NULL != (token = strtok_s(NULL, separator, &temp)))
