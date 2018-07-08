@@ -47,9 +47,14 @@ void barScnen::update(void)
 	}
 	if (!_isShopCheck)
 	{
-		for (int i = 0; i < _im->getShopItem()->getVItem().size(); ++i)
+		for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
 		{
-			_im->getShopItem()->reMoveItem(i);
+			_im->getPItem()->reMoveItem(i);
+		
+		}
+		for (int i = 0; i < _im->getPortion()->getVPotion().size(); ++i)
+		{
+			_im->getPortion()->reMovePotion(i);
 		}
 	}
 
@@ -57,6 +62,8 @@ void barScnen::update(void)
 	{
 		SCENEMANAGER->changeScene("상태씬");
 	}
+	
+	buyItem();
 }
 
 void barScnen::render(void)
@@ -80,7 +87,6 @@ void barScnen::render(void)
 	fontUI();
 
 
-
 }
 
 void barScnen::fontUI(void)
@@ -96,12 +102,13 @@ void barScnen::fontUI(void)
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
+
 	if (_isShopCheck)
 	{
-		for (int i = 0; i < _im->getShopItem()->getVItem().size(); ++i)
+		for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
 		{
-			//ar str[] = 		
-			string str1 = _im->getShopItem()->getVItem()[i].name;
+			// 샵 아이템 이름 표시
+			string str1 = _im->getPItem()->getVItem()[i].name;
 			font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
 			ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 			SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
@@ -110,18 +117,43 @@ void barScnen::fontUI(void)
 			TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 120 + i * 50, str1.c_str(), strlen(str1.c_str()));
 			SelectObject(CAMERA->getCameraDC(), ofont);
 			DeleteObject(font);
-		}
 
-		for (int i = 0; i < _im->getShopItem()->getVItem().size(); ++i)
-		{
-			char str2[128];
-			sprintf_s(str2, "%d", _im->getShopItem()->getVItem()[i].cost);
+			// 샵 아이템 가격 표시
+			char str3[128];
 			font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
 			ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 			SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 			SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 
-			TextOut(CAMERA->getCameraDC(), WINSIZEX / 2+50, 120 + i * 50, str2, strlen(str2));
+			sprintf_s(str3, "%d", _im->getPItem()->getVItem()[i].cost);
+			TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 +50, 120 + i * 50, str3, strlen(str3));
+			SelectObject(CAMERA->getCameraDC(), ofont);
+			DeleteObject(font);
+		}
+
+		for (int i = 0; i < _im->getPortion()->getVPotion().size(); ++i)
+		{
+			// 샵 포션 이름 표시
+			string str2 = _im->getPortion()->getVPotion()[i].name;
+			font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+			ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+			SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+			SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+
+			TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 120 + (_im->getPItem()->getVItem().size() + i) * 50,
+				str2.c_str(), strlen(str2.c_str()));
+			SelectObject(CAMERA->getCameraDC(), ofont);
+			DeleteObject(font);
+
+			// 샵 포션 가격 표시
+			char str4[128];
+			font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+			ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+			SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+			SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+			sprintf_s(str4, "%d", _im->getPortion()->getVPotion()[i].cost);
+			TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 50, 120 + (_im->getPItem()->getVItem().size() + i) * 50,
+				str4, strlen(str4));
 			SelectObject(CAMERA->getCameraDC(), ofont);
 			DeleteObject(font);
 		}
@@ -130,8 +162,14 @@ void barScnen::fontUI(void)
 
 void barScnen::setItem()
 {
-	_im->shopItemSet("마인아수라", WINSIZEX/2-260, 130);
-	_im->shopItemSet("불타는 마검", WINSIZEX / 2 - 260, 180);
-	_im->shopItemSet("명주 귀신살", WINSIZEX / 2 - 260, 230);
-	_im->shopItemSet("호랑이 도복", WINSIZEX / 2 - 260, 280);
+	_im->itemMakeSet("마인아수라", WINSIZEX/2-260, 130);
+	_im->itemMakeSet("불타는 마검", WINSIZEX / 2 - 260, 180);
+	_im->itemMakeSet("명주 귀신살", WINSIZEX / 2 - 260, 230);
+	_im->itemMakeSet("호랑이 도복", WINSIZEX / 2 - 260, 280);
+	_im->potionMakeSet("약초", WINSIZEX / 2 - 260, 330);
+}
+
+void barScnen::buyItem()
+{
+
 }

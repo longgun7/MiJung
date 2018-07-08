@@ -95,6 +95,7 @@ void item::makeItem(string itemName,float x ,float y)
 	item.frameY =	INIDATA->loadDataInterger("item", itemName.c_str(), "frameY");
 	item.name =		INIDATA->loadDataString("item", itemName.c_str(), "이름");
 	item.cost =		INIDATA->loadDataInterger("item", itemName.c_str(), "비용");
+	item.num		= 0;
 
 	item.x = x;
 	item.y = y;
@@ -142,6 +143,7 @@ void item::makepotion(string potionName, float x, float y)
 	potion.mp =		INIDATA->loadDataInterger("item", potionName.c_str(), "MP회복");
 	potion.name =	INIDATA->loadDataString("item", potionName.c_str(), "이름");
 	potion.cost =	INIDATA->loadDataInterger("item", potionName.c_str(), "비용");
+	potion.num =	0;
 
 	potion.x = x;
 	potion.y = y;

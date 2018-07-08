@@ -34,19 +34,27 @@ struct saveBeforItem
 	int speed;
 	
 };
+struct tagMoney
+{
+	int money;
+	int moneyFrame;
+};
 class itemManager;
+class enemyManager;
 class playerManager :public gameNode
 {
 private:
 	player * _ataho;    //아타호
 	player2* _smasyu;   //스마슈
-	itemManager* _itemManager; //아이템 매니저 전방선언
+	itemManager* _im; //아이템 매니저 전방선언
+	enemyManager* _em; // 에너미 매니저 전방선언
 	saveBeforItem _A_saveBeforWeapon;
 	saveBeforItem _A_saveBeforArmor;
 	saveBeforItem _S_saveBeforWeapon;
 	saveBeforItem _S_saveBeforArmor;
 	saveBeforItem _saveBeforPortion;
 	INVENATTRIBUTE _invenAttribute; //장착상태
+	tagMoney _gold;
 	//아타호
 	vector<tagInventory>  _vA_WeapInven; //무기 담는 벡터
 	vector<tagInventory>::iterator  _viA_WeapInven;
@@ -64,7 +72,7 @@ private:
 	//포션
 	vector<tagInventory>  _vPorInven; //포션 담는 벡터
 	vector<tagInventory>::iterator  _viPorInven;
-	int _money;
+	
 	int _mountingIndex;
 public:
 
@@ -76,11 +84,12 @@ public:
 	void mounting();
 	void getItemValue(); //받을 아이템 종류
 	void inventory(); //인벤토리
-	void itemManagerAdressLink(itemManager* im) { _itemManager = im;}
-	
+	void setMoney(); // 에너미 돈줌
+	void itemManagerAdressLink(itemManager* im) { _im = im;}
+	void enemyManagerAdressLink(enemyManager* em) { _em = em; }
 	player* getPlayer() { return _ataho; }
 	player2* getPlayer2() { return _smasyu; }
-	void setMoney(int money) { _money = money; }
+	
 	playerManager();
 	~playerManager();
 };

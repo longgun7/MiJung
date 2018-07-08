@@ -1,10 +1,20 @@
 #pragma once
 #include "gameNode.h"
 
+struct tagEffect
+{
+	image* img;
+	RECT rc;
+	float x, y;
+	int count;
+
+};
+
 class gameEffect : public gameNode
 {
 private:
-
+	vector<tagEffect>			_vTagEffect;
+	vector<tagEffect>::iterator	_viTagEffect;
 
 public:
 	gameEffect();
@@ -42,5 +52,11 @@ public:
 	void summonLSpeed(float x, float y);
 	// 오른쪽 이동 중 급한 이미지 생성 x(그릴 중점 좌표), y(그릴 중점 좌표)
 	void summonRSpeed(float x, float y);
+
+	void addMoney(float x, float y);
+	void moveMoney();
+
+	vector<tagEffect>getVTagEffect() { return _vTagEffect; }
+	vector<tagEffect>::iterator getVITagEffect() { return _viTagEffect; }
 };
 

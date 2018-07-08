@@ -24,8 +24,11 @@ struct tagItem
 	int def;
 	int luck;
 	int cost;
+	int hp;
+	int mp;
 	float speed;
 	int critical;
+	int num;
 	string name;
 	RECT rc;
 	itemKind itemCheck; //아이템이 어떤 아이템인지 
@@ -43,6 +46,7 @@ struct tagPotion
 	int hp;
 	int mp;
 	int cost;
+	int num;
 	string name;
 	RECT rc;
 	potionKind potionCheck;

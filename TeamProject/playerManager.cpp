@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "playerManager.h"
 #include "itemManager.h"
-
+#include "enemyManager.h"
 HRESULT playerManager::init()
 {
 	//아타호 init()
@@ -13,11 +13,12 @@ HRESULT playerManager::init()
 	_smasyu->init(_ataho->getX() , _ataho->getY());
 
 	//인벤토리 init()
-	_money = 10000;
+	_gold.money = 10000;
+	_gold.moneyFrame = 0;
 	
 	//아이템 매니저 전방선언
-	_itemManager = new itemManager;
-
+	_im = new itemManager;
+	_em = new enemyManager;
 	return S_OK;
 }
 
@@ -30,13 +31,14 @@ void playerManager::update()
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	getItemValue(); //아이템 인벤
 	inventory(); //인벤토리
+	setMoney(); //돈 드랍
 	
 	mounting();//장착하기
 	//인벤토리
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
-		_itemManager->itemMakeSet("마인아수라", 100, 100);
-		_itemManager->itemMakeSet("명주 귀신살", 100, 200);
+		_im->itemMakeSet("마인아수라", 100, 100);
+		_im->itemMakeSet("명주 귀신살", 100, 200);
 	}
 	
 
@@ -63,7 +65,7 @@ void playerManager::render()
 		sprintf_s(str, "이름 : %s", _vA_WeapInven[i].name.c_str());
 		TextOut(getMemDC(), 250 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
 	}
-		sprintf_s(str, "아타호 돈 : %d", _money);
+		sprintf_s(str, "아타호 돈 : %d", _gold.money);
 		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 120, str, strlen(str));
 		sprintf_s(str, "아타호 방어력 : %d", _ataho->getAttribute().def);
 		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 140, str, strlen(str));
@@ -83,7 +85,7 @@ void playerManager::render()
 	}
 	for (int i = 0; i < _vS_WeapInven.size(); i++)
 	{
-		_itemManager->itemMakeSet(_vS_WeapInven[i].name, _vS_WeapInven[i].rc.left+25, _vS_WeapInven[i].rc.top+25);
+		_im->itemMakeSet(_vS_WeapInven[i].name, _vS_WeapInven[i].rc.left+25, _vS_WeapInven[i].rc.top+25);
 		Rectangle(getMemDC(), _vS_WeapInven[i].rc.left, _vS_WeapInven[i].rc.top, _vS_WeapInven[i].rc.right, _vS_WeapInven[i].rc.bottom);
 	}
 	for (int i = 0; i < _vS_ArmorInven.size(); i++)
@@ -218,21 +220,21 @@ void playerManager::getItemValue()
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		//아타호 무기
-		for (int i = 0; i < _itemManager->getPItem()->getVItem().size(); ++i)
+		for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
 		{
-			if (PtInRect(&_itemManager->getPItem()->getVItem()[i].rc, _ptMouse))
+			if (PtInRect(&_im->getPItem()->getVItem()[i].rc, _ptMouse))
 			{
-				if (_itemManager->getPItem()->getVItem()[i].frameY == 0)
+				if (_im->getPItem()->getVItem()[i].frameY == 0)
 				{
-					if (_itemManager->getPItem()->getVItem()[i].frameX < 6)
+					if (_im->getPItem()->getVItem()[i].frameX < 6)
 					{
 						tagInventory inventory;
 						ZeroMemory(&inventory, sizeof(inventory));
 
-						if (_itemManager->getPItem()->getVItem()[i].cost <= _money)
+						if (_im->getPItem()->getVItem()[i].cost <= _gold.money)
 						{
-							_money -= _itemManager->getPItem()->getVItem()[i].cost;
-							inventory.name = _itemManager->getPItem()->getItemName(i);
+							_gold.money -= _im->getPItem()->getVItem()[i].cost;
+							inventory.name = _im->getPItem()->getItemName(i);
 
 							_vA_WeapInven.push_back(inventory);
 						}
@@ -240,14 +242,14 @@ void playerManager::getItemValue()
 
 					//아타호 방어구
 
-					if (_itemManager->getPItem()->getVItem()[i].frameX >= 6)
+					if (_im->getPItem()->getVItem()[i].frameX >= 6)
 					{
 						tagInventory inventory;
 						ZeroMemory(&inventory, sizeof(inventory));
-						if (_itemManager->getPItem()->getVItem()[i].cost <= _money)
+						if (_im->getPItem()->getVItem()[i].cost <= _gold.money)
 						{
-							_money -= _itemManager->getPItem()->getVItem()[i].cost;
-							inventory.name = _itemManager->getPItem()->getItemName(i);
+							_gold.money -= _im->getPItem()->getVItem()[i].cost;
+							inventory.name = _im->getPItem()->getItemName(i);
 
 							_vA_ArmorInven.push_back(inventory);
 						}
@@ -256,30 +258,30 @@ void playerManager::getItemValue()
 				}
 
 				//스마슈 무기
-				if (_itemManager->getPItem()->getVItem()[i].frameY == 2)
+				if (_im->getPItem()->getVItem()[i].frameY == 2)
 				{
-					if (_itemManager->getPItem()->getVItem()[i].frameX < 6)
+					if (_im->getPItem()->getVItem()[i].frameX < 6)
 					{
 						tagInventory inventory;
 						ZeroMemory(&inventory, sizeof(inventory));
-						if (_itemManager->getPItem()->getVItem()[i].cost <= _money)
+						if (_im->getPItem()->getVItem()[i].cost <= _gold.money)
 						{
-							_money -= _itemManager->getPItem()->getVItem()[i].cost;
-							inventory.name = _itemManager->getPItem()->getItemName(i);
+							_gold.money -= _im->getPItem()->getVItem()[i].cost;
+							inventory.name = _im->getPItem()->getItemName(i);
 
 							_vS_WeapInven.push_back(inventory);
 						}
 					}
 
 					//스마슈 방어구
-					if (_itemManager->getPItem()->getVItem()[i].frameX >= 6)
+					if (_im->getPItem()->getVItem()[i].frameX >= 6)
 					{
 						tagInventory inventory;
 						ZeroMemory(&inventory, sizeof(inventory));
-						if (_itemManager->getPItem()->getVItem()[i].cost <= _money)
+						if (_im->getPItem()->getVItem()[i].cost <= _gold.money)
 						{
-							_money -= _itemManager->getPItem()->getVItem()[i].cost;
-							inventory.name = _itemManager->getPItem()->getItemName(i);
+							_gold.money -= _im->getPItem()->getVItem()[i].cost;
+							inventory.name = _im->getPItem()->getItemName(i);
 
 							_vS_ArmorInven.push_back(inventory);
 						}
@@ -289,19 +291,19 @@ void playerManager::getItemValue()
 			}
 		}
 			//포션
-			for (int i = 0; i < _itemManager->getPortion()->getVPotion().size(); i++)
+			for (int i = 0; i < _im->getPortion()->getVPotion().size(); i++)
 			{
-				if (PtInRect(&_itemManager->getPortion()->getVPotion()[i].rc, _ptMouse))
+				if (PtInRect(&_im->getPortion()->getVPotion()[i].rc, _ptMouse))
 				{
-					if (_itemManager->getPortion()->getVPotion()[i].cost <= _money)
+					if (_im->getPortion()->getVPotion()[i].cost <= _gold.money)
 					{
-						_money -= _itemManager->getPortion()->getVPotion()[i].cost;
+						_gold.money -= _im->getPortion()->getVPotion()[i].cost;
 						tagInventory inventory;
 						ZeroMemory(&inventory, sizeof(inventory));
 
-						inventory.name = _itemManager->getPortion()->getPorName(i);
-						inventory.hp = _itemManager->getPortion()->getVPotion()[i].hp;
-						inventory.mp = _itemManager->getPortion()->getVPotion()[i].mp;
+						inventory.name = _im->getPortion()->getPorName(i);
+						inventory.hp = _im->getPortion()->getVPotion()[i].hp;
+						inventory.mp = _im->getPortion()->getVPotion()[i].mp;
 						_vPorInven.push_back(inventory);
 					}
 				}
@@ -337,6 +339,20 @@ void playerManager::inventory()
 	for  (int i = 0; i < _vPorInven.size();  i++)
 	{
 		_vPorInven[i].rc = RectMakeCenter(600 + i * 50, 350, 50, 50);
+	}
+}
+
+void playerManager::setMoney()
+{
+	
+	for (int i = 0; i < _em->getVEnmey().size(); i++)
+	{
+		if (_em->getVEnmey()[i]->getTagEnmey().hp == 0 && !_em->getVEnmey()[i]->getTagEnmey().isGoldSet)
+		{
+			_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
+			_em->getVEnmey()[i]->setisGoldSet(true);
+			
+		}
 	}
 }
 

@@ -9,6 +9,7 @@ private:
 	item* _potion;
 	item* _pItem;
 	item* _shopItem;
+	item* _shopPotion;
 	
 public:
 	itemManager();
@@ -22,11 +23,14 @@ public:
 
 	void itemMakeSet(string itemName, float x, float y);
 	void shopItemSet(string itemName, float x, float y);
-
-	item* getPortion() { return _potion; }
-
-	item* getPItem() { return _pItem; }
-	item* getShopItem() { return _shopItem; }
+	void potionMakeSet(string potionName, float x, float y);
+	void shopPotionSet(string potionName, float x, float y);
+	
+	item* getPItem()	  { return _pItem; }
+	item* getPortion()	  { return _potion; }
+	
+	item* getShopItem()	  { return _shopItem; }
+	item* getShopPotion() { return _shopPotion; }
 
 
 };
