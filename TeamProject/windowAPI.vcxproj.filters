@@ -100,9 +100,6 @@
     <Filter Include="playGround\playerManager\player">
       <UniqueIdentifier>{274b02b9-22bb-467e-b0c8-35db7dad8fbb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\playerManager\player\inventory">
-      <UniqueIdentifier>{3a13816d-426b-4c90-bac3-f592bf0d49d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\camera">
       <UniqueIdentifier>{e1b6cccb-ca68-410d-86eb-f3e62476ea38}</UniqueIdentifier>
     </Filter>

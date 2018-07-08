@@ -27,7 +27,7 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("Ω∫∏∂Ω¥««∞›", "image/player/Ω∫∏∂Ω¥ ««∞›.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("Ω∫∏∂Ω¥¿¸≈ıªÛ≈¬", "image/player/Ω∫∏∂Ω¥ ¿¸≈ıªÛ≈¬.bmp", 55, 80, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("Ω∫∏∂Ω¥≥´ªÁ", "image/player/Ω∫∏∂Ω¥ ««∞›.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("Ω∫∏∂Ω¥æ≤∑Ø¡¸", "image/player/Ω∫∏∂Ω¥ æ≤∑Ø¡¸.bmp", 246, 51, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("Ω∫∏∂Ω¥æ≤∑Ø¡¸2", "image/player/Ω∫∏∂Ω¥ æ≤∑Ø¡¸2.bmp", 246, 51, 3, 1, true, RGB(255, 0, 255));
 	//Ω∫∏∂Ω¥ ¡Ÿ≈∏±‚
 	IMAGEMANAGER->addFrameImage("Ω∫∏∂Ω¥¡Ÿ≈∏±‚", "image/player/Ω∫∏∂Ω¥ ¡Ÿ≈∏±‚2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("Ω∫∏∂Ω¥≥Ó∂˜", "image/player/Ω∫∏∂Ω¥ ≥Ó∂˜2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
@@ -282,6 +282,10 @@ void player2::battleKeyManager()
 				_move = S_ESCAPE;
 				_isMotionLive = true;
 			}
+			if (KEYMANAGER->isOnceKeyDown('V'))
+			{
+				setPlayerDamage(11);
+			}
 		}
 	}
 	else
@@ -359,7 +363,7 @@ void player2::image()
 		_img = IMAGEMANAGER->findImage("Ω∫∏∂Ω¥πÊæÓ");
 		break;
 	case S_NOCKDOWN:
-		_img = IMAGEMANAGER->findImage("Ω∫∏∂Ω¥æ≤∑Ø¡¸");
+		_img = IMAGEMANAGER->findImage("Ω∫∏∂Ω¥æ≤∑Ø¡¸2");
 		break;
 	case S_ESCAPE:
 		_img = IMAGEMANAGER->findImage("Ω∫∏∂Ω¥πÊæÓ");
@@ -559,6 +563,34 @@ void player2::move()
 			_img->setFrameX(0);
 			_move = S_FIGHTREADY;
 			_isMotionLive = true;
+		}
+	}
+	//««∞›¥Á«ﬂ¿ª ∂ß
+	if (_move == S_DANGER)
+	{
+		++_skillFrame;
+
+		if (_skillFrame < 20)
+		{
+			int randMove = RND->getInt(2);
+
+			if (randMove == 0)
+			{
+				_x -= 3;
+			}
+			if (randMove == 1)
+			{
+				_x += 3;
+			}
+		}
+		if (_skillFrame > 20)
+		{
+			_x = 100;
+		}
+		if (_skillFrame > 50)
+		{
+			_skillFrame = 0;
+			_move = S_FIGHTREADY;
 		}
 	}
 	

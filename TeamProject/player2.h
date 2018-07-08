@@ -88,6 +88,7 @@ public:
 	void randAreaEffect();
 	void s_event();
 	void strongestSwordEffect(); //제일 센 무기 이펙트
+	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
 	void setStat(int atk, int def, int luck, int cri, int speed);
@@ -113,7 +114,7 @@ public:
 	}
 
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
-	void setPlayerDamage(int damage);
+	
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 
 	
