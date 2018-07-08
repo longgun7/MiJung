@@ -35,7 +35,8 @@ private:
 	CTRL			_ctrl;
 
 	image*			_sampleImg;
-	
+	image*			_drawTileImg;
+
 	string			_tileSetName;
 
 	// 화면에 보여질 타일 인덱스 시작번호, 끝번호
@@ -45,6 +46,8 @@ private:
 	// 줌인, 줌아웃용 변수
 	float _zoom;
 
+	int _autoSaveCount;
+
 	POINT _ptFirstClick;
 	POINT _ptLastClick;
 
@@ -52,9 +55,12 @@ private:
 
 	bool _isLButtonFirstDown;
 	bool _isLButtonDown;
+
 	bool _isShowTileSet;
 	bool _isShowMoveTile;
 	bool _isShowMiniMap;
+
+	bool _isStopMoveCamera;
 
 public:
 	mapToolScene();
@@ -73,8 +79,11 @@ public:
 	void keyInput();
 	void buttonClick();
 
+	void autoSave();
 	void save();
 	void load();
+
+	void imageCopy();
 
 	// 화면에 보여질 타일 인덱스 번호 설정
 	void setShowTileIndex();
