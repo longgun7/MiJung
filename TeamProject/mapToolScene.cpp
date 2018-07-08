@@ -63,6 +63,7 @@ void mapToolScene::update(void)
 
 void mapToolScene::render(void)
 {
+
 	// 타일
 	for (int i = startIdY; i < endIdY; ++i)
 	{
@@ -70,13 +71,16 @@ void mapToolScene::render(void)
 		{
 			// 격자
 			if (_tiles[i * TILEX + j].terrain == TR_NONE)
-			{
+			{			
+				HBRUSH brush = CreateSolidBrush(RGB(0, 0, 0));
+				HBRUSH oldBrush = (HBRUSH)SelectObject(getMemDC(), brush);
 				HPEN pen = CreatePen(PS_SOLID, 1, RGB(150, 150, 150));
 				HPEN oldPen = (HPEN)SelectObject(getMemDC(), pen);
 				Rectangle(getMemDC(), _tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
 					_tiles[i * TILEX + j].rc.right, _tiles[i * TILEX + j].rc.bottom);
-				SelectObject(getMemDC(), GetStockObject(NULL_BRUSH));
+				SelectObject(getMemDC(), oldBrush);// GetStockObject(NULL_BRUSH));
 				SelectObject(getMemDC(), oldPen);
+				DeleteObject(brush);
 				DeleteObject(pen);
 			}
 			else
