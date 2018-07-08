@@ -21,7 +21,7 @@ void cameraManager::release()
 
 void cameraManager::update()
 {
-	cursor();	
+	//cursor();	
 }
 
 void cameraManager::render(HDC hdc)

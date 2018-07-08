@@ -14,7 +14,7 @@ enum CTRL
 	CTRL_SAVE,			//세이브 버튼
 	CTRL_LOAD,			//로드 버튼
 	CTRL_END
-};
+};          
 
 struct tagButton
 {
