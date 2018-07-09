@@ -1,10 +1,6 @@
 #pragma once
 #include"gameNode.h"
-enum TURN
-{
-	ATHAO,
-	SUMSU
-};
+
 class playerManager;
 class enemyManager;
 class itemManager;
@@ -14,7 +10,6 @@ private:
 	playerManager * _pm;
 	enemyManager * _em;
 	itemManager* _im;
-	TURN _whoIsTurn;			//플레이어 턴 구분
 
 	int _choiceIndex;			//스킬 타입 인덱스
 	int _skillIndex;			//스킬 인덱스

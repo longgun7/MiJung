@@ -22,10 +22,10 @@ HRESULT playerManager::init()
 	_im = new itemManager;
 	_im->init();
 	_em = new enemyManager;
-	_em->init();
-
 
 	_turn = ATAHO;
+	_em->init();
+
 	return S_OK;
 }
 
