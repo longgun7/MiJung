@@ -28,6 +28,9 @@ HRESULT playSceneManager::init(void)
 
 	_isStatus = false;
 	
+	_map = new playMap;
+	_map->init();
+	
 	//아타호와 에너미 매니저 전방선언
 
 	//전방선언
@@ -87,12 +90,12 @@ void playSceneManager::update(void)
 	}
 	
 	updateProgressBar();
-	
+	_map->setTilePos(_pm->getPlayer()->getRC(), OBJ_PLAYER1);
 }
 
 void playSceneManager::render(void)
 {
-	
+	_map->render();
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
 	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);

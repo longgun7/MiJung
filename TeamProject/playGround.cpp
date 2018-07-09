@@ -59,8 +59,7 @@ void playGround::render(void)
 	DeleteObject(brush);
 
 	//============== 이 위로는 건드리지 말자 ==============
-	
-	TIMEMANAGER->render(CAMERA->getCameraDC());
+
 	
 	SCENEMANAGER->render();
 	if (_startScene->getIsPlay())
@@ -68,6 +67,8 @@ void playGround::render(void)
 		_psm->render();
 	}
 	
+	TIMEMANAGER->render(CAMERA->getCameraDC());
+
 	//================이 밑으로도 건드리지 말자 =============
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
 	CAMERA->render(getMemDC());

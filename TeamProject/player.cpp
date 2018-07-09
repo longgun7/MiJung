@@ -137,6 +137,8 @@ void player::update()
 	_areaSkillEffect3->update(); //노익장 대폭발!
 	_gameEffect->update();//게임 이펙트
 	effectImage();
+
+	CAMERA->setPosition(_x, _y);
 }
 
 void player::render()

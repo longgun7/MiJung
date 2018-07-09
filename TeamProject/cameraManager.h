@@ -15,7 +15,7 @@ private:
 	float	_maxCameraX, _maxCameraY;
 
 	bool _isCursor;
-	
+
 public:
 	cameraManager();
 	~cameraManager();
@@ -27,7 +27,7 @@ public:
 
 	void cursor();
 
-	void setPosition(float x, float y, BOOL isMouse = false);
+	void setPosition(float x, float y, BOOL isMouse = FALSE);
 	POINT getPosition() { return PointMake(_cameraX, _cameraY); }
 	void setMaxPositon(float x, float y) { _maxCameraX = x, _maxCameraY = y; }
 

@@ -14,10 +14,10 @@ HRESULT mapToolScene::init(void)
 {
 	setImageInit();
 
-	_tileSetName = "town";
+	_tileSetName = "InHouse";
 	_sampleImg = IMAGEMANAGER->findImage(_tileSetName);
 	_drawTileImg = IMAGEMANAGER->findImage(_tileSetName);
-	_ctrl = CTRL_TOWN;
+	_ctrl = CTRL_INHOUSE;
 
 	string str[5] = { "town", "InHouse", "field1Tile", "field2Tile", "field3Tile" };
 	for (int i = 0; i < 5; ++i)
@@ -131,7 +131,7 @@ void mapToolScene::render(void)
 				SetTextColor(getMemDC(), RGB(0, 200, 200));
 				SetBkMode(getMemDC(), TRANSPARENT);
 				char str[128];
-				sprintf_s(str, "%d", i * TILEX + j);// _tiles[i * TILEX + j].terrain); // );
+				sprintf_s(str, "%d", _tiles[i * TILEX + j].terrain); // i * TILEX + j);
 				TextOut(getMemDC(), _tiles[i * TILEX + j].rc.left + (_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left) / 2 - 10
 					, _tiles[i * TILEX + j].rc.top + (_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top) / 2 - 10
 					, str, strlen(str));
@@ -496,20 +496,26 @@ void mapToolScene::save()
 	file = CreateFile((char*)str.c_str(), GENERIC_WRITE, NULL, NULL,
 		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
+	//vector<tagTile> vTile;
+	//for (int i = 0; i < TILEY; ++i)
+	//{
+	//	for (int j = 0; j < TILEX; ++j)
+	//	{
+	//		if (_tiles[i * TILEX + j].terrain != TR_NONE)
+	//		{
+	//			vTile.push_back(_tiles[i * TILEX + j]);
+	//		}
+	//	}
+	//}
+	//
+	//tagTile* setTiles = new tagTile[vTile.size()];
+	//for (int i = 0; i < vTile.size(); ++i)
+	//{
+	//	setTiles[i] = vTile[i];
+	//}
+	//
+	//WriteFile(file, &setTiles, sizeof(tagTile) * vTile.size(), &save, NULL);
 	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
-
-	vector<tagTile> vTile;
-	for (int i = 0; i < TILEY; ++i)
-	{
-		for (int j = 0; j < TILEX; ++j)
-		{
-			if (_tiles[i * TILEX + j].terrain == TR_NONE) continue;
-			vTile.push_back(_tiles[i * TILEX + j]);
-		}
-	}
-
-	//for(int i )
-
 
 	CloseHandle(file);
 }
@@ -525,14 +531,14 @@ void mapToolScene::load()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
-	for (int i = 0; i < TILEY; ++i)
-	{
-		for (int j = 0; j < TILEX; ++j)
-		{
-			if (_tiles[i * TILEX + j].terrain == TR_DOWNPORTAL)
-				_tiles[i * TILEX + j].terrain = TR_NONE;
-		}
-	}
+	//for (int i = 0; i < TILEY; ++i)
+	//{
+	//	for (int j = 0; j < TILEX; ++j)
+	//	{
+	//		if(_tiles[i * TILEX + j].terrain == TR_RIGHTPORTAL)
+	//			_tiles[i * TILEX + j].terrain = TR_NONE;
+	//	}
+	//}
 
 	CloseHandle(file);
 }

@@ -14,6 +14,7 @@
 #include "itemManager.h"
 #include "enemyManager.h"
 
+#include "playMap.h"
 
 class playSceneManager : public gameNode
 {
@@ -21,6 +22,7 @@ private:
 	playerManager * _pm;
 	itemManager* _im;
 	enemyManager* _em;
+	playMap* _map;
 
 	bool _isStatus;
 

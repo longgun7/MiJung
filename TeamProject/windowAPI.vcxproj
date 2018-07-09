@@ -176,6 +176,7 @@
     <ClInclude Include="player2.h" />
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playGround.h" />
+    <ClInclude Include="playMap.h" />
     <ClInclude Include="playScene.h" />
     <ClInclude Include="playSceneManager.h" />
     <ClInclude Include="progressBar.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="player2.cpp" />
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playGround.cpp" />
+    <ClCompile Include="playMap.cpp" />
     <ClCompile Include="playScene.cpp" />
     <ClCompile Include="playSceneManager.cpp" />
     <ClCompile Include="progressBar.cpp" />

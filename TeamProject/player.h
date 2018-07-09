@@ -148,7 +148,7 @@ public:
 
 	void setMove(MOVE move);
 	
-	
+	RECT getRC() { return _rc; } // 플레이어 렉트 접근 추가(민경)
 	
 	player();
 	~player();

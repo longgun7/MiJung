@@ -270,6 +270,9 @@
     <ClInclude Include="playScene.h">
       <Filter>playGround\Scene\startScene</Filter>
     </ClInclude>
+    <ClInclude Include="playMap.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -433,6 +436,9 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="playMap.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
