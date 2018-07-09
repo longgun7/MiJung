@@ -1,8 +1,9 @@
 #pragma once
 #include"gameNode.h"
 
-
-
+class playerManager;
+class itemManager;
+class enemeyManager;
 class startScene: public gameNode
 {
 private:
@@ -15,6 +16,10 @@ private:
 	bool _isCount;		//Ä«¿îÆ® µ¹¸®´Ì?
 	int _frameCount;	
 	bool _isPlay;	//°ÔÀÓÀÌ ½ÃÀÛµÆ´Ì?
+
+	playerManager* _pm;
+	itemManager* _im;
+	enemyManager* _em;
 public:
 	startScene();
 	~startScene();

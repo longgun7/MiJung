@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "sceneManager.h"
 #include "gameNode.h"
-
+#include "playerManager.h"
+#include "itemManager.h"
+#include "enemyManager.h"
 sceneManager::sceneManager()
 {
 }
@@ -16,6 +18,15 @@ gameNode* sceneManager::_currentScene = NULL;
 
 HRESULT sceneManager::init()
 {
+	_pm = new playerManager;
+	_pm->init();
+
+	_im = new itemManager;
+	_im->init();
+
+	_em = new enemyManager;
+	_em->init();
+
 	_currentScene = NULL;
 
 	return S_OK;
@@ -42,11 +53,13 @@ void sceneManager::release()
 void sceneManager::update()
 {
 	if (_currentScene) _currentScene->update();
+	
 }
 
 void sceneManager::render()
 {
 	if (_currentScene) _currentScene->render();
+
 }
 
 gameNode * sceneManager::addScene(string sceneName, gameNode* scene)

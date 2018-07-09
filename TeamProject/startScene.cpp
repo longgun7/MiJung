@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "startScene.h"
+#include "playerManager.h"
+#include "itemManager.h"
+#include "enemyManager.h"
 
 
 startScene::startScene()
@@ -13,6 +16,10 @@ startScene::~startScene()
 
 HRESULT startScene::init(void)
 {
+	_pm = SCENEMANAGER->getPlayerManagerLink();
+	_em = SCENEMANAGER->getEnemyManagerLink();
+	_im = SCENEMANAGER->getItemManagerLink();
+	
 	IMAGEMANAGER->addImage("background", "image/ui/½ºÅ¸Æ®¾À.bmp", 1000, 750, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("startChoice", "image/ui/startUI.bmp", 300, 100, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("loadChoice", "image/ui/statusChoice2.bmp", 350, 400, false, RGB(0, 0, 0));
@@ -30,10 +37,9 @@ HRESULT startScene::init(void)
 	_loadX = WINSIZEX - 320;
 	_loadY = WINSIZEY / 2-100;
 
-	
 	_isLoadCheck = false;
 	_index = 0;
-
+	
 	_frameCount = 0;
 	_isCount = false;
 	_isPlay = false;
@@ -146,6 +152,7 @@ void startScene::update(void)
 	{
 		SCENEMANAGER->changeScene("Å¸¿î¾À");
 		_isPlay = true;
+		
 	}
 }
 

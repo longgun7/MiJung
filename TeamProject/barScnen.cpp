@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "barScnen.h"
+#include "playerManager.h"
+#include "enemyManager.h"
+#include "itemManager.h"
 
 barScnen::barScnen()
 {
@@ -12,7 +15,10 @@ barScnen::~barScnen()
 
 HRESULT barScnen::init(void)
 {
-	
+	_pm = SCENEMANAGER->getPlayerManagerLink();
+	_em = SCENEMANAGER->getEnemyManagerLink();
+	_im = SCENEMANAGER->getItemManagerLink();
+
 	
 	IMAGEMANAGER->addImage("상점창", "image/ui/상점창.bmp", 450, 360, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("상점창소지수", "image/ui/상점창2.bmp", 200, 120, false, RGB(0, 0, 0));

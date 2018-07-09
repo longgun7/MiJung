@@ -85,8 +85,7 @@ public:
 	void getItemValue(); //받을 아이템 종류
 	void inventory(); //인벤토리
 	void setMoney(); // 에너미 돈줌
-	void itemManagerAdressLink(itemManager* im) { _im = im;}
-	void enemyManagerAdressLink(enemyManager* em) { _em = em; }
+
 	player* getPlayer() { return _ataho; }
 	player2* getPlayer2() { return _smasyu; }
 	

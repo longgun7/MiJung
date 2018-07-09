@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+
 struct tagPlayerData
 {
 	int level;
@@ -14,13 +15,17 @@ struct tagPlayerData
 	int speed;
 	int luck;
 };
-
+class playerManager;
+class enemyManager;
+class itemManager;
 class statusScene : public gameNode
 {
 private:
 	tagPlayerData _player1Data;
 	tagPlayerData _player2Data;
-
+	playerManager * _pm;
+	enemyManager * _em;
+	itemManager* _im;
 	bool _isCheck;		
 	bool _isItemCheck;	
 
@@ -42,7 +47,7 @@ public:
 	virtual void render(void);
 
 	bool getIsState() { return _isState; }
-	void loadData();
+
 	void fontUI(void);
 };
 

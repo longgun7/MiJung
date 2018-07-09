@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "fieldScene.h"
-
+#include "playerManager.h"
+#include "enemyManager.h"
+#include "itemManager.h"
 
 fieldScene::fieldScene()
 {
@@ -13,7 +15,10 @@ fieldScene::~fieldScene()
 
 HRESULT fieldScene::init(void)
 {
-	
+	_pm = SCENEMANAGER->getPlayerManagerLink();
+	_em = SCENEMANAGER->getEnemyManagerLink();
+	_im = SCENEMANAGER->getItemManagerLink();
+
 	return S_OK;
 }
 
