@@ -10,11 +10,12 @@ HRESULT spearMan::init(float x, float y)
 	
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
+	_enemy.hp = 20;
+	_enemy.totalHp = 20;
 	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.def = 1;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 50;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 	 
@@ -152,9 +153,10 @@ HRESULT kungpu::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
+	_enemy.hp = 20;
+	_enemy.totalHp = 20;
 	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.def = 1;
 	_enemy.miss = 10;
 	_enemy.exp = 10;
 
@@ -331,11 +333,12 @@ HRESULT spirit::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 23;
+	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
@@ -478,11 +481,12 @@ HRESULT bat::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 25;
+	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -622,11 +626,12 @@ HRESULT snake::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 25;
+	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -764,11 +769,12 @@ HRESULT wildboar::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 30;
+	_enemy.def = 5;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 90;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -904,11 +910,12 @@ HRESULT skeleton::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 35;
+	_enemy.def = 5;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 100;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1042,11 +1049,12 @@ HRESULT skeletonMage::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 35;
+	_enemy.def = 5;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 100;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1205,11 +1213,12 @@ HRESULT dragon::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 70;
+	_enemy.att = 100;
+	_enemy.def = 7;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 130;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1341,11 +1350,12 @@ HRESULT boss::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.hp = 500;
+	_enemy.totalHp = 500;
+	_enemy.att = 45;
 	_enemy.def = 10;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 0;
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
