@@ -899,7 +899,7 @@ void sumsuAreaSkill3::addAreaSkill1(float x, float y)
 		// 용들의 스피드
 		areaSkill[i].speed = 0.5f;
 		areaSkill[i].speedx = 25.0f;
-
+		_range = 160.0f;
 		areaSkill[i].count = 0;
 		areaSkill[i].rc = RectMakeCenter(areaSkill[i].x, areaSkill[i].y, areaSkill[i].img->getFrameWidth(), areaSkill[i].img->getFrameHeight());
 
@@ -938,7 +938,7 @@ void sumsuAreaSkill3::addAreaSkill2(float x, float y)
 		// 용들의 스피드
 		areaSkill[i].speed = 0.5f;
 		areaSkill[i].speedx = 25.0f;
-
+		_range = 160.0f;
 		areaSkill[i].count = 0;
 		areaSkill[i].rc = RectMakeCenter(areaSkill[i].x, areaSkill[i].y, areaSkill[i].img->getFrameWidth(), areaSkill[i].img->getFrameHeight());
 
@@ -1013,7 +1013,7 @@ void sumsuAreaSkill3::addAreaSkill4(float x, float y)
 		// 용들의 스피드
 		areaSkill[i].speed = 0.5f;
 		areaSkill[i].speedx = 25.0f;
-
+		_range = 160.0f;
 		areaSkill[i].count = 0;
 		areaSkill[i].rc = RectMakeCenter(areaSkill[i].x, areaSkill[i].y, areaSkill[i].img->getFrameWidth(), areaSkill[i].img->getFrameHeight());
 
