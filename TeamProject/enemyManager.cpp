@@ -23,6 +23,11 @@ void enemyManager::update()
 	{
 		randEnemy();
 	}
+
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		hitPlayer();
+	}
 }
 
 
@@ -134,6 +139,15 @@ void enemyManager::setDirection(int index, DIRECTION direction)
 void enemyManager::hitEnemy(int index, int damge)
 {
 	_vEnemy[index]->setHp(damge);
+}
+
+void enemyManager::hitPlayer()
+{
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		_pm->getPlayer()->setPlayerDamage(_vEnemy[i]->getTagEnmey().att);
+		_pm->getPlayer2()->setPlayerDamage(_vEnemy[i]->getTagEnmey().att);
+	}
 }
 
 void enemyManager::randEnemy()
