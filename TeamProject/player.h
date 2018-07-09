@@ -105,6 +105,7 @@ public:
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
+	void setExp(int exp) { _attribute.currentExp += exp; }
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
 	void randEffect();
@@ -140,7 +141,7 @@ public:
 		_move = move;
 	}
 	
-	int getFrameX() { return _imageFrame; } //이미지프레임 접근자
+	image* getImge() { return _img; } //이미지프레임 접근자
 
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 

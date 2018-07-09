@@ -70,6 +70,7 @@ private:
 	sumsuCut* _attackEffect;
 	sumsuAreaSkill1* _areaSkill1;
 	sumsuAreaSkill2* _areaSkill2;
+	sumsuAreaSkill3* _areaSkill3;
 	sumsuTargetSkill2* _soloSkill2;
 	sumsuTargetSkill3* _soloSkill3;
 	gameEffect* _gameEffect;
@@ -91,6 +92,7 @@ public:
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
+	void setExp(int exp) {   _attribute.currentExp += exp; }
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
 	float getY() { return _y; }
