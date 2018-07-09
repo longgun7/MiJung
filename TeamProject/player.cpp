@@ -138,7 +138,6 @@ void player::update()
 	_gameEffect->update();//°ÔÀÓ ÀÌÆåÆ®
 	effectImage();
 
-	CAMERA->setPosition(_x, _y);
 }
 
 void player::render()

@@ -5,7 +5,6 @@
 
 HRESULT playerManager::init()
 {
-
 	//¾ÆÅ¸È£ init()
 	_ataho = new player;
 	_ataho->init();

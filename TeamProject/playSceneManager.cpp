@@ -48,6 +48,8 @@ void playSceneManager::update(void)
 	_em->update();
 	_im->update();
 	
+	CAMERA->setPosition(_pm->getPlayer()->getRC().left, _pm->getPlayer()->getRC().top);
+
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("Å¸¿î¾À");
