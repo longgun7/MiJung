@@ -20,9 +20,10 @@ HRESULT playerManager::init()
 	
 	//아이템 매니저 전방선언
 	_im = new itemManager;
+	_im->init();
 	_em = new enemyManager;
 
-	_turn = ATAHO;
+	_whoKill = NON;
 	return S_OK;
 }
 
@@ -79,7 +80,14 @@ void playerManager::render()
 		sprintf_s(str, "아타호 스피드 : %d", _ataho->getAttribute().speed);
 		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 180, str, strlen(str));
 	
-	
+		for (int i = 0; i < _em->getVEnmey().size(); i++)
+		{
+			char str2[1000];
+			sprintf_s(str2, "적 체력 : %d", _em->getVEnmey()[i]->getTagEnmey().hp);
+			TextOut(getMemDC(),  WINSIZEX - 200,100 + i*20 , str2, strlen(str2));
+			
+		}
+
 	for (int i = 0; i < _vA_WeapInven.size(); i++)
 	{
 		Rectangle(getMemDC(), _vA_WeapInven[i].rc.left, _vA_WeapInven[i].rc.top, _vA_WeapInven[i].rc.right, _vA_WeapInven[i].rc.bottom);
@@ -357,17 +365,25 @@ void playerManager::setMoney()
 			_em->getVEnmey()[i]->setisGoldSet(true);
 			
 		}
-		if (_ataho->getMove() == FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().hp == 0 && _em->getVEnmey()[i]->getTagEnmey().direction != DEAD && _turn == ATAHO)
+		if (_ataho->getMove() != FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().hp == 0)
+		{
+			_whoKill = ATAHO;
+		}
+		if (_whoKill == ATAHO && _ataho->getMove() == FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().direction != DEAD)
 		{
 			_em->getVEnmey()[i]->setEnemyDirection(DEAD);
 			_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
-			
+			_whoKill = NON;
 		}
-		if (_smasyu->getMove() == S_FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().hp == 0 && _em->getVEnmey()[i]->getTagEnmey().direction != DEAD && _turn == SMASYU)
+		if (_smasyu->getMove() != S_FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().hp == 0 )
+		{
+			_whoKill = SMASYU;		
+		}
+		if (_whoKill == SMASYU && _ataho->getMove() == FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().direction != DEAD)
 		{
 			_em->getVEnmey()[i]->setEnemyDirection(DEAD);
 			_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
-			
+			_whoKill = NON;
 		}
 	}
 }

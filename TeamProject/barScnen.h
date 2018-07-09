@@ -1,7 +1,6 @@
 #pragma once
 #include"gameNode.h"
 #include <vector>
-#include "itemManager.h"
 
 
 struct tagShop
@@ -10,9 +9,9 @@ struct tagShop
 	int num;
 	int cost;
 };
-
-class  itemManager;
-
+class playerManager;
+class enemyManager;
+class itemManager;
 class barScnen : public gameNode
 {
 private:
@@ -20,6 +19,8 @@ private:
 	vector<tagShop*>			_vShop;
 	vector<tagShop*>::iterator  _viShop;
 
+	playerManager * _pm;
+	enemyManager * _em;
 	itemManager* _im;
 
 	bool _isShopCheck;		//상점이 체크되었늬?

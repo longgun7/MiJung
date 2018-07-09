@@ -790,7 +790,7 @@ void player::move()
 			{	
 				randEffect();
 				setSoloDamage(10);
-				_soloSkillEffect1->addSkill(WINSIZEX - 200, WINSIZEY / 2);
+				_soloSkillEffect1->addSkill(WINSIZEX - 450, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
 			}
 			if (_skillFrame >= 200 )
 			{
@@ -1089,7 +1089,7 @@ void player::levelCheck()
 			_isMotionLive = true;
 			_skillFrame = 0;
 			_attribute.atk += 5;
-			_attribute.def += 5;
+			_attribute.def += 0;
 			_attribute.luck += 5;
 			_attribute.cri += 5;
 			_attribute.speed += 5;

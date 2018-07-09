@@ -10,9 +10,9 @@
 #include"battleScene.h"
 #include"barScnen.h"
 
-#include "playerManager.h"
-#include "itemManager.h"
-#include "enemyManager.h"
+class playerManager;
+class enemyManager;
+class itemManager;
 
 #include "playMap.h"
 
@@ -50,6 +50,5 @@ public:
 	void renderProgressBar(void);
 	void updateProgressBar(void);
 
-	void saveData(void);
 };
 

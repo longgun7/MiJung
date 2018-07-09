@@ -62,6 +62,7 @@ HRESULT player2::init(float x , float y)
 	_attribute.currentExp = 0;
 	_attribute.maxExp = 100;
 	_attribute.level = 1;
+	_attribute.isLevelUp = false;
 	//스마슈 이펙트로 쓸것
 	_soloSkillEffect = new atahoTargetSkill2;
 	_soloSkillEffect->init();
@@ -494,14 +495,17 @@ void player2::move()
 	{
 		
 		++_skillFrame;
-		_x = WINSIZEX - 300;
+		_x = 200;
 		_y = WINSIZEY / 2;
 		if (_img->getFrameX() >= _img->getMaxFrameX() )
 		{
 			_imageFrame = 0;
 		}
+		if (_skillFrame < 30)
+		{
+			_areaSkill3->addAreaSkill(WINSIZEX -250, WINSIZEY/3);
+		}
 		
-		_areaSkill3->addAreaSkill(_x, _y);
 		
 		if (_skillFrame % 30 == 0)
 		{
@@ -724,6 +728,57 @@ void player2::s_event()
 			_isMotionLive = true;
 		}
 
+	}
+}
+
+void player2::levelCheck()
+{
+	if (_sceneMode == BATTLEMODE)
+	{
+		//레벨업
+		if (_attribute.currentExp >= _attribute.maxExp)
+		{
+
+			_attribute.isLevelUp = true;
+		}
+
+		//레벨업 했을 때
+		if (_attribute.isLevelUp)
+		{
+			_x += 20;
+			_y -= 10;
+			_imageFrame = 0;
+			_move = S_SEREMONI;
+			_isMotionLive = true;
+			_skillFrame = 0;
+			_attribute.atk += 5;
+			_attribute.def += 0;
+			_attribute.luck += 5;
+			_attribute.cri += 5;
+			_attribute.speed += 5;
+
+			_attribute.maxHp += 10;
+			_attribute.currentHp = _attribute.maxHp;
+
+			_attribute.maxMp += 10;
+			_attribute.currentMp = _attribute.maxMp;
+
+			_attribute.currentExp = 0;
+			_attribute.maxExp += 100;
+
+			_attribute.level += 1;
+			_attribute.isLevelUp = false;
+
+		}
+
+		if (_move == S_SEREMONI)
+		{
+			++_skillFrame;
+			if (_skillFrame > 75)
+			{
+				_move = S_FIGHTREADY;
+			}
+		}
 	}
 }
 

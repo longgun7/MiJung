@@ -1,7 +1,14 @@
 #pragma once
 #include"gameNode.h"
+class playerManager;
+class enemyManager;
+class itemManager;
 class fieldScene : public gameNode
 {
+private:
+	playerManager * _pm;
+	enemyManager * _em;
+	itemManager* _im;
 public:
 	fieldScene();
 	~fieldScene();

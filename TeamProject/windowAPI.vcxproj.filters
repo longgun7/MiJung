@@ -435,7 +435,7 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="startScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Scene\startScene</Filter>
     </ClCompile>
     <ClCompile Include="playMap.cpp">
       <Filter>playGround</Filter>
