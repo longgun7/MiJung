@@ -47,13 +47,6 @@ void spearMan::update()
 	{
 		_enemy.direction = HIT;
 	}
-	// 피가 0이하가 되면
-	if (_enemy.hp <= 0)
-	{
-		// 에너미 상태를 죽는 상태로 만든다
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -204,11 +197,6 @@ void kungpu::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -372,11 +360,6 @@ void spirit::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -522,10 +505,6 @@ void bat::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
 	motion();
 }
 
@@ -667,11 +646,6 @@ void snake::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -808,11 +782,6 @@ void wildboar::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -949,11 +918,6 @@ void skeleton::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -1096,10 +1060,6 @@ void skeletonMage::update()
 	if (KEYMANAGER->isOnceKeyDown('X'))
 	{
 		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
 	}
 	motion();
 }
@@ -1253,10 +1213,6 @@ void dragon::update()
 	if (KEYMANAGER->isOnceKeyDown('X'))
 	{
 		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
 	}
 	motion();
 }
