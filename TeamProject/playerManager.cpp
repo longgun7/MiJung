@@ -2,8 +2,10 @@
 #include "playerManager.h"
 #include "itemManager.h"
 #include "enemyManager.h"
+
 HRESULT playerManager::init()
 {
+
 	//아타호 init()
 	_ataho = new player;
 	_ataho->init();
@@ -19,14 +21,17 @@ HRESULT playerManager::init()
 	//아이템 매니저 전방선언
 	_im = new itemManager;
 	_em = new enemyManager;
+
+	_turn = ATAHO;
 	return S_OK;
 }
 
 void playerManager::update()
 {
 	//플레이어
-	_ataho->update();
+	_ataho->update();	
 	_smasyu->update();
+	
 	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	getItemValue(); //아이템 인벤
@@ -202,8 +207,7 @@ void playerManager::mounting()
 			if (PtInRect(&_vPoInven[i].rc, _ptMouse))
 			{
 				//아타호일 때
-				_ataho->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);
-				
+				_ataho->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);				
 				//스마슈일 때
 				_smasyu->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);
 
@@ -351,8 +355,19 @@ void playerManager::setMoney()
 		{
 			_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
 			_em->getVEnmey()[i]->setisGoldSet(true);
+			
+		}
+		if (_ataho->getMove() == FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().hp == 0 && _em->getVEnmey()[i]->getTagEnmey().direction != DEAD && _turn == ATAHO)
+		{
+			_em->getVEnmey()[i]->setEnemyDirection(DEAD);
 			_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+			
+		}
+		if (_smasyu->getMove() == S_FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().hp == 0 && _em->getVEnmey()[i]->getTagEnmey().direction != DEAD && _turn == SMASYU)
+		{
+			_em->getVEnmey()[i]->setEnemyDirection(DEAD);
 			_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+			
 		}
 	}
 }

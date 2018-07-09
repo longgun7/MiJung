@@ -173,6 +173,10 @@ void player::render()
 			_effectImage.img->frameRender(getMemDC(), _x - 30 , _y + 5);
 		}
 	}
+	for (int i = 0; i < 9; i++)
+	{
+		Rectangle(getMemDC(), _skillRC[i].left, _skillRC[i].top, _skillRC[i].right, _skillRC[i].bottom);
+	}
 }
 
 void player::release()
@@ -247,69 +251,72 @@ void player::battleKeyManager()
 		if (_attribute.currentHp > 0)
 		{
 			//스킬
-			if (KEYMANAGER->isOnceKeyDown('A') && _attribute.currentMp >= 3)
+			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
-				_move = SOLOSKILL1;
-				_isMotionLive = true;
-				_attribute.currentMp -= 3;
+				if (PtInRect(&_skillRC[0],_ptMouse) && _attribute.currentMp >= 3)
+				{
+					_move = SOLOSKILL1;
+					_isMotionLive = true;
+					_attribute.currentMp -= 3;
 
-			}
-			if (KEYMANAGER->isOnceKeyDown('S') && _attribute.currentMp >= 3)
-			{
-				_move = AREASKILL22;
-				_isMotionLive = true;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('D') && _attribute.currentMp >= 3)
-			{
-				_move = SOLOSKILL3;
-				_isMotionLive = true;
-				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
-				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('F') && _attribute.currentMp >= 3)
-			{
-				_move = AREASKILL1;
-				_isMotionLive = true;
-				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x -100;
-				_y = WINSIZEY/3;
-				_jumpPower = 5.0f;
-				_gravity = 0.2f;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('G') && _attribute.currentMp >= 3)
-			{
-				_move = DRINK;
-				_isMotionLive = true;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('H') && _attribute.currentMp >= 3)
-			{
-				_move = AREASKILL3;
-				_isMotionLive = true;
-				_x = WINSIZEX / 2;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('T'))
-			{
-				_move = BASICSKILL1;
-				_isMotionLive = true;
-				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
-				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-				
-			}
-			if (KEYMANAGER->isOnceKeyDown('X'))
-			{
-				_move = BASICSKILL2;
-				_isMotionLive = true; 
-				
-			}
-			if (KEYMANAGER->isOnceKeyDown('C'))
-			{
-				_move = BASICSKILL3;
-				_isMotionLive = true;
-				
+				}
+				if (PtInRect(&_skillRC[1], _ptMouse) && _attribute.currentMp >= 3)
+				{
+					_move = SOLOSKILL2;
+					_isMotionLive = true;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[2], _ptMouse) && _attribute.currentMp >= 3)
+				{
+					_move = SOLOSKILL3;
+					_isMotionLive = true;
+					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
+					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[3], _ptMouse) && _attribute.currentMp >= 3)
+				{
+					_move = AREASKILL1;
+					_isMotionLive = true;
+					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 100;
+					_y = WINSIZEY / 3;
+					_jumpPower = 5.0f;
+					_gravity = 0.2f;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[4], _ptMouse) && _attribute.currentMp >= 3)
+				{
+					_move = DRINK;
+					_isMotionLive = true;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[5], _ptMouse) && _attribute.currentMp >= 3)
+				{
+					_move = AREASKILL3;
+					_isMotionLive = true;
+					_x = WINSIZEX / 2;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[6], _ptMouse))
+				{
+					_move = BASICSKILL1;
+					_isMotionLive = true;
+					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
+					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+
+				}
+				if (PtInRect(&_skillRC[7], _ptMouse))
+				{
+					_move = BASICSKILL2;
+					_isMotionLive = true;
+
+				}
+				if (PtInRect(&_skillRC[8], _ptMouse))
+				{
+					_move = BASICSKILL3;
+					_isMotionLive = true;
+
+				}
 			}
 			if (KEYMANAGER->isOnceKeyDown('V'))
 			{
@@ -535,7 +542,7 @@ void player::playerImage()
 	case SOLOSKILL1:
 		_img = IMAGEMANAGER->findImage("아타호호격권");
 		break;
-	case AREASKILL22:
+	case SOLOSKILL2:
 		_img = IMAGEMANAGER->findImage("아타호맹호광파참");
 		break;
 	case SOLOSKILL3:
@@ -794,7 +801,7 @@ void player::move()
 
 	
 	//광파참
-	if ( _move == AREASKILL22)
+	if ( _move == SOLOSKILL2)
 	{
 		_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 250;
 		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
@@ -1051,6 +1058,11 @@ void player::move()
 
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	//스킬렉트
+	for (int i = 0; i < 9; i++)
+	{
+		_skillRC[i] = RectMakeCenter(400 + i * 40, 450, 30, 30);
+	}
 }
 
 //레벨업 
@@ -1263,6 +1275,76 @@ void player::effectImage()
 }
 
 
+
+void player::setMove(MOVE move)
+{
+	if (_sceneMode == BATTLEMODE)
+	{
+		if (_attribute.currentHp > 0)
+		{
+			if (move == SOLOSKILL1 && _attribute.currentMp >= 3)
+			{
+				_move = SOLOSKILL1;
+				_isMotionLive = true;
+				_attribute.currentMp -= 3;
+			}
+			if (move == SOLOSKILL2 && _attribute.currentMp >= 3)
+			{
+				_move = SOLOSKILL2;
+				_isMotionLive = true;
+				_attribute.currentMp -= 3;
+			}
+			if (move == SOLOSKILL3 && _attribute.currentMp >= 3)
+			{
+				_move = SOLOSKILL3;
+				_isMotionLive = true;
+				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
+				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+				_attribute.currentMp -= 3;
+			}
+			if (move == AREASKILL1 && _attribute.currentMp >= 3)
+			{
+				_move = AREASKILL1;
+				_isMotionLive = true;
+				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 100;
+				_y = WINSIZEY / 3;
+				_jumpPower = 5.0f;
+				_gravity = 0.2f;
+				_attribute.currentMp -= 3;
+			}
+			if (move == DRINK && _attribute.currentMp >= 3)
+			{
+				_move = DRINK;
+				_isMotionLive = true;
+				_attribute.currentMp -= 3;
+			}
+			if (move == AREASKILL3 && _attribute.currentMp >= 3)
+			{
+				_move = AREASKILL3;
+				_isMotionLive = true;
+				_x = WINSIZEX / 2;
+				_attribute.currentMp -= 3;
+			}
+			if (move == BASICSKILL1)
+			{
+				_move = BASICSKILL1;
+				_isMotionLive = true;
+				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
+				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+			}
+			if (move == BASICSKILL2)
+			{
+				_move = BASICSKILL2;
+				_isMotionLive = true;
+			}
+			if (move == BASICSKILL3)
+			{
+				_move = BASICSKILL3;
+				_isMotionLive = true;
+			}
+		}
+	}
+}
 
 player::player()
 {

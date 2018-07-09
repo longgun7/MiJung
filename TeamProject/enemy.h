@@ -55,6 +55,7 @@ public:
 
 	void setisGoldSet(bool gold) { _enemy.isGoldSet = gold; }
 	void setEnemyDirection(DIRECTION direction) { _enemy.direction = direction; }
+
 	tagEnemy getTagEnmey() { return _enemy; }
 	enemy();
 	~enemy();
