@@ -74,6 +74,8 @@ HRESULT player2::init(float x , float y)
 	_areaSkill1->init();
 	_areaSkill2 = new sumsuAreaSkill2;
 	_areaSkill2->init();
+	_areaSkill3 = new sumsuAreaSkill3;
+	_areaSkill3->init();
 	_gameEffect = new gameEffect;
 	_gameEffect->init();
 	
@@ -99,6 +101,7 @@ void player2::update()
 	_soloSkill3->update();
 	_areaSkill1->update();
 	_areaSkill2->update();
+	_areaSkill3->update();
 	_gameEffect->update();
 
 }
@@ -131,6 +134,7 @@ void player2::render()
 	_soloSkill3->render();
 	_areaSkill1->render();
 	_areaSkill2->render();
+	_areaSkill3->render();
 	_gameEffect->render();
 
 }
@@ -141,6 +145,7 @@ void player2::release()
 	SAFE_DELETE(_soloSkill3);
 	SAFE_DELETE(_areaSkill1);
 	SAFE_DELETE(_areaSkill2);
+	SAFE_DELETE(_areaSkill3);
 	SAFE_DELETE(_gameEffect);
 }
 
@@ -488,8 +493,12 @@ void player2::move()
 		{
 			_imageFrame = 0;
 		}
+		
+		_areaSkill3->addAreaSkill(_x, _y);
+		
 		if (_skillFrame % 30 == 0)
 		{
+			
 			setAreaDamage(6);
 			randAreaEffect();
 		}

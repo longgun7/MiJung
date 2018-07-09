@@ -70,8 +70,8 @@ private:
 	vector<tagInventory>::iterator  _viS_ArmorInven;
 
 	//포션
-	vector<tagInventory>  _vPorInven; //포션 담는 벡터
-	vector<tagInventory>::iterator  _viPorInven;
+	vector<tagInventory>  _vPoInven; //포션 담는 벡터
+	vector<tagInventory>::iterator  _viPoInven;
 	
 	int _mountingIndex;
 public:
@@ -90,6 +90,20 @@ public:
 	player* getPlayer() { return _ataho; }
 	player2* getPlayer2() { return _smasyu; }
 	
+	vector<tagInventory>  getVA_WeapInven() { return _vA_WeapInven; }//아타호 무기 담는 벡터
+	vector<tagInventory>::iterator getVIA_WeapInven() { return _viA_WeapInven; }
+	
+	vector<tagInventory>  getVA_ArmorInven() { return _vA_ArmorInven; }//아타호 방어구 담는 벡터
+	vector<tagInventory>::iterator getVIA_ArmorInven() { return _viA_ArmorInven; }
+
+	vector<tagInventory>  getVS_WeapInven() { return _vS_WeapInven; }//스마슈 무기 담는 벡터
+	vector<tagInventory>::iterator getVIS_WeapInven() { return _viS_WeapInven; }
+	
+	vector<tagInventory>  getVS_ArmorInven() { return _vS_ArmorInven; }//스마슈 방어구 담는 벡터
+	vector<tagInventory>::iterator getVIS_ArmorInven() { return _viS_ArmorInven; }
+
+	vector<tagInventory>  getV_PoInven() { return _vPoInven; }//포션 담는 벡터
+	vector<tagInventory>::iterator getVI_PoInven() { return _viPoInven; }
 	playerManager();
 	~playerManager();
 };

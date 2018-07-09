@@ -92,9 +92,9 @@ void playerManager::render()
 	{
 		Rectangle(getMemDC(), _vS_ArmorInven[i].rc.left, _vS_ArmorInven[i].rc.top, _vS_ArmorInven[i].rc.right, _vS_ArmorInven[i].rc.bottom);
 	}
-	for (int i = 0; i < _vPorInven.size(); i++)
+	for (int i = 0; i < _vPoInven.size(); i++)
 	{
-		Rectangle(getMemDC(), _vPorInven[i].rc.left, _vPorInven[i].rc.top, _vPorInven[i].rc.right, _vPorInven[i].rc.bottom);
+		Rectangle(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, _vPoInven[i].rc.right, _vPoInven[i].rc.bottom);
 	}
 }
 
@@ -197,17 +197,17 @@ void playerManager::mounting()
 			}
 		}
 		//포션
-		for (int i = 0; i < _vPorInven.size(); i++)
+		for (int i = 0; i < _vPoInven.size(); i++)
 		{
-			if (PtInRect(&_vPorInven[i].rc, _ptMouse))
+			if (PtInRect(&_vPoInven[i].rc, _ptMouse))
 			{
 				//아타호일 때
-				_ataho->setPortion(_vPorInven[i].hp, _vPorInven[i].mp);
+				_ataho->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);
 				
 				//스마슈일 때
-				_smasyu->setPortion(_vPorInven[i].hp, _vPorInven[i].mp);
+				_smasyu->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);
 
-				_vPorInven.erase(_vPorInven.begin() + i);
+				_vPoInven.erase(_vPoInven.begin() + i);
 			}
 		}
 	}
@@ -304,7 +304,7 @@ void playerManager::getItemValue()
 						inventory.name = _im->getPortion()->getPorName(i);
 						inventory.hp = _im->getPortion()->getVPotion()[i].hp;
 						inventory.mp = _im->getPortion()->getVPotion()[i].mp;
-						_vPorInven.push_back(inventory);
+						_vPoInven.push_back(inventory);
 					}
 				}
 			}
@@ -336,9 +336,9 @@ void playerManager::inventory()
 		_vS_ArmorInven[i].rc = RectMakeCenter(600 + i * 50, 300, 50, 50);
 	}
 	//포션
-	for  (int i = 0; i < _vPorInven.size();  i++)
+	for  (int i = 0; i < _vPoInven.size();  i++)
 	{
-		_vPorInven[i].rc = RectMakeCenter(600 + i * 50, 350, 50, 50);
+		_vPoInven[i].rc = RectMakeCenter(600 + i * 50, 350, 50, 50);
 	}
 }
 
@@ -351,7 +351,8 @@ void playerManager::setMoney()
 		{
 			_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
 			_em->getVEnmey()[i]->setisGoldSet(true);
-			
+			_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+			_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
 		}
 	}
 }

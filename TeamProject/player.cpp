@@ -76,7 +76,7 @@ HRESULT player::init()
 	_isJumping = false;
 	_isWeaponMounting = false;
 	_attribute.isLevelUp = false;
-	_attribute.atk = 5;
+	_attribute.atk = 10;
 	_attribute.def = 10;
 	_attribute.luck = 10;
 	_attribute.cri = 5;
