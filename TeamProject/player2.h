@@ -12,7 +12,7 @@ enum SMOVE
 	S_SOLOSKILL1, S_AREASKILL2, S_SOLOSKILL3,
 	S_AREASKILL1, S_SOLOSKILL2, S_AREASKILL3,
 	S_FIGHTREADY , S_ROPEWALKING , S_DANGER , S_AFRAID,
-	S_DEFENCE,S_NOCKDOWN,S_ESCAPE
+	S_DEFENCE,S_NOCKDOWN,S_ESCAPE, S_SEREMONI
 };
 
 enum S_SCENEMODE
@@ -90,6 +90,7 @@ public:
 	void randEffect();
 	void randAreaEffect();
 	void s_event();
+	void levelCheck();
 	void strongestSwordEffect(); //제일 센 무기 이펙트
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
