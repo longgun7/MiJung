@@ -22,6 +22,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->changeScene("스타트씬");
 	_psm = new playSceneManager;
 	_psm->init();
+	
 	_startScene = new startScene;
 	_startScene->init();
 	return S_OK;
@@ -62,12 +63,11 @@ void playGround::render(void)
 	
 	TIMEMANAGER->render(CAMERA->getCameraDC());
 	
-	SCENEMANAGER->render();
 	if (_startScene->getIsPlay())
 	{
 		_psm->render();
 	}
-	
+	SCENEMANAGER->render();
 	//================이 밑으로도 건드리지 말자 =============
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
 	CAMERA->render(getMemDC());

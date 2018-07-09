@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "playSceneManager.h"
-
+#include "playerManager.h"
+#include "itemManager.h"
+#include "enemyManager.h"
 
 playSceneManager::playSceneManager()
 {
@@ -15,28 +17,17 @@ HRESULT playSceneManager::init(void)
 {
 	sceneAdd();
 	basicUI();
-	
-	//플레이어매니저 
-	_pm = new playerManager;
-	_pm->init();
-
-	_im = new itemManager;
-	_im->init();
-
-	_em = new enemyManager;
-	_em->init();
 
 	_isStatus = false;
 	
 	//아타호와 에너미 매니저 전방선언
-
+	
 	//전방선언
-	_pm->itemManagerAdressLink(_im);
-	_em->AdressLinkPlayerManager(_pm);
+	
+	_pm = SCENEMANAGER->getPlayerManagerLink();
+	_im = SCENEMANAGER->getItemManagerLink();
+	_em = SCENEMANAGER->getEnemyManagerLink();
 
-	_pm->getPlayer()->setEnemyManagerAdressLink(_em);
-	_pm->getPlayer2()->setEnemyManagerAdressLink(_em);
-	_pm->enemyManagerAdressLink(_em);
 	setProgressBar();	//프로그래스바 셋팅!
 
 	return S_OK;
@@ -44,18 +35,15 @@ HRESULT playSceneManager::init(void)
 
 void playSceneManager::release(void)
 {
-	_pm->release();
-	_em->release();
+	
 }
 
 void playSceneManager::update(void)
 {
-	if (_pm->getPlayer()->getSCENEMODE() == FIELDMODE || _pm->getPlayer()->getSCENEMODE() == BATTLEMODE)
-	{
-		_pm->update();
-		_em->update();
-		_im->update();
-	}
+	_pm->update();
+	_em->update();
+	_im->update();
+	
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("타운씬");
@@ -83,7 +71,7 @@ void playSceneManager::update(void)
 	
 	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
-		saveData();
+		
 	}
 	
 	updateProgressBar();
@@ -103,12 +91,11 @@ void playSceneManager::render(void)
 
 	renderProgressBar();	//프로그래스바 렌더
 
-	if (_pm->getPlayer()->getSCENEMODE() == FIELDMODE || _pm->getPlayer()->getSCENEMODE() == BATTLEMODE)
-	{
-		_pm->render();
-		_em->render();
-		_im->render();
-	}
+	
+	_pm->render();
+	_em->render();
+	_im->render();
+	
 	
 	fontUI();
 }
@@ -142,7 +129,6 @@ void playSceneManager::basicUI(void)
 	IMAGEMANAGER->findImage("EXP")->setFrameX(2);
 	IMAGEMANAGER->findImage("EXP")->setFrameY(2);
 
-	
 }
 
 void playSceneManager::fontUI(void)
@@ -151,8 +137,6 @@ void playSceneManager::fontUI(void)
 
 	char charName[] = "아타호";
 	char charName1[] = "스마슈";
-	
-	char str1[] = "번돈";
 	
 	char currentLevel1[128];
 	sprintf_s(currentLevel1, "%d", _pm->getPlayer()->getAttribute().level);
@@ -199,8 +183,6 @@ void playSceneManager::fontUI(void)
 	
 	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 150, charName, strlen(charName));
 	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 100, charName1, strlen(charName1));
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 175, WINSIZEY - 75, str1, strlen(str1));
-
 	
 	if(_isStatus)//스탯창이 켜지면 
 	{
@@ -287,43 +269,7 @@ void playSceneManager::updateProgressBar(void)
 	_exp2->update();
 	_exp2->setGauge(_pm->getPlayer2()->getAttribute().currentExp, _pm->getPlayer2()->getAttribute().maxExp);
 }
-void playSceneManager::saveData(void)
-{
-	//플레이어 1(아타호) 정보 저장
-	char temp[128];
-	vector<string> vStr;
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().level, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentHp,temp,10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().maxHp, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentMp, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().maxMp, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().currentExp, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().maxExp, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().atk, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().def, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().speed, temp, 10));
-	vStr.push_back(itoa(_pm->getPlayer()->getAttribute().luck, temp, 10));
 
-	TXTDATA->txtSave("playerData.txt", vStr);
-
-	//플레이어 2(스마슈) 정보 저장
-	char temp2[128];
-	vector<string> vStr2;
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().level, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentHp, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().maxHp, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentMp, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().maxMp, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().currentExp, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().maxExp, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().atk, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().def, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().speed, temp2, 10));
-	vStr2.push_back(itoa(_pm->getPlayer2()->getAttribute().luck, temp2, 10));
-
-	TXTDATA->txtSave("player2Data.txt", vStr2);
-
-}
 void playSceneManager::renderProgressBar(void)
 {
 	_hp1->render();

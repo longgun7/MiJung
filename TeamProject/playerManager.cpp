@@ -20,6 +20,7 @@ HRESULT playerManager::init()
 	
 	//아이템 매니저 전방선언
 	_im = new itemManager;
+	_im->init();
 	_em = new enemyManager;
 
 	_whoKill = NON;

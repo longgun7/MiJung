@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "battleScene.h"
-
+#include "playerManager.h"
+#include "enemyManager.h"
+#include "itemManager.h"
 
 battleScene::battleScene()
 {
@@ -13,7 +15,10 @@ battleScene::~battleScene()
 
 HRESULT battleScene::init(void)
 {
-	
+	_pm = SCENEMANAGER->getPlayerManagerLink();
+	_em = SCENEMANAGER->getEnemyManagerLink();
+	_im = SCENEMANAGER->getItemManagerLink();
+
 	IMAGEMANAGER->addImage("스킬선택창", "image/ui/스킬선택창.bmp", 350, 175, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("스킬선택창2", "image/ui/스킬선택창2.bmp", 350, 375, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addFrameImage("기본기아이콘", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
@@ -32,12 +37,29 @@ HRESULT battleScene::init(void)
 
 	IMAGEMANAGER->addFrameImage("SKILLBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->findImage("SKILLBUTTON")->setFrameX(6);
+	IMAGEMANAGER->addFrameImage("SKILLCHOICEBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->findImage("SKILLCHOICEBUTTON")->setFrameX(7);
+	IMAGEMANAGER->addFrameImage("MONCHECKBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->findImage("MONCHECKBUTTON")->setFrameX(7);
+	
 
 	_isTurn = false;
 	_choiceIndex = 0;
+	_skillIndex = 0;
+	_monIndex = 0;
 
 	_choiceX=357;
 	_choiceY=125;
+
+	_skillX = 327;
+	_skillY = 225;
+
+	_monX = 660;
+	_monY = 570;
+
+	_isSkillCheck = false;
+	_isMonCheck = false;
+
 	return S_OK;
 }
 
@@ -56,27 +78,58 @@ void battleScene::update(void)
 
 	if(_isTurn)
 	{
-		if(KEYMANAGER->isOnceKeyDown(VK_LEFT))
+		if(KEYMANAGER->isOnceKeyDown(VK_LEFT)&&!_isSkillCheck)
 		{
 			_choiceIndex--;
 			if (_choiceIndex < 0) _choiceIndex = 5;
 		}
-		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT)&&!_isSkillCheck)
 		{
 			_choiceIndex++;
 			if (_choiceIndex > 5) _choiceIndex = 0;
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-
+			if (!_isSkillCheck)
+			{
+				_skillIndex--;
+				if (_skillIndex < 0) _skillIndex = 2;
+			}
+			else if(_isSkillCheck)
+			{
+				_monIndex--;
+				if (_monIndex < 0)_monIndex = 3;	//나중에 몬스터 벡터 사이즈로 바꿔야함
+			}
+			
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-
+			if (!_isSkillCheck)
+			{
+				_skillIndex++;
+				if (_skillIndex > 2) _skillIndex = 0;
+			}
+			else if (_isSkillCheck)
+			{
+				_monIndex++;
+				if (_monIndex > 3)_monIndex = 0;	//나중에 몬스터 벡터 사이즈로 바꿔야함
+			}
 		}
 		if(KEYMANAGER->isOnceKeyDown(VK_RETURN))
 		{
+			if(!_isSkillCheck)
+			{
+				IMAGEMANAGER->findImage("SKILLBUTTON")->setFrameY(1);
+				IMAGEMANAGER->findImage("SKILLCHOICEBUTTON")->setFrameY(1);
+				_isSkillCheck = true;
+			}
 			
+		}
+		if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+		{
+			IMAGEMANAGER->findImage("SKILLBUTTON")->setFrameY(0);
+			IMAGEMANAGER->findImage("SKILLCHOICEBUTTON")->setFrameY(0);
+			_isSkillCheck = false;
 		}
 		
 		for(int i=0;i<6;i++)
@@ -87,6 +140,20 @@ void battleScene::update(void)
 			}
 		}
 
+		for(int i=0;i<3;i++)
+		{
+			if(_skillIndex ==i)
+			{
+				_skillY = 225 + i * 50;
+			}
+		}
+		for(int i=0;i<4;i++)//나중에 벡터사이즈 만큼으로 바꿔야함
+		{
+			if(_monIndex ==i)
+			{
+				_monY = 570 + i * 40;
+			}
+		}
 	}
 }
 
@@ -106,6 +173,12 @@ void battleScene::render(void)
 		IMAGEMANAGER->findImage("특수기아이콘")->frameRender(CAMERA->getCameraDC(), 595, 75);
 
 		IMAGEMANAGER->findImage("SKILLBUTTON")->frameRender(CAMERA->getCameraDC(), _choiceX, _choiceY);
+		IMAGEMANAGER->findImage("SKILLCHOICEBUTTON")->frameRender(CAMERA->getCameraDC(), _skillX, _skillY);
+		
+	}
+	if (_isSkillCheck)
+	{
+		IMAGEMANAGER->findImage("MONCHECKBUTTON")->frameRender(CAMERA->getCameraDC(), _monX, _monY);
 	}
 	fontUI();
 }

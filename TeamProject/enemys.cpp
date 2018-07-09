@@ -43,10 +43,6 @@ void spearMan::update()
 	{
 		_enemy.direction = ATTACK;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
 	motion();
 }
 
@@ -192,10 +188,6 @@ void kungpu::update()
 		{
 			_enemy.currentFrameX = 7;
 		}
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
 	}
 	motion();
 }
@@ -356,10 +348,6 @@ void spirit::update()
 
 		_enemy.currentFrameX = 3;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
 	motion();
 }
 
@@ -501,10 +489,6 @@ void bat::update()
 
 		_enemy.count = 0;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
 	motion();
 }
 
@@ -642,10 +626,6 @@ void snake::update()
 
 		_enemy.count = 0;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
 	motion();
 }
 
@@ -776,11 +756,7 @@ void wildboar::update()
 	{
 		_enemy.direction = ATTACK;
 
-		_enemy.currentFrameX = 4;
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
+		_enemy.currentFrameX = 2;
 	}
 	motion();
 }
@@ -802,8 +778,6 @@ void wildboar::motion()
 		}
 		if (_enemy.direction == ATTACK)
 		{
-			--_enemy.currentFrameX;
-			
 			if (_enemy.currentFrameX == 2)
 			{
 				_enemy.direction = STAND;
@@ -913,10 +887,6 @@ void skeleton::update()
 		_enemy.direction = ATTACK;
 
 		_enemy.currentFrameX = 1;
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
 	}
 	motion();
 }
@@ -1057,10 +1027,7 @@ void skeletonMage::update()
 			_enemy.currentFrameX = 2;
 		}
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
+
 	motion();
 }
 
@@ -1209,10 +1176,6 @@ void dragon::update()
 		_enemy.currentFrameX = 5;
 
 		_enemy.count = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
 	}
 	motion();
 }
@@ -1376,14 +1339,6 @@ void boss::update()
 
 			break;
 		}
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
 	}
 
 	motion();

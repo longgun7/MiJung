@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "statusScene.h"
-
+#include "playerManager.h"
+#include "enemyManager.h"
+#include "itemManager.h"
 
 
 statusScene::statusScene()
@@ -45,6 +47,9 @@ HRESULT statusScene::init(void)
 	IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameX(6);
 	IMAGEMANAGER->addFrameImage("INVENBUTTON", "image/ui/UI버튼.bmp",450, 75, 18, 3, true, RGB(255, 0, 255));
 
+	_pm = SCENEMANAGER->getPlayerManagerLink();
+	_em = SCENEMANAGER->getEnemyManagerLink();
+	_im = SCENEMANAGER->getItemManagerLink();
 
 	_uiX = WINSIZEX - 314;
 	_uiY = 100;
@@ -95,7 +100,6 @@ void statusScene::update(void)
 				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(0);
 			}
 		}
-		
 	}
 	if(KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
@@ -120,7 +124,6 @@ void statusScene::update(void)
 				_setIndex = 5;
 			}
 		}
-		
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
@@ -132,7 +135,6 @@ void statusScene::update(void)
 				_setIndex = 0;
 			}
 		}
-		
 	}
 	if(KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
@@ -140,7 +142,6 @@ void statusScene::update(void)
 		_isCheck = true;
 	}
 
-	
 	for(int i=0;i<6;i++)
 	{
 		if(_setIndex ==i)
@@ -148,7 +149,6 @@ void statusScene::update(void)
 			_uiX = WINSIZEX - 314 +i*50;
 		}
 	}
-
 }
 
 void statusScene::render(void)
@@ -182,42 +182,7 @@ void statusScene::render(void)
 
 	
 	fontUI();
-	loadData();
-
-}
-
-void statusScene::loadData()
-{
-	vector<string> vStr;
-
-	vStr = TXTDATA->txtLoad("playerData.txt");
-	_player1Data.level = (atoi(vStr[0].c_str()));
-	_player1Data.currentHp = (atoi(vStr[1].c_str()));
-	_player1Data.maxHp = (atoi(vStr[2].c_str()));
-	_player1Data.currentMp = (atoi(vStr[3].c_str()));
-	_player1Data.maxMp = (atoi(vStr[4].c_str()));
-	_player1Data.currentExp = (atoi(vStr[5].c_str()));
-	_player1Data.maxExp = (atoi(vStr[6].c_str()));
-	_player1Data.atk = (atoi(vStr[7].c_str()));
-	_player1Data.def = (atoi(vStr[8].c_str()));
-	_player1Data.speed = (atoi(vStr[9].c_str()));
-	_player1Data.luck = (atoi(vStr[10].c_str()));
-
-	vector<string> vStr1;
-
-	vStr1 = TXTDATA->txtLoad("player2Data.txt");
-	_player2Data.level = (atoi(vStr1[0].c_str()));
-	_player2Data.currentHp = (atoi(vStr1[1].c_str()));
-	_player2Data.maxHp = (atoi(vStr1[2].c_str()));
-	_player2Data.currentMp = (atoi(vStr1[3].c_str()));
-	_player2Data.maxMp = (atoi(vStr1[4].c_str()));
-	_player2Data.currentExp = (atoi(vStr1[5].c_str()));
-	_player2Data.maxExp = (atoi(vStr1[6].c_str()));
-	_player2Data.atk = (atoi(vStr1[7].c_str()));
-	_player2Data.def = (atoi(vStr1[8].c_str()));
-	_player2Data.speed = (atoi(vStr1[9].c_str()));
-	_player2Data.luck = (atoi(vStr1[10].c_str()));
-
+	
 }
 
 void statusScene::fontUI(void)
@@ -255,32 +220,32 @@ void statusScene::fontUI(void)
 	char str22[] = "반격";
 	
 	char currentHP1[128];	//아타호 현재체력 / 최대체력
-	sprintf_s(currentHP1, "%d / %d", _player1Data.currentHp, _player1Data.maxHp);
+	sprintf_s(currentHP1, "%d / %d", _pm->getPlayer()->getAttribute().currentHp,_pm->getPlayer()->getAttribute().maxHp);
 	char currentHP2[128];	//스마슈 현재체력 / 최대체력
-	sprintf_s(currentHP2, "%d / %d", _player2Data.currentHp, _player2Data.maxHp);
+	sprintf_s(currentHP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentHp, _pm->getPlayer2()->getAttribute().maxHp);
 
 	char currentMP1[128];	//아타호 현재마력 / 최대마력
-	sprintf_s(currentMP1, "%d / %d", _player1Data.currentMp, _player1Data.maxMp);
+	sprintf_s(currentMP1, "%d / %d", _pm->getPlayer()->getAttribute().currentMp, _pm->getPlayer()->getAttribute().maxMp);
 	char currentMP2[128];	//스마슈 현재마력 / 최대마력
-	sprintf_s(currentMP2, "%d / %d", _player2Data.currentMp, _player2Data.maxMp);
+	sprintf_s(currentMP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentMp, _pm->getPlayer2()->getAttribute().maxMp);
 	
 	char currentEXP1[128];	//아타호 현재경험치 / 최대경험치
-	sprintf_s(currentEXP1, "%d / %d", _player1Data.currentExp, _player1Data.maxExp);
+	sprintf_s(currentEXP1, "%d / %d", _pm->getPlayer()->getAttribute().currentExp, _pm->getPlayer()->getAttribute().maxExp);
 	char currentEXP2[128];	//스마슈 현재경험치 / 최대경험치
-	sprintf_s(currentEXP2, "%d / %d", _player2Data.currentExp, _player2Data.maxExp);
+	sprintf_s(currentEXP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentExp, _pm->getPlayer2()->getAttribute().maxExp);
 
 	//플레이어 1,2 능력치
-	char level1[128];	sprintf(level1, "%d", _player1Data.level);
-	char atk1[128];		sprintf_s(atk1,"%d", _player1Data.atk);
-	char def1[128];		sprintf_s(def1, "%d", _player1Data.def);
-	char speed1[128];	sprintf_s(speed1, "%d", _player1Data.speed);
-	char luck1[128];	sprintf_s(luck1, "%d", _player1Data.luck);
+	char level1[128];	sprintf(level1, "%d", _pm->getPlayer()->getAttribute().level);
+	char atk1[128];		sprintf_s(atk1,"%d", _pm->getPlayer()->getAttribute().atk);
+	char def1[128];		sprintf_s(def1, "%d", _pm->getPlayer()->getAttribute().def);
+	char speed1[128];	sprintf_s(speed1, "%d", _pm->getPlayer()->getAttribute().speed);
+	char luck1[128];	sprintf_s(luck1, "%d", _pm->getPlayer()->getAttribute().luck);
 
-	char level2[128];	sprintf(level2, "%d", _player2Data.level);
-	char atk2[128];		sprintf_s(atk2, "%d", _player2Data.atk);
-	char def2[128];		sprintf_s(def2, "%d", _player2Data.def);
-	char speed2[128];	sprintf_s(speed2, "%d", _player2Data.speed);
-	char luck2[128];	sprintf_s(luck2, "%d", _player2Data.luck);
+	char level2[128];	sprintf(level2, "%d", _pm->getPlayer2()->getAttribute().level);
+	char atk2[128];		sprintf_s(atk2, "%d", _pm->getPlayer2()->getAttribute().atk);
+	char def2[128];		sprintf_s(def2, "%d", _pm->getPlayer2()->getAttribute().def);
+	char speed2[128];	sprintf_s(speed2, "%d", _pm->getPlayer2()->getAttribute().speed);
+	char luck2[128];	sprintf_s(luck2, "%d", _pm->getPlayer2()->getAttribute().luck);
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);

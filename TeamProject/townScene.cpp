@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "townScene.h"
+#include "playerManager.h"
+#include "enemyManager.h"
+#include "itemManager.h"
 
 
 townScene::townScene()
@@ -13,9 +16,10 @@ townScene::~townScene()
 
 HRESULT townScene::init(void)
 {
+	_pm = SCENEMANAGER->getPlayerManagerLink();
+	_em = SCENEMANAGER->getEnemyManagerLink();
+	_im = SCENEMANAGER->getItemManagerLink();
 	
-	
-
 	return S_OK;
 }
 

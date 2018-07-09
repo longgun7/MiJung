@@ -51,12 +51,10 @@ public:
 	virtual void render();
 
 	void setHp(int damage);
-	void setDirection(DIRECTION direction);
 
-	void setisGoldSet(bool gold) { _enemy.isGoldSet = gold; }
-	void setEnemyDirection(DIRECTION direction) { _enemy.direction = direction; }
-
-	tagEnemy getTagEnmey() { return _enemy; }
+	void setisGoldSet(bool gold) { _enemy.isGoldSet = gold; }								// 플레이어가 골드를 받아갈 수 있게 해주는 설정자
+	void setEnemyDirection(DIRECTION direction) { _enemy.direction = direction; }			// 플레이어가 에너미의 상태를 설정할 수 있게 해주는 설정자
+	tagEnemy getTagEnmey() { return _enemy; }												// 다른곳에서 에너미 구조체를 사용할 수 있게 반환
 	enemy();
 	~enemy();
 };
