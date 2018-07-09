@@ -192,9 +192,6 @@
     <ClInclude Include="fieldScene.h">
       <Filter>playGround\Scene\startScene\playScene\fieldScene</Filter>
     </ClInclude>
-    <ClInclude Include="playScene.h">
-      <Filter>playGround\Scene\startScene\playScene</Filter>
-    </ClInclude>
     <ClInclude Include="mapToolScene.h">
       <Filter>playGround\Scene\startScene\mapToolScene</Filter>
     </ClInclude>
@@ -269,6 +266,9 @@
     </ClInclude>
     <ClInclude Include="gameEffect.h">
       <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="playScene.h">
+      <Filter>playGround\Scene\startScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

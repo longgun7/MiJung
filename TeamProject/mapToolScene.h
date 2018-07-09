@@ -14,7 +14,7 @@ enum CTRL
 	CTRL_SAVE,			//세이브 버튼
 	CTRL_LOAD,			//로드 버튼
 	CTRL_END
-};          
+};
 
 struct tagButton
 {
@@ -55,12 +55,13 @@ private:
 
 	bool _isLButtonFirstDown;
 	bool _isLButtonDown;
+	bool _isStopMoveCamera;
 
 	bool _isShowTileSet;
 	bool _isShowMoveTile;
 	bool _isShowMiniMap;
 
-	bool _isStopMoveCamera;
+	bool _isImageCopy;
 
 public:
 	mapToolScene();
@@ -84,6 +85,7 @@ public:
 	void load();
 
 	void imageCopy();
+	void miniMapCopy();
 
 	// 화면에 보여질 타일 인덱스 번호 설정
 	void setShowTileIndex();

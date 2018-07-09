@@ -5,6 +5,7 @@
 
 HRESULT enemy::init(float x, float y)
 {
+	// 기본 설정
 	_enemy.currentFrameX = 0;
 	_enemy.count = 0;
 	_enemy.x = x;
@@ -29,24 +30,19 @@ void enemy::render()
 
 void enemy::setHp(int damage)
 {
-
-	if (damage <= _enemy.def) damage = 0;
-	else
+	if (damage <= _enemy.def) damage = 0;				// 방어가 데미지보다 높을 때 데미지를 0으로 만든다
+	else												// 그게 아니라면
 	{
-		damage -= _enemy.def;
+		damage -= _enemy.def;							// 공격력에서 방어력을 뺀다
 	}
 
-	_enemy.hp -= damage;
+	_enemy.hp -= damage;								// 적의 hp에서 공격력을 빼준다
+	_enemy.direction = HIT;								// 적의 상태를 HIT상태로 바꾼다
 
-	if (_enemy.hp <= 0)
+	if (_enemy.hp <= 0)									// 체력이 0 이하가 되면
 	{
-		_enemy.hp = 0;
+		_enemy.hp = 0;									// 0으로 초기화 해준다
 	}
-}
-
-void enemy::setDirection(DIRECTION direction)
-{
-	_enemy.direction = direction;
 }
 
 enemy::enemy()

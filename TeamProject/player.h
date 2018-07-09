@@ -10,7 +10,7 @@ enum MOVE
 	LEFTMOVE, RIGHTMOVE, DOWNMOVE, UPMOVE,
 	//BATTLEMODE
 	BASICSKILL1, BASICSKILL2, BASICSKILL3,
-	SOLOSKILL1, AREASKILL22, SOLOSKILL3,
+	SOLOSKILL1, SOLOSKILL2, SOLOSKILL3,
 	AREASKILL1, AREASKILL2, AREASKILL3,
 	DRINK,DRUNKEN, FIGHTREADY, DAMAGE,
 	DEFENCE, SEREMONI,ESCAPE,
@@ -77,6 +77,7 @@ private:
 	string	_imageName;      //이미지이름
 	MOVE	_move;		     //움직임 상태
 	RECT	_rc;		     //렉트
+	RECT	_skillRC[9];
 	SCENEMODE _sceneMode;	 //씬에 따라 움직임
 	tagAttribute _attribute; //속성
 	tagEffectImage1 _effectImage;
@@ -145,9 +146,9 @@ public:
 
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 
-	void setMove(MOVE move) { _move = move; }
+	void setMove(MOVE move);
 	
-
+	
 	
 	player();
 	~player();

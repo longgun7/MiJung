@@ -3,7 +3,9 @@
 //터레인
 enum TERRAIN
 {
-	TR_MOVE, TR_UNMOVE, TR_NONE
+	TR_MOVE, TR_UNMOVE, TR_DOOR,
+	TR_LEFTPORTAL, TR_RIGHTPORTAL, TR_UPPORTAL, TR_DOWNPORTAL,
+	TR_NONE
 };
 
 //오브젝트 
@@ -11,6 +13,9 @@ enum OBJECT
 {
 	OBJ_EXIST,
 	OBJ_NPC,
+	OBJ_PLAYER1,
+	OBJ_PLAYER2,
+	OBJ_ENEMY,
 	OBJ_NONE
 };
 
@@ -51,11 +56,11 @@ struct tagTile
 // 타일셋 구조체
 struct tagSampleTile
 {
-	RECT	rcTile;		//타일셋 
-	TERRAIN terrain;	//지형 이넘문
-	OBJECT	obj;		//오브젝트 이넘문	
-	int		terrainFrameX;	//타일셋 프레임 번호
-	int		terrainFrameY;	//타일셋 프레임 번호
+	RECT	rcTile;				//타일셋 
+	TERRAIN terrain;			//지형 이넘문
+	OBJECT	obj;				//오브젝트 이넘문	
+	int		terrainFrameX;		//타일셋 프레임 번호
+	int		terrainFrameY;		//타일셋 프레임 번호
 	int		objFrameX;			//오브젝트 프레임 번호
 	int		objFrameY;			//오브젝트 프레임 번호
 };
