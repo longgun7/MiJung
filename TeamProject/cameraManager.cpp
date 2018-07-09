@@ -2,8 +2,8 @@
 #include "cameraManager.h"
 
 
-cameraManager::cameraManager(){}
-cameraManager::~cameraManager(){}
+cameraManager::cameraManager() {}
+cameraManager::~cameraManager() {}
 
 HRESULT cameraManager::init()
 {
@@ -36,37 +36,50 @@ void cameraManager::render(HDC hdc)
 		0, 0,							//복사할 x,y
 		WINSIZEX,						//복사할 가로, 세로크기
 		WINSIZEY,
-		RGB(255,0,255));					//복사할때 제외할 칼라
+		RGB(255, 0, 255));					//복사할때 제외할 칼라
 }
 
-void cameraManager::setPosition(float x, float y)
+void cameraManager::setPosition(float x, float y, BOOL isMouse)
 {
-	// 카메라 좌표 세팅
-	//_cameraX = x;
-	//_cameraY = y;
-
 	// 마우스로 화면 이동하기
-	if (x < WINSIZEX / 10) // 왼쪽
+	if (isMouse)
 	{
-		_cameraX -= 2;
-		if (_cameraX < 0) _cameraX = 0;
+		if (x < WINSIZEX / 10) // 왼쪽
+		{
+			_cameraX -= CAMERASPEED;
+			if (_cameraX < 0) _cameraX = 0;
+		}
+		if (x > WINSIZEX - WINSIZEX / 10) // 오른쪽
+		{
+			_cameraX += CAMERASPEED;
+			if (_cameraX + WINSIZEX > BACKGROUNDX) _cameraX = BACKGROUNDX - WINSIZEX;
+		}
+		if (y < WINSIZEY / 10) // 위
+		{
+			_cameraY -= CAMERASPEED;
+			if (_cameraY < 0) _cameraY = 0;
+		}
+		if (y > WINSIZEY - WINSIZEY / 10)  // 아래
+		{
+			_cameraY += CAMERASPEED;
+			if (_cameraY + WINSIZEY > BACKGROUNDY) _cameraY = BACKGROUNDY - WINSIZEY;
+		}
 	}
-	if (x > WINSIZEX - WINSIZEX / 10) // 오른쪽
+	// 플레이어기준 카메라 좌표 세팅
+	else
 	{
-		_cameraX += 2;
-		if (_cameraX + WINSIZEX > BACKGROUNDX) _cameraX = BACKGROUNDX - WINSIZEX;
-	}
-	if (y < WINSIZEY / 10) // 위
-	{
-		_cameraY -= 2;
-		if (_cameraY < 0) _cameraY = 0;
-	}
-	if (y > WINSIZEY - WINSIZEY / 10)  // 아래
-	{
-		_cameraY += 2;
-		if (_cameraY + WINSIZEY > BACKGROUNDY) _cameraY = BACKGROUNDY - WINSIZEY;
-	}
+		if (x > WINSIZEX / 3 && x < _maxCameraX - WINSIZEX / 3)
+		{
+			if (x < _cameraX + WINSIZEX / 3) _cameraX = x - (WINSIZEX / 3);
+			else if (x > _cameraX + WINSIZEX - WINSIZEX / 3) _cameraX = x - (WINSIZEX - WINSIZEX / 3);
+		}
 
+		if (y > WINSIZEY / 3 && y < _maxCameraY - 550 / 3)
+		{
+			if (y < _cameraY + 550 / 3) _cameraY = y - (550 / 3);
+			else if (y > _cameraY + 550 - 550 / 3) _cameraY = y - (550 - 550 / 3);
+		}
+	}
 }
 
 void cameraManager::cursor()
