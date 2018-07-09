@@ -43,6 +43,7 @@ enum WHOKILL
 {
 	SMASYU, ATAHO, NON
 };
+
 class itemManager;
 class enemyManager;
 class playerManager :public gameNode
@@ -108,6 +109,10 @@ public:
 
 	vector<tagInventory>  getV_PoInven() { return _vPoInven; }//포션 담는 벡터
 	vector<tagInventory>::iterator getVI_PoInven() { return _viPoInven; }
+
+	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
+	void setItemManagerAdressLink(itemManager* im) { _im = im; }
+
 	playerManager();
 	~playerManager();
 };

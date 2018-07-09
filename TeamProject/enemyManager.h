@@ -46,7 +46,7 @@ public:
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }			// 외부에서 에너미 벡터에 접근 가능하게 반환
 	vector<enemy*>::iterator getVIEnmey() { return _viEnemy; }			// 외부에서 에너미 벡터 이터레이터에 접근 가능하게 반환
 
-	void AdressLinkPlayerManager(playerManager* pm) { _pm = pm; }		// 전방선언한 플레이어 매니저의 정보를 가져온다
+	void setAdressLinkPlayerManager(playerManager* pm) { _pm = pm; }		// 전방선언한 플레이어 매니저의 정보를 가져온다
 
 	enemyManager();
 	~enemyManager();

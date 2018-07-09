@@ -25,11 +25,12 @@ HRESULT playSceneManager::init(void)
 	
 	//아타호와 에너미 매니저 전방선언
 	
-	//전방선언
-	
+	//전방선언	
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
 	_em = SCENEMANAGER->getEnemyManagerLink();
+
+
 
 	setProgressBar();	//프로그래스바 셋팅!
 

@@ -19,12 +19,15 @@ gameNode* sceneManager::_currentScene = NULL;
 HRESULT sceneManager::init()
 {
 	_pm = new playerManager;
-	_pm->init();
-
 	_im = new itemManager;
-	_im->init();
-
 	_em = new enemyManager;
+
+	_pm->setEnemyManagerAdressLink(_em);
+	_pm->setItemManagerAdressLink(_im);
+	_em->setAdressLinkPlayerManager(_pm);
+	
+	_pm->init();
+	_im->init();
 	_em->init();
 
 	_currentScene = NULL;

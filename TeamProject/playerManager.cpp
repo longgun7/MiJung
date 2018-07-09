@@ -9,19 +9,21 @@ HRESULT playerManager::init()
 	//아타호 init()
 	_ataho = new player;
 	_ataho->init();
+	_ataho->setEnemyManagerAdressLink(_em);
 	
 	//스마슈 init()
 	_smasyu = new player2;
 	_smasyu->init(_ataho->getX() , _ataho->getY());
+	_smasyu->setEnemyManagerAdressLink(_em);
 
 	//인벤토리 init()
 	_gold.money = 10000;
 	_gold.moneyFrame = 0;
 	
 	//아이템 매니저 전방선언
-	_im = new itemManager;
-	_im->init();
-	_em = new enemyManager;
+	//_im = new itemManager;
+	//_im->init();
+	//_em = new enemyManager;
 
 	_whoKill = NON;
 	return S_OK;
