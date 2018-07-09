@@ -35,11 +35,11 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setEnemy(float x ,float y);
-	void setDirection(int index, DIRECTION direction);
-	void hitEnemy(int index, int damge);
-	void hitPlayer();
-	void randEnemy();
+	void setEnemy(float x ,float y);						// 적 배치 함수
+	void setDirection(int index, DIRECTION direction);		// 몇번째 적 상태를 넣어주는 함수
+	void hitEnemy(int index, int damge);					// 몇번째 애가 데미지를 받았는지
+	void hitPlayer();										// 플레이어한테 데미지 주는 함수
+	void randEnemy();										// 무작위로 적 생성되게 하는 함수
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }
 	vector<enemy*>::iterator getVIEnmey() { return _viEnemy; }

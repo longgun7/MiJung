@@ -10,11 +10,12 @@ HRESULT spearMan::init(float x, float y)
 	
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
+	_enemy.hp = 20;
+	_enemy.totalHp = 20;
 	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.def = 1;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 50;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 	 
@@ -46,13 +47,6 @@ void spearMan::update()
 	{
 		_enemy.direction = HIT;
 	}
-	// 피가 0이하가 되면
-	if (_enemy.hp <= 0)
-	{
-		// 에너미 상태를 죽는 상태로 만든다
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -152,9 +146,10 @@ HRESULT kungpu::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
+	_enemy.hp = 20;
+	_enemy.totalHp = 20;
 	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.def = 1;
 	_enemy.miss = 10;
 	_enemy.exp = 10;
 
@@ -202,11 +197,6 @@ void kungpu::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -331,11 +321,12 @@ HRESULT spirit::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 23;
+	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
@@ -369,11 +360,6 @@ void spirit::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -478,11 +464,12 @@ HRESULT bat::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 25;
+	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -517,10 +504,6 @@ void bat::update()
 	if (KEYMANAGER->isOnceKeyDown('X'))
 	{
 		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
 	}
 	motion();
 }
@@ -622,11 +605,12 @@ HRESULT snake::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 25;
+	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -662,11 +646,6 @@ void snake::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -764,11 +743,12 @@ HRESULT wildboar::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 30;
+	_enemy.def = 5;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 90;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -802,11 +782,6 @@ void wildboar::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -904,11 +879,12 @@ HRESULT skeleton::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 35;
+	_enemy.def = 5;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 100;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -942,11 +918,6 @@ void skeleton::update()
 	{
 		_enemy.direction = HIT;
 	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -1042,11 +1013,12 @@ HRESULT skeletonMage::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 35;
+	_enemy.def = 5;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 100;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1088,10 +1060,6 @@ void skeletonMage::update()
 	if (KEYMANAGER->isOnceKeyDown('X'))
 	{
 		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
 	}
 	motion();
 }
@@ -1205,11 +1173,12 @@ HRESULT dragon::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 70;
+	_enemy.att = 100;
+	_enemy.def = 7;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 130;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1244,10 +1213,6 @@ void dragon::update()
 	if (KEYMANAGER->isOnceKeyDown('X'))
 	{
 		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
 	}
 	motion();
 }
@@ -1341,11 +1306,12 @@ HRESULT boss::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.hp = 500;
+	_enemy.totalHp = 500;
+	_enemy.att = 45;
 	_enemy.def = 10;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 0;
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
