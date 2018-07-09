@@ -249,7 +249,7 @@ void player::battleKeyManager()
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
 	{	
-		if (_attribute.currentHp > 0)
+		if (_attribute.currentHp > 0 )
 		{
 			//스킬
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
@@ -334,7 +334,7 @@ void player::battleKeyManager()
 		}
 		else
 		{
-			_img = IMAGEMANAGER->findImage("아타호쓰러짐");
+			_move == NOCKDOWN;
 			_isMotionLive = true;
 		}
 	}
@@ -577,6 +577,9 @@ void player::playerImage()
 		break;
 	case SEREMONI:
 		_img = IMAGEMANAGER->findImage("아타호세레모니");
+		break;
+	case NOCKDOWN:
+		_img = IMAGEMANAGER->findImage("아타호쓰러짐");
 		break;
 	default:
 		break;
@@ -1346,6 +1349,8 @@ void player::setMove(MOVE move)
 		}
 	}
 }
+
+
 
 player::player()
 {

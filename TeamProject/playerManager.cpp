@@ -24,7 +24,7 @@ HRESULT playerManager::init()
 	//_im->init();
 	//_em = new enemyManager;
 
-	_whoKill = NON;
+	
 	return S_OK;
 }
 
@@ -38,7 +38,7 @@ void playerManager::update()
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	getItemValue(); //아이템 인벤
 	inventory(); //인벤토리
-	setMoney(); //돈 드랍
+	setEnemyDead(); //돈 드랍
 	
 	mounting();//장착하기
 	//인벤토리
@@ -355,36 +355,38 @@ void playerManager::inventory()
 	}
 }
 
-void playerManager::setMoney()
+void playerManager::setEnemyDead()
 {
 	
 	for (int i = 0; i < _em->getVEnmey().size(); i++)
 	{
-		if (_em->getVEnmey()[i]->getTagEnmey().hp == 0 && !_em->getVEnmey()[i]->getTagEnmey().isGoldSet)
-		{
-			_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
-			_em->getVEnmey()[i]->setisGoldSet(true);
-			
+		
+		//에너미 사망
+		if ( _em->getVEnmey()[i]->getTagEnmey().direction != DEAD && _em->getVEnmey()[i]->getTagEnmey().hp == 0 )
+		{		
+			if (_ataho->getMove() == FIGHTREADY && _smasyu->getMove() == S_FIGHTREADY)
+			{
+				_em->getVEnmey()[i]->setEnemyDirection(DEAD);
+				_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+				_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
+			}
+			if (_ataho->getMove() == FIGHTREADY && _smasyu->getMove() == S_NOCKDOWN)
+			{
+				_em->getVEnmey()[i]->setEnemyDirection(DEAD);
+				_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
+			}
+			if (_ataho->getMove() == NOCKDOWN && _smasyu->getMove() == S_FIGHTREADY)
+			{
+				_em->getVEnmey()[i]->setEnemyDirection(DEAD);
+				_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
+			}
 		}
-		if (_ataho->getMove() != FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().hp == 0)
+		if (_em->getVEnmey()[i]->getTagEnmey().fadeCount >=6 )
 		{
-			_whoKill = ATAHO;
-		}
-		if (_whoKill == ATAHO && _ataho->getMove() == FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().direction != DEAD)
-		{
-			_em->getVEnmey()[i]->setEnemyDirection(DEAD);
-			_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
-			_whoKill = NON;
-		}
-		if (_smasyu->getMove() != S_FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().hp == 0 )
-		{
-			_whoKill = SMASYU;		
-		}
-		if (_whoKill == SMASYU && _ataho->getMove() == FIGHTREADY && _em->getVEnmey()[i]->getTagEnmey().direction != DEAD)
-		{
-			_em->getVEnmey()[i]->setEnemyDirection(DEAD);
-			_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
-			_whoKill = NON;
+			_em->removeEnemy(i);
 		}
 	}
 }

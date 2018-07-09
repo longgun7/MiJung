@@ -39,10 +39,7 @@ struct tagMoney
 	int money;
 	int moneyFrame;
 };
-enum WHOKILL
-{
-	SMASYU, ATAHO, NON
-};
+
 
 class itemManager;
 class enemyManager;
@@ -60,7 +57,7 @@ private:
 	saveBeforItem _saveBeforPortion;
 	INVENATTRIBUTE _invenAttribute; //장착상태
 	tagMoney _gold;
-	WHOKILL _whoKill;
+	
 	//아타호
 	vector<tagInventory>  _vA_WeapInven; //무기 담는 벡터
 	vector<tagInventory>::iterator  _viA_WeapInven;
@@ -90,7 +87,7 @@ public:
 	void mounting();
 	void getItemValue(); //받을 아이템 종류
 	void inventory(); //인벤토리
-	void setMoney(); // 에너미 돈줌
+	void setEnemyDead(); // 에너미 
 
 	player* getPlayer() { return _ataho; }
 	player2* getPlayer2() { return _smasyu; }

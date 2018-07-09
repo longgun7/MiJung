@@ -28,6 +28,7 @@ HRESULT player2::init(float x , float y)
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÀüÅõ»óÅÂ", "image/player/½º¸¶½´ ÀüÅõ»óÅÂ.bmp", 55, 80, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³«»ç", "image/player/½º¸¶½´ ÇÇ°Ý.bmp", 70, 69, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´¾²·¯Áü2", "image/player/½º¸¶½´ ¾²·¯Áü2.bmp", 246, 51, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("½º¸¶½´¼¼·¹¸ð´Ï", "image/player/½º¸¶½´ ¼¼·¹¸ð´Ï.bmp", 330, 86, 4, 1, true, RGB(255, 0, 255));
 	//½º¸¶½´ ÁÙÅ¸±â
 	IMAGEMANAGER->addFrameImage("½º¸¶½´ÁÙÅ¸±â", "image/player/½º¸¶½´ ÁÙÅ¸±â2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("½º¸¶½´³î¶÷", "image/player/½º¸¶½´ ³î¶÷2.bmp", 320, 82, 4, 1, true, RGB(255, 0, 255));
@@ -96,7 +97,8 @@ void player2::update()
 	move();
 	s_event(); //½º¸¶½´ ÀÌº¥Æ®
 	battleKeyManager(); //¹èÆ²¸ðµåÀÏ ¶§
-	//½ºÅ³
+	levelCheck(); //·¹º§Ã¼Å©
+		//½ºÅ³
 	_soloSkillEffect->update();
 	_soloSkill2->update();
 	_soloSkill3->update();
@@ -380,6 +382,9 @@ void player2::playerImage()
 		break;
 	case S_ESCAPE:
 		_img = IMAGEMANAGER->findImage("½º¸¶½´¹æ¾î");
+		break;
+	case S_SEREMONI:
+		_img = IMAGEMANAGER->findImage("½º¸¶½´¼¼·¹¸ð´Ï");
 		break;
 	default:
 		break;
@@ -773,6 +778,8 @@ void player2::levelCheck()
 
 		if (_move == S_SEREMONI)
 		{
+			_x = 95;
+			_y = 300;
 			++_skillFrame;
 			if (_skillFrame > 75)
 			{
