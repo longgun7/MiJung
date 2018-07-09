@@ -10,10 +10,12 @@ HRESULT spearMan::init(float x, float y)
 	
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
+	_enemy.hp = 20;
+	_enemy.totalHp = 20;
 	_enemy.att = 20;
-	_enemy.def = 10;
+	_enemy.def = 1;
 	_enemy.miss = 10;
+	_enemy.exp = 50;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 	 
@@ -41,17 +43,6 @@ void spearMan::update()
 	{
 		_enemy.direction = ATTACK;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	// 피가 0이하가 되면
-	if (_enemy.hp <= 0)
-	{
-		// 에너미 상태를 죽는 상태로 만든다
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -151,10 +142,12 @@ HRESULT kungpu::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 5;
-	_enemy.def = 10;
+	_enemy.hp = 20;
+	_enemy.totalHp = 20;
+	_enemy.att = 20;
+	_enemy.def = 1;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
@@ -196,15 +189,6 @@ void kungpu::update()
 			_enemy.currentFrameX = 7;
 		}
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -329,10 +313,12 @@ HRESULT spirit::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 23;
+	_enemy.def = 3;
 	_enemy.miss = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
@@ -345,7 +331,7 @@ HRESULT spirit::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -362,15 +348,6 @@ void spirit::update()
 
 		_enemy.currentFrameX = 3;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -475,10 +452,12 @@ HRESULT bat::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 25;
+	_enemy.def = 3;
 	_enemy.miss = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -509,14 +488,6 @@ void bat::update()
 		_enemy.currentFrameX = 2;
 
 		_enemy.count = 0;
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
 	}
 	motion();
 }
@@ -618,10 +589,12 @@ HRESULT snake::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 30;
+	_enemy.totalHp = 30;
+	_enemy.att = 25;
+	_enemy.def = 3;
 	_enemy.miss = 10;
+	_enemy.exp = 70;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -634,7 +607,7 @@ HRESULT snake::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -653,15 +626,6 @@ void snake::update()
 
 		_enemy.count = 0;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -759,10 +723,12 @@ HRESULT wildboar::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 30;
+	_enemy.def = 5;
 	_enemy.miss = 10;
+	_enemy.exp = 90;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -775,7 +741,7 @@ HRESULT wildboar::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -790,17 +756,8 @@ void wildboar::update()
 	{
 		_enemy.direction = ATTACK;
 
-		_enemy.currentFrameX = 4;
+		_enemy.currentFrameX = 2;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -821,8 +778,6 @@ void wildboar::motion()
 		}
 		if (_enemy.direction == ATTACK)
 		{
-			--_enemy.currentFrameX;
-			
 			if (_enemy.currentFrameX == 2)
 			{
 				_enemy.direction = STAND;
@@ -898,10 +853,12 @@ HRESULT skeleton::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 35;
+	_enemy.def = 5;
 	_enemy.miss = 10;
+	_enemy.exp = 100;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -914,7 +871,7 @@ HRESULT skeleton::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -931,15 +888,6 @@ void skeleton::update()
 
 		_enemy.currentFrameX = 1;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -1035,10 +983,12 @@ HRESULT skeletonMage::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 35;
+	_enemy.def = 5;
 	_enemy.miss = 10;
+	_enemy.exp = 100;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1051,7 +1001,7 @@ HRESULT skeletonMage::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -1077,14 +1027,7 @@ void skeletonMage::update()
 			_enemy.currentFrameX = 2;
 		}
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
+
 	motion();
 }
 
@@ -1197,10 +1140,12 @@ HRESULT dragon::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
-	_enemy.def = 10;
+	_enemy.hp = 50;
+	_enemy.totalHp = 70;
+	_enemy.att = 100;
+	_enemy.def = 7;
 	_enemy.miss = 10;
+	_enemy.exp = 130;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1232,20 +1177,12 @@ void dragon::update()
 
 		_enemy.count = 0;
 	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
-	}
 	motion();
 }
 
 void dragon::render()
 {
-	_enemy.img->alphaFrameRender(getMemDC(), _enemy.x, _enemy.y, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void dragon::motion()
@@ -1332,10 +1269,12 @@ HRESULT boss::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.hp = 500;
+	_enemy.totalHp = 500;
+	_enemy.att = 45;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 0;
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
@@ -1400,14 +1339,6 @@ void boss::update()
 
 			break;
 		}
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = HIT;
-	}
-	if (_enemy.hp <= 0)
-	{
-		_enemy.direction = DEAD;
 	}
 
 	motion();

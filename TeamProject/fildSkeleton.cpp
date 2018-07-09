@@ -105,7 +105,7 @@ void fildSkeleton::move()
 		_currentFrameY = 4;												// 현재 프레임 Y는 4
 	}
 
-	_rc = RectMake(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());	// 스켈레톤의 좌표와 프레임 이미지 크기에 맞춰서 렉트를 그림
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());	// 스켈레톤의 좌표와 프레임 이미지 크기에 맞춰서 렉트를 그림
 
 	_count++;	// _count를 ++해준다
 

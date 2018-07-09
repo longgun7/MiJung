@@ -261,12 +261,12 @@ void item::potionAbility(potionKind potionkind)
 	}
 }
 
-void item::reMoveItem(int arrNum)
+void item::removeItem(int arrNum)
 {
 	_vItem.erase(_vItem.begin() + arrNum);
 }
 
-void item::reMovePotion(int arrNum)
+void item::removePotion(int arrNum)
 {
 	_vPotion.erase(_vPotion.begin() + arrNum);
 }

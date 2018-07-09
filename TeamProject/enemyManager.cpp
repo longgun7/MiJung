@@ -4,8 +4,8 @@
 
 HRESULT enemyManager::init()
 {
-
 	return S_OK;
+	
 }
 
 void enemyManager::release()
@@ -19,9 +19,22 @@ void enemyManager::update()
 		(*_viEnemy)->update();
 	}
 
-	if (KEYMANAGER->isOnceKeyDown('A'))
+	if (KEYMANAGER->isOnceKeyDown('A'))					// A키를 누르면
 	{
-		randEnemy();
+		randEnemy();									// randEnemy 함수를 호출한다
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('Z'))					// Z키를 누르면
+	{
+		hitPlayer();									// hitPlayer 함수를 호출한다
+	}
+
+	if (KEYMANAGER->isToggleKey('V'))
+	{
+		for (int i = 0; i < _vEnemy.size(); ++i)		// V키를 누르면
+		{
+			removeEnemy(i);								// 벡터 사이즈만큼 removeEnemy 함수를 호출한다
+		}
 	}
 }
 
@@ -43,30 +56,34 @@ void enemyManager::render()
 
 void enemyManager::setEnemy(float x, float y)
 {
-	switch (_enemyIndex)
+	switch (_enemyIndex)				// 조건은 _enemyIndex
 	{
 
-	case 1:
-		spearMan* enemy1;
-		enemy1 = new spearMan;
-		enemy1->init(x, y);
+	case 1:								// _enemyIndex의 값이 1일 떄
+		spearMan* enemy1;				// spearMan을 enemy1란 이름으로 사용한다
+		enemy1 = new spearMan;			// enemy1을 spearMan로 할당한다
+		enemy1->init(x, y);				// x, y좌표를 넣어준다
 
-		_vEnemy.push_back(enemy1);
+		_vEnemy.push_back(enemy1);		// 벡터에 enemy1을 담는다
+
 	break;
 
-	case 2:
-		kungpu* enemy2;
-		enemy2 = new kungpu;
-		enemy2->init(x, y);
+	case 2:								// _enemyIndex의 값이 2일 때			
+		kungpu* enemy2;					// kungpu을 enemy2란 이름으로 사용한다
+		enemy2 = new kungpu;			// enemy2을 kungpu로 할당한다
+		enemy2->init(x, y);				// x, y좌표를 넣어준다
 
-		_vEnemy.push_back(enemy2);
+		_vEnemy.push_back(enemy2);		// 벡터에 enemy2을 담는다
+
 	break;
-	case 3:
-		spirit * enemy3;
-		enemy3 = new spirit;
-		enemy3->init(x, y);
 
-		_vEnemy.push_back(enemy3);
+	case 3:								// _enemyIndex의 값이 3일 때
+		spirit * enemy3;				// spirit을 enemy3란 이름으로 사용한다
+		enemy3 = new spirit;			// enemy3을 spirit로 할당한다
+		enemy3->init(x, y);				// x, y좌표를 넣어준다
+
+		_vEnemy.push_back(enemy3);		// 벡터에 ebemy3을 담는다
+
 	break;
 
 	case 4:
@@ -75,6 +92,7 @@ void enemyManager::setEnemy(float x, float y)
 		enemy4->init(x, y);
 
 		_vEnemy.push_back(enemy4);
+
 	break;
 
 	case 5:
@@ -83,6 +101,7 @@ void enemyManager::setEnemy(float x, float y)
 		enemy5->init(x, y);
 
 		_vEnemy.push_back(enemy5);
+
 	break;
 
 	case 6:
@@ -91,6 +110,7 @@ void enemyManager::setEnemy(float x, float y)
 		enemy6->init(x, y);
 
 		_vEnemy.push_back(enemy6);
+
 	break;
 
 	case 7:
@@ -99,6 +119,7 @@ void enemyManager::setEnemy(float x, float y)
 		enemy7->init(x, y);
 
 		_vEnemy.push_back(enemy7);
+
 	break;
 
 	case 8:
@@ -107,6 +128,7 @@ void enemyManager::setEnemy(float x, float y)
 		enemy8->init(x, y);
 
 		_vEnemy.push_back(enemy8);
+
 	break;
 
 	case 9:
@@ -115,6 +137,7 @@ void enemyManager::setEnemy(float x, float y)
 		enemy9->init(x, y);
 
 		_vEnemy.push_back(enemy9);
+
 	break;
 
 	case 10:
@@ -123,17 +146,23 @@ void enemyManager::setEnemy(float x, float y)
 		enemy10->init(x, y);
 
 		_vEnemy.push_back(enemy10);
-	}
-}
 
-void enemyManager::setDirection(int index, DIRECTION direction)
-{
-	_vEnemy[index]->setDirection(direction);
+		break;
+	}
 }
 
 void enemyManager::hitEnemy(int index, int damge)
 {
 	_vEnemy[index]->setHp(damge);
+}
+
+void enemyManager::hitPlayer()
+{
+	for (int i = 0; i < _vEnemy.size(); ++i)
+	{
+		_pm->getPlayer()->setPlayerDamage(_vEnemy[i]->getTagEnmey().att);
+		_pm->getPlayer2()->setPlayerDamage(_vEnemy[i]->getTagEnmey().att);
+	}
 }
 
 void enemyManager::randEnemy()
@@ -168,6 +197,15 @@ void enemyManager::randEnemy()
 			}
 		}
 	}
+}
+
+void enemyManager::removeEnemy(int arrNum)
+{
+	_vEnemy.erase(_vEnemy.begin() + arrNum);
+}
+
+void enemyManager::setMotion(DIRECTION direction)
+{
 }
 
 enemyManager::enemyManager()

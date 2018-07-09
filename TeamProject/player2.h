@@ -62,6 +62,8 @@ private:
 	RECT	_rc;		  //렉트
 	S_TagAttribute _attribute;
 	S_SCENEMODE _sceneMode; //씬에 따라 행동이 바뀜
+
+	RECT _skillRC[7];
 	
 	//아타호 이펙트 빌려와서 쓴거
 	atahoTargetSkill2* _soloSkillEffect;
@@ -70,6 +72,7 @@ private:
 	sumsuCut* _attackEffect;
 	sumsuAreaSkill1* _areaSkill1;
 	sumsuAreaSkill2* _areaSkill2;
+	sumsuAreaSkill3* _areaSkill3;
 	sumsuTargetSkill2* _soloSkill2;
 	sumsuTargetSkill3* _soloSkill3;
 	gameEffect* _gameEffect;
@@ -79,7 +82,7 @@ public:
 	void update();
 	void render();
 	void release();
-	void image();
+	void playerImage();
 	void imageFrame();
 	void fieldKeyManager(float x , float y);
 	void battleKeyManager();
@@ -91,13 +94,15 @@ public:
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
+	void setExp(int exp) {   _attribute.currentExp += exp; }
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
 	float getY() { return _y; }
 	
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
 	
-	void setMove(SMOVE move) { _move = move; }
+	SMOVE getMove() { return _move; }
+	void setMove(SMOVE move);
 	
 	void setMounting(bool mounting) { _isSwordMounting = mounting; } //무기 장착여부
 	
@@ -117,6 +122,7 @@ public:
 	
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 
+	image* getImage() { return _img; }
 	
 	player2();
 	~player2();
