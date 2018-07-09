@@ -14,6 +14,7 @@ HRESULT spearMan::init(float x, float y)
 	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 	 
@@ -152,9 +153,10 @@ HRESULT kungpu::init(float x, float y)
 	_enemy.alphaValue = 255;
 
 	_enemy.hp = 10;
-	_enemy.att = 5;
+	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
@@ -330,9 +332,10 @@ HRESULT spirit::init(float x, float y)
 	_enemy.alphaValue = 255;
 
 	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
@@ -345,7 +348,7 @@ HRESULT spirit::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -476,9 +479,10 @@ HRESULT bat::init(float x, float y)
 	_enemy.alphaValue = 255;
 
 	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -619,9 +623,10 @@ HRESULT snake::init(float x, float y)
 	_enemy.alphaValue = 255;
 
 	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -634,7 +639,7 @@ HRESULT snake::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -760,9 +765,10 @@ HRESULT wildboar::init(float x, float y)
 	_enemy.alphaValue = 255;
 
 	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
@@ -775,7 +781,7 @@ HRESULT wildboar::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -899,9 +905,10 @@ HRESULT skeleton::init(float x, float y)
 	_enemy.alphaValue = 255;
 
 	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -914,7 +921,7 @@ HRESULT skeleton::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -1036,9 +1043,10 @@ HRESULT skeletonMage::init(float x, float y)
 	_enemy.alphaValue = 255;
 
 	_enemy.hp = 10;
-	_enemy.att = 10;
+	_enemy.att = 20;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1051,7 +1059,7 @@ HRESULT skeletonMage::init(float x, float y)
 	_enemy.x = x;
 	_enemy.y = y;
 
-	_enemy.rc = RectMake(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
+	_enemy.rc = RectMakeCenter(_enemy.x, _enemy.y, _enemy.img->getFrameWidth(), _enemy.img->getFrameHeight());
 
 	return S_OK;
 }
@@ -1201,6 +1209,7 @@ HRESULT dragon::init(float x, float y)
 	_enemy.att = 10;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
@@ -1245,7 +1254,7 @@ void dragon::update()
 
 void dragon::render()
 {
-	_enemy.img->alphaFrameRender(getMemDC(), _enemy.x, _enemy.y, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
+	_enemy.img->alphaFrameRender(getMemDC(), _enemy.rc.left, _enemy.rc.top, _enemy.currentFrameX, _enemy.currentFrameY, _enemy.alphaValue);
 }
 
 void dragon::motion()
@@ -1336,6 +1345,7 @@ HRESULT boss::init(float x, float y)
 	_enemy.att = 10;
 	_enemy.def = 10;
 	_enemy.miss = 10;
+	_enemy.exp = 10;
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;

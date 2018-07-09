@@ -21,6 +21,7 @@ struct tagEnemy	// 에너미 구조체
 	int att;				// 공격력
 	int def;				// 방어력
 	int miss;				// 회피율
+	int exp;				// 경험치
 	int currentFrameX;		// 현재 X프레임
 	int currentFrameY;		// 현재 Y프레임
 	int alphaValue;			// 투명 불투명 수치

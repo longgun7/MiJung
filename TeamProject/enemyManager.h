@@ -38,6 +38,7 @@ public:
 	void setEnemy(float x ,float y);
 	void setDirection(int index, DIRECTION direction);
 	void hitEnemy(int index, int damge);
+	void hitPlayer();
 	void randEnemy();
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }
