@@ -49,12 +49,12 @@ void barScnen::update(void)
 	{
 		for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
 		{
-			_im->getPItem()->reMoveItem(i);
+			_im->getPItem()->removeItem(i);
 		
 		}
 		for (int i = 0; i < _im->getPortion()->getVPotion().size(); ++i)
 		{
-			_im->getPortion()->reMovePotion(i);
+			_im->getPortion()->removePotion(i);
 		}
 	}
 

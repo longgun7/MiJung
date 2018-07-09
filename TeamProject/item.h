@@ -32,7 +32,6 @@ struct tagItem
 	string name;
 	RECT rc;
 	itemKind itemCheck; //아이템이 어떤 아이템인지 
-	
 
 };
 
@@ -90,8 +89,8 @@ public:
 	void atahoestat(itemKind itemkind);
 	void smashustat(itemKind itemkind);
 	void potionAbility(potionKind potionkind);
-	void reMoveItem(int arrNum);
-	void reMovePotion(int arrNum);
+	void removeItem(int arrNum);
+	void removePotion(int arrNum);
 
 	string getItemName(int i)
 	{
