@@ -7,6 +7,7 @@
 #define MAXSKELETON 20
 #define PLAYMAPSIZEY 525
 
+
 class playerManager;
 
 class enemyManager : public gameNode

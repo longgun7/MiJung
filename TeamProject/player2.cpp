@@ -87,7 +87,7 @@ HRESULT player2::init(float x , float y)
 
 void player2::update()
 {
-	image();		 //이미지	
+	playerImage();		 //이미지	
 	if (_isMotionLive)
 	{
 		imageFrame();	 //이미지프레임
@@ -137,6 +137,10 @@ void player2::render()
 	_areaSkill3->render();
 	_gameEffect->render();
 
+	for (int i = 0; i < 7; i++)
+	{
+		Rectangle(getMemDC(), _skillRC[i].left, _skillRC[i].top, _skillRC[i].right, _skillRC[i].bottom);
+	}
 }
 
 void player2::release()
@@ -227,69 +231,72 @@ void player2::battleKeyManager()
 		if (_sceneMode == S_BATTLEMODE)
 		{
 			//스킬
-			if (KEYMANAGER->isOnceKeyDown('C'))
+			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
-				_move = S_BASICSKILL1;
-				_isMotionLive = true;
-				_skillFrame = 0;
-				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 50;
-				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-				setSoloDamage(6);
-				
-			}
-			if (KEYMANAGER->isOnceKeyDown('A') && _attribute.currentMp >= 3)
-			{
-				_move = S_SOLOSKILL1;
-				_isMotionLive = true;
-				_skillFrame = 0;
-				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('S') && _attribute.currentMp >= 3)
-			{
-				_move = S_AREASKILL2;
-				_isMotionLive = true;
-				_skillFrame = 0;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('D') && _attribute.currentMp >= 3)
-			{
-				_move = S_SOLOSKILL3;
-				_isMotionLive = true;
-				_skillFrame = 0;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('F') && _attribute.currentMp >= 3)
-			{
-				_move = S_AREASKILL1;
-				_isMotionLive = true;
-				_skillFrame = 0;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('G') && _attribute.currentMp >= 3)
-			{
-				_move = S_SOLOSKILL2;
-				_isMotionLive = true;
-				_skillFrame = 0;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('H') && _attribute.currentMp >= 3)
-			{
-				_x = WINSIZEX / 2;
-				_y = WINSIZEY / 3;
-				_move = S_AREASKILL3;
-				_isMotionLive = true;
-				_skillFrame = 0;
-				_attribute.currentMp -= 3;
-			}
-			if (KEYMANAGER->isOnceKeyDown('J'))
-			{
-				_move = S_ESCAPE;
-				_isMotionLive = true;
-			}
-			if (KEYMANAGER->isOnceKeyDown('V'))
-			{
-				setPlayerDamage(11);
+				if (PtInRect(&_skillRC[0], _ptMouse))
+				{
+					_move = S_BASICSKILL1;
+					_isMotionLive = true;
+					_skillFrame = 0;
+					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 50;
+					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+					setSoloDamage(6);
+
+				}
+				if (PtInRect(&_skillRC[1], _ptMouse))
+				{
+					_move = S_SOLOSKILL1;
+					_isMotionLive = true;
+					_skillFrame = 0;
+					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[2], _ptMouse))
+				{
+					_move = S_AREASKILL2;
+					_isMotionLive = true;
+					_skillFrame = 0;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[3], _ptMouse))
+				{
+					_move = S_SOLOSKILL3;
+					_isMotionLive = true;
+					_skillFrame = 0;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[4], _ptMouse))
+				{
+					_move = S_AREASKILL1;
+					_isMotionLive = true;
+					_skillFrame = 0;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[5], _ptMouse))
+				{
+					_move = S_SOLOSKILL2;
+					_isMotionLive = true;
+					_skillFrame = 0;
+					_attribute.currentMp -= 3;
+				}
+				if (PtInRect(&_skillRC[6], _ptMouse))
+				{
+					_x = WINSIZEX / 2;
+					_y = WINSIZEY / 3;
+					_move = S_AREASKILL3;
+					_isMotionLive = true;
+					_skillFrame = 0;
+					_attribute.currentMp -= 3;
+				}
+				if (KEYMANAGER->isOnceKeyDown('J'))
+				{
+					_move = S_ESCAPE;
+					_isMotionLive = true;
+				}
+				if (KEYMANAGER->isOnceKeyDown('V'))
+				{
+					setPlayerDamage(11);
+				}
 			}
 		}
 	}
@@ -300,7 +307,7 @@ void player2::battleKeyManager()
 	}
 }
 
-void player2::image()
+void player2::playerImage()
 {
 	//이미지
 	switch (_move)
@@ -615,7 +622,11 @@ void player2::move()
 	}
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-
+	
+	for (int i = 0; i < 7; i++)
+	{
+		_skillRC[i] = RectMakeCenter(500 + i * 40, 500, 30, 30);
+	}
 }
 
 void player2::randEffect()
@@ -770,6 +781,64 @@ void player2::setPortion(int hp, int mp)
 		{
 			_attribute.currentMp = _attribute.maxMp;
 		}
+	}
+}
+
+void player2::setMove(SMOVE move)
+{
+	if (move == S_BASICSKILL1)
+	{
+		_move = S_BASICSKILL1;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 50;
+		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+		setSoloDamage(6);
+	}
+	if (move == S_SOLOSKILL1 && _attribute.currentMp >= 3)
+	{
+		_move = S_SOLOSKILL1;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+		_attribute.currentMp -= 3;
+	}
+	if (move == S_AREASKILL2 && _attribute.currentMp >= 3)
+	{
+		_move = S_AREASKILL2;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_attribute.currentMp -= 3;
+	}
+	if (move == S_SOLOSKILL3)
+	{
+		_move = S_SOLOSKILL3;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_attribute.currentMp -= 3;
+	}
+	if (move == S_AREASKILL1)
+	{
+		_move = S_AREASKILL1;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_attribute.currentMp -= 3;
+	}
+	if (move == S_SOLOSKILL2)
+	{
+		_move = S_SOLOSKILL2;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_attribute.currentMp -= 3;
+	}
+	if (move == S_AREASKILL3)
+	{
+		_x = WINSIZEX / 2;
+		_y = WINSIZEY / 3;
+		_move = S_AREASKILL3;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_attribute.currentMp -= 3;
 	}
 }
 

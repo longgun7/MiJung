@@ -39,6 +39,10 @@ struct tagMoney
 	int money;
 	int moneyFrame;
 };
+enum TURN
+{
+	SMASYU, ATAHO
+};
 class itemManager;
 class enemyManager;
 class playerManager :public gameNode
@@ -55,6 +59,7 @@ private:
 	saveBeforItem _saveBeforPortion;
 	INVENATTRIBUTE _invenAttribute; //장착상태
 	tagMoney _gold;
+	TURN _turn;
 	//아타호
 	vector<tagInventory>  _vA_WeapInven; //무기 담는 벡터
 	vector<tagInventory>::iterator  _viA_WeapInven;

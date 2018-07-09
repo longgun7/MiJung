@@ -6,6 +6,7 @@ HRESULT enemyManager::init()
 {
 
 	return S_OK;
+	
 }
 
 void enemyManager::release()
