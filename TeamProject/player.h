@@ -141,7 +141,7 @@ public:
 		_move = move;
 	}
 	
-	int getFrameX() { return _imageFrame; } //이미지프레임 접근자
+	image* getImge() { return _img; } //이미지프레임 접근자
 
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 
