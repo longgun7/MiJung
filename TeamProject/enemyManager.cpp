@@ -143,10 +143,15 @@ void enemyManager::hitEnemy(int index, int damge)
 
 void enemyManager::hitPlayer()
 {
-	for (int i = 0; i < _vEnemy.size(); i++)
+	for (int i = 0; i < _vEnemy.size();)
 	{
 		_pm->getPlayer()->setPlayerDamage(_vEnemy[i]->getTagEnmey().att);
 		_pm->getPlayer2()->setPlayerDamage(_vEnemy[i]->getTagEnmey().att);
+
+		if (_vEnemy[0]->getTagEnmey().hitCount >= 0) ++i;
+
+		
+		
 	}
 }
 
