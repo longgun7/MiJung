@@ -129,7 +129,11 @@ void playSceneManager::basicUI(void)
 	IMAGEMANAGER->addImage("테두리", "image/ui/게임테두리.bmp", 1000, 550, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("기본status", "image/ui/기본status.bmp", 650, 200, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("infoStatus", "image/ui/infoStatus.bmp", 350, 200, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addFrameImage("스킬1", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스킬2", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스킬3", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스킬4", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("스킬5", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->findImage("HP")->setFrameX(0);
 	IMAGEMANAGER->findImage("HP")->setFrameY(2);
 	IMAGEMANAGER->findImage("MP")->setFrameX(1);
