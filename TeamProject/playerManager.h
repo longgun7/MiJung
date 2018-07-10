@@ -4,10 +4,7 @@
 #include "player2.h"
 #include "inventory.h"
 
-enum INVENATTRIBUTE
-{
-	MOUNTING, UNMOUNTING, MOUNTINGEND,DIFFRENTMOUNTING
-};
+
 struct tagInventory
 {
 	image* img;
@@ -56,7 +53,7 @@ private:
 	saveBeforItem _S_saveBeforWeapon;
 	saveBeforItem _S_saveBeforArmor;
 	saveBeforItem _saveBeforPortion;
-	INVENATTRIBUTE _invenAttribute; //장착상태
+	
 	tagMoney _gold;
 	
 	//아타호

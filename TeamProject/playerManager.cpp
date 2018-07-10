@@ -146,11 +146,11 @@ void playerManager::mounting()
 			
 			if (PtInRect(&_vA_WeapInven[i].rc, _ptMouse) )
 			{
-				_ataho->setStat(-_A_saveBeforWeapon.atk, 0, -_A_saveBeforWeapon.luck, 0, 0);
+				_ataho->setStat(-_A_saveBeforWeapon.atk, 0, -_A_saveBeforWeapon.luck, -_A_saveBeforWeapon.cri, 0);
 				_ataho->setStat(_vA_WeapInven[i].atk, _vA_WeapInven[i].def, _vA_WeapInven[i].luck, _vA_WeapInven[i].cri, _vA_WeapInven[i].speed);
 				_A_saveBeforWeapon.atk = _vA_WeapInven[i].atk;
 				_A_saveBeforWeapon.luck = _vA_WeapInven[i].luck;
-
+				_A_saveBeforWeapon.cri = _vA_WeapInven[i].cri;
 				if (_vA_WeapInven[i].name == "명주 귀신살")
 				{
 					_ataho->setSwordMounting(true);
@@ -180,11 +180,11 @@ void playerManager::mounting()
 		{
 			if (PtInRect(&_vS_WeapInven[i].rc, _ptMouse))
 			{
-				_smasyu->setStat(-_S_saveBeforWeapon.atk, 0, -_S_saveBeforWeapon.luck, 0, 0);
+				_smasyu->setStat(-_S_saveBeforWeapon.atk, 0, -_S_saveBeforWeapon.luck, -_S_saveBeforWeapon.cri, 0);
 				_smasyu->setStat(_vS_WeapInven[i].atk, _vS_WeapInven[i].def, _vS_WeapInven[i].luck, _vS_WeapInven[i].cri, _vS_WeapInven[i].speed);
 				_S_saveBeforWeapon.atk = _vS_WeapInven[i].atk;
 				_S_saveBeforWeapon.luck = _vS_WeapInven[i].luck;
-
+				_S_saveBeforWeapon.cri = _vS_WeapInven[i].cri;
 				if (_vS_WeapInven[i].name == "마인아수라")
 				{
 					_smasyu->setMounting(true);
@@ -248,10 +248,14 @@ void playerManager::getItemValue()
 						{
 							_gold.money -= _im->getPItem()->getVItem()[i].cost;
 							inventory.name = _im->getPItem()->getItemName(i);
-
+							inventory.atk = _im->getPItem()->getVItem()[i].atk;
+							inventory.luck = _im->getPItem()->getVItem()[i].luck;
+							inventory.cri = _im->getPItem()->getVItem()[i].critical;
 							_vA_WeapInven.push_back(inventory);
 							break;
 						}
+
+
 					}
 
 					//아타호 방어구
@@ -264,7 +268,8 @@ void playerManager::getItemValue()
 						{
 							_gold.money -= _im->getPItem()->getVItem()[i].cost;
 							inventory.name = _im->getPItem()->getItemName(i);
-
+							inventory.def = _im->getPItem()->getVItem()[i].def;
+							inventory.speed = _im->getPItem()->getVItem()[i].speed;
 							_vA_ArmorInven.push_back(inventory);
 							break;
 						}
@@ -283,7 +288,9 @@ void playerManager::getItemValue()
 						{
 							_gold.money -= _im->getPItem()->getVItem()[i].cost;
 							inventory.name = _im->getPItem()->getItemName(i);
-
+							inventory.atk = _im->getPItem()->getVItem()[i].atk;
+							inventory.luck = _im->getPItem()->getVItem()[i].luck;
+							inventory.cri = _im->getPItem()->getVItem()[i].critical;
 							_vS_WeapInven.push_back(inventory);
 							break;
 						}
@@ -298,7 +305,8 @@ void playerManager::getItemValue()
 						{
 							_gold.money -= _im->getPItem()->getVItem()[i].cost;
 							inventory.name = _im->getPItem()->getItemName(i);
-
+							inventory.def = _im->getPItem()->getVItem()[i].def;
+							inventory.speed = _im->getPItem()->getVItem()[i].speed;
 							_vS_ArmorInven.push_back(inventory);
 							break;
 						}
