@@ -110,7 +110,8 @@ public:
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
 	void setItemManagerAdressLink(itemManager* im) { _im = im; }
 
-	int getPoIndex() { return _HPpoIndex; }
+	int getHpPoIndex() { return _HPpoIndex; }
+	int getMpPoIndex() { return _MPpoIndex; }
 	playerManager();
 	~playerManager();
 };
