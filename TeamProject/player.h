@@ -67,7 +67,7 @@ private:
 	float	_x, _y;		     //좌표
 	float   _gravity;	     //중력
 	float   _jumpPower;      //점프파워
-
+	float   _angle;          //아타호 앵글
 	bool    _isJumping;      //점프여부
 	bool    _isMotionLive;   //스킬, 상하좌우 움직임 여부
 	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
@@ -120,6 +120,7 @@ public:
 	float getY() { return _y; }
 	void setY(float y) { _y = y; }
 	
+	float getAngle() { return _angle; }                                                                                                                                                                    
 	MOVE getMove() { return _move; } //상태정의 접근자
 
 	tagAttribute getAttribute() { return _attribute; } //속성접근자

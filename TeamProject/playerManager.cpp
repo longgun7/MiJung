@@ -35,7 +35,7 @@ void playerManager::update()
 	_ataho->update();	
 	_smasyu->update();
 	
-	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY());
+	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY(), _ataho->getAngle());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	getItemValue(); //아이템 인벤
 	inventory(); //인벤토리
@@ -330,7 +330,8 @@ void playerManager::getItemValue()
 						inventory.hp = _im->getPortion()->getVPotion()[i].hp;
 						inventory.mp = _im->getPortion()->getVPotion()[i].mp;
 						
-						if (_poIndex == 0)
+						
+						if (_poIndex == 0 )
 						{
 							_vPoInven.push_back(inventory);
 						}

@@ -71,7 +71,7 @@ HRESULT player::init()
 	_frame		= 0;
 	_skillFrame = 0;
 	_slopeFrame = 0;
-	_moveSpeed  = 5;
+	_moveSpeed  = 5.0f;
 	_isMotionLive = false;
 	_isJumping = false;
 	_isWeaponMounting = false;
@@ -199,46 +199,71 @@ void player::fieldKeyManager()
 		//움직이는 모션
 		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 		{
-
+			
 			_move = LEFTMOVE;
 			_isMotionLive = true;
 		}
 		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 		{
+			
 			_move = RIGHTMOVE;
 			_isMotionLive = true;
 		}
 		if (KEYMANAGER->isStayKeyDown(VK_UP))
 		{
+			
 			_move = UPMOVE;
 			_isMotionLive = true;
 		}
 		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 		{
+			
 			_move = DOWNMOVE;
 			_isMotionLive = true;
+		}
+
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
+			_angle = PI;
+			_x += cosf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		{
+			_angle = 0;
+			_x += cosf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
+		{
+			_angle = PI / 2;
+			_y += -sinf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		{
+			_angle = 2 * PI - PI / 2;
+			_y += -sinf(_angle)*_moveSpeed;
+			
 		}
 
 		//정자세
 		if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
 		{
 			_move = DOWN;
-
+			
 		}
 		if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 		{
 			_move = LEFT;
-
+			
 		}
 		if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 		{
 			_move = RIGHT;
-
+			
 		}
 		if (KEYMANAGER->isOnceKeyUp(VK_UP))
 		{
 			_move = UP;
-
+			
 		}
 	}
 }
@@ -567,7 +592,7 @@ void player::playerImage()
 	case FIGHTREADY:
 		_img = IMAGEMANAGER->findImage("아타호전투상태");
 		_x = 100;
-		_y = 400;
+		_y = 200;
 		break;
 	case DAMAGE:
 		_img = IMAGEMANAGER->findImage("아타호피격");
@@ -684,16 +709,16 @@ void player::move()
 	case UP:
 		break;
 	case LEFTMOVE:
-		_x -= _moveSpeed;
+		
 		break;
 	case RIGHTMOVE:
-		_x += _moveSpeed;
+		
 		break;
 	case DOWNMOVE:
-		_y += _moveSpeed;
+		
 		break;
 	case UPMOVE:
-		_y -= _moveSpeed;
+		
 		break;
 	case FIGHTREADY:
 		break;
