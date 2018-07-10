@@ -125,8 +125,8 @@ void shop::fontUI()
 			if (_im->getPortion()->getVPotion()[i].name == "¾àÃÊ")
 			{
 				
-				sprintf_s(str, "%d", _pm->getPoIndex());
-				_totalNum = _pm->getPoIndex() + _buyNum;
+				sprintf_s(str, "%d", _pm->getHpPoIndex());
+				_totalNum = _pm->getHpPoIndex() + _buyNum;
 				
 			}
 
