@@ -8,8 +8,6 @@ private:
 
 	item* _potion;
 	item* _pItem;
-	item* _shopItem;
-	item* _shopPotion;
 	
 public:
 	itemManager();
@@ -29,9 +27,5 @@ public:
 	item* getPItem()	  { return _pItem; }
 	item* getPortion()	  { return _potion; }
 	
-	item* getShopItem()	  { return _shopItem; }
-	item* getShopPotion() { return _shopPotion; }
-
-
 };
 

@@ -249,7 +249,7 @@ void player::battleKeyManager()
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
 	{	
-		if (_attribute.currentHp > 0 )
+		if (_attribute.currentHp > 0 && _em->getVEnmey().size() != 0)
 		{
 			//스킬
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
@@ -332,9 +332,9 @@ void player::battleKeyManager()
 				_move = ESCAPE;
 			}
 		}
-		else
+		if(_attribute.currentHp ==0)
 		{
-			_move == NOCKDOWN;
+			_move = NOCKDOWN;
 			_isMotionLive = true;
 		}
 	}
@@ -946,6 +946,14 @@ void player::move()
 			{
 				_areaSkillEffect2->addSkill(_x + 40, _y-2);
 			}
+			if (_skillFrame % 5 == 0)
+			{
+				_areaSkillEffect2->addSkill(_x + 60, _y+5 );
+			}
+			if (_skillFrame % 5 == 0)
+			{
+				_areaSkillEffect2->addSkill(_x + 60, _y - 5);
+			}
 			//데미지 넣기~
 			if (_skillFrame % 20 == 0)
 			{
@@ -1140,6 +1148,10 @@ void player::setPlayerDamage(int damage)
 		_attribute.currentHp -= 0;
 	}
 
+	if (_attribute.currentHp <= 0)
+	{
+		_attribute.currentHp = 0;
+	}
 }
 
 //에너미에게 공격을 넣는 함수를 간단하게 만든 함수
@@ -1169,7 +1181,8 @@ void player::setStat(int atk, int def, int luck, int cri, int speed)
 //포션먹기
 void player::setPortion(int hp, int mp)
 {
-	if (_attribute.currentMp <= _attribute.maxMp)
+
+	if (_attribute.currentMp <= _attribute.maxMp|| _attribute.currentHp <= _attribute.maxHp)
 	{
 		_attribute.currentHp += hp;
 		_attribute.currentMp += mp;
@@ -1177,7 +1190,13 @@ void player::setPortion(int hp, int mp)
 		{
 			_attribute.currentMp = _attribute.maxMp;
 		}
+		if (_attribute.currentHp >= _attribute.maxHp)
+		{
+			_attribute.currentHp = _attribute.maxHp;
+		}
 	}	
+	
+	
 }
 
 void player::randEffect()
