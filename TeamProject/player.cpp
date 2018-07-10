@@ -332,9 +332,9 @@ void player::battleKeyManager()
 				_move = ESCAPE;
 			}
 		}
-		else
+		if(_attribute.currentHp ==0)
 		{
-			_move == NOCKDOWN;
+			_move = NOCKDOWN;
 			_isMotionLive = true;
 		}
 	}
@@ -1140,6 +1140,10 @@ void player::setPlayerDamage(int damage)
 		_attribute.currentHp -= 0;
 	}
 
+	if (_attribute.currentHp <= 0)
+	{
+		_attribute.currentHp = 0;
+	}
 }
 
 //에너미에게 공격을 넣는 함수를 간단하게 만든 함수
@@ -1169,7 +1173,8 @@ void player::setStat(int atk, int def, int luck, int cri, int speed)
 //포션먹기
 void player::setPortion(int hp, int mp)
 {
-	if (_attribute.currentMp <= _attribute.maxMp)
+
+	if (_attribute.currentMp <= _attribute.maxMp|| _attribute.currentHp <= _attribute.maxHp)
 	{
 		_attribute.currentHp += hp;
 		_attribute.currentMp += mp;
@@ -1177,7 +1182,13 @@ void player::setPortion(int hp, int mp)
 		{
 			_attribute.currentMp = _attribute.maxMp;
 		}
+		if (_attribute.currentHp >= _attribute.maxHp)
+		{
+			_attribute.currentHp = _attribute.maxHp;
+		}
 	}	
+	
+	
 }
 
 void player::randEffect()
