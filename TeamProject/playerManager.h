@@ -22,6 +22,7 @@ struct tagInventory
 	int speed;
 	int hp;
 	int mp;
+	
 };
 
 struct saveBeforItem
@@ -77,6 +78,7 @@ private:
 	vector<tagInventory>::iterator  _viPoInven;
 	
 	int _mountingIndex;
+	int _poIndex;
 public:
 
 	HRESULT init();

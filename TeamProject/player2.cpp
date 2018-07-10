@@ -851,13 +851,17 @@ void player2::setStat(int atk, int def, int luck, int cri, int speed)
 //포션넣기
 void player2::setPortion(int hp, int mp)
 {
-	if (_attribute.currentMp <= _attribute.maxMp)
+	if (_attribute.currentMp <= _attribute.maxMp || _attribute.currentHp <= _attribute.maxHp)
 	{
 		_attribute.currentHp += hp;
 		_attribute.currentMp += mp;
 		if (_attribute.currentMp >= _attribute.maxMp)
 		{
 			_attribute.currentMp = _attribute.maxMp;
+		}
+		if (_attribute.currentHp >= _attribute.maxHp)
+		{
+			_attribute.currentHp = _attribute.maxHp;
 		}
 	}
 }
@@ -939,6 +943,11 @@ void player2::setPlayerDamage(int damage)
 		}
 
 		_attribute.currentHp -= damage;
+
+		if (_attribute.currentHp <= 0)
+		{
+			_attribute.currentHp = 0;
+		}
 	}
 }
 
