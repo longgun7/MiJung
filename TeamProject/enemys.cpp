@@ -17,11 +17,14 @@ HRESULT spearMan::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 50;
 
+	_enemy.isAttack = false;
+
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 	 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 2;
 	
 	_enemy.x = x;
 	_enemy.y = y;
@@ -39,10 +42,17 @@ void spearMan::release()
 
 void spearMan::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-	}
+	//if (_enemy.isAttack == false && _enemy.direction == ATTACK)
+	//{
+	//	_enemy.currentFrameX = 1;
+
+	//	_enemy.isAttack = true;
+	//}
+	//else
+	//{
+	//	motion();
+	//}
+
 	motion();
 }
 
@@ -66,7 +76,7 @@ void spearMan::motion()
 		{
 			_enemy.currentFrameX++;
 
-			if (_enemy.currentFrameX == 2)
+			if (_enemy.currentFrameX > 1)
 			{
 				_enemy.direction = STAND;
 			}
@@ -123,6 +133,15 @@ void spearMan::motion()
 			_enemy.deadCount = 0;
 		}
 	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+	}
 }
 
 spearMan::spearMan()
@@ -149,11 +168,14 @@ HRESULT kungpu::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 10;
 
+	_enemy.isAttack = false;
+	_enemy.isRandAttack = false;
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 0;
 
 	_enemy.direction = STAND;
 
@@ -174,21 +196,6 @@ void kungpu::release()
 
 void kungpu::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.randAttack = RND->getInt(3);
-
-		if (_enemy.randAttack == 1)
-		{
-			_enemy.currentFrameX = 4;
-		}
-		if (_enemy.randAttack == 2)
-		{
-			_enemy.currentFrameX = 7;
-		}
-	}
 	motion();
 }
 
@@ -199,6 +206,39 @@ void kungpu::render()
 
 void kungpu::motion()
 {
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.randAttack = RND->getFromIntTo(1, 3);
+		_enemy.isAttack = true;
+		_enemy.isRandAttack = false;
+		
+	}
+
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+		if (_enemy.isRandAttack == false)
+		{
+			if (_enemy.randAttack == 1)
+			{
+				_enemy.currentFrameX = 1;
+				_enemy.maxAttackFrameX = 3;
+			}
+			if (_enemy.randAttack == 2)
+			{
+				_enemy.currentFrameX = 3;
+				_enemy.maxAttackFrameX = 5;
+			}
+			if (_enemy.randAttack == 3)
+			{
+				_enemy.currentFrameX = 6;
+				_enemy.maxAttackFrameX = 7;
+			}
+			_enemy.isRandAttack = true;
+		}
+	}
+
 	_enemy.count++;
 
 	if (_enemy.count == 18)
@@ -207,96 +247,53 @@ void kungpu::motion()
 		{
 			_enemy.currentFrameX = 0;
 		}
+		
 		if (_enemy.direction == ATTACK)
 		{
-			switch (_enemy.randAttack)
-			{
-			case 0:
+			_enemy.currentFrameX++;
 
-				_enemy.currentFrameX++;
-
-				if (_enemy.currentFrameX == 3)
-				{
-					_enemy.direction = STAND;
-				}
-
-				break;
-
-			case 1:
-
-				_enemy.currentFrameX++;
-
-				if (_enemy.currentFrameX == 6)
-				{
-					_enemy.direction = STAND;
-				}
-
-				break;
-
-			case 2:
-
-				if (_enemy.currentFrameX == 7)
-				{
-					_enemy.direction = STAND;
-				}
-			}
+			if (_enemy.currentFrameX >= _enemy.maxAttackFrameX) _enemy.direction = STAND;
 		}
-
-		if (_enemy.direction == HIT)
-		{
-			_enemy.hitCount++;
-
-			_enemy.currentFrameX = 8;
-
-			if (_enemy.hitCount == 5)
-			{
-				_enemy.direction = STAND;
-
-				_enemy.hitCount = 0;
-			}
-		}
-
 
 		_enemy.count = 0;
 	}
-
-	if (_enemy.direction == DEAD)
-	{
-		_enemy.currentFrameX = 8;
-
-		if (_enemy.fadeCount >= 6)
+		if (_enemy.direction == DEAD)
 		{
-			_enemy.alphaValue -= 5;
+			_enemy.currentFrameX = 8;
 
-			if (_enemy.alphaValue <= 0)
+			if (_enemy.fadeCount >= 6)
 			{
-				_enemy.alphaValue = 0;
+				_enemy.alphaValue -= 5;
+
+				if (_enemy.alphaValue <= 0)
+				{
+					_enemy.alphaValue = 0;
+				}
+			}
+			else
+			{
+				_enemy.deadCount++;
+			}
+			if (_enemy.deadCount == 10)
+			{
+				if (_enemy.alphaValue == 255)
+				{
+					_enemy.alphaValue = 0;
+
+					_enemy.fadeCount += 1;
+				}
+				else if (_enemy.alphaValue == 0)
+				{
+					_enemy.alphaValue = 255;
+
+					_enemy.fadeCount += 1;
+				}
+
+				_enemy.deadCount = 0;
 			}
 		}
-		else
-		{
-			_enemy.deadCount++;
-		}
-		if (_enemy.deadCount == 10)
-		{
-			if (_enemy.alphaValue == 255)
-			{
-				_enemy.alphaValue = 0;
 
-				_enemy.fadeCount += 1;
-			}
-			else if (_enemy.alphaValue == 0)
-			{
-				_enemy.alphaValue = 255;
-
-				_enemy.fadeCount += 1;
-			}
-
-			_enemy.deadCount = 0;
-		}
-	}
 }
-
 kungpu::kungpu()
 {
 }
@@ -320,11 +317,14 @@ HRESULT spirit::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 70;
 
+	_enemy.isAttack = false;
+	_enemy.isRandAttack = false;
 	_enemy.dropGold = RND->getFromIntTo(100, 200);
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 7;
 
 	_enemy.direction = STAND;
 
@@ -342,12 +342,6 @@ void spirit::release()
 
 void spirit::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.currentFrameX = 3;
-	}
 	motion();
 }
 
@@ -371,16 +365,17 @@ void spirit::motion()
 				_enemy.currentFrameX = 0;
 			}
 		}
-		if (_enemy.direction == ATTACK)
+		else if (_enemy.direction == ATTACK)
 		{
+
 			_enemy.currentFrameX++;
 
-			if (_enemy.currentFrameX == 7)
+			if (_enemy.currentFrameX > 6)
 			{
 				_enemy.direction = STAND;
 			}
 		}
-		if (_enemy.direction == HIT)
+		else if (_enemy.direction == HIT)
 		{
 			_enemy.hitCount++;
 
@@ -434,6 +429,22 @@ void spirit::motion()
 			_enemy.deadCount = 0;
 		}
 	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+		_enemy.isRandAttack = false;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+		if (_enemy.isRandAttack == false)
+		{
+			_enemy.currentFrameX = 3;
+			_enemy.isRandAttack = true;
+
+		}
+	}
 }
 
 spirit::spirit()
@@ -459,11 +470,14 @@ HRESULT bat::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 70;
 
+	_enemy.isAttack = false;
+	_enemy.isRandAttack = false;
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 2;
 
 	_enemy.direction = STAND;
 	
@@ -481,14 +495,6 @@ void bat::release()
 
 void bat::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.currentFrameX = 2;
-
-		_enemy.count = 0;
-	}
 	motion();
 }
 
@@ -514,6 +520,8 @@ void bat::motion()
 		}
 		if (_enemy.direction == ATTACK)
 		{
+			_enemy.currentFrameX = 2;
+
 			if (_enemy.currentFrameX == 2)
 			{
 				_enemy.direction = STAND;
@@ -571,6 +579,15 @@ void bat::motion()
 			_enemy.deadCount = 0;
 		}
 	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+	}
 }
 
 bat::bat()
@@ -596,11 +613,14 @@ HRESULT snake::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 70;
 
+	_enemy.isAttack = false;
+
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 1;
 
 	_enemy.direction = STAND;
 
@@ -618,14 +638,6 @@ void snake::release()
 
 void snake::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.currentFrameX = 1;
-
-		_enemy.count = 0;
-	}
 	motion();
 }
 
@@ -647,6 +659,8 @@ void snake::motion()
 
 		if (_enemy.direction == ATTACK)
 		{
+			_enemy.currentFrameX = 1;
+
 			if (_enemy.currentFrameX == 1)
 			{
 				_enemy.direction = STAND;
@@ -705,6 +719,15 @@ void snake::motion()
 			_enemy.deadCount = 0;
 		}
 	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+	}
 }
 
 snake::snake()
@@ -730,11 +753,14 @@ HRESULT wildboar::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 90;
 
+	_enemy.isAttack = false;
+
 	_enemy.dropGold = RND->getFromIntTo(400, 800);
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 0;
 
 	_enemy.direction = STAND;
 
@@ -752,12 +778,6 @@ void wildboar::release()
 
 void wildboar::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.currentFrameX = 2;
-	}
 	motion();
 }
 
@@ -778,6 +798,9 @@ void wildboar::motion()
 		}
 		if (_enemy.direction == ATTACK)
 		{
+			_enemy.currentFrameX = 2;
+			_enemy.maxAttackFrameX = 2;
+
 			if (_enemy.currentFrameX == 2)
 			{
 				_enemy.direction = STAND;
@@ -835,6 +858,15 @@ void wildboar::motion()
 			_enemy.deadCount = 0;
 		}
 	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+	}
 }
 
 wildboar::wildboar()
@@ -860,11 +892,14 @@ HRESULT skeleton::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 100;
 
+	_enemy.isAttack = false;
+
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 0;
 
 	_enemy.direction = STAND;
 
@@ -882,12 +917,6 @@ void skeleton::release()
 
 void skeleton::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.currentFrameX = 1;
-	}
 	motion();
 }
 
@@ -908,6 +937,9 @@ void skeleton::motion()
 		}
 		if (_enemy.direction == ATTACK)
 		{
+			_enemy.currentFrameX = 1;
+			_enemy.maxAttackFrameX = 1;
+
 			if (_enemy.currentFrameX == 1)
 			{
 				_enemy.direction = STAND;
@@ -965,6 +997,15 @@ void skeleton::motion()
 			_enemy.deadCount = 0;
 		}
 	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+	}
 }
 
 skeleton::skeleton()
@@ -990,11 +1031,14 @@ HRESULT skeletonMage::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 100;
 
+	_enemy.isAttack = false;
+
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 0;
 
 	_enemy.direction = STAND;
 
@@ -1012,22 +1056,6 @@ void skeletonMage::release()
 
 void skeletonMage::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.randAttack = RND->getFromIntTo(1, 3);
-
-		if (_enemy.randAttack == 1)
-		{
-			_enemy.currentFrameX = 1;
-		}
-		if (_enemy.randAttack == 2)
-		{
-			_enemy.currentFrameX = 2;
-		}
-	}
-
 	motion();
 }
 
@@ -1048,9 +1076,14 @@ void skeletonMage::motion()
 		}
 		if (_enemy.direction == ATTACK)
 		{
+			_enemy.randAttack = RND->getFromIntTo(1, 3);
+
 			switch (_enemy.randAttack)
 			{
 			case 1:
+
+				_enemy.currentFrameX = 1;
+				_enemy.maxAttackFrameX = 1;
 
 				if (_enemy.currentFrameX == 1)
 				{
@@ -1060,6 +1093,9 @@ void skeletonMage::motion()
 				break;
 
 			case 2:
+
+				_enemy.currentFrameX = 2;
+				_enemy.maxAttackFrameX = 2;
 
 				if (_enemy.currentFrameX == 2)
 				{
@@ -1121,6 +1157,15 @@ void skeletonMage::motion()
 			_enemy.deadCount = 0;
 		}
 	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+	}
 }
 
 
@@ -1147,11 +1192,14 @@ HRESULT dragon::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 130;
 
+	_enemy.isAttack = false;
+
 	_enemy.dropGold = RND->getFromIntTo(1000, 1200);
 
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 0;
 
 	_enemy.direction = STAND;
 
@@ -1169,14 +1217,6 @@ void dragon::release()
 
 void dragon::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.currentFrameX = 5;
-
-		_enemy.count = 0;
-	}
 	motion();
 }
 
@@ -1197,6 +1237,9 @@ void dragon::motion()
 		}
 		if (_enemy.direction == ATTACK)
 		{
+			_enemy.currentFrameX = 5;
+			_enemy.maxAttackFrameX = 5;
+
 			_enemy.direction = STAND;
 		}
 		if (_enemy.direction == HIT)
@@ -1251,6 +1294,15 @@ void dragon::motion()
 			_enemy.deadCount = 0;
 		}
 	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
+	}
 }
 
 dragon::dragon()
@@ -1276,9 +1328,12 @@ HRESULT boss::init(float x, float y)
 	_enemy.miss = 10;
 	_enemy.exp = 0;
 
+	_enemy.isAttack = false;
+
 	_enemy.count = 0;
 	_enemy.currentFrameX = 0;
 	_enemy.currentFrameY = 0;
+	_enemy.maxAttackFrameX = 0;
 
 	_enemy.direction = STAND;
 
@@ -1296,51 +1351,6 @@ void boss::release()
 
 void boss::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-
-		_enemy.randAttack = RND->getFromIntTo(1, 6);
-
-		switch (_enemy.randAttack)
-		{
-		case 1:
-
-			_enemy.currentFrameX = 0;
-			_enemy.currentFrameY = 1;
-
-			break;
-
-		case 2:
-
-			_enemy.currentFrameX = 0;
-			_enemy.currentFrameY = 2;
-
-			break;
-
-		case 3:
-
-			_enemy.currentFrameX = 0;
-			_enemy.currentFrameY = 3;
-
-			break;
-
-		case 4:
-
-			_enemy.currentFrameX = 0;
-			_enemy.currentFrameY = 4;
-
-			break;
-
-		case 5:
-
-			_enemy.currentFrameX = 0;
-			_enemy.currentFrameY = 5;
-
-			break;
-		}
-	}
-
 	motion();
 }
 
@@ -1362,9 +1372,15 @@ void boss::motion()
 		}
 		if (_enemy.direction == ATTACK)
 		{
+			_enemy.randAttack = RND->getFromIntTo(1, 6);
+
 			switch (_enemy.randAttack)
 			{
 			case 1:
+
+				_enemy.currentFrameX = 0;
+				_enemy.currentFrameY = 1;
+				_enemy.maxAttackFrameX = 3;
 
 				_enemy.currentFrameX++;
 
@@ -1377,6 +1393,10 @@ void boss::motion()
 
 			case 2:
 
+				_enemy.currentFrameX = 0;
+				_enemy.currentFrameY = 2;
+				_enemy.maxAttackFrameX = 7;
+
 				_enemy.currentFrameX++;
 
 				if (_enemy.currentFrameX == 7)
@@ -1387,6 +1407,10 @@ void boss::motion()
 				break;
 
 			case 3:
+
+				_enemy.currentFrameX = 0;
+				_enemy.currentFrameY = 3;
+				_enemy.maxAttackFrameX = 5;
 
 				_enemy.currentFrameX++;
 
@@ -1399,6 +1423,10 @@ void boss::motion()
 
 			case 4:
 
+				_enemy.currentFrameX = 0;
+				_enemy.currentFrameY = 4;
+				_enemy.maxAttackFrameX = 3;
+
 				_enemy.currentFrameX++;
 
 				if (_enemy.currentFrameX == 3)
@@ -1409,6 +1437,10 @@ void boss::motion()
 				break;
 
 			case 5:
+				
+				_enemy.currentFrameX = 0;
+				_enemy.currentFrameY = 5;
+				_enemy.maxAttackFrameX = 2;
 
 				_enemy.currentFrameX++;
 
@@ -1473,6 +1505,15 @@ void boss::motion()
 	
 			_enemy.deadCount = 0;
 		}
+	}
+
+	if (_enemy.direction == STAND)
+	{
+		_enemy.isAttack = true;
+	}
+	if (_enemy.direction == ATTACK)
+	{
+		_enemy.isAttack = false;
 	}
 }
 
