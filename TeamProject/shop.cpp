@@ -18,6 +18,8 @@ HRESULT shop::init(void)
 {
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
+	_buyNum	  = 0;
+	_totalNum = 0;
 
 	return S_OK;
 }
@@ -28,6 +30,14 @@ void shop::release(void)
 
 void shop::update(void)
 {
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT) && _buyNum > 0)
+	{
+		_buyNum--;
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && _totalNum < 10)
+	{
+		++_buyNum;
+	}
 }
 
 void shop::render(void)
@@ -38,6 +48,24 @@ void shop::render(void)
 void shop::fontUI()
 {
 	HFONT font, ofont;
+
+	char str5[] = "소지수";
+	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 160,WINSIZEY/6,str5, strlen(str5));
+	SelectObject(CAMERA->getCameraDC(), ofont);
+	DeleteObject(font);
+
+	char str6[] = "구입수";
+	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 160, WINSIZEY / 2 - 140, str6, strlen(str6));
+	SelectObject(CAMERA->getCameraDC(), ofont);
+	DeleteObject(font);
 
 	for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
 	{
@@ -90,6 +118,45 @@ void shop::fontUI()
 			str4, strlen(str4));
 		SelectObject(CAMERA->getCameraDC(), ofont);
 		DeleteObject(font);
+
+		if(PtInRect(&_im->getPortion()->getVPotion()[i].rc, _ptMouse))
+		{
+			char str[128];
+			if (_im->getPortion()->getVPotion()[i].name == "약초")
+			{
+				
+				sprintf_s(str, "%d", _pm->getPoIndex());
+				_totalNum = _pm->getPoIndex() + _buyNum;
+				
+			}
+
+			if (_im->getPortion()->getVPotion()[i].name == "마법의 물약")
+			{
+					
+			}
+
+			if (_totalNum > 10) _buyNum--;
+
+			font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+			ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+			SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+			SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+			TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, WINSIZEY / 6 + 40, str, strlen(str));
+			SelectObject(CAMERA->getCameraDC(), ofont);
+			DeleteObject(font);
+
+			char str1[128];
+			font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+			ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+			SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+			SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+			sprintf_s(str1, "%dG",_im->getPortion()->getVPotion()[i].cost*_buyNum);
+			TextOut(CAMERA->getCameraDC(), WINSIZEX - 260, WINSIZEY / 3 + 40, str1, strlen(str1));
+			sprintf_s(str1, "%d", _buyNum);
+			TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, WINSIZEY / 3 + 10, str1, strlen(str1));
+			SelectObject(CAMERA->getCameraDC(), ofont);
+			DeleteObject(font);
+		}
 	}
 }
 
