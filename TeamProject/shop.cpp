@@ -19,7 +19,6 @@ HRESULT shop::init(void)
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
 
-
 	return S_OK;
 }
 

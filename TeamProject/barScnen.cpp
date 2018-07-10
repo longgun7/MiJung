@@ -21,8 +21,10 @@ HRESULT barScnen::init(void)
 	IMAGEMANAGER->addImage("상점창구입수", "image/ui/상점창2.bmp", 200, 120, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("상점창번돈", "image/ui/상점창2.bmp", 200, 120, false, RGB(0, 0, 0));
 
+	
 	_isShopCheck = false;
 	_isHotelCheck = false;
+
 	_shop = new shop;
 	_shop->init();
 	
@@ -59,7 +61,6 @@ void barScnen::update(void)
 
 void barScnen::render(void)
 {
-	
 
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
@@ -76,7 +77,6 @@ void barScnen::render(void)
 	
 	fontUI();
 
-
 }
 
 void barScnen::fontUI(void)
@@ -84,16 +84,13 @@ void barScnen::fontUI(void)
 	HFONT font, ofont;
 	char str[] = "술집씬";
 
-
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
+	TextOut(CAMERA->getCameraDC(), WINSIZEX - 320, WINSIZEY - 160, str, strlen(str));
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
-	
-
 
 }
 
