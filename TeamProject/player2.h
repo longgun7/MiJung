@@ -46,6 +46,10 @@ private:
 	float	_angle;        //바라보는 앵글    
 	float	_x, _y;		  //좌표
 	
+	int     _exp;
+	int     _compareExp;
+	bool     _isExpSet;
+
 	float  _angle2[5];
 	float  _x2[5], _y2[5];
 	RECT   _rc2[5];
@@ -99,7 +103,7 @@ public:
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
-	void setExp(int exp) {   _attribute.currentExp += exp; }
+	void setExp(int exp);
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
 	float getY() { return _y; }

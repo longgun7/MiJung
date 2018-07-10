@@ -1153,6 +1153,30 @@ void player::levelCheck()
 		}
 	}
 
+	if (_isExpSet == true)
+	{
+		if (_exp-_compareExp > 100)
+		{
+			_attribute.currentExp += 1;
+			_compareExp += 1;
+		}
+		if (_exp-_compareExp > 50)
+		{
+			_attribute.currentExp += 2;
+			_compareExp += 2;
+		}
+		if (_exp-_compareExp > 0)
+		{
+			_attribute.currentExp += 1;
+			_compareExp += 1;
+		}
+		if (_compareExp >= _exp)
+		{
+			_isExpSet = false;
+			_exp = 0;
+			_compareExp = 0;
+		}
+	}
 }
 
 //에너미가 데미지 넣을 것
@@ -1193,9 +1217,17 @@ void player::setAreaDamage(int plusDamage)
 	}
 }
 
+void player::setExp(int exp)
+{
+	_exp += exp;
+	_isExpSet = true;
+
+}
+
 //스텟 넣기
 void player::setStat(int atk, int def, int luck, int cri, int speed)
 {
+	
 	_attribute.atk += atk;
 	_attribute.cri += cri;
 	_attribute.def += def;

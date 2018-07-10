@@ -64,6 +64,12 @@ private:
 	int     _rndDirection;   //랜덤으로 기울기
 	int     _enemyIndex;     //적 인덱스
 
+	
+	int     _exp;
+	int     _compareExp;
+	bool     _isExpSet;
+	
+
 	float	_x, _y;		     //좌표
 	float   _gravity;	     //중력
 	float   _jumpPower;      //점프파워
@@ -106,7 +112,7 @@ public:
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
-	void setExp(int exp) { _attribute.currentExp += exp; }
+	void setExp(int exp);
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
 	void randEffect();

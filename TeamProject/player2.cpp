@@ -57,7 +57,7 @@ HRESULT player2::init(float x , float y)
 	_isJumping = false;
 	_isSwordMounting = false;
 	_sceneMode = S_FIELDMODE;
-	_attribute.atk = 5;
+	_attribute.atk = 10;
 	_attribute.def = 10;
 	_attribute.luck = 10;
 	_attribute.cri = 5;
@@ -185,7 +185,7 @@ void player2::fieldKeyManager(float x , float y,float angle)
 
 
 		
-		if (getDistance(x, y, _x2[0], _y2[0]) > 12.0f)
+		if (getDistance(x, y, _x2[0], _y2[0]) > 15.0f)
 		{
 
 			_angle2[0] = angle;
@@ -195,7 +195,7 @@ void player2::fieldKeyManager(float x , float y,float angle)
 		}
 		for (int i = 1; i < 5; i++)
 		{
-			if (getDistance(_x2[i-1], _y2[i-1], _x2[i], _y2[i]) > 12.0f)
+			if (getDistance(_x2[i-1], _y2[i-1], _x2[i], _y2[i]) > 15.0f)
 			{
 
 				_angle2[i] = _angle2[i-1];
@@ -205,7 +205,7 @@ void player2::fieldKeyManager(float x , float y,float angle)
 			}
 		}
 
-		if (getDistance(_x2[4], _y2[4], _x, _y) > 12.0f)
+		if (getDistance(_x2[4], _y2[4], _x, _y) > 15.0f)
 		{
 
 			_angle = _angle2[4];
@@ -893,6 +893,30 @@ void player2::levelCheck()
 				_move = S_FIGHTREADY;
 			}
 		}
+		if (_isExpSet == true)
+		{
+			if (_exp - _compareExp > 100)
+			{
+				_attribute.currentExp += 1;
+				_compareExp += 1;
+			}
+			if (_exp - _compareExp > 50)
+			{
+				_attribute.currentExp += 2;
+				_compareExp += 2;
+			}
+			if (_exp - _compareExp > 0)
+			{
+				_attribute.currentExp += 1;
+				_compareExp += 1;
+			}
+			if (_compareExp >= _exp)
+			{
+				_isExpSet = false;
+				_exp = 0;
+				_compareExp = 0;
+			}
+		}
 	}
 }
 
@@ -928,6 +952,11 @@ void player2::setAreaDamage(int plusDamage)
 	{
 		_em->hitEnemy(i, _attribute.atk + plusDamage);
 	}
+}
+void player2::setExp(int exp)
+{
+	_exp += exp;
+	_isExpSet = true;
 }
 //½ºÅÝ ³Ö±â
 void player2::setStat(int atk, int def, int luck, int cri, int speed)
