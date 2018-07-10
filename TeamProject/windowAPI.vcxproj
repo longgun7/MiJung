@@ -183,6 +183,7 @@
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="shop.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="fildSkeleton.h" />
     <ClInclude Include="skeletonWizard.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="fildSkeleton.cpp" />
+    <ClCompile Include="shop.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="startScene.cpp" />
