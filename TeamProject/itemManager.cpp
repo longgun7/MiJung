@@ -14,7 +14,7 @@ itemManager::~itemManager()
 HRESULT itemManager::init()
 {
 	_pItem = new item;
-	_pItem->init(16);
+	_pItem->init(20);
 
 	_potion = new item;
 	_potion->init(1);

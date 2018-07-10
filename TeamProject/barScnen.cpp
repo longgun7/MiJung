@@ -28,9 +28,7 @@ HRESULT barScnen::init(void)
 	_isShopCheck = false;
 	_isHotelCheck = false;
 
-	_im = new itemManager;
-	_im->init();
-
+	
 	return S_OK;
 }
 
@@ -47,10 +45,10 @@ void barScnen::update(void)
 		{
 			_isShopCheck = true;
 			setItem();
-			
 		}
 		else if (_isShopCheck) _isShopCheck = false;
 	}
+
 	if (!_isShopCheck)
 	{
 		for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
@@ -80,16 +78,14 @@ void barScnen::render(void)
 	
 	if(_isShopCheck)
 	{	
-		
 
 		IMAGEMANAGER->findImage("상점창")->render(CAMERA->getCameraDC(), 175, 95);
 		IMAGEMANAGER->findImage("상점창소지수")->render(CAMERA->getCameraDC(), 625, 95);
 		IMAGEMANAGER->findImage("상점창구입수")->render(CAMERA->getCameraDC(), 625, 215);
 		IMAGEMANAGER->findImage("상점창번돈")->render(CAMERA->getCameraDC(), 625, 335);
-
-		_im->render();
+		
 	}
-	
+	_im->render();
 	fontUI();
 
 
@@ -164,11 +160,16 @@ void barScnen::fontUI(void)
 			DeleteObject(font);
 		}
 	}
+
+	char str6[128];
+	sprintf_s(str6, "%d", _im->getPItem()->getVItem().size());
+	TextOut(getMemDC(), 500, 50, str6, strlen(str6));
+
 }
 
 void barScnen::setItem()
 {
-	_im->itemMakeSet("마인아수라", WINSIZEX/2-260, 130);
+	_im->itemMakeSet("청룡도", WINSIZEX/2-260, 130);
 	_im->itemMakeSet("불타는 마검", WINSIZEX / 2 - 260, 180);
 	_im->itemMakeSet("명주 귀신살", WINSIZEX / 2 - 260, 230);
 	_im->itemMakeSet("호랑이 도복", WINSIZEX / 2 - 260, 280);

@@ -9,9 +9,11 @@ struct tagShop
 	int num;
 	int cost;
 };
+
 class playerManager;
 class enemyManager;
 class itemManager;
+
 class barScnen : public gameNode
 {
 private:

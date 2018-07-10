@@ -42,12 +42,6 @@ void playerManager::update()
 	
 	mounting();//장착하기
 	//인벤토리
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_im->itemMakeSet("마인아수라", 100, 100);
-		_im->itemMakeSet("명주 귀신살", 100, 200);
-	}
-	
 
 }
 
@@ -99,7 +93,6 @@ void playerManager::render()
 	}
 	for (int i = 0; i < _vS_WeapInven.size(); i++)
 	{
-		_im->itemMakeSet(_vS_WeapInven[i].name, _vS_WeapInven[i].rc.left+25, _vS_WeapInven[i].rc.top+25);
 		Rectangle(getMemDC(), _vS_WeapInven[i].rc.left, _vS_WeapInven[i].rc.top, _vS_WeapInven[i].rc.right, _vS_WeapInven[i].rc.bottom);
 	}
 	for (int i = 0; i < _vS_ArmorInven.size(); i++)
@@ -250,6 +243,7 @@ void playerManager::getItemValue()
 							inventory.name = _im->getPItem()->getItemName(i);
 
 							_vA_WeapInven.push_back(inventory);
+							break;
 						}
 					}
 
@@ -265,6 +259,7 @@ void playerManager::getItemValue()
 							inventory.name = _im->getPItem()->getItemName(i);
 
 							_vA_ArmorInven.push_back(inventory);
+							break;
 						}
 					}
 
@@ -283,6 +278,7 @@ void playerManager::getItemValue()
 							inventory.name = _im->getPItem()->getItemName(i);
 
 							_vS_WeapInven.push_back(inventory);
+							break;
 						}
 					}
 
@@ -297,6 +293,7 @@ void playerManager::getItemValue()
 							inventory.name = _im->getPItem()->getItemName(i);
 
 							_vS_ArmorInven.push_back(inventory);
+							break;
 						}
 					}
 				}
@@ -318,6 +315,7 @@ void playerManager::getItemValue()
 						inventory.hp = _im->getPortion()->getVPotion()[i].hp;
 						inventory.mp = _im->getPortion()->getVPotion()[i].mp;
 						_vPoInven.push_back(inventory);
+						break;
 					}
 				}
 			}

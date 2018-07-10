@@ -29,13 +29,13 @@ void item::render()
 {
 	for (_viItem = _vItem.begin(); _viItem != _vItem.end(); ++_viItem)
 	{
-		Rectangle(getMemDC(),_viItem->rc.left , _viItem->rc.top , _viItem->rc.right , _viItem->rc.bottom );
+		//Rectangle(getMemDC(),_viItem->rc.left , _viItem->rc.top , _viItem->rc.right , _viItem->rc.bottom );
 		_image->frameRender(CAMERA->getCameraDC(), _viItem->rc.left, _viItem->rc.top, _viItem->frameX, _viItem->frameY);
 	}
 
 	for (_viPotion = _vPotion.begin(); _viPotion != _vPotion.end(); ++_viPotion)
 	{
-		Rectangle(getMemDC(), _viPotion->rc.left, _viPotion->rc.top, _viPotion->rc.right, _viPotion->rc.bottom);
+		//Rectangle(getMemDC(), _viPotion->rc.left, _viPotion->rc.top, _viPotion->rc.right, _viPotion->rc.bottom);
 		_image->frameRender(CAMERA->getCameraDC(), _viPotion->rc.left, _viPotion->rc.top, _viPotion->frameX, _viPotion->frameY);
 	}
 }
