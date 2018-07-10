@@ -231,7 +231,7 @@ void player2::battleKeyManager()
 {
 	if (_attribute.currentHp > 0)
 	{
-		if (_sceneMode == S_BATTLEMODE)
+		if (_sceneMode == S_BATTLEMODE && _em->getVEnmey().size() != 0)
 		{
 			//½ºÅ³
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
