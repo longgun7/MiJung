@@ -4,10 +4,7 @@
 #include "player2.h"
 #include "inventory.h"
 
-enum INVENATTRIBUTE
-{
-	MOUNTING, UNMOUNTING, MOUNTINGEND,DIFFRENTMOUNTING
-};
+
 struct tagInventory
 {
 	image* img;
@@ -22,6 +19,7 @@ struct tagInventory
 	int speed;
 	int hp;
 	int mp;
+	
 };
 
 struct saveBeforItem
@@ -55,7 +53,7 @@ private:
 	saveBeforItem _S_saveBeforWeapon;
 	saveBeforItem _S_saveBeforArmor;
 	saveBeforItem _saveBeforPortion;
-	INVENATTRIBUTE _invenAttribute; //장착상태
+	
 	tagMoney _gold;
 	
 	//아타호
@@ -77,6 +75,7 @@ private:
 	vector<tagInventory>::iterator  _viPoInven;
 	
 	int _mountingIndex;
+	int _poIndex;
 public:
 
 	HRESULT init();
@@ -110,6 +109,7 @@ public:
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
 	void setItemManagerAdressLink(itemManager* im) { _im = im; }
 
+	int getPoIndex() { return _poIndex; }
 	playerManager();
 	~playerManager();
 };

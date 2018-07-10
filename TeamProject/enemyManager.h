@@ -28,6 +28,8 @@ private:
 	
 	int _randNum;						// 적이 몇마리가 생성될지
 	int _enemyIndex;					// 몇번째 적인지
+	int _hitIndex;
+	int _hitCount;
 
 public:
 

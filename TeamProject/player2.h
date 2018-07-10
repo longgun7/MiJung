@@ -9,10 +9,11 @@ enum SMOVE
 	S_LEFT, S_RIGHT, S_DOWN, S_UP,
 	S_LEFTMOVE, S_RIGHTMOVE, S_DOWNMOVE, S_UPMOVE,
 	S_BASICSKILL1,
-	S_SOLOSKILL1, S_AREASKILL2, S_SOLOSKILL3,
-	S_AREASKILL1, S_SOLOSKILL2, S_AREASKILL3,
+	S_SOLOSKILL1, S_SOLOSKILL2, S_AREASKILL1,
+	S_AREASKILL3, S_SOLOSKILL3, S_AREASKILL2,
 	S_FIGHTREADY , S_ROPEWALKING , S_DANGER , S_AFRAID,
-	S_DEFENCE,S_NOCKDOWN,S_ESCAPE, S_SEREMONI
+	S_DEFENCE,S_NOCKDOWN,S_ESCAPE, S_SEREMONI,
+	S_HPUP,S_MPUP,
 };
 
 enum S_SCENEMODE
@@ -45,6 +46,14 @@ private:
 
 	float	_angle;        //바라보는 앵글    
 	float	_x, _y;		  //좌표
+	
+	int     _exp;
+	int     _compareExp;
+	bool     _isExpSet;
+
+	float  _angle2[5];
+	float  _x2[5], _y2[5];
+	RECT   _rc2[5];
 	float	_jumpPower;   //점프파워
 	float   _gravity;     //중력
 	bool    _isJumping;    //점프여부 
@@ -84,7 +93,7 @@ public:
 	void release();
 	void playerImage();
 	void imageFrame();
-	void fieldKeyManager(float x , float y);
+	void fieldKeyManager(float x , float y, float angle);
 	void battleKeyManager();
 	void move();
 	void randEffect();
@@ -95,7 +104,7 @@ public:
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
-	void setExp(int exp) {   _attribute.currentExp += exp; }
+	void setExp(int exp);
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
 	float getY() { return _y; }
