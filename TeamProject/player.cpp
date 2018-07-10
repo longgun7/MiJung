@@ -946,6 +946,14 @@ void player::move()
 			{
 				_areaSkillEffect2->addSkill(_x + 40, _y-2);
 			}
+			if (_skillFrame % 5 == 0)
+			{
+				_areaSkillEffect2->addSkill(_x + 60, _y+5 );
+			}
+			if (_skillFrame % 5 == 0)
+			{
+				_areaSkillEffect2->addSkill(_x + 60, _y - 5);
+			}
 			//데미지 넣기~
 			if (_skillFrame % 20 == 0)
 			{
