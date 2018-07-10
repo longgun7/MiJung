@@ -53,20 +53,20 @@ void playSceneManager::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("Å¸¿î¾À");
-		_pm->getPlayer()->setScene(FIELDMODE,WINSIZEX/2,WINSIZEY/2, DOWN);
-		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, WINSIZEX / 2, WINSIZEY / 2 - 50,S_DOWN);
+		_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+		_pm->getPlayer2()->setSceneMode(S_FIELDMODE,S_DOWN);
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		SCENEMANAGER->changeScene("¹èÆ²¾À");
-		_pm->getPlayer()->setScene(BATTLEMODE, 100, 400, FIGHTREADY);
-		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, 100, 300, S_FIGHTREADY);
+		_pm->getPlayer()->setScene(BATTLEMODE, FIGHTREADY);
+		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
 		SCENEMANAGER->changeScene("ÇÊµå¾À");
-		_pm->getPlayer()->setScene(FIELDMODE,WINSIZEX / 2, WINSIZEY / 2, DOWN);
-		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, WINSIZEX / 2, WINSIZEY / 2 - 50, S_DOWN);
+		_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
 	}
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
