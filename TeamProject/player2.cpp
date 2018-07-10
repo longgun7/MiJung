@@ -634,7 +634,7 @@ void player2::move()
 		++_skillFrame;
 		if (_skillFrame == 50)
 		{
-			_areaSkill2->addAreaSkill4(_x, _y);
+			_areaSkill2->addAreaSkill(_x, _y);
 		}
 		if (_skillFrame < 50)
 		{

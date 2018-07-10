@@ -350,7 +350,7 @@ void player::battleKeyManager()
 			}
 			if (KEYMANAGER->isOnceKeyDown('B'))
 			{
-				_attribute.currentExp += 50;
+				_move = HPUP;
 			}
 			if (KEYMANAGER->isOnceKeyDown('J'))
 			{
@@ -605,6 +605,12 @@ void player::playerImage()
 		break;
 	case NOCKDOWN:
 		_img = IMAGEMANAGER->findImage("아타호쓰러짐");
+		break;
+	case HPUP:
+		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
+		break;
+	case MPUP:
+		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
 		break;
 	default:
 		break;
@@ -1092,7 +1098,24 @@ void player::move()
 			_move = FIGHTREADY;
 		}
 	}
+	//hp회복 
+	if (_move == HPUP|| _move == MPUP)
+	{
+		_isMotionLive = true;
+		if (_img->getFrameX() >= _img->getMaxFrameX())
+		{
+			_imageFrame = 3;
+		}
+		++_skillFrame;
+		_soloSkillEffect2->addSkill(_x, _y - 20);
+		if (_skillFrame > 100)
+		{
+			_imageFrame = 0;
+			_move = FIGHTREADY;
+			_skillFrame = 0;
+		}
 
+	}
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	//스킬렉트
