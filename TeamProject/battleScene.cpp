@@ -21,7 +21,7 @@ HRESULT battleScene::init(void)
 	_em = SCENEMANAGER->getEnemyManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
 
-	_isTurn = false;
+	_isTurn = true;
 	_choiceIndex = 0;
 	_skillIndex = 0;
 	_monIndex = 0;
@@ -37,6 +37,9 @@ HRESULT battleScene::init(void)
 
 	_isSkillCheck = false;
 	_isMonCheck = false;
+	_isFight = false;
+	_isAtahoSkillFire = false;
+	_isSumsuSkillFire = false;
 	_playerTurn = ATAHO_TURN;
 
 	return S_OK;
@@ -49,11 +52,7 @@ void battleScene::release(void)
 void battleScene::update(void)
 {
 	iconChange();
-	if(KEYMANAGER->isOnceKeyDown(VK_TAB))
-	{
-		if (!_isTurn)_isTurn = true;
-		else if (_isTurn) _isTurn = false;
-	}
+	
 
 	if(_isTurn)
 	{
@@ -158,24 +157,33 @@ void battleScene::update(void)
 			{
 				if(_choiceIndex<2)
 				{
-					_isMonCheck = true;
+					if(_playerTurn ==SUMSU_TURN)
+					{
+						_isFight = true;
+						_isTurn = false;
+					}
+					
+					_isMonCheck = true;	
 				}
 				else
 				{
 					if (_playerTurn == SUMSU_TURN)
 					{
+						_isFight = true;
 						_isTurn = false;
 					}
 					_playerTurn = SUMSU_TURN;
 					_isSkillCheck = false;
 					IMAGEMANAGER->findImage("SKILLBUTTON")->setFrameY(0);
 					IMAGEMANAGER->findImage("SKILLCHOICEBUTTON")->setFrameY(0);
+					
 				}
 			}
 			else if(_isMonCheck)
 			{
 				if(_playerTurn==SUMSU_TURN)
 				{
+					_isFight = true;
 					_isTurn = false;
 				}
 				_playerTurn = SUMSU_TURN;
@@ -233,6 +241,18 @@ void battleScene::update(void)
 				_monY = 570 + i * 40;
 			}
 		}
+	}
+	if(_isFight)	//�οﶧ
+	{
+		if(_pm->getPlayer()->getMove()==FIGHTREADY)
+		_pm->getPlayer()->setMove(SOLOSKILL1);
+		if (_pm->getPlayer2()->getMove() == S_FIGHTREADY)
+		_pm->getPlayer2()->setMove(S_SOLOSKILL2);
+			
+		_isFight = false;
+		_isTurn = true;
+	
+		
 	}
 }
 
