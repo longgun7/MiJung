@@ -45,6 +45,10 @@ private:
 
 	float	_angle;        //바라보는 앵글    
 	float	_x, _y;		  //좌표
+	
+	float  _angle2[5];
+	float  _x2[5], _y2[5];
+	RECT   _rc2[5];
 	float	_jumpPower;   //점프파워
 	float   _gravity;     //중력
 	bool    _isJumping;    //점프여부 
@@ -84,7 +88,7 @@ public:
 	void release();
 	void playerImage();
 	void imageFrame();
-	void fieldKeyManager(float x , float y);
+	void fieldKeyManager(float x , float y, float angle);
 	void battleKeyManager();
 	void move();
 	void randEffect();

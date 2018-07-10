@@ -38,9 +38,15 @@ HRESULT player2::init(float x , float y)
 	_img = IMAGEMANAGER->findImage("스마슈정면");
 
 	//스마슈 정보
-	_x = x - 60;
-	_y = y;
+	
+	_x2[0] = x - 60;
+	_y2[0] = y;
+	_angle2[0] = 0;
+
+	_x = _x2[4] - 60;
+	_y = _y2[4] - 60;
 	_angle = 0;
+	
 	_jumpPower = 5.0f;
 	_gravity = 0.2f;
 	_imageFrame = 0;
@@ -144,6 +150,11 @@ void player2::render()
 	{
 		Rectangle(getMemDC(), _skillRC[i].left, _skillRC[i].top, _skillRC[i].right, _skillRC[i].bottom);
 	}
+	for (int i = 0; i < 5; i++)
+	{
+		//Rectangle(getMemDC(), _rc2[i].left, _rc2[i].top, _rc2[i].right, _rc2[i].bottom);
+	}
+	
 }
 
 void player2::release()
@@ -156,7 +167,7 @@ void player2::release()
 	SAFE_DELETE(_gameEffect);
 }
 
-void player2::fieldKeyManager(float x , float y)
+void player2::fieldKeyManager(float x , float y,float angle)
 {
 
 	if (_sceneMode == S_FIELDMODE)
@@ -164,64 +175,139 @@ void player2::fieldKeyManager(float x , float y)
 		++_skillFrame;
 		if (_skillFrame % 7 == 0)
 		{
-			_soloSkillEffect->addSkill(_x, _y-10);
+			_soloSkillEffect->addSkill(_x, _y - 10);
 			_skillFrame = 0;
 		}
 		//아타호의 위치에 따라 앵글이 바뀐다.
-		_angle = getAngle(_x, _y, x, y);
+		//_angle = getAngle(_x, _y, x, y);
 
 
-		//아타호와 스마슈와의 거리
-		if (getDistance(x, y, _x, _y) > 60)
+
+
+		
+		if (getDistance(x, y, _x2[0], _y2[0]) > 12.0f)
 		{
-			_x += cosf(_angle)*_moveSpeed;
-			_y += -sinf(_angle)*_moveSpeed;
 
-			//움직이는 모션
-			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+			_angle2[0] = angle;
+			
+			_x2[0] = x - cosf(_angle2[0]) * 10.0f;
+			_y2[0] = y - -sinf(_angle2[0]) * 10.0f;
+		}
+		for (int i = 1; i < 5; i++)
+		{
+			if (getDistance(_x2[i-1], _y2[i-1], _x2[i], _y2[i]) > 12.0f)
 			{
-				_move = S_LEFTMOVE;
-				_isMotionLive = true;
+
+				_angle2[i] = _angle2[i-1];
+
+				_x2[i] = _x2[i-1] - cosf(_angle2[i]) * 10.0f;
+				_y2[i] = _y2[i-1] - -sinf(_angle2[i]) * 10.0f;
 			}
-			if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		}
+
+		if (getDistance(_x2[4], _y2[4], _x, _y) > 12.0f)
+		{
+
+			_angle = _angle2[4];
+
+			_x = _x2[4] - cosf(_angle) * 10.0f;
+			_y = _y2[4] - -sinf(_angle) * 10.0f;
+		}
+	
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
+			
+			for (int i = 0; i < 5; i++)
 			{
-				_move = S_RIGHTMOVE;
-				_isMotionLive = true;
+				_x2[i] += cosf(_angle2[i])* _moveSpeed;
+				_y2[i] += -sinf(_angle2[i])*_moveSpeed;
 			}
-			if (KEYMANAGER->isStayKeyDown(VK_UP))
+				
+				_x += cosf(_angle)* _moveSpeed;
+				_y += -sinf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		{
+			
+			
+			for (int i = 0; i < 5; i++)
+			{
+				_x2[i] += cosf(_angle2[i])* _moveSpeed;
+				_y2[i] += -sinf(_angle2[i])*_moveSpeed;
+			}
+				_x += cosf(_angle)* _moveSpeed;
+				_y += -sinf(_angle)*_moveSpeed;
+		}
+	
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
+		{
+		
+			for (int i = 0; i < 5; i++)
+			{
+				_x2[i] += cosf(_angle2[i])* _moveSpeed;
+				_y2[i] += -sinf(_angle2[i])*_moveSpeed;
+			}
+			_x += cosf(_angle)* _moveSpeed;
+			_y += -sinf(_angle)*_moveSpeed;
+		}
+		
+
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		{
+
+			
+			for (int i = 0; i < 5; i++)
+			{
+				_x2[i] += cosf(_angle2[i])* _moveSpeed;
+				_y2[i] += -sinf(_angle2[i])*_moveSpeed;
+			}
+			_x += cosf(_angle)* _moveSpeed;
+			_y += -sinf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN) || KEYMANAGER->isStayKeyDown(VK_UP) || KEYMANAGER->isStayKeyDown(VK_RIGHT) || KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
+			if (_angle == PI / 2)
 			{
 				_move = S_UPMOVE;
 				_isMotionLive = true;
 			}
-			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+			if (_angle == 2 * PI - PI / 2)
 			{
 				_move = S_DOWNMOVE;
 				_isMotionLive = true;
 			}
-
+			if (_angle == 0)
+			{
+				_move = S_RIGHTMOVE;
+				_isMotionLive = true;
+			}
+			if (_angle == PI)
+			{
+				_move = S_LEFTMOVE;
+				_isMotionLive = true;
+			}
 		}
-
-			//정자세
-			if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+		//정자세
+		if (KEYMANAGER->isOnceKeyUp(VK_DOWN) || KEYMANAGER->isOnceKeyUp(VK_UP) || KEYMANAGER->isOnceKeyUp(VK_RIGHT) || KEYMANAGER->isOnceKeyUp(VK_LEFT))
+		{
+			if (_angle == 2 * PI - PI / 2)
 			{
 				_move = S_DOWN;
-
 			}
-			if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
+			if (_angle == PI)
 			{
 				_move = S_LEFT;
-
 			}
-			if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
+			if (_angle == 0)
 			{
 				_move = S_RIGHT;
-
 			}
-			if (KEYMANAGER->isOnceKeyUp(VK_UP))
+			if (_angle ==PI / 2 )
 			{
 				_move = S_UP;
-
 			}
+		}
+		
 		
 	}
 }
@@ -363,7 +449,7 @@ void player2::playerImage()
 	case S_FIGHTREADY:
 		_img = IMAGEMANAGER->findImage("스마슈전투상태");
 		_x = 100;
-		_y = 300;
+		_y = 400;
 		break;
 	case S_ROPEWALKING:
 		_img = IMAGEMANAGER->findImage("스마슈줄타기");
@@ -647,6 +733,11 @@ void player2::move()
 	}
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	
+	for (int i = 0; i < 5; i++)
+	{
+		_rc2[i] = RectMakeCenter(_x2[i], _y2[i], 50, 50);
+	}
 	
 	for (int i = 0; i < 7; i++)
 	{
