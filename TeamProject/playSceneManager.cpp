@@ -30,7 +30,7 @@ HRESULT playSceneManager::init(void)
 	_im = SCENEMANAGER->getItemManagerLink();
 	_em = SCENEMANAGER->getEnemyManagerLink();
 
-
+	_pm->getPlayer()->setplayMapMemoryAddressLink(_map);
 
 	setProgressBar();	//프로그래스바 셋팅!
 
@@ -102,6 +102,8 @@ void playSceneManager::render(void)
 	_em->render();
 	_im->render();
 	
+	// 오브젝트 렌더
+	tileObjectRender();
 	
 	fontUI();
 }
@@ -286,4 +288,18 @@ void playSceneManager::renderProgressBar(void)
 	_exp2->render();
 }
 
+void playSceneManager::tileObjectRender(void)
+{
+	POINT camera = CAMERA->getPosition();
+	for (int i = camera.y / TILESIZE; i < camera.y / TILESIZE + SHOWTILEY; ++i)
+	{
+		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
+		{
+			if (_map->getTiles()[i * TILEX + j].obj == OBJ_NONE) continue;
 
+			IMAGEMANAGER->frameRender("town", getMemDC(),
+				_map->getTiles()[i * TILEX + j].rc.left, _map->getTiles()[i * TILEX + j].rc.top,
+				_map->getTiles()[i * TILEX + j].objFrameX, _map->getTiles()[i * TILEX + j].objFrameY);
+		}
+	}
+}

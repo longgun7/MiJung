@@ -48,7 +48,9 @@ struct tagAttribute
 	bool    isLevelUp;		 //레벨업 여부
 };
 
+class playMap;
 class enemyManager;
+
 class player :public gameNode
 
 {
@@ -89,6 +91,11 @@ private:
 	gameEffect* _gameEffect;
 	//에너미 매니저 전방선언
 	enemyManager* _em;
+
+	// 추가(민경)
+	RECT _zOrderRC;
+	playMap* _map;
+
 public:
 	
 	HRESULT init();
@@ -148,8 +155,12 @@ public:
 
 	void setMove(MOVE move);
 	
-	RECT getRC() { return _rc; } // 플레이어 렉트 접근 추가(민경)
-	
+	// 추가(민경)
+	RECT getRC() { return _rc; }
+	RECT getZorderRC() { return _zOrderRC; }
+	void tileMove(void);
+	void setplayMapMemoryAddressLink(playMap* map) { _map = map; }
+
 	
 	player();
 	~player();

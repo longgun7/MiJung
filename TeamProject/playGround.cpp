@@ -73,6 +73,7 @@ void playGround::render(void)
 	//================이 밑으로도 건드리지 말자 =============
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
 	CAMERA->render(getMemDC());
+	//this->getBackBuffer()->render(getHDC(), 0, 0);
 	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERA->getPosition().x, CAMERA->getPosition().y, WINSIZEX, WINSIZEY);
 
 

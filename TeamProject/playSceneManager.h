@@ -50,5 +50,7 @@ public:
 	void renderProgressBar(void);
 	void updateProgressBar(void);
 
+	void tileObjectRender(void);
+
 };
 

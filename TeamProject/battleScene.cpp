@@ -69,7 +69,8 @@ void battleScene::release(void)
 
 void battleScene::update(void)
 {
-	
+	CAMERA->setPosition(0, 0);
+
 	if(KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
 		if (!_isTurn)_isTurn = true;

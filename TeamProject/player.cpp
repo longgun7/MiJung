@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "player.h"
 #include "enemyManager.h"
+#include "playMap.h"
 
 HRESULT player::init()
 {
@@ -111,6 +112,9 @@ HRESULT player::init()
 	//게임 이펙트
 	_gameEffect = new gameEffect;
 	_gameEffect->init();
+
+	_zOrderRC = RectMake(_rc.left, _rc.bottom - 25, _img->getFrameWidth(), 25);
+	
 	return S_OK;
 }
 
@@ -673,42 +677,7 @@ void player::imageFrame()
 void player::move()
 {
 	//이동
-	switch (_move)
-	{
-	case LEFT:
-		break;
-	case RIGHT:
-		break;
-	case DOWN:
-		break;
-	case UP:
-		break;
-	case LEFTMOVE:
-		_x -= _moveSpeed;
-		break;
-	case RIGHTMOVE:
-		_x += _moveSpeed;
-		break;
-	case DOWNMOVE:
-		_y += _moveSpeed;
-		break;
-	case UPMOVE:
-		_y -= _moveSpeed;
-		break;
-	case FIGHTREADY:
-		break;
-	case ESCAPE:
-		_x -= 2;
-		++_skillFrame;
-		if (_skillFrame % 10 == 0)
-		{
-			_gameEffect->summonLCloud(_x + 20, _y + 30);
-			_gameEffect->summonRCloud(_x + 20, _y + 30);
-		}
-		break;
-	default:
-		break;
-	}
+	tileMove();
 
 	////////////////////////////////////////////////////////
 	//
@@ -1350,6 +1319,94 @@ void player::setMove(MOVE move)
 	}
 }
 
+
+void player::tileMove(void)
+{
+	RECT rcCollision;
+
+	int tileIndex[2];	//이동 방향에 따른 타일속성을 검출하기위한 타일 인덱스 값 계산용 배열
+	int tileX, tileY;	//탱크 이동 방향에 따라 '검출'하기 위한 인덱스 계산용 변수
+
+	rcCollision = _zOrderRC;
+
+	switch (_move)
+	{
+	case LEFTMOVE:	(_x > TILESIZE * 3) ? _x -= _moveSpeed : _x = TILESIZE * 3;	break;
+	case RIGHTMOVE: (_x < CAMERA->getMaxPositon().x - TILESIZE * 3) ? _x += _moveSpeed : _x = CAMERA->getMaxPositon().x - TILESIZE * 3;	break;
+	case DOWNMOVE:	(_y > TILESIZE) ? _y += _moveSpeed : _y = TILESIZE;	break;
+	case UPMOVE:	(_y < CAMERA->getMaxPositon().y - TILESIZE) ? _y -= _moveSpeed : _y = CAMERA->getMaxPositon().y - TILESIZE;	break;
+	}
+
+	rcCollision = RectMakeCenter(_x, _y + 27, _img->getFrameWidth(), 25);
+
+	//임의의 충돌렉트 사이즈 줄이기
+	rcCollision.left += 2;
+	rcCollision.top += 2;
+	rcCollision.right -= 2;
+	rcCollision.bottom -= 2;
+
+	tileX = rcCollision.left / TILESIZE;
+	tileY = rcCollision.top / TILESIZE;
+
+	//방향에 따른 타일 검출
+	//타일 검출을 통해서 내 진행 방향(좌표)에 있는 타일의 속성을 검출
+	switch (_move)
+	{
+	case LEFTMOVE:
+		tileIndex[0] = tileX + tileY * TILEX;
+		tileIndex[1] = tileX + (tileY + 1) * TILEX;
+		break;
+	case UPMOVE:
+		tileIndex[0] = tileX + tileY * TILEX;
+		tileIndex[1] = tileX + 1 + tileY * TILEX;
+		break;
+	case RIGHTMOVE:
+		tileIndex[0] = (tileX + tileY * TILEX) + 2;
+		tileIndex[1] = (tileX + (1 + tileY) * TILEX) + 2;
+		break;
+	case DOWNMOVE:
+		tileIndex[0] = (tileX + tileY * TILEX) + TILEX;
+		tileIndex[1] = (tileX + 1 + tileY * TILEX) + TILEX;
+		break;
+	default: return;
+	}
+
+	// 혹시 모를 예외처리(tileIndex가 쓰레기 값이 나올 경우)
+	//if (tileIndex[0] >= 0 || tileIndex[1] >= 0) return;
+
+	for (int i = 0; i < 2; i++)
+	{
+		RECT rc;
+		if ((_map->getTiles()[tileIndex[i]].terrain == TR_UNMOVE) &&
+			IntersectRect(&rc, &_map->getTiles()[tileIndex[i]].rc, &rcCollision))
+		{
+			switch (_move)
+			{
+			case LEFTMOVE:
+				_x += _moveSpeed;
+				//(RND->getInt(2)) ? _y += _moveSpeed, _move = DOWNMOVE : _y -= _moveSpeed, _move = UPMOVE;				 
+				break;
+			case UPMOVE:
+				_y += _moveSpeed;
+				//(RND->getInt(2)) ? _x += _moveSpeed, _move = RIGHTMOVE : _x -= _moveSpeed, _move = LEFTMOVE;
+				break;
+			case RIGHTMOVE:
+				_x -= _moveSpeed;
+				//(RND->getInt(2)) ? _y += _moveSpeed, _move = DOWNMOVE : _y -= _moveSpeed, _move = UPMOVE;
+				break;
+			case DOWNMOVE:
+				_y -= _moveSpeed;
+				//(RND->getInt(2)) ? _x += _moveSpeed, _move = RIGHTMOVE : _x -= _moveSpeed, _move = LEFTMOVE;
+				break;
+			}
+			return;
+		}
+	}
+
+	rcCollision = RectMakeCenter(_x, _y + 27, _img->getFrameWidth(), 25);
+	_zOrderRC = rcCollision;
+
+}
 
 
 player::player()
