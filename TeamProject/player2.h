@@ -120,11 +120,10 @@ public:
 	void setAttribute(S_TagAttribute attribute) { _attribute = attribute; }
 
 	S_SCENEMODE getSceneMode() { return _sceneMode; }
-	void setSceneMode(S_SCENEMODE scene, float x, float y, SMOVE move)//¾À ÀüÈ¯
+	void setSceneMode(S_SCENEMODE scene, SMOVE move)//¾À ÀüÈ¯
 	{
 		_sceneMode = scene;
-		_x = x;
-		_y = y;
+		
 		_move = move;
 	}
 

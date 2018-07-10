@@ -149,11 +149,10 @@ public:
 	
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
 	
-	void setScene(SCENEMODE _scene,float x , float y , MOVE move) //씬전환모음
+	void setScene(SCENEMODE _scene, MOVE move) //씬전환모음
 	{
 		_sceneMode = _scene;
-		_x = x;
-		_y = y;
+		
 		_move = move;
 	}
 	

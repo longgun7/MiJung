@@ -25,7 +25,7 @@ private:
 	playMap* _map;
 
 	bool _isStatus;
-
+	
 	//플레이어 1,2 프로그래스 바
 	progressBar* _hp1;
 	progressBar* _hp2;
