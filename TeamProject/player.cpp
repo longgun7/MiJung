@@ -249,7 +249,7 @@ void player::battleKeyManager()
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
 	{	
-		if (_attribute.currentHp > 0 )
+		if (_attribute.currentHp > 0 && _em->getVEnmey().size() != 0)
 		{
 			//스킬
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
