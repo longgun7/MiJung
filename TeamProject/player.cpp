@@ -226,27 +226,23 @@ void player::fieldKeyManager()
 			_isMotionLive = true;
 		}
 
-		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-		{
-			_angle = PI;
-			_x += cosf(_angle)*_moveSpeed;
-		}
-		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-		{
-			_angle = 0;
-			_x += cosf(_angle)*_moveSpeed;
-		}
-		if (KEYMANAGER->isStayKeyDown(VK_UP))
-		{
-			_angle = PI / 2;
-			_y += -sinf(_angle)*_moveSpeed;
-		}
-		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-		{
-			_angle = 2 * PI - PI / 2;
-			_y += -sinf(_angle)*_moveSpeed;
-			
-		}
+		//if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		//{
+		//	//_x += cosf(_angle)*_moveSpeed;
+		//}
+		//if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		//{
+		//	//_x += cosf(_angle)*_moveSpeed;
+		//}
+		//if (KEYMANAGER->isStayKeyDown(VK_UP))
+		//{
+		//	//_y += -sinf(_angle)*_moveSpeed;
+		//}
+		//if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		//{
+		//	//_y += -sinf(_angle)*_moveSpeed;
+		//	
+		//}
 
 		//Á¤ÀÚ¼¼
 		if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
@@ -1430,10 +1426,10 @@ void player::tileMove(void)
 
 	switch (_move)
 	{
-	case LEFTMOVE:	(_x > TILESIZE * 3) ? _x -= _moveSpeed : _x = TILESIZE * 3;	break;
-	case RIGHTMOVE: (_x < CAMERA->getMaxPositon().x - TILESIZE * 3) ? _x += _moveSpeed : _x = CAMERA->getMaxPositon().x - TILESIZE * 3;	break;
-	case DOWNMOVE:	(_y > TILESIZE) ? _y += _moveSpeed : _y = TILESIZE;	break;
-	case UPMOVE:	(_y < CAMERA->getMaxPositon().y - TILESIZE) ? _y -= _moveSpeed : _y = CAMERA->getMaxPositon().y - TILESIZE;	break;
+	case LEFTMOVE:	_angle = PI; (_x > TILESIZE * 3) ? _x += cosf(_angle)*_moveSpeed : _x = TILESIZE * 3;	break;
+	case RIGHTMOVE: _angle = 0; (_x < CAMERA->getMaxPositon().x - TILESIZE * 3) ? _x += cosf(_angle)*_moveSpeed : _x = CAMERA->getMaxPositon().x - TILESIZE * 3;	break;
+	case DOWNMOVE:	_angle = 2 * PI - PI / 2; (_y > TILESIZE) ? _y += -sinf(_angle)*_moveSpeed : _y = TILESIZE;	break;
+	case UPMOVE:	_angle = PI / 2; (_y < CAMERA->getMaxPositon().y - TILESIZE) ? _y += -sinf(_angle)*_moveSpeed : _y = CAMERA->getMaxPositon().y - TILESIZE;	break;
 	}
 
 	rcCollision = RectMakeCenter(_x, _y + 27, _img->getFrameWidth(), 25);
@@ -1482,19 +1478,19 @@ void player::tileMove(void)
 			switch (_move)
 			{
 			case LEFTMOVE:
-				_x += _moveSpeed;
+				_x -= cosf(_angle)*_moveSpeed;
 				//(RND->getInt(2)) ? _y += _moveSpeed, _move = DOWNMOVE : _y -= _moveSpeed, _move = UPMOVE;				 
 				break;
 			case UPMOVE:
-				_y += _moveSpeed;
+				_y -= -sinf(_angle)*_moveSpeed;
 				//(RND->getInt(2)) ? _x += _moveSpeed, _move = RIGHTMOVE : _x -= _moveSpeed, _move = LEFTMOVE;
 				break;
 			case RIGHTMOVE:
-				_x -= _moveSpeed;
+				_x -= cosf(_angle)*_moveSpeed;
 				//(RND->getInt(2)) ? _y += _moveSpeed, _move = DOWNMOVE : _y -= _moveSpeed, _move = UPMOVE;
 				break;
 			case DOWNMOVE:
-				_y -= _moveSpeed;
+				_y -= -sinf(_angle)*_moveSpeed;
 				//(RND->getInt(2)) ? _x += _moveSpeed, _move = RIGHTMOVE : _x -= _moveSpeed, _move = LEFTMOVE;
 				break;
 			}
