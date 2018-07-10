@@ -38,9 +38,15 @@ HRESULT player2::init(float x , float y)
 	_img = IMAGEMANAGER->findImage("스마슈정면");
 
 	//스마슈 정보
-	_x = x - 60;
-	_y = y;
+	
+	_x2[0] = x - 60;
+	_y2[0] = y;
+	_angle2[0] = 0;
+
+	_x = _x2[4] - 60;
+	_y = _y2[4] - 60;
 	_angle = 0;
+	
 	_jumpPower = 5.0f;
 	_gravity = 0.2f;
 	_imageFrame = 0;
@@ -51,7 +57,7 @@ HRESULT player2::init(float x , float y)
 	_isJumping = false;
 	_isSwordMounting = false;
 	_sceneMode = S_FIELDMODE;
-	_attribute.atk = 5;
+	_attribute.atk = 10;
 	_attribute.def = 10;
 	_attribute.luck = 10;
 	_attribute.cri = 5;
@@ -144,6 +150,11 @@ void player2::render()
 	{
 		Rectangle(getMemDC(), _skillRC[i].left, _skillRC[i].top, _skillRC[i].right, _skillRC[i].bottom);
 	}
+	for (int i = 0; i < 5; i++)
+	{
+		//Rectangle(getMemDC(), _rc2[i].left, _rc2[i].top, _rc2[i].right, _rc2[i].bottom);
+	}
+	
 }
 
 void player2::release()
@@ -156,7 +167,7 @@ void player2::release()
 	SAFE_DELETE(_gameEffect);
 }
 
-void player2::fieldKeyManager(float x , float y)
+void player2::fieldKeyManager(float x , float y,float angle)
 {
 
 	if (_sceneMode == S_FIELDMODE)
@@ -164,64 +175,139 @@ void player2::fieldKeyManager(float x , float y)
 		++_skillFrame;
 		if (_skillFrame % 7 == 0)
 		{
-			_soloSkillEffect->addSkill(_x, _y-10);
+			_soloSkillEffect->addSkill(_x, _y - 10);
 			_skillFrame = 0;
 		}
 		//아타호의 위치에 따라 앵글이 바뀐다.
-		_angle = getAngle(_x, _y, x, y);
+		//_angle = getAngle(_x, _y, x, y);
 
 
-		//아타호와 스마슈와의 거리
-		if (getDistance(x, y, _x, _y) > 60)
+
+
+		
+		if (getDistance(x, y, _x2[0], _y2[0]) > 15.0f)
 		{
-			_x += cosf(_angle)*_moveSpeed;
-			_y += -sinf(_angle)*_moveSpeed;
 
-			//움직이는 모션
-			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+			_angle2[0] = angle;
+			
+			_x2[0] = x - cosf(_angle2[0]) * 10.0f;
+			_y2[0] = y - -sinf(_angle2[0]) * 10.0f;
+		}
+		for (int i = 1; i < 5; i++)
+		{
+			if (getDistance(_x2[i-1], _y2[i-1], _x2[i], _y2[i]) > 15.0f)
 			{
-				_move = S_LEFTMOVE;
-				_isMotionLive = true;
+
+				_angle2[i] = _angle2[i-1];
+
+				_x2[i] = _x2[i-1] - cosf(_angle2[i]) * 10.0f;
+				_y2[i] = _y2[i-1] - -sinf(_angle2[i]) * 10.0f;
 			}
-			if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		}
+
+		if (getDistance(_x2[4], _y2[4], _x, _y) > 15.0f)
+		{
+
+			_angle = _angle2[4];
+
+			_x = _x2[4] - cosf(_angle) * 10.0f;
+			_y = _y2[4] - -sinf(_angle) * 10.0f;
+		}
+	
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
+			
+			for (int i = 0; i < 5; i++)
 			{
-				_move = S_RIGHTMOVE;
-				_isMotionLive = true;
+				_x2[i] += cosf(_angle2[i])* _moveSpeed;
+				_y2[i] += -sinf(_angle2[i])*_moveSpeed;
 			}
-			if (KEYMANAGER->isStayKeyDown(VK_UP))
+				
+				_x += cosf(_angle)* _moveSpeed;
+				_y += -sinf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		{
+			
+			
+			for (int i = 0; i < 5; i++)
+			{
+				_x2[i] += cosf(_angle2[i])* _moveSpeed;
+				_y2[i] += -sinf(_angle2[i])*_moveSpeed;
+			}
+				_x += cosf(_angle)* _moveSpeed;
+				_y += -sinf(_angle)*_moveSpeed;
+		}
+	
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
+		{
+		
+			for (int i = 0; i < 5; i++)
+			{
+				_x2[i] += cosf(_angle2[i])* _moveSpeed;
+				_y2[i] += -sinf(_angle2[i])*_moveSpeed;
+			}
+			_x += cosf(_angle)* _moveSpeed;
+			_y += -sinf(_angle)*_moveSpeed;
+		}
+		
+
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		{
+
+			
+			for (int i = 0; i < 5; i++)
+			{
+				_x2[i] += cosf(_angle2[i])* _moveSpeed;
+				_y2[i] += -sinf(_angle2[i])*_moveSpeed;
+			}
+			_x += cosf(_angle)* _moveSpeed;
+			_y += -sinf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN) || KEYMANAGER->isStayKeyDown(VK_UP) || KEYMANAGER->isStayKeyDown(VK_RIGHT) || KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
+			if (_angle == PI / 2)
 			{
 				_move = S_UPMOVE;
 				_isMotionLive = true;
 			}
-			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+			if (_angle == 2 * PI - PI / 2)
 			{
 				_move = S_DOWNMOVE;
 				_isMotionLive = true;
 			}
-
+			if (_angle == 0)
+			{
+				_move = S_RIGHTMOVE;
+				_isMotionLive = true;
+			}
+			if (_angle == PI)
+			{
+				_move = S_LEFTMOVE;
+				_isMotionLive = true;
+			}
 		}
-
-			//정자세
-			if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+		//정자세
+		if (KEYMANAGER->isOnceKeyUp(VK_DOWN) || KEYMANAGER->isOnceKeyUp(VK_UP) || KEYMANAGER->isOnceKeyUp(VK_RIGHT) || KEYMANAGER->isOnceKeyUp(VK_LEFT))
+		{
+			if (_angle == 2 * PI - PI / 2)
 			{
 				_move = S_DOWN;
-
 			}
-			if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
+			if (_angle == PI)
 			{
 				_move = S_LEFT;
-
 			}
-			if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
+			if (_angle == 0)
 			{
 				_move = S_RIGHT;
-
 			}
-			if (KEYMANAGER->isOnceKeyUp(VK_UP))
+			if (_angle ==PI / 2 )
 			{
 				_move = S_UP;
-
 			}
+		}
+		
 		
 	}
 }
@@ -231,7 +317,7 @@ void player2::battleKeyManager()
 {
 	if (_attribute.currentHp > 0)
 	{
-		if (_sceneMode == S_BATTLEMODE)
+		if (_sceneMode == S_BATTLEMODE && _em->getVEnmey().size() != 0)
 		{
 			//스킬
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
@@ -256,28 +342,28 @@ void player2::battleKeyManager()
 				}
 				if (PtInRect(&_skillRC[2], _ptMouse))
 				{
-					_move = S_AREASKILL2;
+					_move = S_SOLOSKILL2;
 					_isMotionLive = true;
 					_skillFrame = 0;
 					_attribute.currentMp -= 3;
 				}
 				if (PtInRect(&_skillRC[3], _ptMouse))
 				{
-					_move = S_SOLOSKILL3;
+					_move = S_AREASKILL1;
 					_isMotionLive = true;
 					_skillFrame = 0;
 					_attribute.currentMp -= 3;
 				}
 				if (PtInRect(&_skillRC[4], _ptMouse))
 				{
-					_move = S_AREASKILL1;
+					_move = S_AREASKILL3;
 					_isMotionLive = true;
 					_skillFrame = 0;
 					_attribute.currentMp -= 3;
 				}
 				if (PtInRect(&_skillRC[5], _ptMouse))
 				{
-					_move = S_SOLOSKILL2;
+					_move = S_SOLOSKILL3;
 					_isMotionLive = true;
 					_skillFrame = 0;
 					_attribute.currentMp -= 3;
@@ -286,7 +372,7 @@ void player2::battleKeyManager()
 				{
 					_x = WINSIZEX / 2;
 					_y = WINSIZEY / 3;
-					_move = S_AREASKILL3;
+					_move = S_AREASKILL2;
 					_isMotionLive = true;
 					_skillFrame = 0;
 					_attribute.currentMp -= 3;
@@ -345,25 +431,25 @@ void player2::playerImage()
 	case S_SOLOSKILL1:
 		_img = IMAGEMANAGER->findImage("스마슈대타격");
 		break;
-	case S_SOLOSKILL2:
+	case S_SOLOSKILL3:
 		_img = IMAGEMANAGER->findImage("스마슈난도질");
 		break;
-	case S_SOLOSKILL3:
-		_img = IMAGEMANAGER->findImage("스마슈베고날아가기");
-		break;
 	case S_AREASKILL1:
-		_img = IMAGEMANAGER->findImage("스마슈용오름");
-		break;
-	case S_AREASKILL2:
-		_img = IMAGEMANAGER->findImage("스마슈절사어면");
+		_img = IMAGEMANAGER->findImage("스마슈베기");
 		break;
 	case S_AREASKILL3:
+		_img = IMAGEMANAGER->findImage("스마슈용오름");
+		break;
+	case S_SOLOSKILL2:
+		_img = IMAGEMANAGER->findImage("스마슈절사어면");
+		break;
+	case S_AREASKILL2:
 		_img = IMAGEMANAGER->findImage("스마슈분신");
 		break;
 	case S_FIGHTREADY:
 		_img = IMAGEMANAGER->findImage("스마슈전투상태");
 		_x = 100;
-		_y = 300;
+		_y = 400;
 		break;
 	case S_ROPEWALKING:
 		_img = IMAGEMANAGER->findImage("스마슈줄타기");
@@ -419,6 +505,18 @@ void player2::move()
 {
 	
 	//스킬 이동
+	if (_move == S_BASICSKILL1)
+	{
+		++_skillFrame;
+		if (_skillFrame == 50)
+		{
+			_soloSkillEffect->addSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
+		}
+		if (_skillFrame > 80)
+		{
+			_move = S_FIGHTREADY;
+		}
+	}
 	//대타격
 	if (_move == S_SOLOSKILL1)
 	{
@@ -445,8 +543,45 @@ void player2::move()
 		}
 	}
 	
-	//난도질
+	//절사어면
 	if (_move == S_SOLOSKILL2)
+	{
+		++_skillFrame;
+		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+		if (_img->getFrameX() >= 2 && _x < WINSIZEX - 100)
+		{
+			_imageFrame = 3;
+			_x += 20;
+			
+			_img->setFrameX(2);
+			_soloSkillEffect->addSkill(_x, _y);
+		}
+		if (_skillFrame == 50)
+		{
+			setAreaDamage(6);
+			_areaSkill1->addAreaSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y, _enemyIndex + 1);
+		}
+		//스킬 넣기
+		if ((_skillFrame % 5 == 0 && _imageFrame == 5) || (_skillFrame % 5 == 0 && _imageFrame == 9))
+		{
+			setAreaDamage(6);
+			randEffect();
+		}
+		if (_img->getFrameX() >= _img->getMaxFrameX())
+		{
+			_imageFrame = _img->getMaxFrameX();
+			_imageFrame = 0;
+		}
+		if (_skillFrame > 150)
+		{
+			_img->setFrameX(0);
+			_move = S_FIGHTREADY;
+
+		}
+	}
+
+	//난도질
+	if (_move == S_SOLOSKILL3)
 	{
 
 		_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
@@ -472,21 +607,19 @@ void player2::move()
 		}
 	}
 
-	//베고 날아가기
-	if(_move == S_SOLOSKILL3)
+	//백인일섬
+	if(_move == S_AREASKILL1)
 	{
-		if (_img->getFrameX() < 23)
+		++_skillFrame;
+		if (_skillFrame == 30)
 		{
-			_x = WINSIZEX - 200;
+			for (int i = 0; i < _em->getVEnmey().size(); i++)
+			{
+				_areaSkill1->addAreaSkill(_em->getVEnmey()[i]->getTagEnmey().x, _em->getVEnmey()[i]->getTagEnmey().y, _em->getVEnmey().size());
+				setAreaDamage(10);
+			}
 		}
-		if (_img->getFrameX() >= 23 && _x < WINSIZEX )
-		{
-			_x += 20;
-			_img->setFrameX(23);
-			_imageFrame = 23;
-			_soloSkillEffect->addSkill(_x, _y-35);
-		}
-		if (_x >= WINSIZEX )
+		if (_skillFrame > 100)
 		{	
 			_img->setFrameX(0);
 			_imageFrame = 0;
@@ -495,8 +628,38 @@ void player2::move()
 		}
 	}
 
+	//분신
+	if (_img == IMAGEMANAGER->findImage("스마슈분신") && _move == S_AREASKILL2)
+	{
+		++_skillFrame;
+		if (_skillFrame == 50)
+		{
+			_areaSkill2->addAreaSkill(_x, _y);
+		}
+		if (_skillFrame < 50)
+		{
+			_img->setFrameX(0);
+		}
+		if (_skillFrame > 50 && _skillFrame < 150)
+		{
+			_img->setFrameX(1);
+		}
+		if (_skillFrame > 150 && _skillFrame % 30 == 0)
+		{
+			setAreaDamage(6);
+			randAreaEffect();
+		}
+		if (_skillFrame > 400)
+		{
+			_skillFrame = 0;
+			_img->setFrameX(0);
+			_move = S_FIGHTREADY;
+			_isMotionLive = true;
+		}
+	}
+
 	//용오름 
-	if (_move == S_AREASKILL1)
+	if (_move == S_AREASKILL3)
 	{
 		
 		++_skillFrame;
@@ -527,69 +690,8 @@ void player2::move()
 	}
 
 	
-	//절사어면
-	if (_move == S_AREASKILL2)
-	{
-		++_skillFrame;
-		if (_img->getFrameX() >= 2 && _x < WINSIZEX - 100)
-		{
-			_imageFrame = 3;
-			_x += 20;
-			_img->setFrameX(2);
-			_soloSkillEffect->addSkill(_x, _y);
-		}
-		if (_skillFrame == 50)
-		{
-			setAreaDamage(6);
-			_areaSkill1->addAreaSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y, _enemyIndex+1);
-		}
-		//스킬 넣기
-		if ((_skillFrame % 5==0 &&_imageFrame == 5 )||( _skillFrame % 5 == 0 && _imageFrame == 9) )
-		{
-			setAreaDamage(6);
-			randEffect();
-		}
-		if (_img->getFrameX() >= _img->getMaxFrameX())
-		{
-			_imageFrame = _img->getMaxFrameX();
-			_imageFrame = 0;
-		}
-		if (_skillFrame > 150)
-		{
-			_img->setFrameX(0);
-			_move = S_FIGHTREADY;
+	
 
-		}
-	}
-	//분신
-	if (_img == IMAGEMANAGER->findImage("스마슈분신")&& _move== S_AREASKILL3)
-	{
-		++_skillFrame;
-		if (_skillFrame == 50)
-		{
-			_areaSkill2->addAreaSkill4(_x, _y);
-		}
-		if (_skillFrame < 50)
-		{
-			_img->setFrameX(0);
-		}
-		if (_skillFrame > 50 && _skillFrame < 150)
-		{
-			_img->setFrameX(1);
-		}
-		if (_skillFrame > 150 && _skillFrame %30 == 0)
-		{
-			setAreaDamage(6);
-			randAreaEffect();
-		}
-		if ( _skillFrame > 400 )
-		{
-			_skillFrame = 0;
-			_img->setFrameX(0);
-			_move = S_FIGHTREADY;
-			_isMotionLive = true;
-		}
-	}
 	//피격당했을 때
 	if (_move == S_DANGER)
 	{
@@ -631,6 +733,11 @@ void player2::move()
 	}
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	
+	for (int i = 0; i < 5; i++)
+	{
+		_rc2[i] = RectMakeCenter(_x2[i], _y2[i], 50, 50);
+	}
 	
 	for (int i = 0; i < 7; i++)
 	{
@@ -786,6 +893,30 @@ void player2::levelCheck()
 				_move = S_FIGHTREADY;
 			}
 		}
+		if (_isExpSet == true)
+		{
+			if (_exp - _compareExp > 100)
+			{
+				_attribute.currentExp += 1;
+				_compareExp += 1;
+			}
+			if (_exp - _compareExp > 50)
+			{
+				_attribute.currentExp += 2;
+				_compareExp += 2;
+			}
+			if (_exp - _compareExp > 0)
+			{
+				_attribute.currentExp += 1;
+				_compareExp += 1;
+			}
+			if (_compareExp >= _exp)
+			{
+				_isExpSet = false;
+				_exp = 0;
+				_compareExp = 0;
+			}
+		}
 	}
 }
 
@@ -822,6 +953,11 @@ void player2::setAreaDamage(int plusDamage)
 		_em->hitEnemy(i, _attribute.atk + plusDamage);
 	}
 }
+void player2::setExp(int exp)
+{
+	_exp += exp;
+	_isExpSet = true;
+}
 //스텟 넣기
 void player2::setStat(int atk, int def, int luck, int cri, int speed)
 {
@@ -835,13 +971,17 @@ void player2::setStat(int atk, int def, int luck, int cri, int speed)
 //포션넣기
 void player2::setPortion(int hp, int mp)
 {
-	if (_attribute.currentMp <= _attribute.maxMp)
+	if (_attribute.currentMp <= _attribute.maxMp || _attribute.currentHp <= _attribute.maxHp)
 	{
 		_attribute.currentHp += hp;
 		_attribute.currentMp += mp;
 		if (_attribute.currentMp >= _attribute.maxMp)
 		{
 			_attribute.currentMp = _attribute.maxMp;
+		}
+		if (_attribute.currentHp >= _attribute.maxHp)
+		{
+			_attribute.currentHp = _attribute.maxHp;
 		}
 	}
 }
@@ -865,16 +1005,9 @@ void player2::setMove(SMOVE move)
 		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
 		_attribute.currentMp -= 3;
 	}
-	if (move == S_AREASKILL2 && _attribute.currentMp >= 3)
+	if (move == S_SOLOSKILL2 && _attribute.currentMp >= 3)
 	{
-		_move = S_AREASKILL2;
-		_isMotionLive = true;
-		_skillFrame = 0;
-		_attribute.currentMp -= 3;
-	}
-	if (move == S_SOLOSKILL3)
-	{
-		_move = S_SOLOSKILL3;
+		_move = S_SOLOSKILL2;
 		_isMotionLive = true;
 		_skillFrame = 0;
 		_attribute.currentMp -= 3;
@@ -886,18 +1019,25 @@ void player2::setMove(SMOVE move)
 		_skillFrame = 0;
 		_attribute.currentMp -= 3;
 	}
-	if (move == S_SOLOSKILL2)
+	if (move == S_AREASKILL3)
 	{
-		_move = S_SOLOSKILL2;
+		_move = S_AREASKILL3;
 		_isMotionLive = true;
 		_skillFrame = 0;
 		_attribute.currentMp -= 3;
 	}
-	if (move == S_AREASKILL3)
+	if (move == S_SOLOSKILL3)
+	{
+		_move = S_SOLOSKILL3;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_attribute.currentMp -= 3;
+	}
+	if (move == S_AREASKILL2)
 	{
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 3;
-		_move = S_AREASKILL3;
+		_move = S_AREASKILL2;
 		_isMotionLive = true;
 		_skillFrame = 0;
 		_attribute.currentMp -= 3;
@@ -923,6 +1063,11 @@ void player2::setPlayerDamage(int damage)
 		}
 
 		_attribute.currentHp -= damage;
+
+		if (_attribute.currentHp <= 0)
+		{
+			_attribute.currentHp = 0;
+		}
 	}
 }
 

@@ -42,17 +42,7 @@ void spearMan::release()
 
 void spearMan::update()
 {
-	//if (_enemy.isAttack == false && _enemy.direction == ATTACK)
-	//{
-	//	_enemy.currentFrameX = 1;
-
-	//	_enemy.isAttack = true;
-	//}
-	//else
-	//{
-	//	motion();
-	//}
-
+	
 	motion();
 }
 

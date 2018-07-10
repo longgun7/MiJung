@@ -14,6 +14,7 @@ enum MOVE
 	AREASKILL1, AREASKILL2, AREASKILL3,
 	DRINK,DRUNKEN, FIGHTREADY, DAMAGE,
 	DEFENCE, SEREMONI,ESCAPE,NOCKDOWN,
+	HPUP,MPUP,
 	//EVENTMODE
 	FRONT,LEFT1,LEFT2,LEFT3,LEFT4,RIGHT1,RIGHT2,RIGHT3,RIGHT4,
 	WOODFRONT, WOODLEFT1, WOODLEFT2, WOODLEFT3, WOODLEFT4, WOODRIGHT1, WOODRIGHT2, WOODRIGHT3, WOODRIGHT4
@@ -64,10 +65,16 @@ private:
 	int     _rndDirection;   //랜덤으로 기울기
 	int     _enemyIndex;     //적 인덱스
 
+	
+	int     _exp;
+	int     _compareExp;
+	bool     _isExpSet;
+	
+
 	float	_x, _y;		     //좌표
 	float   _gravity;	     //중력
 	float   _jumpPower;      //점프파워
-
+	float   _angle;          //아타호 앵글
 	bool    _isJumping;      //점프여부
 	bool    _isMotionLive;   //스킬, 상하좌우 움직임 여부
 	bool	_isWoodDrop;     //이벤트 모드할 때 물통을 들고있는지 아닌지
@@ -106,7 +113,7 @@ public:
 	void setPlayerDamage(int damage); //데미지 넣을 것
 	void setSoloDamage(int plusDamage);
 	void setAreaDamage(int plusDamage);
-	void setExp(int exp) { _attribute.currentExp += exp; }
+	void setExp(int exp);
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
 	void randEffect();
@@ -120,6 +127,7 @@ public:
 	float getY() { return _y; }
 	void setY(float y) { _y = y; }
 	
+	float getAngle() { return _angle; }                                                                                                                                                                    
 	MOVE getMove() { return _move; } //상태정의 접근자
 
 	tagAttribute getAttribute() { return _attribute; } //속성접근자

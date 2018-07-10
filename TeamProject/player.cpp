@@ -71,7 +71,7 @@ HRESULT player::init()
 	_frame		= 0;
 	_skillFrame = 0;
 	_slopeFrame = 0;
-	_moveSpeed  = 5;
+	_moveSpeed  = 5.0f;
 	_isMotionLive = false;
 	_isJumping = false;
 	_isWeaponMounting = false;
@@ -199,46 +199,71 @@ void player::fieldKeyManager()
 		//움직이는 모션
 		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 		{
-
+			
 			_move = LEFTMOVE;
 			_isMotionLive = true;
 		}
 		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 		{
+			
 			_move = RIGHTMOVE;
 			_isMotionLive = true;
 		}
 		if (KEYMANAGER->isStayKeyDown(VK_UP))
 		{
+			
 			_move = UPMOVE;
 			_isMotionLive = true;
 		}
 		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 		{
+			
 			_move = DOWNMOVE;
 			_isMotionLive = true;
+		}
+
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
+			_angle = PI;
+			_x += cosf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		{
+			_angle = 0;
+			_x += cosf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
+		{
+			_angle = PI / 2;
+			_y += -sinf(_angle)*_moveSpeed;
+		}
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		{
+			_angle = 2 * PI - PI / 2;
+			_y += -sinf(_angle)*_moveSpeed;
+			
 		}
 
 		//정자세
 		if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
 		{
 			_move = DOWN;
-
+			
 		}
 		if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 		{
 			_move = LEFT;
-
+			
 		}
 		if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 		{
 			_move = RIGHT;
-
+			
 		}
 		if (KEYMANAGER->isOnceKeyUp(VK_UP))
 		{
 			_move = UP;
-
+			
 		}
 	}
 }
@@ -249,7 +274,7 @@ void player::battleKeyManager()
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
 	{	
-		if (_attribute.currentHp > 0 )
+		if (_attribute.currentHp > 0 && _em->getVEnmey().size() != 0)
 		{
 			//스킬
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
@@ -325,16 +350,16 @@ void player::battleKeyManager()
 			}
 			if (KEYMANAGER->isOnceKeyDown('B'))
 			{
-				_attribute.currentExp += 50;
+				_move = HPUP;
 			}
 			if (KEYMANAGER->isOnceKeyDown('J'))
 			{
 				_move = ESCAPE;
 			}
 		}
-		else
+		if(_attribute.currentHp ==0)
 		{
-			_move == NOCKDOWN;
+			_move = NOCKDOWN;
 			_isMotionLive = true;
 		}
 	}
@@ -567,7 +592,7 @@ void player::playerImage()
 	case FIGHTREADY:
 		_img = IMAGEMANAGER->findImage("아타호전투상태");
 		_x = 100;
-		_y = 400;
+		_y = 200;
 		break;
 	case DAMAGE:
 		_img = IMAGEMANAGER->findImage("아타호피격");
@@ -580,6 +605,12 @@ void player::playerImage()
 		break;
 	case NOCKDOWN:
 		_img = IMAGEMANAGER->findImage("아타호쓰러짐");
+		break;
+	case HPUP:
+		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
+		break;
+	case MPUP:
+		_img = IMAGEMANAGER->findImage("아타호노익장대폭발");
 		break;
 	default:
 		break;
@@ -684,16 +715,16 @@ void player::move()
 	case UP:
 		break;
 	case LEFTMOVE:
-		_x -= _moveSpeed;
+		
 		break;
 	case RIGHTMOVE:
-		_x += _moveSpeed;
+		
 		break;
 	case DOWNMOVE:
-		_y += _moveSpeed;
+		
 		break;
 	case UPMOVE:
-		_y -= _moveSpeed;
+		
 		break;
 	case FIGHTREADY:
 		break;
@@ -946,6 +977,14 @@ void player::move()
 			{
 				_areaSkillEffect2->addSkill(_x + 40, _y-2);
 			}
+			if (_skillFrame % 5 == 0)
+			{
+				_areaSkillEffect2->addSkill(_x + 60, _y+5 );
+			}
+			if (_skillFrame % 5 == 0)
+			{
+				_areaSkillEffect2->addSkill(_x + 60, _y - 5);
+			}
 			//데미지 넣기~
 			if (_skillFrame % 20 == 0)
 			{
@@ -1059,7 +1098,24 @@ void player::move()
 			_move = FIGHTREADY;
 		}
 	}
+	//hp회복 
+	if (_move == HPUP|| _move == MPUP)
+	{
+		_isMotionLive = true;
+		if (_img->getFrameX() >= _img->getMaxFrameX())
+		{
+			_imageFrame = 3;
+		}
+		++_skillFrame;
+		_soloSkillEffect2->addSkill(_x, _y - 20);
+		if (_skillFrame > 100)
+		{
+			_imageFrame = 0;
+			_move = FIGHTREADY;
+			_skillFrame = 0;
+		}
 
+	}
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	//스킬렉트
@@ -1120,6 +1176,30 @@ void player::levelCheck()
 		}
 	}
 
+	if (_isExpSet == true)
+	{
+		if (_exp-_compareExp > 100)
+		{
+			_attribute.currentExp += 1;
+			_compareExp += 1;
+		}
+		if (_exp-_compareExp > 50)
+		{
+			_attribute.currentExp += 2;
+			_compareExp += 2;
+		}
+		if (_exp-_compareExp > 0)
+		{
+			_attribute.currentExp += 1;
+			_compareExp += 1;
+		}
+		if (_compareExp >= _exp)
+		{
+			_isExpSet = false;
+			_exp = 0;
+			_compareExp = 0;
+		}
+	}
 }
 
 //에너미가 데미지 넣을 것
@@ -1140,6 +1220,10 @@ void player::setPlayerDamage(int damage)
 		_attribute.currentHp -= 0;
 	}
 
+	if (_attribute.currentHp <= 0)
+	{
+		_attribute.currentHp = 0;
+	}
 }
 
 //에너미에게 공격을 넣는 함수를 간단하게 만든 함수
@@ -1156,9 +1240,17 @@ void player::setAreaDamage(int plusDamage)
 	}
 }
 
+void player::setExp(int exp)
+{
+	_exp += exp;
+	_isExpSet = true;
+
+}
+
 //스텟 넣기
 void player::setStat(int atk, int def, int luck, int cri, int speed)
 {
+	
 	_attribute.atk += atk;
 	_attribute.cri += cri;
 	_attribute.def += def;
@@ -1169,7 +1261,8 @@ void player::setStat(int atk, int def, int luck, int cri, int speed)
 //포션먹기
 void player::setPortion(int hp, int mp)
 {
-	if (_attribute.currentMp <= _attribute.maxMp)
+
+	if (_attribute.currentMp <= _attribute.maxMp|| _attribute.currentHp <= _attribute.maxHp)
 	{
 		_attribute.currentHp += hp;
 		_attribute.currentMp += mp;
@@ -1177,7 +1270,13 @@ void player::setPortion(int hp, int mp)
 		{
 			_attribute.currentMp = _attribute.maxMp;
 		}
+		if (_attribute.currentHp >= _attribute.maxHp)
+		{
+			_attribute.currentHp = _attribute.maxHp;
+		}
 	}	
+	
+	
 }
 
 void player::randEffect()
