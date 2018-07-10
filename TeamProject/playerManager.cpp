@@ -236,11 +236,11 @@ void playerManager::mounting()
 				{
 					_MPpoIndex -= 1;
 				}
-				if (_MPpoIndex == 0 && _vPoInven[i].mp != 0)
+				if (_MPpoIndex == 0 && _vPoInven[i].mp != 0 && _vPoInven.size() > 0 )
 				{
 					_vPoInven.erase(_vPoInven.begin() + i);
 				}
-				if (_HPpoIndex == 0 && _vPoInven[i].hp != 0)
+				else if (_HPpoIndex == 0 && _vPoInven[i].hp != 0 && _vPoInven.size() > 0)
 				{
 					_vPoInven.erase(_vPoInven.begin() + i);
 				}
