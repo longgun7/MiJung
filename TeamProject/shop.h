@@ -1,11 +1,10 @@
 #pragma once
-#include"gameNode.h"
 
 class playerManager;
 class enemyManager;
 class itemManager;
 
-class shop : public gameNode
+class shop
 {
 private:
 

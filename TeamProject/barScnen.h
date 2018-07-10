@@ -2,6 +2,7 @@
 #include "shop.h"
 #include "gameNode.h"
 
+
 class barScnen : public gameNode
 {
 private:
