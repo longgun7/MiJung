@@ -11,6 +11,7 @@ enum CTRL
 	CTRL_FIELD1,
 	CTRL_FIELD2,
 	CTRL_FIELD3,
+	CTRL_EVENT,
 	CTRL_SAVE,			//세이브 버튼
 	CTRL_LOAD,			//로드 버튼
 	CTRL_END
@@ -31,7 +32,7 @@ private:
 private:
 	tagSampleTile	_sampleTile[SAMPLETILEX * SAMPLETILEY];
 	tagTile			_tiles[TILEX * TILEY];
-	tagButton		_button[6];
+	tagButton		_button[7];
 	CTRL			_ctrl;
 
 	image*			_sampleImg;
@@ -84,7 +85,6 @@ public:
 	void save();
 	void load();
 
-	void imageCopy();
 	void miniMapCopy();
 
 	// 화면에 보여질 타일 인덱스 번호 설정

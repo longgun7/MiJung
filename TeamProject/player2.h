@@ -109,6 +109,10 @@ public:
 	void setPortion(int hp, int mp);
 	float getY() { return _y; }
 	
+	// Ãß°¡(¹Î°æ)
+	void setX(float x) { _x = x; }
+	void setY(float y) { _y = y; }
+
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
 	
 	SMOVE getMove() { return _move; }

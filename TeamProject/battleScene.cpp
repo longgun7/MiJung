@@ -42,6 +42,12 @@ HRESULT battleScene::init(void)
 	_isSumsuSkillFire = false;
 	_playerTurn = ATAHO_TURN;
 
+	CAMERA->setPosition(0, 0);
+	_pm->getPlayer()->setX(100);
+	_pm->getPlayer()->setY(200);
+	_pm->getPlayer2()->setX(100);
+	_pm->getPlayer2()->setY(400);
+
 	return S_OK;
 }
 
@@ -51,7 +57,6 @@ void battleScene::release(void)
 
 void battleScene::update(void)
 {
-	CAMERA->setPosition(0, 0);
 	iconChange();
 	
 

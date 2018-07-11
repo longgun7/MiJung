@@ -73,11 +73,22 @@ void cameraManager::setPosition(float x, float y, BOOL isMouse)
 			if (x < _cameraX + WINSIZEX / 3) _cameraX = x - (WINSIZEX / 3);
 			else if (x > _cameraX + WINSIZEX - WINSIZEX / 3) _cameraX = x - (WINSIZEX - WINSIZEX / 3);
 		}
+		else if (x > 0 && x <= WINSIZEX / 3) _cameraX = 0;
+		else if (x > _maxCameraX - WINSIZEX / 3 && x <= _maxCameraX) _cameraX = _maxCameraX - WINSIZEX;
 
-		if (y > WINSIZEY / 3 && y < _maxCameraY - 550 / 3)
+		if (y > 550 / 3 && y < _maxCameraY - 550 / 3)
 		{
 			if (y < _cameraY + 550 / 3) _cameraY = y - (550 / 3);
 			else if (y > _cameraY + 550 - 550 / 3) _cameraY = y - (550 - 550 / 3);
+		}
+		else if (y > 0 && y <= 550 / 3) _cameraY = 0;
+		else if (y > _maxCameraY - 550 / 3 && y <= _maxCameraY) _cameraY = _maxCameraY - 550;
+
+
+		if (x == 0 && y == 0)
+		{
+			_cameraX = 0;
+			_cameraY = 0;
 		}
 	}
 }

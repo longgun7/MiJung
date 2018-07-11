@@ -45,5 +45,9 @@ public:
 	itemManager* getItemManagerLink() { return _im; }
 	void setEnemyManagerLink(enemyManager* em) { _em = em; }
 	enemyManager* getEnemyManagerLink() { return _em; }
+
+	//현재 씬 이름이 무엇인지 받아오는 접근자
+	string getSceneName();
+
 };
 
