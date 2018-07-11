@@ -323,6 +323,13 @@ void playerManager::getItemValue(string itemName)
 		inventory.img->setFrameX(1);
 		inventory.img->setFrameY(2);
 	}
+	if (inventory.name == "°¡Á× °©¿Ê")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("°¡Á× °©¿Ê",
+			"image/ui/¾ÆÀÌÅÛ.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(7);
+		inventory.img->setFrameY(2);
+	}
 
 	//¾ÆÅ¸È£ ¹«±â
 	if (frameY == 0)

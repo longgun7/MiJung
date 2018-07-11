@@ -734,8 +734,7 @@ void player::move()
 
 	//정권찌르기
 	if (_move == BASICSKILL1)
-	{
-		
+	{	
 		++_skillFrame;
 		if (_skillFrame == 30)
 		{

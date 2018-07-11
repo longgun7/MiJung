@@ -23,7 +23,7 @@ private:
 	playerManager* _pm;
 	enemyManager* _em;
 	itemManager* _im;
-
+	string _sceneName;
 public:
 	sceneManager();
 	~sceneManager();
@@ -45,5 +45,7 @@ public:
 	itemManager* getItemManagerLink() { return _im; }
 	void setEnemyManagerLink(enemyManager* em) { _em = em; }
 	enemyManager* getEnemyManagerLink() { return _em; }
+	//void setCurrentSceneName(string sceneName) { _sceneName = sceneName; }
+	string getCurrentSceneName() { return _sceneName; }
 };
 
