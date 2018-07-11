@@ -154,7 +154,7 @@ void player::render()
 	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
 	//기울기 프레임
 	char str[125];
-	if (KEYMANAGER->isToggleKey('Z'))
+	if (KEYMANAGER->isToggleKey('Z') && _em->getVEnmey().size() > 0)
 	{
 		sprintf_s(str, "에너미 hp : %d", _em->getVEnmey()[0]->getTagEnmey().hp);
 		TextOut(getMemDC(), 100, 410, str, strlen(str));
