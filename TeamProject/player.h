@@ -125,7 +125,7 @@ public:
 	void setPortion(int hp, int mp);
 	void randEffect();
 	void randAreaEffect();
-	
+
 	void effectImage();
 	
 	float getX() { return _x; }

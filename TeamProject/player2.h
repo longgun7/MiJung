@@ -108,6 +108,8 @@ public:
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
 	
+	bool getIsExpSet() { return _isExpSet; }
+
 
 	float getY() { return _y; }
 	

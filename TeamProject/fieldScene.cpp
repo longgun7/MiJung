@@ -34,7 +34,7 @@ void fieldScene::update(void)
 	{
 		//SCENEMANAGER->changeScene("╩Себ╬ю");
 	}
-	
+
 }
 
 void fieldScene::render(void)

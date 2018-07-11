@@ -33,6 +33,10 @@ private:
 	progressBar* _mp2;
 	progressBar* _exp1;
 	progressBar* _exp2;
+
+	float _savePlayerPosX, _savePlayerPosY;
+	bool _isGoFieldScene;
+
 public:
 	playSceneManager();
 	~playSceneManager();
@@ -52,5 +56,6 @@ public:
 
 	void sceneChange(void);
 	void sceneMapPlayerSetting(string loadMap, float x, float y);
+	void battleSceneChange(void);
 };
 
