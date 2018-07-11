@@ -286,6 +286,44 @@ void playerManager::getItemValue(string itemName)
 	inventory.hp = INIDATA->loadDataInterger("item", itemName.c_str(), "HP회복");
 	inventory.mp = INIDATA->loadDataInterger("item", itemName.c_str(), "MP회복");
 
+	//statusScene에 들어갈 소모품 이미지
+	if (inventory.name == "약초")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("약초",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(0);
+		inventory.img->setFrameY(3);
+	}
+	if (inventory.name == "마법의 물약") 
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("마법물약",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(3);
+		inventory.img->setFrameY(3);
+	}
+	//statusScene에 들어갈 장비 이미지
+	if (inventory.name == "술")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("술",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(1);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "권법가 도복")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("권법가 도복",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(7);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "청룡도")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("청룡도",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(1);
+		inventory.img->setFrameY(2);
+	}
+
 	//아타호 무기
 	if (frameY == 0)
 	{
