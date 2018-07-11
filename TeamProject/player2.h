@@ -142,6 +142,7 @@ public:
 	}
 	void setEventMode(S_SCENEMODE mode);
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
+	int getSkillFrame() { return _skillFrame; }
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 	void setIsMotionLive(bool motion) { _isMotionLive = motion; }
 	image* getImage() { return _img; }

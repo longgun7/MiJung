@@ -4,6 +4,13 @@
 
 HRESULT enemyManager::init()
 {
+	_img = new image;
+	_img = IMAGEMANAGER->addFrameImage("데미지", "image/enemy/데미지.bmp", 70, 15, 10, 1, true, RGB(255, 0, 255), false);
+
+	_ge = new gameEffect;
+	_ge->init();
+
+	_x = _y = 0;
 	return S_OK;
 	
 }
@@ -23,7 +30,11 @@ void enemyManager::update()
 	{
 		randEnemy();									// randEnemy 함수를 호출한다
 	}
-
+	if (KEYMANAGER->isOnceKeyDown('W'))					// A키를 누르면
+	{
+		_ge->addMoney(WINSIZEX/2 + 200, WINSIZEY/2);									// randEnemy 함수를 호출한다
+	}
+	
 	if (KEYMANAGER->isToggleKey('F'))					// Z키를 누르면
 	{
 		hitPlayer();									// hitPlayer 함수를 호출한다
@@ -37,6 +48,7 @@ void enemyManager::update()
 		}
 		
 	}
+	_ge->update();
 }
 
 
@@ -49,13 +61,42 @@ void enemyManager::render()
 
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
-		char str[128];
-		sprintf_s(str, "%d:%d", _vEnemy[i]->getTagEnmey().currentFrameX, _vEnemy[i]->getTagEnmey().maxAttackFrameX);
-		TextOut(getMemDC(), 100 * i + WINSIZEX/2 + 50*i, 100, str, strlen(str));
+		
+		int damage = _vEnemy[i]->getTagEnmey().damage;
+		int width = (_vEnemy[i]->getTagEnmey().rc.right - _vEnemy[i]->getTagEnmey().rc.left) / 2;
+		int height = (_vEnemy[i]->getTagEnmey().rc.bottom - _vEnemy[i]->getTagEnmey().rc.top) / 2;
+		_img->setX(_vEnemy[i]->getTagEnmey().rc.left + width);
+		_img->setY(_vEnemy[i]->getTagEnmey().rc.top + height);
+
+		if (_vEnemy[i]->getTagEnmey().direction == HIT)
+		{
+
+			_img->frameRender(CAMERA->getCameraDC(), _img->getX() + width / 2, _img->getY() + height - 10, (damage % 10), 0);
+
+			if (damage > 10) _img->frameRender(CAMERA->getCameraDC(), _img->getX() + width / 2 + 8, _img->getY() + height - 10, (damage / 10) % 10, 0);
+			
+		}
+
+		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)
+		{
+
+			_ge->addMoney(_vEnemy[i]->getTagEnmey().rc.left + width, _vEnemy[i]->getTagEnmey().rc.top + height);
+
+			_vEnemy[i]->setIsDead(true);
+		}
+		if (_vEnemy[i]->getTagEnmey().fadeCount >= 4 && _vEnemy[i]->getTagEnmey().fadeCount <= 150)
+		{
+			int cost = _vEnemy[i]->getTagEnmey().dropGold;
+
+			_img->frameRender(CAMERA->getCameraDC(), _img->getX()+10, _img->getY(), (cost % 10), 0);
+			if (cost >=10) _img->frameRender(CAMERA->getCameraDC(), _img->getX() + 2, _img->getY(), (cost / 10) % 10, 0);
+			if (cost >= 100) _img->frameRender(CAMERA->getCameraDC(), _img->getX() - 6, _img->getY(), (cost / 100) % 10, 0);
+			if (cost >= 1000) _img->frameRender(CAMERA->getCameraDC(), _img->getX() - 14, _img->getY(), (cost / 1000) % 10, 0);
+		}
+		
 	}
-	char str[128];
-	sprintf_s(str, "%d", _hitIndex);
-	TextOut(getMemDC(), WINSIZEX / 2 + 50, 50, str, strlen(str));
+	_ge->render();
+
 }
 
 void enemyManager::setEnemy(float x, float y)
@@ -165,35 +206,39 @@ void enemyManager::hitPlayer()
 	// 예외처리추가(민경), 에너미가 한마리도 없을때 이 함수는 실행되지 않는다.
 	if (_vEnemy.size() <= 0) return;
 
-	if (_vEnemy[_hitIndex]->getTagEnmey().isAttack == true && _vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0)
+	if (_vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0 && _hitCount == 0)
 	{
-		_pm->getPlayer()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);
 		_vEnemy[_hitIndex]->setEnemyDirection(ATTACK);
 	}
 
-	if (_vEnemy[_hitIndex]->getTagEnmey().currentFrameX >= _vEnemy[_hitIndex]->getTagEnmey().maxAttackFrameX && _vEnemy[_hitIndex]->getTagEnmey().direction == STAND)
+	if (_vEnemy[_hitIndex]->getTagEnmey().isAttack == true)
+	{
+		_pm->getPlayer()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);
+		_hitTume = true;
+		_vEnemy[_hitIndex]->setIsAttack(false);
+		
+	}
+	if (_hitTume) ++_hitCount;
+
+	if (_hitCount >= 90)
 	{
 		_hitIndex++;
-		if (_hitIndex >= _vEnemy.size())
-		{
-			_hitIndex = 0;
-		}	
+		_hitTume = false;
+		_hitCount = 0;
 	}
-
 	
-
-	
+	if (_hitIndex >= _vEnemy.size()) _hitIndex = 0;
 
 	
 }
 
 void enemyManager::randEnemy()
 {
-	_randNum = RND->getFromIntTo(3, 5);
+	_randNum = RND->getFromIntTo(1, 5);
 
 	for (int i = 0; i < _randNum; i++)
 	{
-		_enemyIndex = RND->getFromIntTo(1, 6);
+		_enemyIndex = RND->getFromIntTo(1, 11);
 
 		if (_randNum == 1)
 		{
@@ -224,10 +269,6 @@ void enemyManager::randEnemy()
 void enemyManager::removeEnemy(int arrNum)
 {
 	_vEnemy.erase(_vEnemy.begin() + arrNum);
-}
-
-void enemyManager::setMotion(DIRECTION direction)
-{
 }
 
 enemyManager::enemyManager()

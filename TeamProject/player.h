@@ -168,6 +168,8 @@ public:
 		_isMotionLive = true;
 	}
 	void setSkillMove(MOVE move);
+	int getSkillFrame() { return _skillFrame; }
+	
 	
 	void setEventMode(SCENEMODE mode);
 	// Ãß°¡(¹Î°æ)

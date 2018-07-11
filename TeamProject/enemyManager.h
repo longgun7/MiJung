@@ -3,6 +3,7 @@
 #include "fildSkeleton.h"
 #include "enemys.h"
 #include "playerManager.h"
+#include "gameEffect.h"
 
 #define MAXSKELETON 20
 #define PLAYMAPSIZEY 525
@@ -23,13 +24,17 @@ private:
 	//viFildSkeleton _viFildSkeleton;		// 벡터를 사용하기 위한 _viSkeleton 선언
 
 	playerManager* _pm;
-	
+	gameEffect*	   _ge;
 	fildSkeleton* _fildSkeleton;		// 스켈레톤 함수를 사용하기 위해 선언
 	
 	int _randNum;						// 적이 몇마리가 생성될지
 	int _enemyIndex;					// 몇번째 적인지
 	int _hitIndex;
 	int _hitCount;
+	int _hitTume;
+	int _x;
+	int _y;
+	image* _img;
 
 public:
 
@@ -43,7 +48,6 @@ public:
 	void hitPlayer();										// 플레이어한테 데미지 주는 함수
 	void randEnemy();										// 무작위로 적 생성되게 하는 함수
 	void removeEnemy(int arrNum);							// 적을 지워주는 함수
-	void setMotion(DIRECTION direction);
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }			// 외부에서 에너미 벡터에 접근 가능하게 반환
 	vector<enemy*>::iterator getVIEnmey() { return _viEnemy; }			// 외부에서 에너미 벡터 이터레이터에 접근 가능하게 반환
