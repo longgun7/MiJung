@@ -312,11 +312,7 @@ void battleScene::addImage(void)
 	IMAGEMANAGER->addFrameImage("도구아이콘", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("모드아이콘", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("특수기아이콘", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("스킬1", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("스킬2", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("스킬3", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("스킬4", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("스킬5", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	
 
 	IMAGEMANAGER->addFrameImage("도구1", "image/ui/아이템.bmp,", 600, 250, 12, 5, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("도구2", "image/ui/아이템.bmp,", 600, 250, 12, 5, true, RGB(255, 0, 255));

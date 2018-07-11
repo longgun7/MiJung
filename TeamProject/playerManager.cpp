@@ -408,7 +408,7 @@ void playerManager::inventory()
 	//Æ÷¼Ç
 	for  (int i = 0; i < _vPoInven.size();  i++)
 	{
-		_vPoInven[i].rc = RectMakeCenter(600 +i*50, 350, 50, 50);
+		_vPoInven[i].rc = RectMakeCenter(600 + i*50, 350, 50, 50);
 	}
 }
 
