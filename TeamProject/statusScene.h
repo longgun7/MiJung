@@ -26,6 +26,7 @@ private:
 	playerManager * _pm;
 	enemyManager * _em;
 	itemManager* _im;
+
 	bool _isCheck;		
 	bool _isItemCheck;	
 
@@ -36,7 +37,7 @@ private:
 	int _invenIndex;
 	int _invenTypeIndex;
 
-	bool _isState;
+	
 	
 public:
 	statusScene();
@@ -46,10 +47,10 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
-
+	void keyManager(void);
 	void addImage(void);
 
-	bool getIsState() { return _isState; }
+	
 	void iconChange(void);
 	void fontUI(void);
 };

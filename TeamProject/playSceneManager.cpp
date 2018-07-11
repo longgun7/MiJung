@@ -116,8 +116,9 @@ void playSceneManager::sceneAdd(void)
 	SCENEMANAGER->addScene("ÇÊµå¾À", new fieldScene);
 	SCENEMANAGER->addScene("¹èÆ²¾À", new battleScene);
 	SCENEMANAGER->addScene("¼úÁı¾À", new barScnen);
-	
+	SCENEMANAGER->addScene("ÀÌº¥Æ®¾À", new eventScene);
 	SCENEMANAGER->addScene("ÇÃ·¹ÀÌ¾À", new playScene);
+	
 
 }
 

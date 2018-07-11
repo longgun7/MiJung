@@ -8,6 +8,7 @@
 #include"townScene.h"
 #include"fieldScene.h"
 #include"battleScene.h"
+#include"eventScene.h"
 #include"barScnen.h"
 
 class playerManager;
