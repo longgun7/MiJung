@@ -49,7 +49,6 @@ public:
 	virtual void render(void);
 	void keyManager(void);
 	void addImage(void);
-
 	
 	void iconChange(void);
 	void fontUI(void);
