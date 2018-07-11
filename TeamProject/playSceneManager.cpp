@@ -32,6 +32,7 @@ HRESULT playSceneManager::init(void)
 
 	_pm->getPlayer()->setplayMapMemoryAddressLink(_map);
 
+
 	setProgressBar();	//ÇÁ·Î±×·¡½º¹Ù ¼ÂÆÃ!
 
 	return S_OK;
@@ -147,8 +148,9 @@ void playSceneManager::sceneAdd(void)
 	SCENEMANAGER->addScene("ÇÊµå¾À", new fieldScene);
 	SCENEMANAGER->addScene("¹èÆ²¾À", new battleScene);
 	SCENEMANAGER->addScene("¼úÁý¾À", new barScnen);
-	
+	SCENEMANAGER->addScene("ÀÌº¥Æ®¾À", new eventScene);
 	SCENEMANAGER->addScene("ÇÃ·¹ÀÌ¾À", new playScene);
+	
 
 }
 
@@ -332,7 +334,7 @@ void playSceneManager::tileObjectRender(void)
 		{
 			if (_map->getTiles()[i * TILEX + j].obj == OBJ_NONE) continue;
 
-			IMAGEMANAGER->frameRender("town", getMemDC(),
+			IMAGEMANAGER->frameRender("field2Tile", getMemDC(),
 				_map->getTiles()[i * TILEX + j].rc.left, _map->getTiles()[i * TILEX + j].rc.top,
 				_map->getTiles()[i * TILEX + j].objFrameX, _map->getTiles()[i * TILEX + j].objFrameY);
 		}

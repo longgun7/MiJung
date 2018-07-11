@@ -8,8 +8,9 @@
 #include"townScene.h"
 #include"fieldScene.h"
 #include"battleScene.h"
+#include"eventScene.h"
 #include"barScnen.h"
-
+#include"eventMode.h"
 class playerManager;
 class enemyManager;
 class itemManager;
@@ -23,7 +24,7 @@ private:
 	itemManager* _im;
 	enemyManager* _em;
 	playMap* _map;
-
+	eventMode* _event;
 	bool _isStatus;
 	string _nowSong;
 	//플레이어 1,2 프로그래스 바

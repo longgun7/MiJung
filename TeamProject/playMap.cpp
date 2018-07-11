@@ -13,7 +13,7 @@ playMap::~playMap()
 
 HRESULT playMap::init()
 {
-	IMAGEMANAGER->addFrameImage("town", "image/maptool/town.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field2Tile", "image/maptool/field2.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("À©µµ¿ì¸Ê", 3750, 3750);
 
@@ -41,7 +41,7 @@ void playMap::load()
 	HANDLE file;
 	DWORD load;
 
-	file = CreateFile("town.map", GENERIC_READ, NULL, NULL,
+	file = CreateFile("field2Tile.map", GENERIC_READ, NULL, NULL,
 		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
@@ -58,7 +58,7 @@ void playMap::load()
 
 			maxTileX = j;
 			maxTileY = i;
-			IMAGEMANAGER->frameRender("town", IMAGEMANAGER->findImage("À©µµ¿ì¸Ê")->getMemDC(),
+			IMAGEMANAGER->frameRender("field2Tile", IMAGEMANAGER->findImage("À©µµ¿ì¸Ê")->getMemDC(),
 				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
 				_tiles[i * TILEX + j].terrainFrameX, _tiles[i * TILEX + j].terrainFrameY);
 		}
