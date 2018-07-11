@@ -23,7 +23,6 @@ HRESULT playSceneManager::init(void)
 	_map = new playMap;
 	_map->init();
 	
-	//아타호와 에너미 매니저 전방선언
 	
 	//전방선언	
 	_pm = SCENEMANAGER->getPlayerManagerLink();
@@ -31,6 +30,7 @@ HRESULT playSceneManager::init(void)
 	_em = SCENEMANAGER->getEnemyManagerLink();
 
 	_pm->getPlayer()->setplayMapMemoryAddressLink(_map);
+
 
 	setProgressBar();	//프로그래스바 셋팅!
 
@@ -48,36 +48,80 @@ void playSceneManager::update(void)
 	_em->update();
 	_im->update();
 	
-	CAMERA->setPosition(_pm->getPlayer()->getRC().left, _pm->getPlayer()->getRC().top);
+	sceneChange();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("타운씬");
-		_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+		_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE,S_DOWN);
+		SOUNDMANAGER->stop(_nowSong);
+		_nowSong = "TownTheMa";
+		if (!SOUNDMANAGER->isPlaySound(_nowSong))
+		{
+			SOUNDMANAGER->play(_nowSong, 1.0f);
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		SCENEMANAGER->changeScene("배틀씬");
-		_pm->getPlayer()->setScene(BATTLEMODE, FIGHTREADY);
+		_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
 		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
+		SOUNDMANAGER->stop(_nowSong);
+		int randumSound;
+		randumSound = RND->getInt(2);
+		if (randumSound == 0)
+		{
+			_nowSong = "BattleTheMa1";
+			if (!SOUNDMANAGER->isPlaySound(_nowSong))
+			{
+				SOUNDMANAGER->play(_nowSong, 1.0f);
+			}
+		}
+		else if (randumSound == 1)
+		{
+			_nowSong = "BattleTheMa2";
+			if (!SOUNDMANAGER->isPlaySound(_nowSong))
+			{
+				SOUNDMANAGER->play(_nowSong, 1.0f);
+			}
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
 		SCENEMANAGER->changeScene("필드씬");
-		_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+		_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
+		SOUNDMANAGER->stop(_nowSong);
+		_nowSong = "FiledTheMa";
+		if (!SOUNDMANAGER->isPlaySound(_nowSong))
+		{
+			SOUNDMANAGER->play(_nowSong, 1.0f);
+		}
 	}
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{
 		SCENEMANAGER->changeScene("술집씬");
-		
 	}
 	
+	if (KEYMANAGER->isOnceKeyDown(VK_F6))
+	{
+		SCENEMANAGER->changeScene("이벤트씬");
+	}
 	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
-		
+		if (!_isStatus) 
+		{
+
+			SCENEMANAGER->changeScene("상태씬");
+			_isStatus = true;
+		}
+		else if (_isStatus)
+		{
+			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
+			_isStatus = false;
+		}
 	}
 	
 	updateProgressBar();
@@ -101,10 +145,10 @@ void playSceneManager::render(void)
 	_pm->render();
 	_em->render();
 	_im->render();
-	
+		
 	// 오브젝트 렌더
-	tileObjectRender();
-	
+	_map->objRender();
+
 	fontUI();
 }
 
@@ -116,9 +160,9 @@ void playSceneManager::sceneAdd(void)
 	SCENEMANAGER->addScene("필드씬", new fieldScene);
 	SCENEMANAGER->addScene("배틀씬", new battleScene);
 	SCENEMANAGER->addScene("술집씬", new barScnen);
-	
+	SCENEMANAGER->addScene("이벤트씬", new eventScene);
 	SCENEMANAGER->addScene("플레이씬", new playScene);
-
+	
 }
 
 void playSceneManager::basicUI(void)
@@ -196,33 +240,6 @@ void playSceneManager::fontUI(void)
 	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 150, charName, strlen(charName));
 	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 100, charName1, strlen(charName1));
 	
-	if(_isStatus)//스탯창이 켜지면 
-	{
-		if(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()==0)
-		{
-			TextOut(CAMERA->getCameraDC(), 480, 45, currentLevel1, strlen(currentLevel1));
-			TextOut(CAMERA->getCameraDC(), 480, 85, currentHP1, strlen(currentHP1));
-			TextOut(CAMERA->getCameraDC(), 480, 125, currentMP1, strlen(currentMP1));
-			TextOut(CAMERA->getCameraDC(), 480, 165, currentEXP1, strlen(currentEXP1));
-			TextOut(CAMERA->getCameraDC(), 480, 205, currentAtk1, strlen(currentAtk1));
-			TextOut(CAMERA->getCameraDC(), 480, 245, currentDef1, strlen(currentDef1));
-			TextOut(CAMERA->getCameraDC(), 480, 285, currentSpeed1, strlen(currentSpeed1));
-			TextOut(CAMERA->getCameraDC(), 480, 325, currentLuck1, strlen(currentLuck1));
-		}
-		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
-		{
-			TextOut(CAMERA->getCameraDC(), 480, 45, currentLevel2, strlen(currentLevel2));
-			TextOut(CAMERA->getCameraDC(), 480, 85, currentHP2, strlen(currentHP2));
-			TextOut(CAMERA->getCameraDC(), 480, 125, currentMP2, strlen(currentMP2));
-			TextOut(CAMERA->getCameraDC(), 480, 165, currentEXP2, strlen(currentEXP2));
-			TextOut(CAMERA->getCameraDC(), 480, 205, currentAtk2, strlen(currentAtk2));
-			TextOut(CAMERA->getCameraDC(), 480, 245, currentDef2, strlen(currentDef2));
-
-			TextOut(CAMERA->getCameraDC(), 480, 285, currentSpeed2, strlen(currentSpeed2));
-			TextOut(CAMERA->getCameraDC(), 480, 325, currentLuck2, strlen(currentLuck2));
-		}
-	}
-	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 
@@ -292,18 +309,105 @@ void playSceneManager::renderProgressBar(void)
 	_exp2->render();
 }
 
-void playSceneManager::tileObjectRender(void)
+// 끔찍(수정 반드시 필요)
+void playSceneManager::sceneChange(void)
 {
-	POINT camera = CAMERA->getPosition();
-	for (int i = camera.y / TILESIZE; i < camera.y / TILESIZE + SHOWTILEY; ++i)
-	{
-		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
-		{
-			if (_map->getTiles()[i * TILEX + j].obj == OBJ_NONE) continue;
+	//if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	//{
+	//	SCENEMANAGER->changeScene("타운씬");
+	//	_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+	//	_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
+	//
+	//}
+	//if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	//{
+	//	SCENEMANAGER->changeScene("배틀씬");
+	//	_pm->getPlayer()->setScene(BATTLEMODE, FIGHTREADY);
+	//	_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
+	//}
+	//if (KEYMANAGER->isOnceKeyDown(VK_F3))
+	//{
+	//	SCENEMANAGER->changeScene("필드씬");
+	//	_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+	//	_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
+	//}
+	//
+	//if (KEYMANAGER->isOnceKeyDown(VK_F4))
+	//{
+	//	SCENEMANAGER->changeScene("술집씬");
+	//}
 
-			IMAGEMANAGER->frameRender("town", getMemDC(),
-				_map->getTiles()[i * TILEX + j].rc.left, _map->getTiles()[i * TILEX + j].rc.top,
-				_map->getTiles()[i * TILEX + j].objFrameX, _map->getTiles()[i * TILEX + j].objFrameY);
+	//플레이어가 어느 위치에 있느냐에 따라 포탈 이동 및 씬 이동
+	int idX = _pm->getPlayer()->getZorderRC().right / TILESIZE - 1;
+	int idY = _pm->getPlayer()->getZorderRC().top / TILESIZE;
+	switch (_map->getTiles()[idY * TILEX + idX].obj)
+	{
+	case OBJ_UPPORTAL:
+		if (_map->getCurrentTileName() == "field2Tile")
+		{
+			sceneMapPlayerSetting("field1Tile", 1235, 2000);
 		}
+		else if (_map->getCurrentTileName() == "event")
+		{
+			sceneMapPlayerSetting("field2Tile", 360, 2750);
+		}
+		if (_map->getCurrentTileName() == "field3Tile")
+		{
+			sceneMapPlayerSetting("event", 500, 1950);
+		}
+		break;
+
+	case OBJ_DOWNPORTAL:
+		if (_map->getCurrentTileName() == "field1Tile")
+		{
+			sceneMapPlayerSetting("field2Tile", 100, 100);
+		}
+		else if (_map->getCurrentTileName() == "field2Tile")
+		{
+			sceneMapPlayerSetting("event", 100, 100);
+		}
+		else if (_map->getCurrentTileName() == "event")
+		{
+			sceneMapPlayerSetting("field3Tile", 100, 100);
+		}
+		break;
+
+	case OBJ_LEFTPORTAL:
+		if (SCENEMANAGER->getSceneName() == "필드씬")
+		{
+			SCENEMANAGER->changeScene("타운씬");
+			sceneMapPlayerSetting("town", 2310, 1050);
+		}
+		break;
+
+	case OBJ_RIGHTPORTAL:
+		if (SCENEMANAGER->getSceneName() == "타운씬")
+		{
+			SCENEMANAGER->changeScene("필드씬");
+			sceneMapPlayerSetting("field1Tile", 100, 100);
+		}
+		break;
+
 	}
+
 }
+
+void playSceneManager::sceneMapPlayerSetting(string loadMap, float x, float y)
+{
+	_pm->getPlayer()->setX(x);	_pm->getPlayer()->setY(y);
+	_pm->getPlayer2()->setX(x);	_pm->getPlayer2()->setY(y);
+
+	if (SCENEMANAGER->getSceneName() == "타운씬" || SCENEMANAGER->getSceneName() == "필드씬")
+	{
+		_pm->getPlayer()->setSceneMode(FIELDMODE, RIGHT);
+		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_RIGHT);
+	}
+	else if (SCENEMANAGER->getSceneName() == "배틀씬")
+	{
+		_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
+		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
+
+	}
+	_map->load(loadMap);
+}
+

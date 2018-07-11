@@ -28,9 +28,11 @@ void fieldScene::release(void)
 
 void fieldScene::update(void)
 {
+	CAMERA->setPosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
+
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
-		SCENEMANAGER->changeScene("╩Себ╬ю");
+		//SCENEMANAGER->changeScene("╩Себ╬ю");
 	}
 	
 }

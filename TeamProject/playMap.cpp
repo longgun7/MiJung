@@ -14,10 +14,15 @@ playMap::~playMap()
 HRESULT playMap::init()
 {
 	IMAGEMANAGER->addFrameImage("town", "image/maptool/town.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("InHouse", "image/maptool/inHouse.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field1Tile", "image/maptool/field1.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field2Tile", "image/maptool/field2.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("field3Tile", "image/maptool/field3.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("event", "image/maptool/event.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("À©µµ¿ì¸Ê", 3750, 3750);
 
-	load();
+	load("town");
 
 	return S_OK;
 }
@@ -36,12 +41,31 @@ void playMap::render()
 	IMAGEMANAGER->findImage("À©µµ¿ì¸Ê")->render(getMemDC(), CAMERA->getPosition().x, CAMERA->getPosition().y, CAMERA->getPosition().x, CAMERA->getPosition().y, WINSIZEX, WINSIZEY);
 }
 
-void playMap::load()
+void playMap::objRender()
+{
+	POINT camera = CAMERA->getPosition();
+	for (int i = camera.y / TILESIZE; i < camera.y / TILESIZE + SHOWTILEY; ++i)
+	{
+		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
+		{
+			if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
+			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL) continue;
+
+			IMAGEMANAGER->frameRender(_currentTile, getMemDC(),
+				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
+				_tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY);
+		}
+	}
+}
+
+void playMap::load(string tileName)
 {
 	HANDLE file;
 	DWORD load;
 
-	file = CreateFile("town.map", GENERIC_READ, NULL, NULL,
+	_currentTile = tileName;
+	string str = _currentTile + ".map";
+	file = CreateFile((char*)str.c_str(), GENERIC_READ, NULL, NULL,
 		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
@@ -54,11 +78,11 @@ void playMap::load()
 	{
 		for (int j = 0; j < TILEX; ++j)
 		{
-			if (_tiles[i * TILEX + j].terrain == TR_NONE) break;
+			if (_tiles[i * TILEX + j].terrain == TR_NONE) continue;
 
 			maxTileX = j;
 			maxTileY = i;
-			IMAGEMANAGER->frameRender("town", IMAGEMANAGER->findImage("À©µµ¿ì¸Ê")->getMemDC(),
+			IMAGEMANAGER->frameRender(_currentTile, IMAGEMANAGER->findImage("À©µµ¿ì¸Ê")->getMemDC(),
 				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
 				_tiles[i * TILEX + j].terrainFrameX, _tiles[i * TILEX + j].terrainFrameY);
 		}

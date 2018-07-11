@@ -3,7 +3,7 @@
 
 #define BACKGROUNDX 3750
 #define BACKGROUNDY 3750
-#define CAMERASPEED 5
+#define CAMERASPEED 15
 
 class cameraManager : public singletonBase<cameraManager>
 {

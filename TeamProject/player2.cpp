@@ -564,13 +564,13 @@ void player2::move()
 		}
 		if (_skillFrame == 50)
 		{
-			setAreaDamage(6);
+			setSoloDamage(6);
 			_areaSkill1->addAreaSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y, _enemyIndex + 1);
 		}
 		//스킬 넣기
 		if ((_skillFrame % 5 == 0 && _imageFrame == 5) || (_skillFrame % 5 == 0 && _imageFrame == 9))
 		{
-			setAreaDamage(6);
+			setSoloDamage(6);
 			randEffect();
 		}
 		if (_img->getFrameX() >= _img->getMaxFrameX())
@@ -601,6 +601,10 @@ void player2::move()
 		}
 		if (_img->getFrameX() == 43)
 		{
+			if (!SOUNDMANAGER->isPlaySound("Cut4"))
+			{
+				SOUNDMANAGER->play("Cut4", 1.0f);
+			}
 			_soloSkill3->cutBigSkill(_x + 30, _y);
 		}
 		if (_img->getFrameX() >= 44 && _skillFrame >= 200)
@@ -638,6 +642,10 @@ void player2::move()
 	//분신
 	if (_img == IMAGEMANAGER->findImage("스마슈분신") && _move == S_AREASKILL2)
 	{
+		if (!SOUNDMANAGER->isPlaySound("Clone1"))
+		{
+			SOUNDMANAGER->play("Clone1", 0.5f);
+		}
 		++_skillFrame;
 		if (_skillFrame == 50)
 		{
@@ -653,6 +661,7 @@ void player2::move()
 		}
 		if (_skillFrame > 150 && _skillFrame % 30 == 0)
 		{
+			SOUNDMANAGER->stop("Clone1");
 			setAreaDamage(6);
 			randAreaEffect();
 		}
@@ -668,7 +677,10 @@ void player2::move()
 	//용오름 
 	if (_move == S_AREASKILL3)
 	{
-		
+		if (!SOUNDMANAGER->isPlaySound("DragronUp"))
+		{
+			SOUNDMANAGER->play("DragronUp", 0.5f);
+		}
 		++_skillFrame;
 		_x = 200;
 		_y = WINSIZEY / 2;
@@ -702,6 +714,10 @@ void player2::move()
 	//피격당했을 때
 	if (_move == S_DANGER)
 	{
+		if (!SOUNDMANAGER->isPlaySound("Clone1"))
+		{
+			SOUNDMANAGER->play("Hit", 0.5f);
+		}
 		++_skillFrame;
 
 		if (_skillFrame < 20)
@@ -759,14 +775,26 @@ void player2::randEffect()
 	if (randCut == 0)
 	{
 		_soloSkill3->cutDiagonalSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
+		if (!SOUNDMANAGER->isPlaySound("Cut1"))
+		{
+			SOUNDMANAGER->play("Cut1", 0.5f);
+		}
 	}
 	if (randCut == 1)
 	{
 		_soloSkill3->cutDownSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
+		if (!SOUNDMANAGER->isPlaySound("Cut2"))
+		{
+			SOUNDMANAGER->play("Cut2", 0.5f);
+		}
 	}
 	if (randCut == 2)
 	{
 		_soloSkill3->cutUpSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
+		if (!SOUNDMANAGER->isPlaySound("Cut3"))
+		{
+			SOUNDMANAGER->play("Cut3", 0.5f);
+		}
 	}
 }
 
@@ -820,6 +848,7 @@ void player2::s_event()
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 2 - 40;
 		_isJumping = false;
+		
 	}
 
 	if (!_isJumping)
@@ -831,17 +860,19 @@ void player2::s_event()
 	//줄타기
 	if (_sceneMode == S_EVENTMODE)
 	{
-		_move = S_ROPEWALKING;
 		
+		_move = S_ROPEWALKING;
 		//낙사할 때
-		if (_isJumping)
+		if (_isJumping && _x > WINSIZEX/2 -150 &&_x < WINSIZEX/2 +150)
 		{
 			_y -= _jumpPower;
 			_jumpPower -= _gravity;
-			_x += 3;
+			_x += 3;	
+		}
+		if (_isJumping)
+		{
 			_img = IMAGEMANAGER->findImage("스마슈낙사");
 		}
-
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 			_isMotionLive = true;
@@ -857,7 +888,6 @@ void player2::levelCheck()
 		//레벨업
 		if (_attribute.currentExp >= _attribute.maxExp)
 		{
-
 			_attribute.isLevelUp = true;
 		}
 
@@ -892,8 +922,7 @@ void player2::levelCheck()
 
 		if (_move == S_SEREMONI)
 		{
-			_x = 95;
-			_y = 300;
+			
 			++_skillFrame;
 			if (_skillFrame > 75)
 			{
@@ -993,7 +1022,7 @@ void player2::setPortion(int hp, int mp)
 	}
 }
 
-void player2::setMove(SMOVE move)
+void player2::setSkillMove(SMOVE move)
 {
 	if (move == S_BASICSKILL1)
 	{
@@ -1049,6 +1078,8 @@ void player2::setMove(SMOVE move)
 		_skillFrame = 0;
 		_attribute.currentMp -= 3;
 	}
+
+	
 }
 
 
@@ -1076,6 +1107,14 @@ void player2::setPlayerDamage(int damage)
 			_attribute.currentHp = 0;
 		}
 	}
+}
+
+void player2::setEventMode(S_SCENEMODE mode)
+{
+	_sceneMode = S_EVENTMODE;
+	_x = WINSIZEX / 2+20;
+	_y = WINSIZEY / 2 - 40;
+	_isJumping = false;
 }
 
 player2::player2()

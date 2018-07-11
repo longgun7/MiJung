@@ -161,6 +161,8 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemys.h" />
     <ClInclude Include="enemyManager.h" />
+    <ClInclude Include="eventScene.h" />
+    <ClInclude Include="eventMode.h" />
     <ClInclude Include="fieldScene.h" />
     <ClInclude Include="gameEffect.h" />
     <ClInclude Include="gameNode.h" />
@@ -214,6 +216,8 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemys.cpp" />
     <ClCompile Include="enemyManager.cpp" />
+    <ClCompile Include="eventScene.cpp" />
+    <ClCompile Include="eventMode.cpp" />
     <ClCompile Include="fieldScene.cpp" />
     <ClCompile Include="gameEffect.cpp" />
     <ClCompile Include="gameNode.cpp" />

@@ -109,6 +109,9 @@
     <Filter Include="playGround\enemy\필드스켈레톤">
       <UniqueIdentifier>{ca392800-fa52-4bfb-b15a-eb5afec75351}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Scene\startScene\playScene\eventScene">
+      <UniqueIdentifier>{6fe53a2a-cda9-4c6e-9f5f-c99f1d89b848}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -275,6 +278,12 @@
     </ClInclude>
     <ClInclude Include="bossSkill.h">
       <Filter>playGround\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="eventMode.h">
+      <Filter>playGround\playerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="eventScene.h">
+      <Filter>playGround\Scene\startScene\playScene\eventScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -448,6 +457,12 @@
     </ClCompile>
     <ClCompile Include="bossSkill.cpp">
       <Filter>playGround\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="eventMode.cpp">
+      <Filter>playGround\playerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="eventScene.cpp">
+      <Filter>playGround\Scene\startScene\playScene\eventScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
