@@ -7,8 +7,8 @@ BossSkill1::~BossSkill1() {}
 
 HRESULT BossSkill1::init()
 {
-	IMAGEMANAGER->addFrameImage("IceFragments", "IceFragments.bmp", 192, 32, 6, 1, true, RGB(255, 0, 255));
-	EFFECTMANAGER->addEffect("Ice", "Ice.bmp", 144, 64, 48, 64, 10, 0.01f, 10);
+	IMAGEMANAGER->addFrameImage("IceFragments", "image/effect/IceFragments.bmp", 192, 32, 6, 1, true, RGB(255, 0, 255));
+	EFFECTMANAGER->addEffect("Ice", "image/effect/Ice.bmp", 144, 64, 48, 64, 10, 0.01f, 10);
 
 	return S_OK;
 }
@@ -32,10 +32,13 @@ void BossSkill1::render()
 	EFFECTMANAGER->render();
 }
 
-
+// 보스 x(중점 좌표), y(중점 좌표)
 void BossSkill1::addAreaSkill(float x, float y)
 {
+	// 얼음파편인지 얼음뭉인지 구별하기 위한 bool 값
+	// false 면 파편 true면 얼음뭉
 	_start = false;
+	//총 10개 생성
 	tagBossSkill bossSkill[10];
 	for (int i = 0; i < 10; ++i)
 	{
@@ -48,9 +51,10 @@ void BossSkill1::addAreaSkill(float x, float y)
 		bossSkill[i].fireX = bossSkill[i].x = x;
 		bossSkill[i].fireY = bossSkill[i].y = y - 50;
 
+		//얼음 파편 날라갈 조각 각도들
 		_randumAngle = RND->getFloat((PI / 3));
 		bossSkill[i].angle = ((PI / 12) * 11) + _randumAngle;
-
+		// 얼음 파편 날라갈 조각 스피드
 		bossSkill[i].speed = 5.0f;
 
 		bossSkill[i].count = 0;
@@ -114,6 +118,101 @@ void BossSkill1::atkSkill()
 			{
 				++_viTagBossSkill;
 			}
+		}
+	}
+}
+
+BossSkill2::BossSkill2() {}
+
+BossSkill2::~BossSkill2() {}
+
+HRESULT BossSkill2::init()
+{
+	return S_OK;
+}
+
+void BossSkill2::realse() {}
+
+void BossSkill2::update()
+{
+	moveSkill();
+}
+
+void BossSkill2::render()
+{
+	for (_viTagBossSkill = _vTagBossSkill.begin(); _viTagBossSkill != _vTagBossSkill.end(); ++_viTagBossSkill)
+	{
+		_viTagBossSkill->img->frameRender(getMemDC(), _viTagBossSkill->rc.left, _viTagBossSkill->rc.top,
+			_viTagBossSkill->img->getFrameX(), _viTagBossSkill->img->getFrameY(),
+			_viTagBossSkill->img->getFrameWidth(), _viTagBossSkill->height);
+	}
+}
+
+void BossSkill2::addAreaSkill()
+{
+	tagBossSkill bossSkill;
+	ZeroMemory(&bossSkill, sizeof(tagBossSkill));
+	bossSkill.img = new image;
+	bossSkill.img->init("image/effect/Lightning.bmp", 144, 48, 3, 1, true, RGB(255, 0, 255));
+
+	bossSkill.img->setFrameX(0);
+
+	// x좌표 랜덤 y좌표 랜덤
+	_randumX = RND->getFromIntTo(80, WINSIZEX / 2);
+	_randumY = RND->getFromIntTo(100, 120);
+	bossSkill.fireX = bossSkill.x = _randumX;
+	bossSkill.fireY = bossSkill.y = _randumY;
+	// 높이 길이 랜덤
+	_randumHeight = RND->getInt(4);
+	if (_randumHeight == 0)
+	{
+		bossSkill.height = 200;
+	}
+	else if (_randumHeight == 1)
+	{
+		bossSkill.height = 250;
+	}
+	else if (_randumHeight == 2)
+	{
+		bossSkill.height = 300;
+	}
+	else if (_randumHeight == 3)
+	{
+		bossSkill.height = 350;
+	}
+	bossSkill.count = 0;
+	bossSkill.rc = RectMakeCenter(bossSkill.x, bossSkill.y,
+		bossSkill.img->getFrameWidth(), bossSkill.img->getFrameHeight());
+
+	_vTagBossSkill.push_back(bossSkill);
+}
+
+void BossSkill2::moveSkill()
+{
+
+	for (_viTagBossSkill = _vTagBossSkill.begin(); _viTagBossSkill != _vTagBossSkill.end();)
+	{
+		_viTagBossSkill->count++;
+		if (_viTagBossSkill->count % 6 == 0)
+		{
+			if (_viTagBossSkill->img->getMaxFrameX() <= _viTagBossSkill->img->getFrameX())
+			{
+				_viTagBossSkill->img->setFrameX(0);
+			}
+			else _viTagBossSkill->img->setFrameX(_viTagBossSkill->img->getFrameX() + 1);
+		}
+
+		_viTagBossSkill->rc = RectMakeCenter(_viTagBossSkill->x, _viTagBossSkill->y,
+			_viTagBossSkill->img->getFrameWidth(), _viTagBossSkill->img->getFrameHeight());
+
+		if (_viTagBossSkill->count > 30)
+		{
+			_viTagBossSkill->count = 0;
+			_viTagBossSkill = _vTagBossSkill.erase(_viTagBossSkill);
+		}
+		else
+		{
+			++_viTagBossSkill;
 		}
 	}
 }

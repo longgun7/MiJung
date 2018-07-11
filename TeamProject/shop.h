@@ -26,6 +26,7 @@ public:
 	void fontUI();
 	void shopRemove();
 	void setItem();
+	void buyItem();
 
 
 	int getBuyNum() { return _buyNum; }

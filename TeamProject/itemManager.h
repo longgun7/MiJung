@@ -20,9 +20,7 @@ public:
 	void setItem();
 
 	void itemMakeSet(string itemName, float x, float y);
-	void shopItemSet(string itemName, float x, float y);
 	void potionMakeSet(string potionName, float x, float y);
-	void shopPotionSet(string potionName, float x, float y);
 	
 	item* getPItem()	  { return _pItem; }
 	item* getPortion()	  { return _potion; }
