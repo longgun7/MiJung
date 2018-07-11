@@ -329,13 +329,6 @@ void playerManager::getItemValue()
 						inventory.name = _im->getPortion()->getPorName(i);
 						inventory.hp = _im->getPortion()->getVPotion()[i].hp;
 						inventory.mp = _im->getPortion()->getVPotion()[i].mp;
-						
-						if (_poIndex == 0)
-						{
-							_vPoInven.push_back(inventory);
-						}
-						_poIndex += 1;
-						break;
 					}
 				}
 			}
@@ -369,7 +362,7 @@ void playerManager::inventory()
 	//Æ÷¼Ç
 	for  (int i = 0; i < _vPoInven.size();  i++)
 	{
-		_vPoInven[i].rc = RectMakeCenter(600 +50, 350, 50, 50);
+		_vPoInven[i].rc = RectMakeCenter(600 + i*50, 350, 50, 50);
 	}
 }
 
