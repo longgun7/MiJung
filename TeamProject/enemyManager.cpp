@@ -24,17 +24,18 @@ void enemyManager::update()
 		randEnemy();									// randEnemy 함수를 호출한다
 	}
 
-	if (KEYMANAGER->isOnceKeyDown('Z'))					// Z키를 누르면
+	if (KEYMANAGER->isToggleKey('F'))					// Z키를 누르면
 	{
 		hitPlayer();									// hitPlayer 함수를 호출한다
 	}
 
-	if (KEYMANAGER->isToggleKey('V'))
+	if (KEYMANAGER->isOnceKeyDown('V'))
 	{
-		for (int i = 0; i < _vEnemy.size(); ++i)		// V키를 누르면
+		while (_vEnemy.size() > 0)										// V키를 누르면
 		{
-			removeEnemy(i);								// 벡터 사이즈만큼 removeEnemy 함수를 호출한다
+			removeEnemy(0);								// 벡터 사이즈만큼 removeEnemy 함수를 호출한다
 		}
+		
 	}
 }
 
@@ -49,9 +50,12 @@ void enemyManager::render()
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
 		char str[128];
-		sprintf_s(str, "%d", _vEnemy[i]->getTagEnmey().att);
-		TextOut(getMemDC(), 100 * i + WINSIZEX/2, 100, str, strlen(str));
+		sprintf_s(str, "%d:%d", _vEnemy[i]->getTagEnmey().currentFrameX, _vEnemy[i]->getTagEnmey().maxAttackFrameX);
+		TextOut(getMemDC(), 100 * i + WINSIZEX/2 + 50*i, 100, str, strlen(str));
 	}
+	char str[128];
+	sprintf_s(str, "%d", _hitIndex);
+	TextOut(getMemDC(), WINSIZEX / 2 + 50, 50, str, strlen(str));
 }
 
 void enemyManager::setEnemy(float x, float y)
@@ -158,20 +162,38 @@ void enemyManager::hitEnemy(int index, int damge)
 
 void enemyManager::hitPlayer()
 {
-	for (int i = 0; i < _vEnemy.size(); ++i)
+	// 예외처리추가(민경), 에너미가 한마리도 없을때 이 함수는 실행되지 않는다.
+	if (_vEnemy.size() <= 0) return;
+
+	if (_vEnemy[_hitIndex]->getTagEnmey().isAttack == true && _vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0)
 	{
-		_pm->getPlayer()->setPlayerDamage(_vEnemy[i]->getTagEnmey().att);
-		_pm->getPlayer2()->setPlayerDamage(_vEnemy[i]->getTagEnmey().att);
+		_pm->getPlayer()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);
+		_vEnemy[_hitIndex]->setEnemyDirection(ATTACK);
 	}
+
+	if (_vEnemy[_hitIndex]->getTagEnmey().currentFrameX >= _vEnemy[_hitIndex]->getTagEnmey().maxAttackFrameX && _vEnemy[_hitIndex]->getTagEnmey().direction == STAND)
+	{
+		_hitIndex++;
+		if (_hitIndex >= _vEnemy.size())
+		{
+			_hitIndex = 0;
+		}	
+	}
+
+	
+
+	
+
+	
 }
 
 void enemyManager::randEnemy()
 {
-	_randNum = RND->getFromIntTo(1, 5);
+	_randNum = RND->getFromIntTo(3, 5);
 
 	for (int i = 0; i < _randNum; i++)
 	{
-		_enemyIndex = RND->getFromIntTo(1, 11);
+		_enemyIndex = RND->getFromIntTo(1, 6);
 
 		if (_randNum == 1)
 		{

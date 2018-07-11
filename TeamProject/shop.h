@@ -12,6 +12,8 @@ private:
 	enemyManager * _em;
 	itemManager* _im;
 
+	int _buyNum;
+	int _totalNum;
 public:
 	shop();
 	~shop();
@@ -24,5 +26,9 @@ public:
 	void fontUI();
 	void shopRemove();
 	void setItem();
+
+
+	int getBuyNum() { return _buyNum; }
+
 };
 

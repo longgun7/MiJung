@@ -30,6 +30,7 @@ public:
 	void setPosition(float x, float y, BOOL isMouse = FALSE);
 	POINT getPosition() { return PointMake(_cameraX, _cameraY); }
 	void setMaxPositon(float x, float y) { _maxCameraX = x, _maxCameraY = y; }
+	POINT getMaxPositon() { return PointMake(_maxCameraX, _maxCameraY); }
 
 	image* getCameraBuffer() { return _cameraBuffer; }
 	HDC getCameraDC() { return _cameraBuffer->getMemDC(); }

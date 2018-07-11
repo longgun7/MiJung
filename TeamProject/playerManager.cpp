@@ -19,7 +19,8 @@ HRESULT playerManager::init()
 	_gold.money = 10000;
 	_gold.moneyFrame = 0;
 	
-	_poIndex = 0; //포션 인덱스
+	_HPpoIndex = 0; //포션 인덱스
+	_MPpoIndex = 0;
 	//아이템 매니저 전방선언
 	//_im = new itemManager;
 	//_im->init();
@@ -35,7 +36,7 @@ void playerManager::update()
 	_ataho->update();	
 	_smasyu->update();
 	
-	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY());
+	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY(), _ataho->getAngle());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	getItemValue(); //아이템 인벤
 	inventory(); //인벤토리
@@ -102,10 +103,20 @@ void playerManager::render()
 	}
 	for (int i = 0; i < _vPoInven.size(); i++)
 	{
-		Rectangle(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, _vPoInven[i].rc.right, _vPoInven[i].rc.bottom);
-		char str[100];
-		sprintf_s(str, "%d", _poIndex);
-		TextOut(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top,str , strlen(str));
+		if (_vPoInven[i].hp != 0)
+		{
+			Rectangle(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, _vPoInven[i].rc.right, _vPoInven[i].rc.bottom);
+			char str[100];
+			sprintf_s(str, "%d", _HPpoIndex);
+			TextOut(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, str, strlen(str));
+		}
+		if (_vPoInven[i].mp != 0)
+		{
+			Rectangle(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, _vPoInven[i].rc.right, _vPoInven[i].rc.bottom);
+			char str2[100];
+			sprintf_s(str2, "%d", _MPpoIndex);
+			TextOut(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, str2, strlen(str2));
+		}
 	}
 }
 
@@ -216,11 +227,24 @@ void playerManager::mounting()
 				_ataho->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);				
 				//스마슈일 때
 				_smasyu->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);
-				_poIndex -= 1;
-				if (_poIndex == 0)
+				
+				if (_vPoInven[i].hp != 0)
+				{
+					_HPpoIndex -= 1;
+				}
+				if (_vPoInven[i].mp != 0)
+				{
+					_MPpoIndex -= 1;
+				}
+				if (_MPpoIndex == 0 && _vPoInven[i].mp != 0 && _vPoInven.size() > 0 )
 				{
 					_vPoInven.erase(_vPoInven.begin() + i);
 				}
+				else if (_HPpoIndex == 0 && _vPoInven[i].hp != 0 && _vPoInven.size() > 0)
+				{
+					_vPoInven.erase(_vPoInven.begin() + i);
+				}
+				
 			}
 		}
 	}
@@ -329,6 +353,28 @@ void playerManager::getItemValue()
 						inventory.name = _im->getPortion()->getPorName(i);
 						inventory.hp = _im->getPortion()->getVPotion()[i].hp;
 						inventory.mp = _im->getPortion()->getVPotion()[i].mp;
+						
+						
+						if (_HPpoIndex == 0 && inventory.hp != 0)
+						{
+							_vPoInven.push_back(inventory);
+							
+						}
+						if (_MPpoIndex == 0 && inventory.mp != 0)
+						{
+							_vPoInven.push_back(inventory);
+							
+						}
+						if (inventory.hp != 0)
+						{
+							_HPpoIndex += 1;
+						}
+						if (inventory.mp != 0)
+						{
+							_MPpoIndex += 1;
+						}
+						
+						break;
 					}
 				}
 			}
