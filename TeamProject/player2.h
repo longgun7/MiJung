@@ -107,6 +107,8 @@ public:
 	void setExp(int exp);
 	void setStat(int atk, int def, int luck, int cri, int speed);
 	void setPortion(int hp, int mp);
+	
+
 	float getY() { return _y; }
 	
 	// Ãß°¡(¹Î°æ)
@@ -116,7 +118,13 @@ public:
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
 	
 	SMOVE getMove() { return _move; }
-	void setMove(SMOVE move);
+	void setMove(SMOVE move)
+	{
+		_move = move;
+		_isMotionLive = true;
+	}
+	
+	void setSkillMove(SMOVE move);
 	
 	void setMounting(bool mounting) { _isSwordMounting = mounting; } //¹«±â ÀåÂø¿©ºÎ
 	
@@ -130,11 +138,10 @@ public:
 		
 		_move = move;
 	}
-
+	void setEventMode(S_SCENEMODE mode);
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
-	
 	void setEnemyIndex(int index) { _enemyIndex = index; }
-
+	void setIsMotionLive(bool motion) { _isMotionLive = motion; }
 	image* getImage() { return _img; }
 	
 	player2();

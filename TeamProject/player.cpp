@@ -372,27 +372,10 @@ void player::battleKeyManager()
 
 void player::eventKeyManager()
 {
-	//이벤트모드
-	if (KEYMANAGER->isOnceKeyDown('E'))
-	{
-		_sceneMode = EVENTMODE;
-		_x = WINSIZEX / 2;
-		_y = WINSIZEY / 2;
-		_jumpPower = 5.0f;
-		_gravity = 0.2f;
-		_move = FRONT;
-		_slopeNum = 4;
-		_isWoodDrop = false;
-	}
+	
 
 	//아래키 누르면 움직인다
-	if (_sceneMode == EVENTMODE)
-	{ 
-		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-		{
-			_isMotionLive = true;
-		}	
-	}
+	
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
@@ -419,24 +402,49 @@ void player::slopeNumImage()
 	{
 		++_slopeFrame;
 
-		if (_slopeFrame % 30 == 0)
+		if (!_isWoodDrop)
 		{
-			//좌우 랜덤적용
-			_rndDirection = RND->getInt(2);
-
-			if (_rndDirection == 0)
+			if (_slopeFrame % 10 == 0 && _slopeNum > 0 && _slopeNum < 8)
 			{
-				_slopeNum -= 1;
+				//좌우 랜덤적용
+				_rndDirection = RND->getInt(2);
 
+				if (_rndDirection == 0)
+				{
+					_slopeNum -= 1;
+
+				}
+				if (_rndDirection == 1)
+				{
+					_slopeNum += 1;
+
+				}
+
+				//기울기 프레임 초기화
+				_slopeFrame = 0;
 			}
-			if (_rndDirection == 1)
+		}
+		if (_isWoodDrop)
+		{
+			if (_slopeFrame % 30 == 0 && _slopeNum > 0 && _slopeNum < 8)
 			{
-				_slopeNum += 1;
-	
+				//좌우 랜덤적용
+				_rndDirection = RND->getInt(2);
+
+				if (_rndDirection == 0)
+				{
+					_slopeNum -= 1;
+
+				}
+				if (_rndDirection == 1)
+				{
+					_slopeNum += 1;
+
+				}
+
+				//기울기 프레임 초기화
+				_slopeFrame = 0;
 			}
-	
-			//기울기 프레임 초기화
-			_slopeFrame = 0;
 		}
 
 		//물통을 들고 있지 않을 때
@@ -784,6 +792,10 @@ void player::move()
 	//호격권
 	if ( _move == SOLOSKILL1)
 	{
+		if (!SOUNDMANAGER->isPlaySound("TigerSound"))
+		{
+			SOUNDMANAGER->play("TigerSound", 1.0f);
+		}
 		if (_img->getFrameX() >= 9)
 		{
 			++_skillFrame;
@@ -815,6 +827,10 @@ void player::move()
 		//기모으는 중~
 		if (_skillFrame < 50)
 		{
+			if (!(SOUNDMANAGER->isPlaySound("EnergyCharge")))
+			{
+				SOUNDMANAGER->play("EnergyCharge", 0.5f);
+			}
 			_img->setFrameX(0);
 			if (_skillFrame % 10 == 0)
 			{
@@ -829,6 +845,10 @@ void player::move()
 		//때릴 때~~~
 		if (_skillFrame > 120 && _skillFrame < 122)
 		{
+			if (!SOUNDMANAGER->isPlaySound("EnergyGo"))
+			{
+				SOUNDMANAGER->play("EnergyGo", 0.5f);
+			}
 			//스킬
 			_soloSkillEffect3->fireAddSkill(_x + 50, _y);
 		}
@@ -924,6 +944,10 @@ void player::move()
 	//화둔
 	if (_move == AREASKILL2)
 	{
+		if (!SOUNDMANAGER->isPlaySound("Flour"))
+		{
+			SOUNDMANAGER->play("Flour", 0.5f);
+		}
 		++_skillFrame;
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 2;
@@ -972,6 +996,10 @@ void player::move()
 	//노익장 대폭발
 	if (_move == AREASKILL3)
 	{
+		if (!SOUNDMANAGER->isPlaySound("Volcano"))
+		{
+			SOUNDMANAGER->play("Volcano", 0.5f);
+		}
 		++_skillFrame;
 		//스킬 이펙트 나오기~
 		if (_skillFrame % 7 == 0 && _skillFrame < 150)
@@ -1018,21 +1046,21 @@ void player::move()
 	//EVENT 떨어질 때
 	if (_sceneMode == EVENTMODE)
 	{
-		if (_slopeNum >= 8)
+		if (_slopeNum >= 8 && _x >= WINSIZEX / 2 - 200 && _x <= WINSIZEX / 2 + 200)
 		{
 			_slopeNum = 8;
 			_slopeNum += 1;
 			_x += 5;
 			_isJumping = true;
 		}
-		if (_slopeNum <= 0)
+		if (_slopeNum <= 0 && _x >= WINSIZEX /2 - 200 && _x <= WINSIZEX/2 + 200)
 		{
 			_slopeNum = 0;
 			_slopeNum -= 1;
 			_x -= 5;
 			_isJumping = true;
 		}
-		if (_y >= WINSIZEY +100)
+		if (_x < WINSIZEX/2 - 200 || _x> WINSIZEX/2 + 200)
 		{
 			_isJumping = false;
 			_jumpPower = 5.0;
@@ -1349,7 +1377,7 @@ void player::effectImage()
 
 
 
-void player::setMove(MOVE move)
+void player::setSkillMove(MOVE move)
 {
 	if (_sceneMode == BATTLEMODE)
 	{
@@ -1419,6 +1447,18 @@ void player::setMove(MOVE move)
 	}
 }
 
+void player::setEventMode(SCENEMODE mode)
+{
+	_sceneMode = mode;
+	_x = WINSIZEX / 2+20;
+	_y = WINSIZEY / 2;
+	_jumpPower = 5.0f;
+	_gravity = 0.2f;
+	_move = FRONT;
+	_slopeNum = 4;
+	_isWoodDrop = false;
+}
+
 
 void player::tileMove(void)
 {
@@ -1431,10 +1471,50 @@ void player::tileMove(void)
 
 	switch (_move)
 	{
-	case LEFTMOVE:	_angle = PI; (_x > TILESIZE * 3) ? _x += cosf(_angle)*_moveSpeed : _x = TILESIZE * 3;	break;
-	case RIGHTMOVE: _angle = 0; (_x < CAMERA->getMaxPositon().x - TILESIZE * 3) ? _x += cosf(_angle)*_moveSpeed : _x = CAMERA->getMaxPositon().x - TILESIZE * 3;	break;
-	case DOWNMOVE:	_angle = 2 * PI - PI / 2; (_y > TILESIZE) ? _y += -sinf(_angle)*_moveSpeed : _y = TILESIZE;	break;
-	case UPMOVE:	_angle = PI / 2; (_y < CAMERA->getMaxPositon().y - TILESIZE) ? _y += -sinf(_angle)*_moveSpeed : _y = CAMERA->getMaxPositon().y - TILESIZE;	break;
+	case LEFTMOVE:	
+		_angle = PI; 
+		if (_x > TILESIZE * 3) _x += cosf(_angle)*_moveSpeed;
+		else
+		{
+			_x = TILESIZE * 3;
+			_move = DOWNMOVE;
+			_y += 5;
+			_angle = 2 * PI - PI / 2;
+		}
+	break;
+	case RIGHTMOVE: 
+		_angle = 0; 
+		if (_x < CAMERA->getMaxPositon().x - TILESIZE * 3) _x += cosf(_angle)*_moveSpeed;
+		else
+		{
+			_x = CAMERA->getMaxPositon().x - TILESIZE * 3;
+			_move = UPMOVE;
+			_y -= 5;
+			_angle = PI / 2;
+		}
+		break;
+	case DOWNMOVE:	
+		_angle = 2 * PI - PI / 2; 
+		if (_y > TILESIZE) _y += -sinf(_angle)*_moveSpeed;
+		else
+		{
+			_move = LEFTMOVE;
+			_x -= 5;
+			_angle = PI ;
+			_y = TILESIZE;
+		}
+	break;
+	case UPMOVE:	
+		_angle = PI / 2; 
+		if (_y < CAMERA->getMaxPositon().y - TILESIZE) _y += -sinf(_angle)*_moveSpeed;
+		else
+		{
+			_move = RIGHTMOVE;
+			_x += 5;
+			_angle = 0;
+			_y = CAMERA->getMaxPositon().y - TILESIZE;
+		}
+		break;
 	}
 
 	rcCollision = RectMakeCenter(_x, _y + 27, _img->getFrameWidth(), 25);

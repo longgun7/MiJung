@@ -137,10 +137,11 @@ public:
 	float getAngle() { return _angle; }                                                                                                                                                                    
 	MOVE getMove() { return _move; } //상태정의 접근자
 
+	void setIsMotionLive(bool motion) { _isMotionLive = motion; }
 	tagAttribute getAttribute() { return _attribute; } //속성접근자
 	void setAttribute(tagAttribute attribute) { _attribute = attribute; }
 
-	SCENEMODE getSCENEMODE() { return _sceneMode; } //씬 접근자
+	
 
 	bool getIsJumping() { return _isJumping; } //점핑여부
 	int getSlopeNum() { return _slopeNum; }
@@ -149,19 +150,26 @@ public:
 	
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
 	
-	void setScene(SCENEMODE _scene, MOVE move) //씬전환모음
+	void setSceneMode(SCENEMODE _scene, MOVE move) //씬전환모음
 	{
 		_sceneMode = _scene;
 		
 		_move = move;
 	}
-	
+	SCENEMODE getSceneMode() { return _sceneMode; } //씬 접근자
 	image* getImge() { return _img; } //이미지프레임 접근자
 
 	void setEnemyIndex(int index) { _enemyIndex = index; }
-
-	void setMove(MOVE move);
+	void setIsJumping(bool jumping) { _isJumping = jumping; }
 	
+	void setMove(MOVE move)
+	{
+		_move = move;
+		_isMotionLive = true;
+	}
+	void setSkillMove(MOVE move);
+	
+	void setEventMode(SCENEMODE mode);
 	// 추가(민경)
 	RECT getRC() { return _rc; }
 	RECT getZorderRC() { return _zOrderRC; }

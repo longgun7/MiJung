@@ -17,7 +17,6 @@ HRESULT statusScene::init(void)
 {
 	addImage();
 	
-
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_em = SCENEMANAGER->getEnemyManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
@@ -35,8 +34,6 @@ HRESULT statusScene::init(void)
 	_isCheck = false;
 	_isItemCheck = false;
 
-	_isState = false;
-
 	return S_OK;
 }
 
@@ -47,123 +44,9 @@ void statusScene::release(void)
 
 void statusScene::update(void)
 {
-	iconChange();
-	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
-	{
-		if(!_isCheck)
-		{
-			SCENEMANAGER->changeScene("타운씬");		//원래있던곳으로 돌아가게 바꿔야함
-		}
-		else
-		{
-			IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameY(0);
-			_invenIndex = 0;
-			_isCheck = false;
-		}
-		
-	}
 	
-	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	{
-		if(!_isCheck)
-		{
-			IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(
-				IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() + 1);
-			if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()>1)
-			{
-				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(0);
-			}
-		}
-		else if(_isCheck)
-		{
-			_invenIndex++;
-			if (_setIndex == 0) { if (_invenIndex > 2)_invenIndex = 0; }
-			if (_setIndex == 1) 
-			{ 
-				if (_invenIndex > _pm->getV_PoInven().size())_invenIndex = 0; 
-			}
-			if (_setIndex == 2)
-			{
-				if (_invenIndex > _pm->getVA_WeapInven().size())_invenIndex = 0;
-			}
-			if (_setIndex == 3) { if (_invenIndex > 1)_invenIndex = 0; }
-			if (_setIndex == 4) { if (_invenIndex > 4)_invenIndex = 0; }
-			if (_setIndex == 5) { if (_invenIndex > 4)_invenIndex = 0; }
-
-		}
-	}
-	if(KEYMANAGER->isOnceKeyDown(VK_UP))
-	{
-		if(!_isCheck)
-		{
-			IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(
-				IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() - 1);
-			if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()<0)
-			{
-				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(1);
-			}
-		}
-		else if (_isCheck)
-		{
-			_invenIndex--;
-			if (_setIndex == 0) { if (_invenIndex < 0)_invenIndex = 2; }
-			if (_setIndex == 1)
-			{
-				if (_invenIndex <0)_invenIndex = _pm->getV_PoInven().size();
-			}
-			if (_setIndex == 2)
-			{
-				if (_invenIndex < 0)_invenIndex = _pm->getVA_WeapInven().size();
-			}
-			if (_setIndex == 3) { if (_invenIndex < 0)_invenIndex = 1; }
-			if (_setIndex == 4) { if (_invenIndex < 0)_invenIndex = 4; }
-			if (_setIndex == 5) { if (_invenIndex < 0)_invenIndex = 4; }
-		}
-	}
-
-	if(KEYMANAGER->isOnceKeyDown(VK_LEFT))
-	{
-		if(!_isCheck)
-		{
-			_setIndex--;
-			if (_setIndex < 0)
-			{
-				
-				_setIndex = 5;
-			}
-		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
-	{
-		if(!_isCheck)
-		{
-			_setIndex++;
-			if (_setIndex>5)
-			{
-				_setIndex = 0;
-			}
-		}
-	}
-	if(KEYMANAGER->isOnceKeyDown(VK_RETURN))
-	{
-		IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameY(1);
-		_isCheck = true;
-	}
-
-	for(int i=0;i<6;i++)
-	{
-		if(_setIndex ==i)
-		{
-			_uiX = WINSIZEX - 314 +i*50;
-		}
-	}
-	for(int i=0;i<5;i++)
-	{
-		if(_invenIndex==i)
-		{
-			_invenY = 210 + i * 50;
-		}
-	}
+	keyManager();	//상태창 키관리
+	iconChange();	//아이콘 변경
 }
 
 void statusScene::render(void)
@@ -181,10 +64,17 @@ void statusScene::render(void)
 	IMAGEMANAGER->findImage("소지")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 175, 50);
 	IMAGEMANAGER->findImage("모드")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 125, 50);
 	IMAGEMANAGER->findImage("환경설정")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 75, 50);
-
-	if(_isCheck)
-	IMAGEMANAGER->findImage("INVENBUTTON")->frameRender(CAMERA->getCameraDC(), _invenX, _invenY);
-
+	
+	if (_isCheck)
+	{
+		IMAGEMANAGER->findImage("INVENBUTTON")->frameRender(CAMERA->getCameraDC(), _invenX, _invenY);
+		if(_setIndex==0||_setIndex==2)
+		{
+			if (_invenTypeIndex == 0 || _invenTypeIndex == 1)IMAGEMANAGER->findImage("LEFTBUTTON")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 75, 500);
+			if (_invenTypeIndex == 2 || _invenTypeIndex == 1)IMAGEMANAGER->findImage("RIGHTBUTTON")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 325, 500);
+		}
+		
+	}
 	IMAGEMANAGER->findImage("SETTINGBUTTON")->frameRender(CAMERA->getCameraDC(), _uiX, _uiY);
 
 	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0&&!_isCheck)
@@ -199,19 +89,189 @@ void statusScene::render(void)
 	char str123[128];
 	if (_setIndex==0 || _setIndex>3)
 	{
-		IMAGEMANAGER->findImage("스킬1")->frameRender(CAMERA->getCameraDC(), WINSIZEX-315, 200);
-		IMAGEMANAGER->findImage("스킬2")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 250);
-		IMAGEMANAGER->findImage("스킬3")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 300);
-		
+		IMAGEMANAGER->findImage("스킬1")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 200);
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1 && _invenTypeIndex == 0&&_setIndex==0) {}
+		else
+		{
+			IMAGEMANAGER->findImage("스킬2")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 250);
+			if (_setIndex != 5)
+			{
+				IMAGEMANAGER->findImage("스킬3")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 300);
+			}
+		}
 		if (_setIndex == 4)
 		{
 			IMAGEMANAGER->findImage("스킬4")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 350);
 			IMAGEMANAGER->findImage("스킬5")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 400);
 		}
 	}
-	
+	if(_setIndex==1)
+	{
+		if (_pm->getV_PoInven().size() != 0)
+		{
+			for (int i = 0; i<_pm->getV_PoInven().size(); i++)
+			{
+				_pm->getV_PoInven()[i].img->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 200+50*i);
+			}
+		}
+	}
 	fontUI();
-	
+}
+
+void statusScene::keyManager(void)
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		if (!_isCheck)
+		{
+			SCENEMANAGER->changeScene("타운씬");		//원래있던곳으로 돌아가게 바꿔야함
+		}
+		else
+		{
+			IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameY(0);
+			_invenIndex = 0;
+			_isCheck = false;
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		if (!_isCheck)
+		{
+			IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(
+				IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() + 1);
+			if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()>1)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(0);
+			}
+		}
+		else if (_isCheck)
+		{
+			_invenIndex++;
+			if (_setIndex == 0) { if (_invenIndex > 2)_invenIndex = 0; }
+			if (_setIndex == 1)
+			{
+				if (_pm->getV_PoInven().size() != 0) //포션이 한개라도 있으면
+				{
+					if (_invenIndex > _pm->getV_PoInven().size() - 1)_invenIndex = 0;
+				}
+				else //포션이 없으면
+				{
+					_invenIndex = 0;
+				}
+			}
+			if (_setIndex == 2)
+			{
+				if (_invenTypeIndex == 0)
+				{
+					if (_invenIndex > _pm->getVA_WeapInven().size() - 1)_invenIndex = 0;
+				}
+				if (_invenTypeIndex == 1)
+				{
+					if (_invenIndex > _pm->getVA_ArmorInven().size() - 1)_invenIndex = 0;
+				}
+			}
+			if (_setIndex == 3) { if (_invenIndex > 1)_invenIndex = 0; }
+			if (_setIndex == 4) { if (_invenIndex > 4)_invenIndex = 0; }
+			if (_setIndex == 5) { if (_invenIndex > 1)_invenIndex = 0; }
+
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		if (!_isCheck)
+		{
+			IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(
+				IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() - 1);
+			if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()<0)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(1);
+			}
+		}
+		else if (_isCheck)
+		{
+			_invenIndex--;
+			if (_setIndex == 0) { if (_invenIndex < 0)_invenIndex = 2; }
+			if (_setIndex == 1)
+			{
+				if (_invenIndex <0)_invenIndex = _pm->getV_PoInven().size()-1;
+			}
+			if (_setIndex == 2)
+			{
+				if (_invenTypeIndex == 0)
+				{
+					if (_invenIndex < 0)_invenIndex = _pm->getVA_WeapInven().size() - 1;
+				}
+				if (_invenTypeIndex == 1)
+				{
+					if (_invenIndex < 0)_pm->getVA_ArmorInven().size() - 1;
+				}
+			}
+			if (_setIndex == 3) { if (_invenIndex < 0)_invenIndex = 1; }
+			if (_setIndex == 4) { if (_invenIndex < 0)_invenIndex = 4; }
+			if (_setIndex == 5) { if (_invenIndex < 0)_invenIndex = 1; }
+		}
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	{
+		if (!_isCheck)
+		{
+			_setIndex--;
+			if (_setIndex < 0)
+			{
+				_setIndex = 5;
+			}
+		}
+		else if (_isCheck)
+		{
+			_invenTypeIndex--;
+			if (_invenTypeIndex<0)
+			{
+				_invenTypeIndex = 2;
+			}
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		if (!_isCheck)
+		{
+			_setIndex++;
+			if (_setIndex>5)
+			{
+				_setIndex = 0;
+			}
+		}
+		else if (_isCheck)
+		{
+			_invenTypeIndex++;
+			if (_invenTypeIndex>2)
+			{
+				_invenTypeIndex = 0;
+			}
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+		IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameY(1);
+		_isCheck = true;
+	}
+
+	for (int i = 0; i<6; i++)
+	{
+		if (_setIndex == i)
+		{
+			_uiX = WINSIZEX - 314 + i * 50;
+		}
+	}
+	for (int i = 0; i<5; i++)
+	{
+		if (_invenIndex == i)
+		{
+			_invenY = 210 + i * 50;
+		}
+	}
 }
 
 void statusScene::addImage(void)
@@ -229,7 +289,7 @@ void statusScene::addImage(void)
 	IMAGEMANAGER->addFrameImage("소지", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("모드", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("환경설정", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-
+	
 	IMAGEMANAGER->findImage("스킬")->setFrameX(0);
 	IMAGEMANAGER->findImage("도구")->setFrameX(1);
 	IMAGEMANAGER->findImage("장비")->setFrameX(2);
@@ -248,87 +308,116 @@ void statusScene::addImage(void)
 	IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameX(6);
 	IMAGEMANAGER->addFrameImage("INVENBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->findImage("INVENBUTTON")->setFrameX(7);
+	IMAGEMANAGER->addFrameImage("LEFTBUTTON", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("RIGHTBUTTON", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->findImage("LEFTBUTTON")->setFrameX(6);
+	IMAGEMANAGER->findImage("RIGHTBUTTON")->setFrameX(5);
 }
 
 void statusScene::iconChange(void)
 {
 	switch (_setIndex)
 	{
-	case 0:
-		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()==0)
-		{
+		//스킬
+		case 0:
+			if(_invenTypeIndex==0)//기본기
+			{
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
+				{
+					IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
+					IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+					IMAGEMANAGER->findImage("스킬2")->setFrameX(11);
+					IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
+					IMAGEMANAGER->findImage("스킬3")->setFrameX(11);
+					IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
+				}
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+				{
+					IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
+					IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+				}
+			}
+			if (_invenTypeIndex == 1)//개인기
+			{
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
+				{
+					IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
+					IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+					IMAGEMANAGER->findImage("스킬2")->setFrameX(10);
+					IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
+					IMAGEMANAGER->findImage("스킬3")->setFrameX(10);
+					IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
+				}
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+				{
+					IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
+					IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+					IMAGEMANAGER->findImage("스킬2")->setFrameX(16);
+					IMAGEMANAGER->findImage("스킬2")->setFrameY(2);
+					IMAGEMANAGER->findImage("스킬3")->setFrameX(16);
+					IMAGEMANAGER->findImage("스킬3")->setFrameY(2);
+				}
+			}
+			if (_invenTypeIndex == 2)//단체기
+			{
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
+				{
+					IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
+					IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+					IMAGEMANAGER->findImage("스킬2")->setFrameX(10);
+					IMAGEMANAGER->findImage("스킬2")->setFrameY(2);
+					IMAGEMANAGER->findImage("스킬3")->setFrameX(14);
+					IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
+				}
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+				{
+					IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
+					IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+					IMAGEMANAGER->findImage("스킬2")->setFrameX(17);
+					IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
+					IMAGEMANAGER->findImage("스킬3")->setFrameX(16);
+					IMAGEMANAGER->findImage("스킬3")->setFrameY(2);
+				}
+			}
+		break;
+		//도구
+		case 1:
+			
+		break;
+		//장비
+		case 2:
+			if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
+			{
+				
+			}
+			if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+			{
+				
+			}
+		break;
+		//소지
+		case 3:
+
+		break;
+		//모드
+		case 4:
+			IMAGEMANAGER->findImage("스킬1")->setFrameX(8);
+			IMAGEMANAGER->findImage("스킬1")->setFrameY(1);
+			IMAGEMANAGER->findImage("스킬2")->setFrameX(8);
+			IMAGEMANAGER->findImage("스킬2")->setFrameY(1);
+			IMAGEMANAGER->findImage("스킬3")->setFrameX(8);
+			IMAGEMANAGER->findImage("스킬3")->setFrameY(1);
+			IMAGEMANAGER->findImage("스킬4")->setFrameX(8);
+			IMAGEMANAGER->findImage("스킬4")->setFrameY(1);
+			IMAGEMANAGER->findImage("스킬5")->setFrameX(8);
+			IMAGEMANAGER->findImage("스킬5")->setFrameY(1);
+		break;
+		//환경설정
+		case 5:
 			IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
-			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬1")->setFrameY(3);
 			IMAGEMANAGER->findImage("스킬2")->setFrameX(11);
-			IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
-			IMAGEMANAGER->findImage("스킬3")->setFrameX(11);
-			IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
-		}
-		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
-		{
-			IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
-			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
-		}
-
-		break;
-	case 1:
-		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
-		{
-			IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
-			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
-			IMAGEMANAGER->findImage("스킬2")->setFrameX(10);
-			IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
-			IMAGEMANAGER->findImage("스킬3")->setFrameX(10);
-			IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
-		}
-		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
-		{
-			IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
-			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
-			IMAGEMANAGER->findImage("스킬2")->setFrameX(16);
-			IMAGEMANAGER->findImage("스킬2")->setFrameY(2);
-			IMAGEMANAGER->findImage("스킬3")->setFrameX(16);
-			IMAGEMANAGER->findImage("스킬3")->setFrameY(2);
-		}
-		break;
-	case 2:
-		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
-		{
-			IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
-			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
-			IMAGEMANAGER->findImage("스킬2")->setFrameX(10);
-			IMAGEMANAGER->findImage("스킬2")->setFrameY(2);
-			IMAGEMANAGER->findImage("스킬3")->setFrameX(14);
-			IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
-		}
-		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
-		{
-			IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
-			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
-			IMAGEMANAGER->findImage("스킬2")->setFrameX(17);
-			IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
-			IMAGEMANAGER->findImage("스킬3")->setFrameX(16);
-			IMAGEMANAGER->findImage("스킬3")->setFrameY(2);
-		}
-		break;
-	case 3:
-
-		break;
-	case 4:
-		IMAGEMANAGER->findImage("스킬1")->setFrameX(8);
-		IMAGEMANAGER->findImage("스킬1")->setFrameY(1);
-		IMAGEMANAGER->findImage("스킬2")->setFrameX(8);
-		IMAGEMANAGER->findImage("스킬2")->setFrameY(1);
-		IMAGEMANAGER->findImage("스킬3")->setFrameX(8);
-		IMAGEMANAGER->findImage("스킬3")->setFrameY(1);
-		IMAGEMANAGER->findImage("스킬4")->setFrameX(8);
-		IMAGEMANAGER->findImage("스킬4")->setFrameY(1);
-		IMAGEMANAGER->findImage("스킬5")->setFrameX(8);
-		IMAGEMANAGER->findImage("스킬5")->setFrameY(1);
-		break;
-	case 5:
-		IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
-		IMAGEMANAGER->findImage("스킬1")->setFrameY(3);
+			IMAGEMANAGER->findImage("스킬2")->setFrameY(3);
 		break;
 	}
 }
@@ -354,7 +443,7 @@ void statusScene::fontUI(void)
 	char str10[] = "무기";
 	char str11[] = "방어구";
 
-	char str12[] = "개인기";
+	char str12[] = "기본기";
 	char str13[] = "도구";
 	char str14[] = "무기";
 	char str15[] = "소지";
@@ -441,14 +530,116 @@ void statusScene::fontUI(void)
 	TextOut(CAMERA->getCameraDC(), 20, WINSIZEY/2-100, str11, strlen(str11));
 	
 
-	//인벤토리
-	if (_setIndex == 0) TextOut(CAMERA->getCameraDC(), WINSIZEX - 212, 160, str12, strlen(str12));
+	//인벤토리 이름
+	if (_setIndex == 0) 
+	{
+		if (_invenTypeIndex == 0)TextOut(CAMERA->getCameraDC(), WINSIZEX - 212, 160, str12, strlen(str12));
+		if (_invenTypeIndex == 1)TextOut(CAMERA->getCameraDC(), WINSIZEX - 212, 160, "개인기", strlen("개인기"));
+		if (_invenTypeIndex == 2)TextOut(CAMERA->getCameraDC(), WINSIZEX - 212, 160, "단체기", strlen("단체기"));
+	}
 	if (_setIndex == 1) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str13, strlen(str13));
-	if (_setIndex == 2) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str14, strlen(str14));
+	if (_setIndex == 2) 
+	{
+		if (_invenTypeIndex == 0)TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str14, strlen(str14));
+		if (_invenTypeIndex == 1)TextOut(CAMERA->getCameraDC(), WINSIZEX - 212, 160, "방어구", strlen("방어구"));
+	}
 	if (_setIndex == 3) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str15, strlen(str15));
 	if (_setIndex == 4) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str16, strlen(str16));
 	if (_setIndex == 5) TextOut(CAMERA->getCameraDC(), WINSIZEX - 225, 160, str17, strlen(str17));
 	
+	if(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()==0)//아타호 일때
+	{
+		if(_setIndex==0)
+		{
+			if(_invenTypeIndex==0)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212,"정권",strlen("정권"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "돌려차기", strlen("돌려차기"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 312, "다리후리기", strlen("다리후리기"));
+			}
+			if (_invenTypeIndex == 1)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "호격권", strlen("호격권"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "맹호스페셜", strlen("맹호스페셜"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 312, "맹호광파참", strlen("맹호광파참"));
+			}
+			if (_invenTypeIndex == 2)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "맹호난무", strlen("맹호난무"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "노익장대폭발", strlen("노익장대폭발"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 312, "취호염무", strlen("취호염무"));
+			}
+		}
+		//아타호 장비
+		if (_setIndex == 2)
+		{
+
+		}	
+	}
+	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)//스마슈 일때
+	{
+		if (_setIndex == 0)
+		{
+			if (_invenTypeIndex == 0)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "베기", strlen("베기"));
+				
+			}
+			if (_invenTypeIndex == 1)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "대타격", strlen("대타격"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "난도질", strlen("난도질"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 312, "절사어면", strlen("절사어면"));
+			}
+			if (_invenTypeIndex == 2)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "백인일섬", strlen("백인일섬"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "분신", strlen("분신"));
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 312, "용오름", strlen("용오름"));
+			}
+		}
+		//아타호 장비
+		if (_setIndex == 2)
+		{
+
+		}
+	}
+	if (_setIndex == 1)
+	{
+
+	}
+	if (_setIndex == 3)
+	{
+
+	}
+	if (_setIndex == 4)
+	{
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "보통", strlen("보통"));
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "돌격", strlen("돌격"));
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 312, "방어", strlen("방어"));
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 362, "선제", strlen("선제"));
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 412, "반격", strlen("반격"));
+
+	}
+	if (_setIndex == 5)
+	{
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "사운드", strlen("사운드"));
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "종료", strlen("종료"));
+	}
+	if (_setIndex == 1)//도구 (포션 인벤토리 일때)
+	{
+		if (_pm->getV_PoInven().size() != 0)
+		{
+			for (int i = 0; i<_pm->getV_PoInven().size(); i++)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212 + 50 * i,
+					_pm->getV_PoInven()[i].name.c_str(), 
+					strlen(_pm->getV_PoInven()[i].name.c_str()));
+			}
+		}
+	}
+
+
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }
