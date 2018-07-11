@@ -207,9 +207,6 @@
     <ClInclude Include="item.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
-    <ClInclude Include="skeletonWizard.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="player.h">
       <Filter>playGround\playerManager\player</Filter>
     </ClInclude>

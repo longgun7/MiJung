@@ -186,11 +186,11 @@ void enemyManager::hitPlayer()
 
 void enemyManager::randEnemy()
 {
-	_randNum = RND->getFromIntTo(3, 5);
+	_randNum = RND->getFromIntTo(1, 5);
 
 	for (int i = 0; i < _randNum; i++)
 	{
-		_enemyIndex = RND->getFromIntTo(1, 6);
+		_enemyIndex = RND->getFromIntTo(1, 11);
 
 		if (_randNum == 1)
 		{
