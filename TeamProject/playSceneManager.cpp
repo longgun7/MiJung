@@ -55,18 +55,49 @@ void playSceneManager::update(void)
 		SCENEMANAGER->changeScene("Å¸¿î¾À");
 		_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE,S_DOWN);
+		SOUNDMANAGER->stop(_nowSong);
+		_nowSong = "TownTheMa";
+		if (!SOUNDMANAGER->isPlaySound(_nowSong))
+		{
+			SOUNDMANAGER->play(_nowSong, 1.0f);
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		SCENEMANAGER->changeScene("¹èÆ²¾À");
 		_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
 		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
+		SOUNDMANAGER->stop(_nowSong);
+		int randumSound;
+		randumSound = RND->getInt(2);
+		if (randumSound == 0)
+		{
+			_nowSong = "BattleTheMa1";
+			if (!SOUNDMANAGER->isPlaySound(_nowSong))
+			{
+				SOUNDMANAGER->play(_nowSong, 1.0f);
+			}
+		}
+		else if (randumSound == 1)
+		{
+			_nowSong = "BattleTheMa2";
+			if (!SOUNDMANAGER->isPlaySound(_nowSong))
+			{
+				SOUNDMANAGER->play(_nowSong, 1.0f);
+			}
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
 		SCENEMANAGER->changeScene("ÇÊµå¾À");
 		_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
+		SOUNDMANAGER->stop(_nowSong);
+		_nowSong = "FiledTheMa";
+		if (!SOUNDMANAGER->isPlaySound(_nowSong))
+		{
+			SOUNDMANAGER->play(_nowSong, 1.0f);
+		}
 	}
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))

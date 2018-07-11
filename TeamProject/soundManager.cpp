@@ -53,8 +53,9 @@ void soundManager::release()
 	}
 
 	//메모리 지우기
-	SAFE_DELETE_ARRAY(_channel);
-	SAFE_DELETE_ARRAY(_sound);
+	// 환세취호전 동안은 주석 처리
+	//SAFE_DELETE_ARRAY(_channel);
+	//SAFE_DELETE_ARRAY(_sound);
 
 	//시스템 닫기 
 	if (_system != NULL)
