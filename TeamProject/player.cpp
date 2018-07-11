@@ -284,28 +284,28 @@ void player::battleKeyManager()
 			//½ºÅ³
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
-				if (PtInRect(&_skillRC[0],_ptMouse) && _attribute.currentMp >= 3)
+				if (PtInRect(&_skillRC[0],_ptMouse) && _attribute.currentMp >= 20)
 				{
 					_move = SOLOSKILL1;
 					_isMotionLive = true;
-					_attribute.currentMp -= 3;
+					_attribute.currentMp -= 20;
 
 				}
-				if (PtInRect(&_skillRC[1], _ptMouse) && _attribute.currentMp >= 3)
+				if (PtInRect(&_skillRC[1], _ptMouse) && _attribute.currentMp >= 25)
 				{
 					_move = SOLOSKILL2;
 					_isMotionLive = true;
-					_attribute.currentMp -= 3;
+					_attribute.currentMp -= 25;
 				}
-				if (PtInRect(&_skillRC[2], _ptMouse) && _attribute.currentMp >= 3)
+				if (PtInRect(&_skillRC[2], _ptMouse) && _attribute.currentMp >= 30)
 				{
 					_move = SOLOSKILL3;
 					_isMotionLive = true;
 					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
 					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-					_attribute.currentMp -= 3;
+					_attribute.currentMp -= 30;
 				}
-				if (PtInRect(&_skillRC[3], _ptMouse) && _attribute.currentMp >= 3)
+				if (PtInRect(&_skillRC[3], _ptMouse) && _attribute.currentMp >= 40)
 				{
 					_move = AREASKILL1;
 					_isMotionLive = true;
@@ -313,20 +313,20 @@ void player::battleKeyManager()
 					_y = WINSIZEY / 3;
 					_jumpPower = 5.0f;
 					_gravity = 0.2f;
-					_attribute.currentMp -= 3;
+					_attribute.currentMp -= 40;
 				}
-				if (PtInRect(&_skillRC[4], _ptMouse) && _attribute.currentMp >= 3)
+				if (PtInRect(&_skillRC[4], _ptMouse) && _attribute.currentMp >= 40)
 				{
 					_move = DRINK;
 					_isMotionLive = true;
-					_attribute.currentMp -= 3;
+					_attribute.currentMp -= 40;
 				}
-				if (PtInRect(&_skillRC[5], _ptMouse) && _attribute.currentMp >= 3)
+				if (PtInRect(&_skillRC[5], _ptMouse) && _attribute.currentMp >= 45)
 				{
 					_move = AREASKILL3;
 					_isMotionLive = true;
 					_x = WINSIZEX / 2;
-					_attribute.currentMp -= 3;
+					_attribute.currentMp -= 45;
 				}
 				if (PtInRect(&_skillRC[6], _ptMouse))
 				{

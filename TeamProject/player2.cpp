@@ -1033,51 +1033,53 @@ void player2::setSkillMove(SMOVE move)
 		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
 		setSoloDamage(6);
 	}
-	if (move == S_SOLOSKILL1 && _attribute.currentMp >= 3)
+	if (move == S_SOLOSKILL1 && _attribute.currentMp >= 20)
 	{
 		_move = S_SOLOSKILL1;
 		_isMotionLive = true;
 		_skillFrame = 0;
 		_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-		_attribute.currentMp -= 3;
+		_attribute.currentMp -= 20;
 	}
-	if (move == S_SOLOSKILL2 && _attribute.currentMp >= 3)
+	if (move == S_SOLOSKILL2 && _attribute.currentMp >= 20)
 	{
 		_move = S_SOLOSKILL2;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		_attribute.currentMp -= 3;
+		_attribute.currentMp -= 20;
 	}
-	if (move == S_AREASKILL1)
-	{
-		_move = S_AREASKILL1;
-		_isMotionLive = true;
-		_skillFrame = 0;
-		_attribute.currentMp -= 3;
-	}
-	if (move == S_AREASKILL3)
-	{
-		_move = S_AREASKILL3;
-		_isMotionLive = true;
-		_skillFrame = 0;
-		_attribute.currentMp -= 3;
-	}
-	if (move == S_SOLOSKILL3)
+	if (move == S_SOLOSKILL3 && _attribute.currentMp >= 30)
 	{
 		_move = S_SOLOSKILL3;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		_attribute.currentMp -= 3;
+		_attribute.currentMp -= 30;
 	}
-	if (move == S_AREASKILL2)
+	if (move == S_AREASKILL1 && _attribute.currentMp >= 40)
+	{
+		_move = S_AREASKILL1;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_attribute.currentMp -= 40;
+	}
+	if (move == S_AREASKILL2 && _attribute.currentMp >= 40)
 	{
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 3;
 		_move = S_AREASKILL2;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		_attribute.currentMp -= 3;
+		_attribute.currentMp -= 40;
 	}
+	if (move == S_AREASKILL3 && _attribute.currentMp >= 45)
+	{
+		_move = S_AREASKILL3;
+		_isMotionLive = true;
+		_skillFrame = 0;
+		_attribute.currentMp -= 45;
+	}
+	
+	
 
 	
 }
