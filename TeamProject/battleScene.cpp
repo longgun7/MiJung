@@ -246,9 +246,9 @@ void battleScene::update(void)
 	if(_isFight)	//�οﶧ
 	{
 		if(_pm->getPlayer()->getMove()==FIGHTREADY)
-		_pm->getPlayer()->setMove(SOLOSKILL1);
+		_pm->getPlayer()->setSkillMove(SOLOSKILL1);
 		if (_pm->getPlayer2()->getMove() == S_FIGHTREADY)
-		_pm->getPlayer2()->setMove(S_SOLOSKILL2);
+		_pm->getPlayer2()->setSkillMove(S_SOLOSKILL2);
 			
 		_isFight = false;
 		_isTurn = true;

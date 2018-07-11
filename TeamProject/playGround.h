@@ -19,7 +19,7 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
-	
+	void musicInit();
 
 	playGround();
 	~playGround();
