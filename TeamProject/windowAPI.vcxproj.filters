@@ -277,7 +277,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="bossSkill.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Skill</Filter>
     </ClInclude>
     <ClInclude Include="eventMode.h">
       <Filter>playGround\playerManager</Filter>
@@ -453,7 +453,7 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="bossSkill.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Skill</Filter>
     </ClCompile>
     <ClCompile Include="eventMode.cpp">
       <Filter>playGround\playerManager</Filter>

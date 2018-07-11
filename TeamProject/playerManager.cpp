@@ -38,10 +38,8 @@ void playerManager::update()
 	
 	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY(), _ataho->getAngle());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
-	getItemValue(); //아이템 인벤
 	inventory(); //인벤토리
 	setEnemyDead(); //돈 드랍
-	
 	mounting();//장착하기
 	//인벤토리
 
@@ -251,135 +249,72 @@ void playerManager::mounting()
 }
 
 //받아서 푸쉬할 아이템 종류
-void playerManager::getItemValue()
+void playerManager::getItemValue(string itemName)
 {
+	int frameX = INIDATA->loadDataInterger("item", itemName.c_str(), "frameX");
+	int frameY = INIDATA->loadDataInterger("item", itemName.c_str(), "frameY");
 	
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	tagInventory inventory;
+	inventory.name = INIDATA->loadDataString("item", itemName.c_str(), "이름");
+	inventory.atk = INIDATA->loadDataInterger("item", itemName.c_str(), "공격력");
+	inventory.luck = INIDATA->loadDataInterger("item", itemName.c_str(), "운");
+	inventory.cri = INIDATA->loadDataInterger("item", itemName.c_str(), "크리티컬 확률");
+	inventory.def = INIDATA->loadDataInterger("item", itemName.c_str(), "방어력");
+	inventory.speed = INIDATA->loadDataInterger("item", itemName.c_str(), "스피드");
+	inventory.hp = INIDATA->loadDataInterger("item", itemName.c_str(), "HP회복");
+	inventory.mp = INIDATA->loadDataInterger("item", itemName.c_str(), "MP회복");
+
+	//아타호 무기
+	if (frameY == 0)
 	{
-		//아타호 무기
-		for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
+		if (frameX < 6)
 		{
-			if (PtInRect(&_im->getPItem()->getVItem()[i].rc, _ptMouse))
-			{
-				if (_im->getPItem()->getVItem()[i].frameY == 0)
-				{
-					if (_im->getPItem()->getVItem()[i].frameX < 6)
-					{
-						tagInventory inventory;
-						ZeroMemory(&inventory, sizeof(inventory));
-
-						if (_im->getPItem()->getVItem()[i].cost <= _gold.money)
-						{
-							_gold.money -= _im->getPItem()->getVItem()[i].cost;
-							inventory.name = _im->getPItem()->getItemName(i);
-							inventory.atk = _im->getPItem()->getVItem()[i].atk;
-							inventory.luck = _im->getPItem()->getVItem()[i].luck;
-							inventory.cri = _im->getPItem()->getVItem()[i].critical;
-							_vA_WeapInven.push_back(inventory);
-							break;
-						}
-
-
-					}
-
-					//아타호 방어구
-
-					if (_im->getPItem()->getVItem()[i].frameX >= 6)
-					{
-						tagInventory inventory;
-						ZeroMemory(&inventory, sizeof(inventory));
-						if (_im->getPItem()->getVItem()[i].cost <= _gold.money)
-						{
-							_gold.money -= _im->getPItem()->getVItem()[i].cost;
-							inventory.name = _im->getPItem()->getItemName(i);
-							inventory.def = _im->getPItem()->getVItem()[i].def;
-							inventory.speed = _im->getPItem()->getVItem()[i].speed;
-							_vA_ArmorInven.push_back(inventory);
-							break;
-						}
-					}
-
-				}
-
-				//스마슈 무기
-				if (_im->getPItem()->getVItem()[i].frameY == 2)
-				{
-					if (_im->getPItem()->getVItem()[i].frameX < 6)
-					{
-						tagInventory inventory;
-						ZeroMemory(&inventory, sizeof(inventory));
-						if (_im->getPItem()->getVItem()[i].cost <= _gold.money)
-						{
-							_gold.money -= _im->getPItem()->getVItem()[i].cost;
-							inventory.name = _im->getPItem()->getItemName(i);
-							inventory.atk = _im->getPItem()->getVItem()[i].atk;
-							inventory.luck = _im->getPItem()->getVItem()[i].luck;
-							inventory.cri = _im->getPItem()->getVItem()[i].critical;
-							_vS_WeapInven.push_back(inventory);
-							break;
-						}
-					}
-
-					//스마슈 방어구
-					if (_im->getPItem()->getVItem()[i].frameX >= 6)
-					{
-						tagInventory inventory;
-						ZeroMemory(&inventory, sizeof(inventory));
-						if (_im->getPItem()->getVItem()[i].cost <= _gold.money)
-						{
-							_gold.money -= _im->getPItem()->getVItem()[i].cost;
-							inventory.name = _im->getPItem()->getItemName(i);
-							inventory.def = _im->getPItem()->getVItem()[i].def;
-							inventory.speed = _im->getPItem()->getVItem()[i].speed;
-							_vS_ArmorInven.push_back(inventory);
-							break;
-						}
-					}
-				}
-
-			}
+			_vA_WeapInven.push_back(inventory);
 		}
-			//포션
-			for (int i = 0; i < _im->getPortion()->getVPotion().size(); i++)
-			{
-				if (PtInRect(&_im->getPortion()->getVPotion()[i].rc, _ptMouse))
-				{
-					if (_im->getPortion()->getVPotion()[i].cost <= _gold.money)
-					{
-						_gold.money -= _im->getPortion()->getVPotion()[i].cost;
-						tagInventory inventory;
-						ZeroMemory(&inventory, sizeof(inventory));
 
-						inventory.name = _im->getPortion()->getPorName(i);
-						inventory.hp = _im->getPortion()->getVPotion()[i].hp;
-						inventory.mp = _im->getPortion()->getVPotion()[i].mp;
-						
-						
-						if (_HPpoIndex == 0 && inventory.hp != 0)
-						{
-							_vPoInven.push_back(inventory);
-							
-						}
-						if (_MPpoIndex == 0 && inventory.mp != 0)
-						{
-							_vPoInven.push_back(inventory);
-							
-						}
-						if (inventory.hp != 0)
-						{
-							_HPpoIndex += 1;
-						}
-						if (inventory.mp != 0)
-						{
-							_MPpoIndex += 1;
-						}
-						
-						break;
-					}
-				}
-			}
+		//아타호 방어구
+		if (frameX >= 6)
+		{
+			
+			_vA_ArmorInven.push_back(inventory);
+		}
+	}
 
-		
+	//스마슈 무기
+	else if (frameY == 2)
+	{
+		if (frameX < 6)
+		{
+			_vS_WeapInven.push_back(inventory);
+		}
+
+		//스마슈 방어구
+		if (frameX >= 6)
+		{
+			_vS_ArmorInven.push_back(inventory);
+		}
+	}
+
+	//포션
+	else if (frameY == 3)
+	{
+
+		if (_HPpoIndex == 0 && inventory.hp != 0)
+		{
+			_vPoInven.push_back(inventory);
+		}
+		if (_MPpoIndex == 0 && inventory.mp != 0)
+		{
+			_vPoInven.push_back(inventory);
+		}
+		if (inventory.hp != 0 && _HPpoIndex < 10)
+		{
+			_HPpoIndex += 1;
+		}
+		if (inventory.mp != 0 && _MPpoIndex < 10)
+		{
+			_MPpoIndex += 1;
+		}
 	}
 }
 
@@ -408,7 +343,7 @@ void playerManager::inventory()
 	//포션
 	for  (int i = 0; i < _vPoInven.size();  i++)
 	{
-		_vPoInven[i].rc = RectMakeCenter(600 +i*50, 350, 50, 50);
+		_vPoInven[i].rc = RectMakeCenter(600 + i*50, 350, 50, 50);
 	}
 }
 
@@ -446,6 +381,11 @@ void playerManager::setEnemyDead()
 			_em->removeEnemy(i);
 		}
 	}
+}
+
+void playerManager::setMoney(int money)
+{
+	_gold.money -= money;
 }
 
 

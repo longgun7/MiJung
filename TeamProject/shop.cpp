@@ -38,6 +38,7 @@ void shop::update(void)
 	{
 		++_buyNum;
 	}
+	buyItem();
 }
 
 void shop::render(void)
@@ -49,115 +50,84 @@ void shop::fontUI()
 {
 	HFONT font, ofont;
 
+	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 	char str5[] = "소지수";
-	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
-	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 160,WINSIZEY/6,str5, strlen(str5));
-	SelectObject(CAMERA->getCameraDC(), ofont);
-	DeleteObject(font);
-
 	char str6[] = "구입수";
-	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
-	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 160, WINSIZEY / 2 - 140, str6, strlen(str6));
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
+
+	char str2[128];
+	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
+	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
+	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
+	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 
 	for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
 	{
 		// 샵 아이템 이름 표시
 		string str1 = _im->getPItem()->getVItem()[i].name;
-		font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-		ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-		SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
-		SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-
 		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 120 + i * 50, str1.c_str(), strlen(str1.c_str()));
-		SelectObject(CAMERA->getCameraDC(), ofont);
-		DeleteObject(font);
-
 		// 샵 아이템 가격 표시
-		char str3[128];
-		font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-		ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-		SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
-		SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+		sprintf_s(str2, "%d", _im->getPItem()->getVItem()[i].cost);
+		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 50, 120 + i * 50, str2, strlen(str2));
 
-		sprintf_s(str3, "%d", _im->getPItem()->getVItem()[i].cost);
-		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 50, 120 + i * 50, str3, strlen(str3));
-		SelectObject(CAMERA->getCameraDC(), ofont);
-		DeleteObject(font);
+		if (PtInRect(&_im->getPItem()->getVItem()[i].rc, _ptMouse))
+		{
+			sprintf_s(str2, "%dG", _im->getPItem()->getVItem()[i].cost*_buyNum);
+			TextOut(CAMERA->getCameraDC(), WINSIZEX - 280, WINSIZEY / 3 + 40, str2, strlen(str2));
+		}
+		else _totalNum = 0;
 	}
 
 	for (int i = 0; i < _im->getPortion()->getVPotion().size(); ++i)
 	{
 		// 샵 포션 이름 표시
-		string str2 = _im->getPortion()->getVPotion()[i].name;
-		font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-		ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-		SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
-		SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-
+		string str1 = _im->getPortion()->getVPotion()[i].name;
 		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 120 + (_im->getPItem()->getVItem().size() + i) * 50,
-			str2.c_str(), strlen(str2.c_str()));
-		SelectObject(CAMERA->getCameraDC(), ofont);
-		DeleteObject(font);
-
+			str1.c_str(), strlen(str1.c_str()));
 		// 샵 포션 가격 표시
-		char str4[128];
-		font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-		ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-		SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
-		SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-		sprintf_s(str4, "%d", _im->getPortion()->getVPotion()[i].cost);
+		sprintf_s(str2, "%d", _im->getPortion()->getVPotion()[i].cost);
 		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 50, 120 + (_im->getPItem()->getVItem().size() + i) * 50,
-			str4, strlen(str4));
-		SelectObject(CAMERA->getCameraDC(), ofont);
-		DeleteObject(font);
+			str2, strlen(str2));
 
-		if(PtInRect(&_im->getPortion()->getVPotion()[i].rc, _ptMouse))
+		if (PtInRect(&_im->getPortion()->getVPotion()[i].rc, _ptMouse))
 		{
-			char str[128];
+	
 			if (_im->getPortion()->getVPotion()[i].name == "약초")
 			{
-				
-				sprintf_s(str, "%d", _pm->getHpPoIndex());
+
+				sprintf_s(str2, "%d", _pm->getHpPoIndex());
 				_totalNum = _pm->getHpPoIndex() + _buyNum;
-				
+
 			}
 
 			if (_im->getPortion()->getVPotion()[i].name == "마법의 물약")
 			{
-					
+				sprintf_s(str2, "%d", _pm->getMpPoIndex());
+				_totalNum = _pm->getMpPoIndex() + _buyNum;
 			}
 
+			TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, WINSIZEY / 6 + 40, str2, strlen(str2));
+			sprintf_s(str2, "%dG", _im->getPortion()->getVPotion()[i].cost*_buyNum);
+			TextOut(CAMERA->getCameraDC(), WINSIZEX - 280, WINSIZEY / 3 + 40, str2, strlen(str2));
+
 			if (_totalNum > 10) _buyNum--;
-
-			font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-			ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-			SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
-			SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-			TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, WINSIZEY / 6 + 40, str, strlen(str));
-			SelectObject(CAMERA->getCameraDC(), ofont);
-			DeleteObject(font);
-
-			char str1[128];
-			font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "새굴림");
-			ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
-			SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
-			SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-			sprintf_s(str1, "%dG",_im->getPortion()->getVPotion()[i].cost*_buyNum);
-			TextOut(CAMERA->getCameraDC(), WINSIZEX - 260, WINSIZEY / 3 + 40, str1, strlen(str1));
-			sprintf_s(str1, "%d", _buyNum);
-			TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, WINSIZEY / 3 + 10, str1, strlen(str1));
-			SelectObject(CAMERA->getCameraDC(), ofont);
-			DeleteObject(font);
 		}
+		else _totalNum = 0;
 	}
+
+	if (_totalNum > 10) _buyNum--;
+
+	sprintf_s(str2, "%d", _buyNum);
+	TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, WINSIZEY / 3 + 10, str2, strlen(str2));
+	SelectObject(CAMERA->getCameraDC(), ofont);
+	DeleteObject(font);
+
 }
 
 void shop::shopRemove()
@@ -181,4 +151,38 @@ void shop::setItem()
 	_im->itemMakeSet("호랑이 도복", WINSIZEX / 2 - 260, 280);
 	_im->potionMakeSet("약초", WINSIZEX / 2 - 260, 330);
 	_im->potionMakeSet("마법의 물약", WINSIZEX / 2 - 260, 380);
+}
+
+void shop::buyItem()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
+		{
+			if (PtInRect(&_im->getPItem()->getVItem()[i].rc, _ptMouse))
+			{
+				while (_buyNum > 0)
+				{
+					if (_pm->getTagMoney().money < _im->getPItem()->getVItem()[i].cost) break;
+					_pm->getItemValue(_im->getPItem()->getVItem()[i].name);
+					_pm->setMoney(_im->getPItem()->getVItem()[i].cost);
+					_buyNum--;
+				}
+			}
+		}
+
+		for (int i = 0; i < _im->getPortion()->getVPotion().size(); ++i)
+		{
+			if (PtInRect(&_im->getPortion()->getVPotion()[i].rc, _ptMouse))
+			{
+				while (_buyNum > 0)
+				{
+					if (_pm->getTagMoney().money < _im->getPortion()->getVPotion()[i].cost) break;
+					_pm->getItemValue(_im->getPortion()->getVPotion()[i].name);
+					_pm->setMoney(_im->getPortion()->getVPotion()[i].cost);
+					_buyNum--;
+				}
+			}
+		}
+	}
 }
