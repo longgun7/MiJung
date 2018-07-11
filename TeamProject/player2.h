@@ -128,7 +128,7 @@ public:
 	}
 
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
-	
+	int getSkillFrame() { return _skillFrame; }
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 
 	image* getImage() { return _img; }

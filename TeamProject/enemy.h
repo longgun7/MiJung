@@ -1,6 +1,8 @@
 #pragma once
 #include "gameNode.h"
 
+#define Count 18
+#define dCount 6
 enum DIRECTION
 {
 	STAND,	// 가만히 있는 상태
@@ -33,10 +35,15 @@ struct tagEnemy	// 에너미 구조체
 	int randAttack;				// 어떤 공격을 할지 랜덤값
 	int dropGold;				// 드랍 골드
 	int maxAttackFrameX;		// 최대 공격 프레임
+	int damage;
+	int skillCount;
+	int skillReCount;
 
 	bool isGoldSet;				// 돈을 보냈는지
 	bool isAttack;				// 공격했는지
 	bool isRandAttack;			// 어떤 공격을 할지 선택을 했는지
+	bool isDead;				// 죽었는지
+	bool isSkill;				// 스킬을 썼는지
 
 	float x;					// X좌표
 	float y;					// Y좌표
@@ -60,6 +67,8 @@ public:
 	void setisGoldSet(bool gold) { _enemy.isGoldSet = gold; }								// 플레이어가 골드를 받아갈 수 있게 해주는 설정자
 	void setEnemyDirection(DIRECTION direction) { _enemy.direction = direction; }			// 플레이어가 에너미의 상태를 설정할 수 있게 해주는 설정자
 	tagEnemy getTagEnmey() { return _enemy; }												// 다른곳에서 에너미 구조체를 사용할 수 있게 반환
+	void setIsDead(bool dead) { _enemy.isDead = dead; }
+	void setIsAttack(bool attack) { _enemy.isAttack = attack; }
 	enemy();
 	~enemy();
 };

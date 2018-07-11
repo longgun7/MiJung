@@ -580,6 +580,7 @@ void player2::move()
 		}
 		if (_skillFrame > 150)
 		{
+			_skillFrame = 0;
 			_img->setFrameX(0);
 			_move = S_FIGHTREADY;
 

@@ -159,7 +159,7 @@ public:
 	image* getImge() { return _img; } //이미지프레임 접근자
 
 	void setEnemyIndex(int index) { _enemyIndex = index; }
-
+	int getSkillFrame() { return _skillFrame; }
 	void setMove(MOVE move);
 	
 	// 추가(민경)

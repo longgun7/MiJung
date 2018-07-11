@@ -1,10 +1,13 @@
 #pragma once
 #include "enemy.h"
+#include "bossSkill.h"
 
 // 창병
 // 해당 에너미의 출현 장소 : 스테이지 1
 class spearMan : public enemy
 {
+
+
 public:
 
 	// 에너미
@@ -23,6 +26,8 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 1 
 class kungpu : public enemy
 {
+
+
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -40,6 +45,8 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 1
 class spirit : public enemy
 {
+
+
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -57,6 +64,7 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class bat : public enemy
 {
+
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -74,6 +82,8 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class snake : public enemy
 {
+
+
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -91,6 +101,8 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 2
 class wildboar : public enemy
 {
+
+
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -108,6 +120,7 @@ public:
 // 해당 에너미의 출현 장소 : 스테이지 3
 class skeleton : public enemy
 {
+
 
 public:
 
@@ -145,6 +158,7 @@ public:
 class dragon : public enemy
 {
 
+
 public:
 
 	virtual HRESULT init(float x, float y);
@@ -162,6 +176,10 @@ public:
 // 해당 에너미의 출현 장소 : 보스룸
 class boss : public enemy
 {
+private:
+
+	BossSkill1* _bs;
+	BossSkill2* _bs2;
 
 public:
 
