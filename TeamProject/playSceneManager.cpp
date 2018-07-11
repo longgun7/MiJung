@@ -32,6 +32,7 @@ HRESULT playSceneManager::init(void)
 
 	_pm->getPlayer()->setplayMapMemoryAddressLink(_map);
 
+
 	setProgressBar();	//프로그래스바 셋팅!
 
 	return S_OK;
@@ -301,7 +302,7 @@ void playSceneManager::tileObjectRender(void)
 		{
 			if (_map->getTiles()[i * TILEX + j].obj == OBJ_NONE) continue;
 
-			IMAGEMANAGER->frameRender("town", getMemDC(),
+			IMAGEMANAGER->frameRender("field2Tile", getMemDC(),
 				_map->getTiles()[i * TILEX + j].rc.left, _map->getTiles()[i * TILEX + j].rc.top,
 				_map->getTiles()[i * TILEX + j].objFrameX, _map->getTiles()[i * TILEX + j].objFrameY);
 		}
