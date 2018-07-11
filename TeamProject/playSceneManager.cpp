@@ -328,7 +328,13 @@ void playSceneManager::sceneChange(void)
 		}
 		if (_map->getCurrentTileName() == "field3Tile")
 		{
+			SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
 			sceneMapPlayerSetting("event", 500, 1950);
+		}
+		if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À")
+		{
+			SCENEMANAGER->changeScene("¼úÁý¾À");
+			sceneMapPlayerSetting("InHouse", 500, 500);
 		}
 		break;
 
@@ -341,9 +347,15 @@ void playSceneManager::sceneChange(void)
 		{
 			sceneMapPlayerSetting("event", 100, 100);
 		}
-		else if (_map->getCurrentTileName() == "event")
+		else if (SCENEMANAGER->getSceneName() == "ÀÌº¥Æ®¾À")
 		{
+			SCENEMANAGER->changeScene("ÇÊµå¾À");
 			sceneMapPlayerSetting("field3Tile", 100, 100);
+		}
+		if (SCENEMANAGER->getSceneName() == "¼úÁý¾À")
+		{
+			SCENEMANAGER->changeScene("Å¸¿î¾À");
+			sceneMapPlayerSetting("town", 500, 500);
 		}
 		break;
 
@@ -373,7 +385,8 @@ void playSceneManager::sceneMapPlayerSetting(string loadMap, float x, float y)
 	_pm->getPlayer()->setX(x);	_pm->getPlayer()->setY(y);
 	_pm->getPlayer2()->setX(x);	_pm->getPlayer2()->setY(y);
 
-	if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À" || SCENEMANAGER->getSceneName() == "ÇÊµå¾À")
+	if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À" || SCENEMANAGER->getSceneName() == "ÇÊµå¾À" ||
+		SCENEMANAGER->getSceneName() == "¼úÁý¾À")
 	{
 		_pm->getPlayer()->setSceneMode(FIELDMODE, RIGHT);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_RIGHT);

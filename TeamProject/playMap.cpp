@@ -90,18 +90,21 @@ void playMap::load(string tileName)
 
 	CAMERA->setMaxPositon(maxTileX * TILESIZE, maxTileY * TILESIZE);
 
-	//for (int i = 0; i < TILEY; ++i)
-	//{
-	//	for (int j = 0; j < TILEX; ++j)
-	//	{
-	//		if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
-	//
-	//		IMAGEMANAGER->frameRender("town", IMAGEMANAGER->findImage("À©µµ¿ì¸Ê")->getMemDC(),
-	//			_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
-	//			_tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY);
-	//	}
-	//}
+	for (int i = 0; i < TILEY; ++i)
+	{
+		for (int j = 0; j < TILEX; ++j)
+		{
+			if (_tiles[i * TILEX + j].obj < OBJ_UPPORTAL) continue;
+			
+			_vPortal.push_back(_tiles[i * TILEX + j]);
+		}
+	}
 }
+
+void playMap::portal(float x, float y)
+{
+}
+
 
 void playMap::setTilePos(RECT rc, OBJECT obj)
 {

@@ -2,10 +2,12 @@
 #include "shop.h"
 #include "gameNode.h"
 
+class playerManager;
 
 class barScnen : public gameNode
 {
 private:
+	playerManager * _pm;
 
 	shop * _shop;
 
