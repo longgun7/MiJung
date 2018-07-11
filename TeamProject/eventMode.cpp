@@ -6,10 +6,12 @@ HRESULT eventMode::init()
 {
 	IMAGEMANAGER->addImage("카페베네", "image/player/카페베네.bmp", 367, 137, true, RGB(255, 0, 255),true);
 	SOUNDMANAGER->addSound("낙사", "falling.mp3", true, false);
+
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_pm->getPlayer()->setEventMode(EVENTMODE);
 	_pm->getPlayer2()->setEventMode(S_EVENTMODE);
 	_soundFrame = 0;
+
 	return S_OK;
 }
 
@@ -32,13 +34,17 @@ void eventMode::update()
 		{
 			_alphaNum += 3;
 		}
+
+		
 		if (_pm->getPlayer()->getSlopeNum() <= 2 || _pm->getPlayer()->getSlopeNum() >= 6)
 		{
 			_pm->getPlayer2()->setMove(S_AFRAID);
 		}
 		//아래키 누르면 움직인다
 
-		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN) && _pm->getPlayer()->getMove() != RIGHT4 && _pm->getPlayer()->getMove() != LEFT4
+			&& _pm->getPlayer()->getMove() != WOODRIGHT4
+			&& _pm->getPlayer()->getMove() != WOODLEFT4)
 		{
 			_pm->getPlayer()->setIsMotionLive(true);
 			_pm->getPlayer()->setY(_pm->getPlayer()->getY() + 3);
@@ -56,6 +62,11 @@ void eventMode::update()
 
 void eventMode::render()
 {
+	char str[128];
+	sprintf_s(str, " 기울기 : %d", _pm->getPlayer()->getSlopeNum());
+	TextOut(getMemDC(), WINSIZEX / 2, 50, str, strlen(str));
+
+
 	if (_soundFrame >= 2)
 	{
 		IMAGEMANAGER->alphaRender("카페베네", CAMERA->getCameraDC(), WINSIZEX / 3, WINSIZEY - 200,_alphaNum);

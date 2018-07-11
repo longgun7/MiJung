@@ -115,7 +115,9 @@ public:
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
 	
 	SMOVE getMove() { return _move; }
-	void setMove(SMOVE move);
+	void setMove(SMOVE move) { _move = move; }
+	
+	void setSkillMove(SMOVE move);
 	
 	void setMounting(bool mounting) { _isSwordMounting = mounting; } //무기 장착여부
 	

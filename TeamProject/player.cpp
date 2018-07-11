@@ -1377,7 +1377,7 @@ void player::effectImage()
 
 
 
-void player::setMove(MOVE move)
+void player::setSkillMove(MOVE move)
 {
 	if (_sceneMode == BATTLEMODE)
 	{
@@ -1471,10 +1471,50 @@ void player::tileMove(void)
 
 	switch (_move)
 	{
-	case LEFTMOVE:	_angle = PI; (_x > TILESIZE * 3) ? _x += cosf(_angle)*_moveSpeed : _x = TILESIZE * 3;	break;
-	case RIGHTMOVE: _angle = 0; (_x < CAMERA->getMaxPositon().x - TILESIZE * 3) ? _x += cosf(_angle)*_moveSpeed : _x = CAMERA->getMaxPositon().x - TILESIZE * 3;	break;
-	case DOWNMOVE:	_angle = 2 * PI - PI / 2; (_y > TILESIZE) ? _y += -sinf(_angle)*_moveSpeed : _y = TILESIZE;	break;
-	case UPMOVE:	_angle = PI / 2; (_y < CAMERA->getMaxPositon().y - TILESIZE) ? _y += -sinf(_angle)*_moveSpeed : _y = CAMERA->getMaxPositon().y - TILESIZE;	break;
+	case LEFTMOVE:	
+		_angle = PI; 
+		if (_x > TILESIZE * 3) _x += cosf(_angle)*_moveSpeed;
+		else
+		{
+			_x = TILESIZE * 3;
+			_move = DOWNMOVE;
+			_y += 5;
+			_angle = 2 * PI - PI / 2;
+		}
+	break;
+	case RIGHTMOVE: 
+		_angle = 0; 
+		if (_x < CAMERA->getMaxPositon().x - TILESIZE * 3) _x += cosf(_angle)*_moveSpeed;
+		else
+		{
+			_x = CAMERA->getMaxPositon().x - TILESIZE * 3;
+			_move = UPMOVE;
+			_y -= 5;
+			_angle = PI / 2;
+		}
+		break;
+	case DOWNMOVE:	
+		_angle = 2 * PI - PI / 2; 
+		if (_y > TILESIZE) _y += -sinf(_angle)*_moveSpeed;
+		else
+		{
+			_move = LEFTMOVE;
+			_x -= 5;
+			_angle = PI ;
+			_y = TILESIZE;
+		}
+	break;
+	case UPMOVE:	
+		_angle = PI / 2; 
+		if (_y < CAMERA->getMaxPositon().y - TILESIZE) _y += -sinf(_angle)*_moveSpeed;
+		else
+		{
+			_move = RIGHTMOVE;
+			_x += 5;
+			_angle = 0;
+			_y = CAMERA->getMaxPositon().y - TILESIZE;
+		}
+		break;
 	}
 
 	rcCollision = RectMakeCenter(_x, _y + 27, _img->getFrameWidth(), 25);

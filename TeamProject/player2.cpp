@@ -847,6 +847,7 @@ void player2::s_event()
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 2 - 40;
 		_isJumping = false;
+		
 	}
 
 	if (!_isJumping)
@@ -858,10 +859,10 @@ void player2::s_event()
 	//줄타기
 	if (_sceneMode == S_EVENTMODE)
 	{
-		_move = S_ROPEWALKING;
 		
+		_move = S_ROPEWALKING;
 		//낙사할 때
-		if (_isJumping && _x > WINSIZEX/2 -100 &&_x < WINSIZEX/2 +100)
+		if (_isJumping && _x > WINSIZEX/2 -150 &&_x < WINSIZEX/2 +150)
 		{
 			_y -= _jumpPower;
 			_jumpPower -= _gravity;
@@ -1021,7 +1022,7 @@ void player2::setPortion(int hp, int mp)
 	}
 }
 
-void player2::setMove(SMOVE move)
+void player2::setSkillMove(SMOVE move)
 {
 	if (move == S_BASICSKILL1)
 	{
@@ -1077,6 +1078,8 @@ void player2::setMove(SMOVE move)
 		_skillFrame = 0;
 		_attribute.currentMp -= 3;
 	}
+
+	
 }
 
 

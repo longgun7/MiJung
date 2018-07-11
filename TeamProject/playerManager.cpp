@@ -25,8 +25,30 @@ HRESULT playerManager::init()
 	//_im = new itemManager;
 	//_im->init();
 	//_em = new enemyManager;
-
+	getItemValue("¼ú");
+	getItemValue("±Ç¹ý°¡ µµº¹");
+	getItemValue("Ã»·æµµ");
+	getItemValue("°¡Á× °©¿Ê");
 	
+	_ataho->setStat(_vA_WeapInven[0].atk, _vA_WeapInven[0].def, _vA_WeapInven[0].luck, _vA_WeapInven[0].cri, _vA_WeapInven[0].speed);
+	_A_saveBeforWeapon.atk = _vA_WeapInven[0].atk;
+	_A_saveBeforWeapon.luck = _vA_WeapInven[0].luck;
+	_A_saveBeforWeapon.cri = _vA_WeapInven[0].cri;
+
+	_ataho->setStat(_vA_ArmorInven[0].atk, _vA_ArmorInven[0].def, _vA_ArmorInven[0].luck, _vA_ArmorInven[0].cri, _vA_ArmorInven[0].speed);
+	_A_saveBeforArmor.def = _vA_ArmorInven[0].def;
+	_A_saveBeforArmor.speed = _vA_ArmorInven[0].speed;
+	
+	_smasyu->setStat(_vS_WeapInven[0].atk, _vS_WeapInven[0].def, _vS_WeapInven[0].luck, _vS_WeapInven[0].cri, _vS_WeapInven[0].speed);
+	_S_saveBeforWeapon.atk = _vS_WeapInven[0].atk;
+	_S_saveBeforWeapon.luck = _vS_WeapInven[0].luck;
+	_S_saveBeforWeapon.cri = _vS_WeapInven[0].cri;
+
+	_smasyu->setStat(_vS_ArmorInven[0].atk, _vS_ArmorInven[0].def, _vS_ArmorInven[0].luck, _vS_ArmorInven[0].cri, _vS_ArmorInven[0].speed);
+	_S_saveBeforArmor.def = _vS_ArmorInven[0].def;
+	_S_saveBeforArmor.speed = _vS_ArmorInven[0].speed;
+
+
 	return S_OK;
 }
 
@@ -140,7 +162,7 @@ void playerManager::eventMode()
 
 		if (_ataho->getSlopeNum() <= 2 || _ataho->getSlopeNum() >= 6)
 		{
-			_smasyu->setMove(S_AFRAID);
+			_smasyu->setSkillMove(S_AFRAID);
 		}
 	}
 }
