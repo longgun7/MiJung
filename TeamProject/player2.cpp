@@ -172,6 +172,11 @@ void player2::fieldKeyManager(float x , float y,float angle)
 
 	if (_sceneMode == S_FIELDMODE)
 	{
+		if (_attribute.currentHp == 0)
+		{
+			_attribute.currentHp += 1;
+		}
+
 		++_skillFrame;
 		if (_skillFrame % 7 == 0)
 		{
@@ -319,6 +324,7 @@ void player2::battleKeyManager()
 	{
 		if (_sceneMode == S_BATTLEMODE && _em->getVEnmey().size() != 0)
 		{
+			
 			//½ºÅ³
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{

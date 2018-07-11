@@ -75,7 +75,8 @@ private:
 	vector<tagInventory>::iterator  _viPoInven;
 	
 	int _mountingIndex;
-	int _poIndex;
+	int _HPpoIndex;
+	int _MPpoIndex;
 public:
 
 	HRESULT init();
@@ -109,7 +110,8 @@ public:
 	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; }
 	void setItemManagerAdressLink(itemManager* im) { _im = im; }
 
-	int getPoIndex() { return _poIndex; }
+	int getHpPoIndex() { return _HPpoIndex; }
+	int getMpPoIndex() { return _MPpoIndex; }
 	playerManager();
 	~playerManager();
 };

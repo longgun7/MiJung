@@ -273,6 +273,9 @@
     <ClInclude Include="shop.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="bossSkill.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -441,6 +444,9 @@
       <Filter>playGround</Filter>
     </ClCompile>
     <ClCompile Include="shop.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="bossSkill.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

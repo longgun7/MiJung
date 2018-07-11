@@ -200,6 +200,10 @@ void player::fieldKeyManager()
 	//필드에 있을 때
 	if (_sceneMode == FIELDMODE)
 	{
+		if (_attribute.currentHp == 0)
+		{
+			_attribute.currentHp += 1;
+		}
 		//움직이는 모션
 		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 		{
@@ -274,6 +278,7 @@ void player::battleKeyManager()
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
 	{	
+		
 		if (_attribute.currentHp > 0 && _em->getVEnmey().size() != 0)
 		{
 			//스킬

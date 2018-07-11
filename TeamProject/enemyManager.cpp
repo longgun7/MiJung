@@ -162,6 +162,9 @@ void enemyManager::hitEnemy(int index, int damge)
 
 void enemyManager::hitPlayer()
 {
+	// 예외처리추가(민경), 에너미가 한마리도 없을때 이 함수는 실행되지 않는다.
+	if (_vEnemy.size() <= 0) return;
+
 	if (_vEnemy[_hitIndex]->getTagEnmey().isAttack == true && _vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0)
 	{
 		_pm->getPlayer()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);

@@ -15,37 +15,8 @@ statusScene::~statusScene()
 
 HRESULT statusScene::init(void)
 {
-	IMAGEMANAGER->addImage("statusMain", "image/ui/statusMain.bmp", 650, 550, false, RGB(0, 0, 0));
-	IMAGEMANAGER->addImage("statusChoice", "image/ui/statusChoice.bmp", 350, 150, false, RGB(0, 0, 0));
-	IMAGEMANAGER->addImage("statusChoice2", "image/ui/statusChoice2.bmp", 350, 400, false, RGB(0, 0, 0));
+	addImage();
 	
-	IMAGEMANAGER->addFrameImage("캐릭터이미지", "image/ui/캐릭터이미지.bmp", 1000, 250, 8, 2, false, RGB(0, 0, 0));
-	IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(0);
-
-	IMAGEMANAGER->addFrameImage("스킬", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("도구", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("장비", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("소지", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("모드", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("환경설정", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->findImage("스킬")->setFrameX(0);
-	IMAGEMANAGER->findImage("도구")->setFrameX(1);
-	IMAGEMANAGER->findImage("장비")->setFrameX(2);
-	IMAGEMANAGER->findImage("소지")->setFrameX(3);
-	IMAGEMANAGER->findImage("모드")->setFrameX(8);
-	IMAGEMANAGER->findImage("환경설정")->setFrameX(4);
-
-	IMAGEMANAGER->addFrameImage("아이템", "image/ui/아이템.bmp", 600, 250, 12, 5, true, RGB(255, 0, 255));
-	//IMAGEMANAGER->addFrameImage("아이콘", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("캐릭터선택UP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("캐릭터선택DOWN", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
-	IMAGEMANAGER->findImage("캐릭터선택UP")->setFrameX(7);
-	IMAGEMANAGER->findImage("캐릭터선택DOWN")->setFrameX(8);
-
-	IMAGEMANAGER->addFrameImage("SETTINGBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
-	IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameX(6);
-	IMAGEMANAGER->addFrameImage("INVENBUTTON", "image/ui/UI버튼.bmp",450, 75, 18, 3, true, RGB(255, 0, 255));
 
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_em = SCENEMANAGER->getEnemyManagerLink();
@@ -54,8 +25,12 @@ HRESULT statusScene::init(void)
 	_uiX = WINSIZEX - 314;
 	_uiY = 100;
 
+	_invenX = WINSIZEX - 340;
+	_invenY = 210;
+
 	_setIndex = 0;
 	_invenIndex = 0;
+	_invenTypeIndex = 0;
 	
 	_isCheck = false;
 	_isItemCheck = false;
@@ -72,23 +47,22 @@ void statusScene::release(void)
 
 void statusScene::update(void)
 {
+	iconChange();
 	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		if(!_isCheck)
 		{
-			SCENEMANAGER->changeScene("타운씬");
+			SCENEMANAGER->changeScene("타운씬");		//원래있던곳으로 돌아가게 바꿔야함
 		}
 		else
 		{
 			IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameY(0);
+			_invenIndex = 0;
 			_isCheck = false;
 		}
 		
 	}
-	//if (KEYMANAGER->isOnceKeyDown(VK_F1))
-	//{
-	//	SCENEMANAGER->changeScene("필드씬");
-	//}
+	
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
 		if(!_isCheck)
@@ -99,6 +73,23 @@ void statusScene::update(void)
 			{
 				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(0);
 			}
+		}
+		else if(_isCheck)
+		{
+			_invenIndex++;
+			if (_setIndex == 0) { if (_invenIndex > 2)_invenIndex = 0; }
+			if (_setIndex == 1) 
+			{ 
+				if (_invenIndex > _pm->getV_PoInven().size())_invenIndex = 0; 
+			}
+			if (_setIndex == 2)
+			{
+				if (_invenIndex > _pm->getVA_WeapInven().size())_invenIndex = 0;
+			}
+			if (_setIndex == 3) { if (_invenIndex > 1)_invenIndex = 0; }
+			if (_setIndex == 4) { if (_invenIndex > 4)_invenIndex = 0; }
+			if (_setIndex == 5) { if (_invenIndex > 4)_invenIndex = 0; }
+
 		}
 	}
 	if(KEYMANAGER->isOnceKeyDown(VK_UP))
@@ -112,6 +103,22 @@ void statusScene::update(void)
 				IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(1);
 			}
 		}
+		else if (_isCheck)
+		{
+			_invenIndex--;
+			if (_setIndex == 0) { if (_invenIndex < 0)_invenIndex = 2; }
+			if (_setIndex == 1)
+			{
+				if (_invenIndex <0)_invenIndex = _pm->getV_PoInven().size();
+			}
+			if (_setIndex == 2)
+			{
+				if (_invenIndex < 0)_invenIndex = _pm->getVA_WeapInven().size();
+			}
+			if (_setIndex == 3) { if (_invenIndex < 0)_invenIndex = 1; }
+			if (_setIndex == 4) { if (_invenIndex < 0)_invenIndex = 4; }
+			if (_setIndex == 5) { if (_invenIndex < 0)_invenIndex = 4; }
+		}
 	}
 
 	if(KEYMANAGER->isOnceKeyDown(VK_LEFT))
@@ -121,6 +128,7 @@ void statusScene::update(void)
 			_setIndex--;
 			if (_setIndex < 0)
 			{
+				
 				_setIndex = 5;
 			}
 		}
@@ -149,6 +157,13 @@ void statusScene::update(void)
 			_uiX = WINSIZEX - 314 +i*50;
 		}
 	}
+	for(int i=0;i<5;i++)
+	{
+		if(_invenIndex==i)
+		{
+			_invenY = 210 + i * 50;
+		}
+	}
 }
 
 void statusScene::render(void)
@@ -167,6 +182,9 @@ void statusScene::render(void)
 	IMAGEMANAGER->findImage("모드")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 125, 50);
 	IMAGEMANAGER->findImage("환경설정")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 75, 50);
 
+	if(_isCheck)
+	IMAGEMANAGER->findImage("INVENBUTTON")->frameRender(CAMERA->getCameraDC(), _invenX, _invenY);
+
 	IMAGEMANAGER->findImage("SETTINGBUTTON")->frameRender(CAMERA->getCameraDC(), _uiX, _uiY);
 
 	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0&&!_isCheck)
@@ -179,10 +197,140 @@ void statusScene::render(void)
 		IMAGEMANAGER->findImage("캐릭터선택UP")->frameRender(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 0);
 	}
 	char str123[128];
-
+	if (_setIndex==0 || _setIndex>3)
+	{
+		IMAGEMANAGER->findImage("스킬1")->frameRender(CAMERA->getCameraDC(), WINSIZEX-315, 200);
+		IMAGEMANAGER->findImage("스킬2")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 250);
+		IMAGEMANAGER->findImage("스킬3")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 300);
+		
+		if (_setIndex == 4)
+		{
+			IMAGEMANAGER->findImage("스킬4")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 350);
+			IMAGEMANAGER->findImage("스킬5")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 400);
+		}
+	}
 	
 	fontUI();
 	
+}
+
+void statusScene::addImage(void)
+{
+	IMAGEMANAGER->addImage("statusMain", "image/ui/statusMain.bmp", 650, 550, false, RGB(0, 0, 0));
+	IMAGEMANAGER->addImage("statusChoice", "image/ui/statusChoice.bmp", 350, 150, false, RGB(0, 0, 0));
+	IMAGEMANAGER->addImage("statusChoice2", "image/ui/statusChoice2.bmp", 350, 400, false, RGB(0, 0, 0));
+
+	IMAGEMANAGER->addFrameImage("캐릭터이미지", "image/ui/캐릭터이미지.bmp", 1000, 250, 8, 2, false, RGB(0, 0, 0));
+	IMAGEMANAGER->findImage("캐릭터이미지")->setFrameX(0);
+
+	IMAGEMANAGER->addFrameImage("스킬", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("도구", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("장비", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("소지", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("모드", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("환경설정", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->findImage("스킬")->setFrameX(0);
+	IMAGEMANAGER->findImage("도구")->setFrameX(1);
+	IMAGEMANAGER->findImage("장비")->setFrameX(2);
+	IMAGEMANAGER->findImage("소지")->setFrameX(3);
+	IMAGEMANAGER->findImage("모드")->setFrameX(8);
+	IMAGEMANAGER->findImage("환경설정")->setFrameX(4);
+
+	IMAGEMANAGER->addFrameImage("아이템", "image/ui/아이템.bmp", 600, 250, 12, 5, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("아이콘", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("캐릭터선택UP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("캐릭터선택DOWN", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->findImage("캐릭터선택UP")->setFrameX(7);
+	IMAGEMANAGER->findImage("캐릭터선택DOWN")->setFrameX(8);
+
+	IMAGEMANAGER->addFrameImage("SETTINGBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameX(6);
+	IMAGEMANAGER->addFrameImage("INVENBUTTON", "image/ui/UI버튼.bmp", 450, 75, 18, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->findImage("INVENBUTTON")->setFrameX(7);
+}
+
+void statusScene::iconChange(void)
+{
+	switch (_setIndex)
+	{
+	case 0:
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()==0)
+		{
+			IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
+			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬2")->setFrameX(11);
+			IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬3")->setFrameX(11);
+			IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
+		}
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+		{
+			IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
+			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+		}
+
+		break;
+	case 1:
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
+		{
+			IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
+			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬2")->setFrameX(10);
+			IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬3")->setFrameX(10);
+			IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
+		}
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+		{
+			IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
+			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬2")->setFrameX(16);
+			IMAGEMANAGER->findImage("스킬2")->setFrameY(2);
+			IMAGEMANAGER->findImage("스킬3")->setFrameX(16);
+			IMAGEMANAGER->findImage("스킬3")->setFrameY(2);
+		}
+		break;
+	case 2:
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
+		{
+			IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
+			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬2")->setFrameX(10);
+			IMAGEMANAGER->findImage("스킬2")->setFrameY(2);
+			IMAGEMANAGER->findImage("스킬3")->setFrameX(14);
+			IMAGEMANAGER->findImage("스킬3")->setFrameY(0);
+		}
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+		{
+			IMAGEMANAGER->findImage("스킬1")->setFrameX(13);
+			IMAGEMANAGER->findImage("스킬1")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬2")->setFrameX(17);
+			IMAGEMANAGER->findImage("스킬2")->setFrameY(0);
+			IMAGEMANAGER->findImage("스킬3")->setFrameX(16);
+			IMAGEMANAGER->findImage("스킬3")->setFrameY(2);
+		}
+		break;
+	case 3:
+
+		break;
+	case 4:
+		IMAGEMANAGER->findImage("스킬1")->setFrameX(8);
+		IMAGEMANAGER->findImage("스킬1")->setFrameY(1);
+		IMAGEMANAGER->findImage("스킬2")->setFrameX(8);
+		IMAGEMANAGER->findImage("스킬2")->setFrameY(1);
+		IMAGEMANAGER->findImage("스킬3")->setFrameX(8);
+		IMAGEMANAGER->findImage("스킬3")->setFrameY(1);
+		IMAGEMANAGER->findImage("스킬4")->setFrameX(8);
+		IMAGEMANAGER->findImage("스킬4")->setFrameY(1);
+		IMAGEMANAGER->findImage("스킬5")->setFrameX(8);
+		IMAGEMANAGER->findImage("스킬5")->setFrameY(1);
+		break;
+	case 5:
+		IMAGEMANAGER->findImage("스킬1")->setFrameX(10);
+		IMAGEMANAGER->findImage("스킬1")->setFrameY(3);
+		break;
+	}
 }
 
 void statusScene::fontUI(void)

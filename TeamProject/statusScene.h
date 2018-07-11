@@ -34,6 +34,7 @@ private:
 
 	int _setIndex;
 	int _invenIndex;
+	int _invenTypeIndex;
 
 	bool _isState;
 	
@@ -46,8 +47,10 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
-	bool getIsState() { return _isState; }
+	void addImage(void);
 
+	bool getIsState() { return _isState; }
+	void iconChange(void);
 	void fontUI(void);
 };
 

@@ -151,6 +151,7 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="barScnen.h" />
     <ClInclude Include="battleScene.h" />
+    <ClInclude Include="bossSkill.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="barScnen.cpp" />
     <ClCompile Include="battleScene.cpp" />
+    <ClCompile Include="bossSkill.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="effect.cpp" />

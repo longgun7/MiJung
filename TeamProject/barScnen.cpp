@@ -52,6 +52,9 @@ void barScnen::update(void)
 		}
 	}
 
+	if (_isShopCheck) _shop->update();
+
+
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		SCENEMANAGER->changeScene("╩Себ╬ю");
