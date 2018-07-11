@@ -408,9 +408,6 @@ void playSceneManager::sceneChange(void)
 
 	}
 
-
-
-
 }
 
 void playSceneManager::sceneMapPlayerSetting(string loadMap, float x, float y)
@@ -420,12 +417,12 @@ void playSceneManager::sceneMapPlayerSetting(string loadMap, float x, float y)
 
 	if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À" || SCENEMANAGER->getSceneName() == "ÇÊµå¾À")
 	{
-		_pm->getPlayer()->setScene(FIELDMODE, RIGHT);
+		_pm->getPlayer()->setSceneMode(FIELDMODE, RIGHT);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_RIGHT);
 	}
 	else if (SCENEMANAGER->getSceneName() == "¹èÆ²¾À")
 	{
-		_pm->getPlayer()->setScene(BATTLEMODE, FIGHTREADY);
+		_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
 		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
 
 	}
