@@ -23,7 +23,6 @@ HRESULT playSceneManager::init(void)
 	_map = new playMap;
 	_map->init();
 	
-	//아타호와 에너미 매니저 전방선언
 	
 	//전방선언	
 	_pm = SCENEMANAGER->getPlayerManagerLink();
@@ -54,7 +53,7 @@ void playSceneManager::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("타운씬");
-		_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+		_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE,S_DOWN);
 		SOUNDMANAGER->stop(_nowSong);
 		_nowSong = "TownTheMa";
@@ -66,7 +65,7 @@ void playSceneManager::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		SCENEMANAGER->changeScene("배틀씬");
-		_pm->getPlayer()->setScene(BATTLEMODE, FIGHTREADY);
+		_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
 		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
 		SOUNDMANAGER->stop(_nowSong);
 		int randumSound;
@@ -91,7 +90,7 @@ void playSceneManager::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
 		SCENEMANAGER->changeScene("필드씬");
-		_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+		_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
 		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
 		SOUNDMANAGER->stop(_nowSong);
 		_nowSong = "FiledTheMa";
@@ -107,11 +106,14 @@ void playSceneManager::update(void)
 		
 	}
 	
+	if (KEYMANAGER->isOnceKeyDown(VK_F6))
+	{
+		SCENEMANAGER->changeScene("이벤트씬");
+	}
 	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		
 	}
-	
 	updateProgressBar();
 	_map->setTilePos(_pm->getPlayer()->getRC(), OBJ_PLAYER1);
 }

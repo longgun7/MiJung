@@ -25,8 +25,30 @@ HRESULT playerManager::init()
 	//_im = new itemManager;
 	//_im->init();
 	//_em = new enemyManager;
-
+	getItemValue("술");
+	getItemValue("권법가 도복");
+	getItemValue("청룡도");
+	getItemValue("가죽 갑옷");
 	
+	_ataho->setStat(_vA_WeapInven[0].atk, _vA_WeapInven[0].def, _vA_WeapInven[0].luck, _vA_WeapInven[0].cri, _vA_WeapInven[0].speed);
+	_A_saveBeforWeapon.atk = _vA_WeapInven[0].atk;
+	_A_saveBeforWeapon.luck = _vA_WeapInven[0].luck;
+	_A_saveBeforWeapon.cri = _vA_WeapInven[0].cri;
+
+	_ataho->setStat(_vA_ArmorInven[0].atk, _vA_ArmorInven[0].def, _vA_ArmorInven[0].luck, _vA_ArmorInven[0].cri, _vA_ArmorInven[0].speed);
+	_A_saveBeforArmor.def = _vA_ArmorInven[0].def;
+	_A_saveBeforArmor.speed = _vA_ArmorInven[0].speed;
+	
+	_smasyu->setStat(_vS_WeapInven[0].atk, _vS_WeapInven[0].def, _vS_WeapInven[0].luck, _vS_WeapInven[0].cri, _vS_WeapInven[0].speed);
+	_S_saveBeforWeapon.atk = _vS_WeapInven[0].atk;
+	_S_saveBeforWeapon.luck = _vS_WeapInven[0].luck;
+	_S_saveBeforWeapon.cri = _vS_WeapInven[0].cri;
+
+	_smasyu->setStat(_vS_ArmorInven[0].atk, _vS_ArmorInven[0].def, _vS_ArmorInven[0].luck, _vS_ArmorInven[0].cri, _vS_ArmorInven[0].speed);
+	_S_saveBeforArmor.def = _vS_ArmorInven[0].def;
+	_S_saveBeforArmor.speed = _vS_ArmorInven[0].speed;
+
+
 	return S_OK;
 }
 
@@ -130,7 +152,7 @@ void playerManager::release()
 
 void playerManager::eventMode()
 {
-	if (_ataho->getSCENEMODE() == EVENTMODE)
+	if (_ataho->getSceneMode() == EVENTMODE)
 	{
 		
 		if (_ataho->getIsJumping() == true)
@@ -140,7 +162,7 @@ void playerManager::eventMode()
 
 		if (_ataho->getSlopeNum() <= 2 || _ataho->getSlopeNum() >= 6)
 		{
-			_smasyu->setMove(S_AFRAID);
+			_smasyu->setSkillMove(S_AFRAID);
 		}
 	}
 }
@@ -263,6 +285,44 @@ void playerManager::getItemValue(string itemName)
 	inventory.speed = INIDATA->loadDataInterger("item", itemName.c_str(), "스피드");
 	inventory.hp = INIDATA->loadDataInterger("item", itemName.c_str(), "HP회복");
 	inventory.mp = INIDATA->loadDataInterger("item", itemName.c_str(), "MP회복");
+
+	//statusScene에 들어갈 소모품 이미지
+	if (inventory.name == "약초")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("약초",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(0);
+		inventory.img->setFrameY(3);
+	}
+	if (inventory.name == "마법의 물약") 
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("마법물약",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(3);
+		inventory.img->setFrameY(3);
+	}
+	//statusScene에 들어갈 장비 이미지
+	if (inventory.name == "술")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("술",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(1);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "권법가 도복")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("권법가 도복",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(7);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "청룡도")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("청룡도",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(1);
+		inventory.img->setFrameY(2);
+	}
 
 	//아타호 무기
 	if (frameY == 0)

@@ -847,6 +847,7 @@ void player2::s_event()
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 2 - 40;
 		_isJumping = false;
+		
 	}
 
 	if (!_isJumping)
@@ -858,17 +859,19 @@ void player2::s_event()
 	//ÁÙÅ¸±â
 	if (_sceneMode == S_EVENTMODE)
 	{
-		_move = S_ROPEWALKING;
 		
+		_move = S_ROPEWALKING;
 		//³«»çÇÒ ¶§
-		if (_isJumping)
+		if (_isJumping && _x > WINSIZEX/2 -150 &&_x < WINSIZEX/2 +150)
 		{
 			_y -= _jumpPower;
 			_jumpPower -= _gravity;
-			_x += 3;
+			_x += 3;	
+		}
+		if (_isJumping)
+		{
 			_img = IMAGEMANAGER->findImage("½º¸¶½´³«»ç");
 		}
-
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 			_isMotionLive = true;
@@ -884,7 +887,6 @@ void player2::levelCheck()
 		//·¹º§¾÷
 		if (_attribute.currentExp >= _attribute.maxExp)
 		{
-
 			_attribute.isLevelUp = true;
 		}
 
@@ -1020,7 +1022,7 @@ void player2::setPortion(int hp, int mp)
 	}
 }
 
-void player2::setMove(SMOVE move)
+void player2::setSkillMove(SMOVE move)
 {
 	if (move == S_BASICSKILL1)
 	{
@@ -1076,6 +1078,8 @@ void player2::setMove(SMOVE move)
 		_skillFrame = 0;
 		_attribute.currentMp -= 3;
 	}
+
+	
 }
 
 
@@ -1103,6 +1107,14 @@ void player2::setPlayerDamage(int damage)
 			_attribute.currentHp = 0;
 		}
 	}
+}
+
+void player2::setEventMode(S_SCENEMODE mode)
+{
+	_sceneMode = S_EVENTMODE;
+	_x = WINSIZEX / 2+20;
+	_y = WINSIZEY / 2 - 40;
+	_isJumping = false;
 }
 
 player2::player2()

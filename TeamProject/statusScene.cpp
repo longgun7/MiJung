@@ -65,9 +65,16 @@ void statusScene::render(void)
 	IMAGEMANAGER->findImage("모드")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 125, 50);
 	IMAGEMANAGER->findImage("환경설정")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 75, 50);
 	
-	if(_isCheck)
-	IMAGEMANAGER->findImage("INVENBUTTON")->frameRender(CAMERA->getCameraDC(), _invenX, _invenY);
-
+	if (_isCheck)
+	{
+		IMAGEMANAGER->findImage("INVENBUTTON")->frameRender(CAMERA->getCameraDC(), _invenX, _invenY);
+		if(_setIndex==0||_setIndex==2)
+		{
+			if (_invenTypeIndex == 0 || _invenTypeIndex == 1)IMAGEMANAGER->findImage("LEFTBUTTON")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 75, 500);
+			if (_invenTypeIndex == 2 || _invenTypeIndex == 1)IMAGEMANAGER->findImage("RIGHTBUTTON")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 325, 500);
+		}
+		
+	}
 	IMAGEMANAGER->findImage("SETTINGBUTTON")->frameRender(CAMERA->getCameraDC(), _uiX, _uiY);
 
 	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0&&!_isCheck)
@@ -96,6 +103,16 @@ void statusScene::render(void)
 		{
 			IMAGEMANAGER->findImage("스킬4")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 350);
 			IMAGEMANAGER->findImage("스킬5")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 400);
+		}
+	}
+	if(_setIndex==1)
+	{
+		if (_pm->getV_PoInven().size() != 0)
+		{
+			for (int i = 0; i<_pm->getV_PoInven().size(); i++)
+			{
+				_pm->getV_PoInven()[i].img->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 200+50*i);
+			}
 		}
 	}
 	fontUI();
@@ -135,7 +152,14 @@ void statusScene::keyManager(void)
 			if (_setIndex == 0) { if (_invenIndex > 2)_invenIndex = 0; }
 			if (_setIndex == 1)
 			{
-				if (_invenIndex > _pm->getV_PoInven().size())_invenIndex = 0;
+				if (_pm->getV_PoInven().size() != 0) //포션이 한개라도 있으면
+				{
+					if (_invenIndex > _pm->getV_PoInven().size() - 1)_invenIndex = 0;
+				}
+				else //포션이 없으면
+				{
+					_invenIndex = 0;
+				}
 			}
 			if (_setIndex == 2)
 			{
@@ -171,11 +195,18 @@ void statusScene::keyManager(void)
 			if (_setIndex == 0) { if (_invenIndex < 0)_invenIndex = 2; }
 			if (_setIndex == 1)
 			{
-				if (_invenIndex <0)_invenIndex = _pm->getV_PoInven().size();
+				if (_invenIndex <0)_invenIndex = _pm->getV_PoInven().size()-1;
 			}
 			if (_setIndex == 2)
 			{
-				if (_invenIndex < 0)_invenIndex = _pm->getVA_WeapInven().size();
+				if (_invenTypeIndex == 0)
+				{
+					if (_invenIndex < 0)_invenIndex = _pm->getVA_WeapInven().size() - 1;
+				}
+				if (_invenTypeIndex == 1)
+				{
+					if (_invenIndex < 0)_pm->getVA_ArmorInven().size() - 1;
+				}
 			}
 			if (_setIndex == 3) { if (_invenIndex < 0)_invenIndex = 1; }
 			if (_setIndex == 4) { if (_invenIndex < 0)_invenIndex = 4; }
@@ -279,8 +310,8 @@ void statusScene::addImage(void)
 	IMAGEMANAGER->findImage("INVENBUTTON")->setFrameX(7);
 	IMAGEMANAGER->addFrameImage("LEFTBUTTON", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("RIGHTBUTTON", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
-	IMAGEMANAGER->findImage("LEFTBUTTON")->setFrameX(5);
-	IMAGEMANAGER->findImage("RIGHTBUTTON")->setFrameX(6);
+	IMAGEMANAGER->findImage("LEFTBUTTON")->setFrameX(6);
+	IMAGEMANAGER->findImage("RIGHTBUTTON")->setFrameX(5);
 }
 
 void statusScene::iconChange(void)
@@ -510,7 +541,7 @@ void statusScene::fontUI(void)
 	if (_setIndex == 2) 
 	{
 		if (_invenTypeIndex == 0)TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str14, strlen(str14));
-		if (_invenTypeIndex == 1)TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, "방어구", strlen("방어구"));
+		if (_invenTypeIndex == 1)TextOut(CAMERA->getCameraDC(), WINSIZEX - 212, 160, "방어구", strlen("방어구"));
 	}
 	if (_setIndex == 3) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str15, strlen(str15));
 	if (_setIndex == 4) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str16, strlen(str16));
@@ -595,6 +626,19 @@ void statusScene::fontUI(void)
 		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "사운드", strlen("사운드"));
 		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "종료", strlen("종료"));
 	}
+	if (_setIndex == 1)//도구 (포션 인벤토리 일때)
+	{
+		if (_pm->getV_PoInven().size() != 0)
+		{
+			for (int i = 0; i<_pm->getV_PoInven().size(); i++)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212 + 50 * i,
+					_pm->getV_PoInven()[i].name.c_str(), 
+					strlen(_pm->getV_PoInven()[i].name.c_str()));
+			}
+		}
+	}
+
 
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
