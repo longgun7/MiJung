@@ -50,7 +50,7 @@ public:
 	void renderProgressBar(void);
 	void updateProgressBar(void);
 
-	void tileObjectRender(void);
-
+	void sceneChange(void);
+	void sceneMapPlayerSetting(string loadMap, float x, float y);
 };
 

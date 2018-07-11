@@ -110,12 +110,19 @@ public:
 	
 
 	float getY() { return _y; }
+	
+	// Ãß°¡(¹Î°æ)
+	void setX(float x) { _x = x; }
 	void setY(float y) { _y = y; }
 
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
 	
 	SMOVE getMove() { return _move; }
-	void setMove(SMOVE move) { _move = move; }
+	void setMove(SMOVE move)
+	{
+		_move = move;
+		_isMotionLive = true;
+	}
 	
 	void setSkillMove(SMOVE move);
 	

@@ -47,5 +47,9 @@ public:
 	enemyManager* getEnemyManagerLink() { return _em; }
 	//void setCurrentSceneName(string sceneName) { _sceneName = sceneName; }
 	string getCurrentSceneName() { return _sceneName; }
+
+	//현재 씬 이름이 무엇인지 받아오는 접근자
+	string getSceneName();
+
 };
 

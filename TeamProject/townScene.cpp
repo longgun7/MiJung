@@ -29,7 +29,8 @@ void townScene::release(void)
 
 void townScene::update(void)
 {
-	
+	CAMERA->setPosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
+
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
 		SCENEMANAGER->changeScene("¼úÁı¾À");

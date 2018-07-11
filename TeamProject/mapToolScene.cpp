@@ -19,8 +19,8 @@ HRESULT mapToolScene::init(void)
 	_drawTileImg = IMAGEMANAGER->findImage(_tileSetName);
 	_ctrl = CTRL_INHOUSE;
 
-	string str[5] = { "town", "InHouse", "field1Tile", "field2Tile", "field3Tile" };
-	for (int i = 0; i < 5; ++i)
+	string str[6] = { "town", "InHouse", "field1Tile", "field2Tile", "field3Tile", "event" };
+	for (int i = 0; i < 6; ++i)
 	{
 		_button[i].ctrlName = str[i];
 		_button[i].rc = RectMake(i * 120, WINSIZEY - _sampleImg->getHeight() - 45, 120, 45);
@@ -59,7 +59,7 @@ void mapToolScene::update(void)
 	setShowTileIndex();
 
 	autoSave(); // 자동저장 오토세이브
-	//imageCopy();
+				//imageCopy();
 }
 
 void mapToolScene::render(void)
@@ -70,8 +70,6 @@ void mapToolScene::render(void)
 		IMAGEMANAGER->findImage("미니맵")->render(getMemDC(), 0, 0, WINSIZEX, WINSIZEY);
 		return;
 	}
-
-	//IMAGEMANAGER->render("윈도우맵", getMemDC());
 
 	// 격자
 	for (int i = startIdY; i < endIdY; ++i)
@@ -91,8 +89,6 @@ void mapToolScene::render(void)
 				DeleteObject(brush);
 				DeleteObject(pen);
 			}
-		//}
-	//}		
 			else
 			{
 				IMAGEMANAGER->frameRender(_tileSetName, getMemDC(),
@@ -103,22 +99,24 @@ void mapToolScene::render(void)
 			}
 		}
 	}
-	
-	for (int i = startIdY; i < endIdY; ++i)
+
+	if (KEYMANAGER->isToggleKey('P'))
 	{
-		for (int j = startIdX; j < endIdX; ++j)
+		for (int i = startIdY; i < endIdY; ++i)
 		{
-			if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
-	
-			IMAGEMANAGER->frameRender(_tileSetName, getMemDC(),
-				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
-				_tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY,
-				(_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left),
-				(_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top));
-	
+			for (int j = startIdX; j < endIdX; ++j)
+			{
+				if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
+
+				IMAGEMANAGER->frameRender(_tileSetName, getMemDC(),
+					_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
+					_tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY,
+					(_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left),
+					(_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top));
+
+			}
 		}
 	}
-
 
 
 	// 타일 인덱스 번호
@@ -131,7 +129,7 @@ void mapToolScene::render(void)
 				SetTextColor(getMemDC(), RGB(0, 200, 200));
 				SetBkMode(getMemDC(), TRANSPARENT);
 				char str[128];
-				sprintf_s(str, "%d", _tiles[i * TILEX + j].terrain); // i * TILEX + j);
+				sprintf_s(str, "%d %d", _tiles[i * TILEX + j].terrain, _tiles[i * TILEX + j].obj); // i * TILEX + j);
 				TextOut(getMemDC(), _tiles[i * TILEX + j].rc.left + (_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left) / 2 - 10
 					, _tiles[i * TILEX + j].rc.top + (_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top) / 2 - 10
 					, str, strlen(str));
@@ -143,7 +141,7 @@ void mapToolScene::render(void)
 	if (_isShowTileSet)
 	{
 		// 타일셋 버튼
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 6; ++i)
 		{
 			IMAGEMANAGER->findImage("씬타일셋버튼")->frameRender(CAMERA->getCameraDC(), i * 120, WINSIZEY - _sampleImg->getHeight() - 50, i, 0);
 		}
@@ -182,7 +180,7 @@ void mapToolScene::render(void)
 
 void mapToolScene::setImageInit()
 {
-	IMAGEMANAGER->addFrameImage("타일셋배경", "image/maptool/tileSetbackground3.bmp", 1000, 1750, 1, 5, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("타일셋배경", "image/maptool/tileSetbackground3.bmp", 1000, 2100, 1, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("선택한타일", "image/maptool/selectTile.bmp", 25, 25, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("타일움직임OX", "image/maptool/ox.bmp", 50, 25, 2, 1, true, RGB(255, 0, 255));
 
@@ -191,15 +189,10 @@ void mapToolScene::setImageInit()
 	IMAGEMANAGER->addFrameImage("field1Tile", "image/maptool/field1.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("field2Tile", "image/maptool/field2.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("field3Tile", "image/maptool/field3.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("event", "image/maptool/event.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addFrameImage("씬타일셋버튼", "image/maptool/ButtonScene.bmp", 600, 45, 5, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("씬타일셋버튼", "image/maptool/ButtonScene.bmp", 720, 45, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("SAVE버튼", "image/maptool/Buttonsave.bmp", WINSIZEX - 55, WINSIZEY - 325 - 50, 55, 45, true, RGB(255, 0, 255));;
-
-	IMAGEMANAGER->addFrameImage("townObj", "image/maptool/objecttown.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("field1Obj", "image/maptool/objectfield1.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("field2Obj", "image/maptool/objectfield2.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("field3Obj", "image/maptool/objectfield3.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("미니맵", TILESIZEX, TILESIZEY);
 	IMAGEMANAGER->addImage("윈도우맵", BACKGROUNDX, BACKGROUNDY);
@@ -256,13 +249,6 @@ void mapToolScene::setShowTileIndex()
 {
 	POINT camera = CAMERA->getPosition();
 
-	//if ((startIdX > 0 && startIdX+1 == (camera.x / TILESIZE * _zoom)) ||
-	//	(startIdY > 0 && startIdY+1 == (camera.y / TILESIZE * _zoom)))
-	//{
-	//	return;
-	//}
-	//
-	//_isImageCopy = false;
 	startIdX = (camera.x / (TILESIZE*_zoom) > 0) ? camera.x / (TILESIZE * _zoom) - 1 : 0;
 	endIdX = (camera.x / (TILESIZE*_zoom) + SHOWTILEX >= TILEX) ? TILEX : camera.x / (TILESIZE * _zoom) + SHOWTILEX + 1;
 	startIdY = (camera.y / (TILESIZE*_zoom) > 0) ? camera.y / (TILESIZE * _zoom) - 1 : 0;
@@ -339,6 +325,7 @@ void mapToolScene::setMap()
 				_tiles[(i + countY) * TILEX + (j + countX)].objFrameX = _vCurrentTile[k].x;
 				_tiles[(i + countY) * TILEX + (j + countX)].objFrameY = _vCurrentTile[k].y;
 				_tiles[(i + countY) * TILEX + (j + countX)].obj = objSelect(_vCurrentTile[k].x, _vCurrentTile[k].y);
+				if (_tiles[(i + countY) * TILEX + (j + countX)].obj == OBJ_ROPE) _tiles[(i + countY) * TILEX + (j + countX)].terrain = TR_MOVE;
 
 				if (_tiles[(i + countY) * TILEX + (j + countX)].obj == OBJ_NONE)
 				{
@@ -455,7 +442,7 @@ void mapToolScene::keyInput()
 
 void mapToolScene::buttonClick()
 {
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 6; ++i)
 	{
 		if (PtInRect(&_button[i].rc, _ptMouse))
 		{
@@ -531,63 +518,34 @@ void mapToolScene::load()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
-	//for (int i = 0; i < TILEY; ++i)
-	//{
-	//	for (int j = 0; j < TILEX; ++j)
-	//	{
-	//		if(_tiles[i * TILEX + j].terrain == TR_RIGHTPORTAL)
-	//			_tiles[i * TILEX + j].terrain = TR_NONE;
-	//	}
-	//}
+	/*for (int i = 0; i < TILEY; ++i)
+	{
+	for (int j = 0; j < TILEX; ++j)
+	{
+	//if(_tiles[i * TILEX + j].terrain == TR_MOVE)
+	//	_tiles[i * TILEX + j].terrain = TR_UNMOVE;
+	//else if (_tiles[i * TILEX + j].terrain == TR_UNMOVE)
+	//	_tiles[i * TILEX + j].terrain = TR_MOVE;
+	////else if (_tiles[i * TILEX + j].terrain == TR_MOVE)
+	////	_tiles[i * TILEX + j].terrain = TR_DOOR;
+	//else if (_tiles[i * TILEX + j].terrain == 7)
+	//	_tiles[i * TILEX + j].terrain = TR_NONE;
+	//
+	//if(_tiles[i * TILEX + j].obj == OBJ_NONE)
+	//	_tiles[i * TILEX + j].obj = OBJ_EXIST;
+	if (_tiles[i * TILEX + j].obj == 12)
+	_tiles[i * TILEX + j].obj = OBJ_NONE;
+	//else if (_tiles[i * TILEX + j].terrain == TR_MOVE)
+	//	_tiles[i * TILEX + j].terrain = TR_UNMOVE;
+	//else if (_tiles[i * TILEX + j].terrain == TR_DOOR)
+	//	_tiles[i * TILEX + j].terrain = TR_MOVE;
+	//else if (_tiles[i * TILEX + j].terrain == TR_LEFTPORTAL)
+	//	_tiles[i * TILEX + j].terrain = TR_DOOR;
+
+	}
+	}*/
 
 	CloseHandle(file);
-}
-
-void mapToolScene::imageCopy()
-{
-	if (_isImageCopy) return;
-
-	// 타일
-	for (int i = startIdY; i < endIdY; ++i)
-	{
-		for (int j = startIdX; j < endIdX; ++j)
-		{
-			if (_tiles[i * TILEX + j].terrain == TR_NONE) continue;
-
-			_drawTileImg->frameRender(IMAGEMANAGER->findImage("윈도우맵")->getMemDC(),
-				(j- startIdX) * TILESIZE, (i- startIdY) * TILESIZE,
-				_tiles[i * TILEX + j].terrainFrameX, _tiles[i * TILEX + j].terrainFrameY);
-
-			//IMAGEMANAGER->frameRender(_tileSetName, IMAGEMANAGER->findImage("윈도우맵")->getMemDC(),
-			//	(j - startIdX) * TILESIZE, (i - startIdY) * TILESIZE, //[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
-			//	_tiles[i * TILEX + j].terrainFrameX, _tiles[i * TILEX + j].terrainFrameY
-			//	, _tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left,
-			//	_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top);
-
-		}
-	}
-
-	for (int i = startIdY; i < endIdY; ++i)
-	{
-		for (int j = startIdX; j < endIdX; ++j)
-		{
-			if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
-
-			IMAGEMANAGER->frameRender(_tileSetName, IMAGEMANAGER->findImage("윈도우맵")->getMemDC(),
-				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
-				_tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY,
-				(_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left),
-				(_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top));
-
-			//IMAGEMANAGER->frameRender(_tileSetName, IMAGEMANAGER->findImage("윈도우맵")->getMemDC(),
-			//	(j - startIdX) * TILESIZE, (i - startIdY) * TILESIZE,
-			//	_tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY
-			//	, (_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left),
-			//	(_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top));
-		}
-	}
-
-	_isImageCopy = true;
 }
 
 void mapToolScene::miniMapCopy()
@@ -630,6 +588,11 @@ TERRAIN mapToolScene::terrainSelect(int frameX, int frameY)
 
 OBJECT mapToolScene::objSelect(int frameX, int frameY)
 {
+	if (frameX == 0 && frameY == 12) return OBJ_UPPORTAL;
+	if (frameX == 1 && frameY == 12) return OBJ_DOWNPORTAL;
+	if (frameX == 2 && frameY == 12) return OBJ_LEFTPORTAL;
+	if (frameX == 3 && frameY == 12) return OBJ_RIGHTPORTAL;
+
 	int objStartX = 0, objStartY = 0, objEndX = 0, objEndY = 0;
 	switch (_ctrl)
 	{
@@ -650,29 +613,24 @@ OBJECT mapToolScene::objSelect(int frameX, int frameY)
 	case CTRL_FIELD1:
 	{
 		for (int i = 6; i <= 7; ++i)
-			for (int j = 37; j <= 38; ++j)
+			for (int j = 35; j <= 36; ++j)
 				if (frameX == j && frameY == i) return OBJ_EXIST;
 
 		if (frameX == 26 && frameY == 8 || frameX == 27 && frameY == 8) return OBJ_EXIST;
 
-		objStartX = 23; objStartY = 10, objEndX = SAMPLETILEX, objEndY = SAMPLETILEY;
+		objStartX = 35; objStartY = 10, objEndX = SAMPLETILEX, objEndY = SAMPLETILEY;
 	}
 	break;
 	case CTRL_FIELD2:
 	{
-		for (int j = 3; j <= 38; ++j) if (frameX == j && (frameY == 0 || frameY == 1)) return OBJ_EXIST;
+		for (int j = 3; j <= 35; ++j) if (frameX == j && (frameY == 0 || frameY == 1)) return OBJ_EXIST;
 
 		for (int i = 2; i <= 3; ++i)
-			for (int j = 10; j <= 38; ++j)
+			for (int j = 10; j <= 35; ++j)
 				if (frameX == j && frameY == i) return OBJ_EXIST;
 
-		for (int i = 4; i <= 5; ++i)
-			for (int j = 10; j <= 18; ++j)
-				if (frameX == j && frameY == i) return OBJ_EXIST;
-
-		if ((frameX == 36 && frameY == 4) || (frameX == 37 && frameY == 4) ||
-			(frameX == 11 && frameY == 6) || (frameX == 12 && frameY == 7)) return OBJ_EXIST;
-
+		for (int j = 10; j <= 18; ++j)
+			if (frameX == j && frameY == 4) return OBJ_EXIST;
 
 	}
 	break;
@@ -707,17 +665,28 @@ OBJECT mapToolScene::objSelect(int frameX, int frameY)
 		for (int j = 21; j <= 30; ++j) { if (frameX == j && frameY == 7) return OBJ_EXIST; }
 		for (int j = 21; j <= 26; ++j) { if (frameX == j && frameY == 8) return OBJ_EXIST; }
 		for (int j = 22; j <= 37; ++j) { if (frameX == j && frameY == 11) return OBJ_EXIST; }
+	}
+	break;
+	case CTRL_EVENT:
+	{
+		if ((frameX == 36 || frameX == 37) && frameY == 4) return OBJ_EXIST;
+		if (frameX == 36 && frameY == 3) return OBJ_EXIST;
 
-		//if()
+		if ((frameX == 37 || frameX == 38) && frameY == 3) return OBJ_ROPE;
+
+		for (int i = 5; i <= 7; ++i)
+			for (int j = 17; j <= 19; ++j)
+				if (frameX == j && frameY == i) return OBJ_EXIST;
+
+
+		objStartX = 19; objStartY = 0, objEndX = 36, objEndY = 3;
 	}
 	break;
 	}
 
-
 	for (int i = objStartY; i < objEndY; ++i)
 		for (int j = objStartX; j < objEndX; ++j)
 			if (frameX == j && frameY == i) return OBJ_EXIST;
-
 
 	return OBJ_NONE;
 }

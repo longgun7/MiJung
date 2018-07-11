@@ -108,3 +108,16 @@ HRESULT sceneManager::changeScene(string sceneName)
 
 	return E_FAIL;
 }
+
+string sceneManager::getSceneName()
+{
+	for (mapSceneIter miSceneList = _mSceneList.begin(); miSceneList != _mSceneList.end(); ++miSceneList)
+	{
+		if (miSceneList->second == _currentScene)
+		{
+			return miSceneList->first;
+		}
+	}
+
+	return NULL;
+}

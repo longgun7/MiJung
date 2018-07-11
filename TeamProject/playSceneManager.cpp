@@ -48,7 +48,7 @@ void playSceneManager::update(void)
 	_em->update();
 	_im->update();
 	
-	CAMERA->setPosition(_pm->getPlayer()->getRC().left, _pm->getPlayer()->getRC().top);
+	sceneChange();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
@@ -145,10 +145,10 @@ void playSceneManager::render(void)
 	_pm->render();
 	_em->render();
 	_im->render();
-	
+		
 	// ¿ÀºêÁ§Æ® ·»´õ
-	tileObjectRender();
-	
+	_map->objRender();
+
 	fontUI();
 }
 
@@ -309,18 +309,105 @@ void playSceneManager::renderProgressBar(void)
 	_exp2->render();
 }
 
-void playSceneManager::tileObjectRender(void)
+// ²ûÂï(¼öÁ¤ ¹Ýµå½Ã ÇÊ¿ä)
+void playSceneManager::sceneChange(void)
 {
-	POINT camera = CAMERA->getPosition();
-	for (int i = camera.y / TILESIZE; i < camera.y / TILESIZE + SHOWTILEY; ++i)
-	{
-		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
-		{
-			if (_map->getTiles()[i * TILEX + j].obj == OBJ_NONE) continue;
+	//if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	//{
+	//	SCENEMANAGER->changeScene("Å¸¿î¾À");
+	//	_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+	//	_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
+	//
+	//}
+	//if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	//{
+	//	SCENEMANAGER->changeScene("¹èÆ²¾À");
+	//	_pm->getPlayer()->setScene(BATTLEMODE, FIGHTREADY);
+	//	_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
+	//}
+	//if (KEYMANAGER->isOnceKeyDown(VK_F3))
+	//{
+	//	SCENEMANAGER->changeScene("ÇÊµå¾À");
+	//	_pm->getPlayer()->setScene(FIELDMODE, DOWN);
+	//	_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
+	//}
+	//
+	//if (KEYMANAGER->isOnceKeyDown(VK_F4))
+	//{
+	//	SCENEMANAGER->changeScene("¼úÁý¾À");
+	//}
 
-			IMAGEMANAGER->frameRender("field2Tile", getMemDC(),
-				_map->getTiles()[i * TILEX + j].rc.left, _map->getTiles()[i * TILEX + j].rc.top,
-				_map->getTiles()[i * TILEX + j].objFrameX, _map->getTiles()[i * TILEX + j].objFrameY);
+	//ÇÃ·¹ÀÌ¾î°¡ ¾î´À À§Ä¡¿¡ ÀÖ´À³Ä¿¡ µû¶ó Æ÷Å» ÀÌµ¿ ¹× ¾À ÀÌµ¿
+	int idX = _pm->getPlayer()->getZorderRC().right / TILESIZE - 1;
+	int idY = _pm->getPlayer()->getZorderRC().top / TILESIZE;
+	switch (_map->getTiles()[idY * TILEX + idX].obj)
+	{
+	case OBJ_UPPORTAL:
+		if (_map->getCurrentTileName() == "field2Tile")
+		{
+			sceneMapPlayerSetting("field1Tile", 1235, 2000);
 		}
+		else if (_map->getCurrentTileName() == "event")
+		{
+			sceneMapPlayerSetting("field2Tile", 360, 2750);
+		}
+		if (_map->getCurrentTileName() == "field3Tile")
+		{
+			sceneMapPlayerSetting("event", 500, 1950);
+		}
+		break;
+
+	case OBJ_DOWNPORTAL:
+		if (_map->getCurrentTileName() == "field1Tile")
+		{
+			sceneMapPlayerSetting("field2Tile", 100, 100);
+		}
+		else if (_map->getCurrentTileName() == "field2Tile")
+		{
+			sceneMapPlayerSetting("event", 100, 100);
+		}
+		else if (_map->getCurrentTileName() == "event")
+		{
+			sceneMapPlayerSetting("field3Tile", 100, 100);
+		}
+		break;
+
+	case OBJ_LEFTPORTAL:
+		if (SCENEMANAGER->getSceneName() == "ÇÊµå¾À")
+		{
+			SCENEMANAGER->changeScene("Å¸¿î¾À");
+			sceneMapPlayerSetting("town", 2310, 1050);
+		}
+		break;
+
+	case OBJ_RIGHTPORTAL:
+		if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À")
+		{
+			SCENEMANAGER->changeScene("ÇÊµå¾À");
+			sceneMapPlayerSetting("field1Tile", 100, 100);
+		}
+		break;
+
 	}
+
 }
+
+void playSceneManager::sceneMapPlayerSetting(string loadMap, float x, float y)
+{
+	_pm->getPlayer()->setX(x);	_pm->getPlayer()->setY(y);
+	_pm->getPlayer2()->setX(x);	_pm->getPlayer2()->setY(y);
+
+	if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À" || SCENEMANAGER->getSceneName() == "ÇÊµå¾À")
+	{
+		_pm->getPlayer()->setSceneMode(FIELDMODE, RIGHT);
+		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_RIGHT);
+	}
+	else if (SCENEMANAGER->getSceneName() == "¹èÆ²¾À")
+	{
+		_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
+		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
+
+	}
+	_map->load(loadMap);
+}
+

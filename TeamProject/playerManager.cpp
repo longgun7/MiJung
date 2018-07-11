@@ -47,7 +47,7 @@ HRESULT playerManager::init()
 	_smasyu->setStat(_vS_ArmorInven[0].atk, _vS_ArmorInven[0].def, _vS_ArmorInven[0].luck, _vS_ArmorInven[0].cri, _vS_ArmorInven[0].speed);
 	_S_saveBeforArmor.def = _vS_ArmorInven[0].def;
 	_S_saveBeforArmor.speed = _vS_ArmorInven[0].speed;
-
+	
 
 	return S_OK;
 }
@@ -429,14 +429,15 @@ void playerManager::setEnemyDead()
 				_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
 				_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
 				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
+				
 			}
-			if (_ataho->getMove() == FIGHTREADY && _smasyu->getMove() == S_NOCKDOWN)
+			else if (_ataho->getMove() == FIGHTREADY && _smasyu->getMove() == S_NOCKDOWN)
 			{
 				_em->getVEnmey()[i]->setEnemyDirection(DEAD);
 				_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
 				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
 			}
-			if (_ataho->getMove() == NOCKDOWN && _smasyu->getMove() == S_FIGHTREADY)
+			else if (_ataho->getMove() == NOCKDOWN && _smasyu->getMove() == S_FIGHTREADY)
 			{
 				_em->getVEnmey()[i]->setEnemyDirection(DEAD);
 				_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
@@ -446,6 +447,11 @@ void playerManager::setEnemyDead()
 		if (_em->getVEnmey()[i]->getTagEnmey().fadeCount >=6 )
 		{
 			_em->removeEnemy(i);
+		}
+		if (_em->getVEnmey().size() == 0)
+		{
+			_ataho->setMove(SEREMONI);
+			_smasyu->setMove(S_SEREMONI);
 		}
 	}
 }
