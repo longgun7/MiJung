@@ -784,6 +784,10 @@ void player::move()
 	//호격권
 	if ( _move == SOLOSKILL1)
 	{
+		if (!SOUNDMANAGER->isPlaySound("TigerSound"))
+		{
+			SOUNDMANAGER->play("TigerSound", 1.0f);
+		}
 		if (_img->getFrameX() >= 9)
 		{
 			++_skillFrame;
@@ -815,6 +819,10 @@ void player::move()
 		//기모으는 중~
 		if (_skillFrame < 50)
 		{
+			if (!(SOUNDMANAGER->isPlaySound("EnergyCharge")))
+			{
+				SOUNDMANAGER->play("EnergyCharge", 0.5f);
+			}
 			_img->setFrameX(0);
 			if (_skillFrame % 10 == 0)
 			{
@@ -829,6 +837,10 @@ void player::move()
 		//때릴 때~~~
 		if (_skillFrame > 120 && _skillFrame < 122)
 		{
+			if (!SOUNDMANAGER->isPlaySound("EnergyGo"))
+			{
+				SOUNDMANAGER->play("EnergyGo", 0.5f);
+			}
 			//스킬
 			_soloSkillEffect3->fireAddSkill(_x + 50, _y);
 		}
@@ -924,6 +936,10 @@ void player::move()
 	//화둔
 	if (_move == AREASKILL2)
 	{
+		if (!SOUNDMANAGER->isPlaySound("Flour"))
+		{
+			SOUNDMANAGER->play("Flour", 0.5f);
+		}
 		++_skillFrame;
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 2;
@@ -972,6 +988,10 @@ void player::move()
 	//노익장 대폭발
 	if (_move == AREASKILL3)
 	{
+		if (!SOUNDMANAGER->isPlaySound("Volcano"))
+		{
+			SOUNDMANAGER->play("Volcano", 0.5f);
+		}
 		++_skillFrame;
 		//스킬 이펙트 나오기~
 		if (_skillFrame % 7 == 0 && _skillFrame < 150)
