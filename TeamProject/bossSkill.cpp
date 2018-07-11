@@ -32,10 +32,13 @@ void BossSkill1::render()
 	EFFECTMANAGER->render();
 }
 
-
+// 보스 x(중점 좌표), y(중점 좌표)
 void BossSkill1::addAreaSkill(float x, float y)
 {
+	// 얼음파편인지 얼음뭉인지 구별하기 위한 bool 값
+	// false 면 파편 true면 얼음뭉
 	_start = false;
+	//총 10개 생성
 	tagBossSkill bossSkill[10];
 	for (int i = 0; i < 10; ++i)
 	{
@@ -48,9 +51,10 @@ void BossSkill1::addAreaSkill(float x, float y)
 		bossSkill[i].fireX = bossSkill[i].x = x;
 		bossSkill[i].fireY = bossSkill[i].y = y - 50;
 
+		//얼음 파편 날라갈 조각 각도들
 		_randumAngle = RND->getFloat((PI / 3));
 		bossSkill[i].angle = ((PI / 12) * 11) + _randumAngle;
-
+		// 얼음 파편 날라갈 조각 스피드
 		bossSkill[i].speed = 5.0f;
 
 		bossSkill[i].count = 0;
@@ -153,11 +157,12 @@ void BossSkill2::addAreaSkill()
 
 	bossSkill.img->setFrameX(0);
 
+	// x좌표 랜덤 y좌표 랜덤
 	_randumX = RND->getFromIntTo(80, WINSIZEX / 2);
 	_randumY = RND->getFromIntTo(100, 120);
 	bossSkill.fireX = bossSkill.x = _randumX;
 	bossSkill.fireY = bossSkill.y = _randumY;
-
+	// 높이 길이 랜덤
 	_randumHeight = RND->getInt(4);
 	if (_randumHeight == 0)
 	{
