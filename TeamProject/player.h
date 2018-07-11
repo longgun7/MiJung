@@ -162,7 +162,11 @@ public:
 	void setEnemyIndex(int index) { _enemyIndex = index; }
 	void setIsJumping(bool jumping) { _isJumping = jumping; }
 	
-	void setMove(MOVE move) { _move = move; }
+	void setMove(MOVE move)
+	{
+		_move = move;
+		_isMotionLive = true;
+	}
 	void setSkillMove(MOVE move);
 	
 	void setEventMode(SCENEMODE mode);

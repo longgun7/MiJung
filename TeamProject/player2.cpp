@@ -564,13 +564,13 @@ void player2::move()
 		}
 		if (_skillFrame == 50)
 		{
-			setAreaDamage(6);
+			setSoloDamage(6);
 			_areaSkill1->addAreaSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y, _enemyIndex + 1);
 		}
 		//스킬 넣기
 		if ((_skillFrame % 5 == 0 && _imageFrame == 5) || (_skillFrame % 5 == 0 && _imageFrame == 9))
 		{
-			setAreaDamage(6);
+			setSoloDamage(6);
 			randEffect();
 		}
 		if (_img->getFrameX() >= _img->getMaxFrameX())
@@ -580,6 +580,7 @@ void player2::move()
 		}
 		if (_skillFrame > 150)
 		{
+			_skillFrame = 0;
 			_img->setFrameX(0);
 			_move = S_FIGHTREADY;
 
@@ -921,8 +922,7 @@ void player2::levelCheck()
 
 		if (_move == S_SEREMONI)
 		{
-			_x = 95;
-			_y = 300;
+			
 			++_skillFrame;
 			if (_skillFrame > 75)
 			{

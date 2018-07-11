@@ -115,7 +115,11 @@ public:
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
 	
 	SMOVE getMove() { return _move; }
-	void setMove(SMOVE move) { _move = move; }
+	void setMove(SMOVE move)
+	{
+		_move = move;
+		_isMotionLive = true;
+	}
 	
 	void setSkillMove(SMOVE move);
 	
