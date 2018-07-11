@@ -4,6 +4,9 @@
 class eventMode :	public gameNode
 {
 	playerManager* _pm;
+
+	int _soundFrame;
+	int _alphaNum;
 public:
 	HRESULT init();
 	void update();

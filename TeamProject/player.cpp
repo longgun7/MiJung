@@ -372,27 +372,10 @@ void player::battleKeyManager()
 
 void player::eventKeyManager()
 {
-	//이벤트모드
-	if (KEYMANAGER->isOnceKeyDown('E'))
-	{
-		_sceneMode = EVENTMODE;
-		_x = WINSIZEX / 2;
-		_y = WINSIZEY / 2;
-		_jumpPower = 5.0f;
-		_gravity = 0.2f;
-		_move = FRONT;
-		_slopeNum = 4;
-		_isWoodDrop = false;
-	}
+	
 
 	//아래키 누르면 움직인다
-	if (_sceneMode == EVENTMODE)
-	{ 
-		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-		{
-			_isMotionLive = true;
-		}	
-	}
+	
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
@@ -419,24 +402,49 @@ void player::slopeNumImage()
 	{
 		++_slopeFrame;
 
-		if (_slopeFrame % 30 == 0)
+		if (!_isWoodDrop)
 		{
-			//좌우 랜덤적용
-			_rndDirection = RND->getInt(2);
-
-			if (_rndDirection == 0)
+			if (_slopeFrame % 10 == 0 && _slopeNum > 0 && _slopeNum < 8)
 			{
-				_slopeNum -= 1;
+				//좌우 랜덤적용
+				_rndDirection = RND->getInt(2);
 
+				if (_rndDirection == 0)
+				{
+					_slopeNum -= 1;
+
+				}
+				if (_rndDirection == 1)
+				{
+					_slopeNum += 1;
+
+				}
+
+				//기울기 프레임 초기화
+				_slopeFrame = 0;
 			}
-			if (_rndDirection == 1)
+		}
+		if (_isWoodDrop)
+		{
+			if (_slopeFrame % 30 == 0 && _slopeNum > 0 && _slopeNum < 8)
 			{
-				_slopeNum += 1;
-	
+				//좌우 랜덤적용
+				_rndDirection = RND->getInt(2);
+
+				if (_rndDirection == 0)
+				{
+					_slopeNum -= 1;
+
+				}
+				if (_rndDirection == 1)
+				{
+					_slopeNum += 1;
+
+				}
+
+				//기울기 프레임 초기화
+				_slopeFrame = 0;
 			}
-	
-			//기울기 프레임 초기화
-			_slopeFrame = 0;
 		}
 
 		//물통을 들고 있지 않을 때
@@ -1018,21 +1026,21 @@ void player::move()
 	//EVENT 떨어질 때
 	if (_sceneMode == EVENTMODE)
 	{
-		if (_slopeNum >= 8)
+		if (_slopeNum >= 8 && _x >= WINSIZEX / 2 - 200 && _x <= WINSIZEX / 2 + 200)
 		{
 			_slopeNum = 8;
 			_slopeNum += 1;
 			_x += 5;
 			_isJumping = true;
 		}
-		if (_slopeNum <= 0)
+		if (_slopeNum <= 0 && _x >= WINSIZEX /2 - 200 && _x <= WINSIZEX/2 + 200)
 		{
 			_slopeNum = 0;
 			_slopeNum -= 1;
 			_x -= 5;
 			_isJumping = true;
 		}
-		if (_y >= WINSIZEY +100)
+		if (_x < WINSIZEX/2 - 200 || _x> WINSIZEX/2 + 200)
 		{
 			_isJumping = false;
 			_jumpPower = 5.0;
@@ -1417,6 +1425,18 @@ void player::setMove(MOVE move)
 			}
 		}
 	}
+}
+
+void player::setEventMode(SCENEMODE mode)
+{
+	_sceneMode = mode;
+	_x = WINSIZEX / 2+20;
+	_y = WINSIZEY / 2;
+	_jumpPower = 5.0f;
+	_gravity = 0.2f;
+	_move = FRONT;
+	_slopeNum = 4;
+	_isWoodDrop = false;
 }
 
 

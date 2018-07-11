@@ -130,7 +130,7 @@ void playerManager::release()
 
 void playerManager::eventMode()
 {
-	if (_ataho->getSCENEMODE() == EVENTMODE)
+	if (_ataho->getSceneMode() == EVENTMODE)
 	{
 		
 		if (_ataho->getIsJumping() == true)
