@@ -42,7 +42,10 @@ void spearMan::release()
 
 void spearMan::update()
 {
-	
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+	}
 	motion();
 }
 
@@ -186,6 +189,21 @@ void kungpu::release()
 
 void kungpu::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		_enemy.direction = ATTACK;
+
+		_enemy.randAttack = RND->getInt(3);
+
+		if (_enemy.randAttack == 1)
+		{
+			_enemy.currentFrameX = 4;
+		}
+		if (_enemy.randAttack == 2)
+		{
+			_enemy.currentFrameX = 7;
+		}
+	}
 	motion();
 }
 
