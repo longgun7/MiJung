@@ -103,7 +103,6 @@ void playSceneManager::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{
 		SCENEMANAGER->changeScene("술집씬");
-		
 	}
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_F6))
@@ -112,8 +111,19 @@ void playSceneManager::update(void)
 	}
 	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
-		
+		if (!_isStatus) 
+		{
+
+			SCENEMANAGER->changeScene("상태씬");
+			_isStatus = true;
+		}
+		else if (_isStatus)
+		{
+			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
+			_isStatus = false;
+		}
 	}
+	
 	updateProgressBar();
 	_map->setTilePos(_pm->getPlayer()->getRC(), OBJ_PLAYER1);
 }
@@ -153,7 +163,6 @@ void playSceneManager::sceneAdd(void)
 	SCENEMANAGER->addScene("이벤트씬", new eventScene);
 	SCENEMANAGER->addScene("플레이씬", new playScene);
 	
-
 }
 
 void playSceneManager::basicUI(void)
@@ -230,33 +239,6 @@ void playSceneManager::fontUI(void)
 	
 	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 150, charName, strlen(charName));
 	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 100, charName1, strlen(charName1));
-	
-	if(_isStatus)//스탯창이 켜지면 
-	{
-		if(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()==0)
-		{
-			TextOut(CAMERA->getCameraDC(), 480, 45, currentLevel1, strlen(currentLevel1));
-			TextOut(CAMERA->getCameraDC(), 480, 85, currentHP1, strlen(currentHP1));
-			TextOut(CAMERA->getCameraDC(), 480, 125, currentMP1, strlen(currentMP1));
-			TextOut(CAMERA->getCameraDC(), 480, 165, currentEXP1, strlen(currentEXP1));
-			TextOut(CAMERA->getCameraDC(), 480, 205, currentAtk1, strlen(currentAtk1));
-			TextOut(CAMERA->getCameraDC(), 480, 245, currentDef1, strlen(currentDef1));
-			TextOut(CAMERA->getCameraDC(), 480, 285, currentSpeed1, strlen(currentSpeed1));
-			TextOut(CAMERA->getCameraDC(), 480, 325, currentLuck1, strlen(currentLuck1));
-		}
-		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
-		{
-			TextOut(CAMERA->getCameraDC(), 480, 45, currentLevel2, strlen(currentLevel2));
-			TextOut(CAMERA->getCameraDC(), 480, 85, currentHP2, strlen(currentHP2));
-			TextOut(CAMERA->getCameraDC(), 480, 125, currentMP2, strlen(currentMP2));
-			TextOut(CAMERA->getCameraDC(), 480, 165, currentEXP2, strlen(currentEXP2));
-			TextOut(CAMERA->getCameraDC(), 480, 205, currentAtk2, strlen(currentAtk2));
-			TextOut(CAMERA->getCameraDC(), 480, 245, currentDef2, strlen(currentDef2));
-
-			TextOut(CAMERA->getCameraDC(), 480, 285, currentSpeed2, strlen(currentSpeed2));
-			TextOut(CAMERA->getCameraDC(), 480, 325, currentLuck2, strlen(currentLuck2));
-		}
-	}
 	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);

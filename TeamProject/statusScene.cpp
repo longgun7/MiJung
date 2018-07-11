@@ -115,6 +115,58 @@ void statusScene::render(void)
 			}
 		}
 	}
+	if (_setIndex == 2)
+	{
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
+		{
+			if (_invenTypeIndex == 0)
+			{
+				if (_pm->getVA_WeapInven().size() != 0)
+				{
+					for (int i = 0; i<_pm->getVA_WeapInven().size(); i++)
+					{
+						_pm->getVA_WeapInven()[i].img->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 200 + 50 * i);
+					}
+				}
+			}
+			if (_invenTypeIndex == 1)
+			{
+				if (_pm->getVA_ArmorInven().size() != 0)
+				{
+					for (int i = 0; i<_pm->getVA_ArmorInven().size(); i++)
+					{
+						_pm->getVA_ArmorInven()[i].img->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 200 + 50 * i);
+					}
+				}
+			}
+		}
+		if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+		{
+			if (_invenTypeIndex == 0)
+			{
+				if (_pm->getVS_WeapInven().size() > 0)
+				{
+					for (int i = 0; i<_pm->getVS_WeapInven().size(); i++)
+					{
+						_pm->getVS_WeapInven()[i].img->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 200 + 50 * i);
+					}
+				}
+			}
+			if (_invenTypeIndex == 1)
+			{
+				if (_pm->getVS_ArmorInven().size() > 0)
+				{
+					for (int i = 0; i<_pm->getVS_ArmorInven().size(); i++)
+					{
+						_pm->getVS_ArmorInven()[i].img->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 200 + 50 * i);
+					}
+				}
+			}
+		}
+
+		
+		
+	}
 	fontUI();
 }
 
@@ -124,7 +176,7 @@ void statusScene::keyManager(void)
 	{
 		if (!_isCheck)
 		{
-			SCENEMANAGER->changeScene("타운씬");		//원래있던곳으로 돌아가게 바꿔야함
+			//SCENEMANAGER->changeScene("타운씬");		//원래있던곳으로 돌아가게 바꿔야함
 		}
 		else
 		{

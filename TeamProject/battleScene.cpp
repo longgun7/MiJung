@@ -250,15 +250,22 @@ void battleScene::update(void)
 	}
 	if(_isFight)	//½Î¿ï¶§
 	{
+		_isTurn = false;
 		if(_pm->getPlayer()->getMove()==FIGHTREADY)
 		_pm->getPlayer()->setSkillMove(SOLOSKILL1);
 		if (_pm->getPlayer2()->getMove() == S_FIGHTREADY)
 		_pm->getPlayer2()->setSkillMove(S_SOLOSKILL2);
-			
+
 		_isFight = false;
-		_isTurn = true;
-	
 		
+	}
+	if (_isTurn==false&&_isFight == false)
+	{
+		if (_em->getVEnmey().size() == 0)
+		{
+			//_isTurn = true;
+			SCENEMANAGER->changeScene("ÇÊµå¾À");
+		}
 	}
 }
 
@@ -352,13 +359,15 @@ void battleScene::fontUI(void)
 	char str5[] = "¸ðµå";
 	char str6[] = "Æ¯¼ö±â";
 
-	
+	char temp[128];
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
+	sprintf(temp, "%d", _em->getVEnmey().size());
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, temp, strlen(temp));
 	if(_isTurn)
 	{
 		if (_playerTurn == ATAHO_TURN) TextOut(CAMERA->getCameraDC(), 345, 25, charName, strlen(charName));
