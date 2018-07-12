@@ -187,6 +187,8 @@ void battleScene::update(void)
 				{
 					_isFight = true;
 					_isTurn = false;
+					
+					
 				}
 				_playerTurn = SUMSU_TURN;
 				_isSkillCheck = false;
@@ -250,7 +252,7 @@ void battleScene::update(void)
 		//if(_pm->getPlayer()->getMove()==FIGHTREADY)
 		
 		//if (_pm->getPlayer2()->getMove() == S_FIGHTREADY)
-		
+		_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
 
 		_isFight = false;
 		
