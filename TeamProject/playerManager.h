@@ -19,7 +19,6 @@ struct tagInventory
 	int speed;
 	int hp;
 	int mp;
-	
 };
 
 struct saveBeforItem

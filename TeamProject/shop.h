@@ -17,6 +17,7 @@ private:
 	bool _purchase;
 	int  _index;
 	image*  _uiImg;
+	int _maxNum;
 public:
 	shop();
 	~shop();
