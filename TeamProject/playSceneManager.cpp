@@ -109,20 +109,6 @@ void playSceneManager::update(void)
 	{
 		SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
 	}
-	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
-	{
-		if (!_isStatus) 
-		{
-
-			SCENEMANAGER->changeScene("»óÅÂ¾À");
-			_isStatus = true;
-		}
-		else if (_isStatus)
-		{
-			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
-			_isStatus = false;
-		}
-	}
 	
 	updateProgressBar();
 	_map->setTilePos(_pm->getPlayer()->getRC(), OBJ_PLAYER1);

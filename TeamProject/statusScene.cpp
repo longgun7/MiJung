@@ -64,6 +64,7 @@ void statusScene::render(void)
 	IMAGEMANAGER->findImage("소지")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 175, 50);
 	IMAGEMANAGER->findImage("모드")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 125, 50);
 	IMAGEMANAGER->findImage("환경설정")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 75, 50);
+	//_pm.get
 	
 	if (_isCheck)
 	{
@@ -87,6 +88,8 @@ void statusScene::render(void)
 		IMAGEMANAGER->findImage("캐릭터선택UP")->frameRender(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 0);
 	}
 	char str123[128];
+
+	//세팅 인덱스에 맞는 이미지 렌더
 	if (_setIndex==0 || _setIndex>3)
 	{
 		IMAGEMANAGER->findImage("스킬1")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 200);
@@ -105,7 +108,7 @@ void statusScene::render(void)
 			IMAGEMANAGER->findImage("스킬5")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 315, 400);
 		}
 	}
-	if(_setIndex==1)
+	if (_setIndex == 1)
 	{
 		if (_pm->getV_PoInven().size() != 0)
 		{
@@ -164,19 +167,17 @@ void statusScene::render(void)
 			}
 		}
 
-		
-		
 	}
 	fontUI();
 }
-
+//키매니저
 void statusScene::keyManager(void)
 {
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		if (!_isCheck)
 		{
-			//SCENEMANAGER->changeScene("타운씬");		//원래있던곳으로 돌아가게 바꿔야함
+			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());		
 		}
 		else
 		{
@@ -215,13 +216,41 @@ void statusScene::keyManager(void)
 			}
 			if (_setIndex == 2)
 			{
-				if (_invenTypeIndex == 0)
+				if(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()==0)	//아타호
 				{
-					if (_invenIndex > _pm->getVA_WeapInven().size() - 1)_invenIndex = 0;
+					if (_invenTypeIndex == 0)
+					{
+						if (_pm->getVA_WeapInven().size() != 0)
+						{
+							if (_invenIndex > _pm->getVA_WeapInven().size() - 1)_invenIndex = 0;
+						}
+
+					}
+					if (_invenTypeIndex == 1)
+					{
+						if (_pm->getVA_ArmorInven().size() != 0)
+						{
+							if (_invenIndex > _pm->getVA_ArmorInven().size() - 1)_invenIndex = 0;
+						}
+					}
 				}
-				if (_invenTypeIndex == 1)
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)	//스마슈
 				{
-					if (_invenIndex > _pm->getVA_ArmorInven().size() - 1)_invenIndex = 0;
+					if (_invenTypeIndex == 0)
+					{
+						if (_pm->getVS_WeapInven().size() != 0)
+						{
+							if (_invenIndex > _pm->getVS_WeapInven().size() - 1)_invenIndex = 0;
+						}
+
+					}
+					if (_invenTypeIndex == 1)
+					{
+						if (_pm->getVS_ArmorInven().size() != 0)
+						{
+							if (_invenIndex > _pm->getVS_ArmorInven().size() - 1)_invenIndex = 0;
+						}
+					}
 				}
 			}
 			if (_setIndex == 3) { if (_invenIndex > 1)_invenIndex = 0; }
@@ -251,14 +280,28 @@ void statusScene::keyManager(void)
 			}
 			if (_setIndex == 2)
 			{
-				if (_invenTypeIndex == 0)
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
 				{
-					if (_invenIndex < 0)_invenIndex = _pm->getVA_WeapInven().size() - 1;
+					if (_invenTypeIndex == 0)
+					{
+						if (_invenIndex < 0)_invenIndex = _pm->getVA_WeapInven().size() - 1;
+					}
+					if (_invenTypeIndex == 1)
+					{
+						if (_invenIndex < 0)_invenIndex = _pm->getVA_ArmorInven().size() - 1;
+					}
 				}
-				if (_invenTypeIndex == 1)
+				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
 				{
-					if (_invenIndex < 0)_pm->getVA_ArmorInven().size() - 1;
-				}
+					if (_invenTypeIndex == 0)
+					{
+						if (_invenIndex < 0)_invenIndex = _pm->getVS_WeapInven().size() - 1;
+					}
+					if (_invenTypeIndex == 1)
+					{
+						if (_invenIndex < 0)_invenIndex = _pm->getVS_ArmorInven().size() - 1;
+					}
+				}	
 			}
 			if (_setIndex == 3) { if (_invenIndex < 0)_invenIndex = 1; }
 			if (_setIndex == 4) { if (_invenIndex < 0)_invenIndex = 4; }
@@ -268,6 +311,7 @@ void statusScene::keyManager(void)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
+		_invenIndex = 0;
 		if (!_isCheck)
 		{
 			_setIndex--;
@@ -279,14 +323,26 @@ void statusScene::keyManager(void)
 		else if (_isCheck)
 		{
 			_invenTypeIndex--;
-			if (_invenTypeIndex<0)
+			if(_setIndex==0)
 			{
-				_invenTypeIndex = 2;
+				if (_invenTypeIndex<0)
+				{
+					_invenTypeIndex = 2;
+				}
 			}
+			if(_setIndex==2)
+			{
+				if (_invenTypeIndex<0)
+				{
+					_invenTypeIndex = 1;
+				}
+			}
+			
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
+		_invenIndex = 0;
 		if (!_isCheck)
 		{
 			_setIndex++;
@@ -298,10 +354,21 @@ void statusScene::keyManager(void)
 		else if (_isCheck)
 		{
 			_invenTypeIndex++;
-			if (_invenTypeIndex>2)
+			if(_setIndex==0)
 			{
-				_invenTypeIndex = 0;
+				if (_invenTypeIndex>2)
+				{
+					_invenTypeIndex = 0;
+				}
 			}
+			if (_setIndex == 2)
+			{
+				if (_invenTypeIndex>1)
+				{
+					_invenTypeIndex = 0;
+				}
+			}
+			
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -325,7 +392,7 @@ void statusScene::keyManager(void)
 		}
 	}
 }
-
+//이미지 매니저에 이미지 추가
 void statusScene::addImage(void)
 {
 	IMAGEMANAGER->addImage("statusMain", "image/ui/statusMain.bmp", 650, 550, false, RGB(0, 0, 0));
@@ -365,14 +432,14 @@ void statusScene::addImage(void)
 	IMAGEMANAGER->findImage("LEFTBUTTON")->setFrameX(6);
 	IMAGEMANAGER->findImage("RIGHTBUTTON")->setFrameX(5);
 }
-
+//아이콘 선택
 void statusScene::iconChange(void)
 {
 	switch (_setIndex)
 	{
 		//스킬
 		case 0:
-			if(_invenTypeIndex==0)//기본기
+			if (_invenTypeIndex == 0)//기본기
 			{
 				if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
 				{
@@ -431,24 +498,6 @@ void statusScene::iconChange(void)
 					IMAGEMANAGER->findImage("스킬3")->setFrameY(2);
 				}
 			}
-		break;
-		//도구
-		case 1:
-			
-		break;
-		//장비
-		case 2:
-			if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
-			{
-				
-			}
-			if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
-			{
-				
-			}
-		break;
-		//소지
-		case 3:
 
 		break;
 		//모드
@@ -473,7 +522,7 @@ void statusScene::iconChange(void)
 		break;
 	}
 }
-
+//텍스트
 void statusScene::fontUI(void)
 {
 	
@@ -540,8 +589,8 @@ void statusScene::fontUI(void)
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-
-	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)//아타호 능력치
+	//아타호 능력치
+	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0)
 	{
 		TextOut(CAMERA->getCameraDC(),20, 20, strName1, strlen(strName1));
 		TextOut(CAMERA->getCameraDC(), 410, 40, level1, strlen(level1));
@@ -554,7 +603,8 @@ void statusScene::fontUI(void)
 		TextOut(CAMERA->getCameraDC(), 410, 330, luck1, strlen(luck1));
 		
 	}
-	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)//스마슈 능력치
+	//스마슈 능력치
+	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
 	{
 		TextOut(CAMERA->getCameraDC(), 20, 20, strName2, strlen(strName2));
 		TextOut(CAMERA->getCameraDC(), 410, 40, level2, strlen(level2));
@@ -581,7 +631,6 @@ void statusScene::fontUI(void)
 	TextOut(CAMERA->getCameraDC(), 20, WINSIZEY/2-190, str10, strlen(str10));
 	TextOut(CAMERA->getCameraDC(), 20, WINSIZEY/2-100, str11, strlen(str11));
 	
-
 	//인벤토리 이름
 	if (_setIndex == 0) 
 	{
@@ -598,9 +647,10 @@ void statusScene::fontUI(void)
 	if (_setIndex == 3) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str15, strlen(str15));
 	if (_setIndex == 4) TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, 160, str16, strlen(str16));
 	if (_setIndex == 5) TextOut(CAMERA->getCameraDC(), WINSIZEX - 225, 160, str17, strlen(str17));
-	
-	if(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()==0)//아타호 일때
+	//아타호 일때 인벤토리 텍스트
+	if(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX()==0)
 	{
+		
 		if(_setIndex==0)
 		{
 			if(_invenTypeIndex==0)
@@ -625,10 +675,30 @@ void statusScene::fontUI(void)
 		//아타호 장비
 		if (_setIndex == 2)
 		{
-
+			if (_invenTypeIndex == 0) //무기
+			{
+				for(int i=0;i<_pm->getVA_WeapInven().size();i++)
+				{
+					TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212+50*i,
+						_pm->getVA_WeapInven()[i].name.c_str(),
+						strlen(_pm->getVA_WeapInven()[i].name.c_str()));
+				}
+				
+			}
+			if (_invenTypeIndex == 1) //방어구
+			{
+				for (int i = 0; i < _pm->getVA_ArmorInven().size(); i++)
+				{
+					TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212 + 50 * i,
+						_pm->getVA_ArmorInven()[i].name.c_str(),
+						strlen(_pm->getVA_ArmorInven()[i].name.c_str()));
+				}
+			}
+			
 		}	
 	}
-	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)//스마슈 일때
+	//스마슈 일때 인벤토리 텍스트
+	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
 	{
 		if (_setIndex == 0)
 		{
@@ -650,20 +720,50 @@ void statusScene::fontUI(void)
 				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 312, "용오름", strlen("용오름"));
 			}
 		}
-		//아타호 장비
+		//스마슈 장비
 		if (_setIndex == 2)
 		{
+			if (_invenTypeIndex == 0) //무기
+			{
+				for (int i = 0; i<_pm->getVS_WeapInven().size(); i++)
+				{
+					TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212 + 50 * i,
+						_pm->getVS_WeapInven()[i].name.c_str(),
+						strlen(_pm->getVS_WeapInven()[i].name.c_str()));
+				}
+
+			}
+			if (_invenTypeIndex == 1) //방어구
+			{
+				for (int i = 0; i < _pm->getVS_ArmorInven().size(); i++)
+				{
+					TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212 + 50 * i,
+						_pm->getVS_ArmorInven()[i].name.c_str(),
+						strlen(_pm->getVS_ArmorInven()[i].name.c_str()));
+				}
+			}
 
 		}
 	}
+	//도구 텍스트 (포션 인벤토리 일때)
 	if (_setIndex == 1)
 	{
-
+		if (_pm->getV_PoInven().size() != 0)
+		{
+			for (int i = 0; i<_pm->getV_PoInven().size(); i++)
+			{
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212 + 50 * i,
+					_pm->getV_PoInven()[i].name.c_str(),
+					strlen(_pm->getV_PoInven()[i].name.c_str()));
+			}
+		}
 	}
+	//소지품 텍스트
 	if (_setIndex == 3)
 	{
 
 	}
+	//모드 텍스트
 	if (_setIndex == 4)
 	{
 		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "보통", strlen("보통"));
@@ -673,25 +773,13 @@ void statusScene::fontUI(void)
 		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 412, "반격", strlen("반격"));
 
 	}
+	//환결설정 텍스트
 	if (_setIndex == 5)
 	{
 		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212, "사운드", strlen("사운드"));
 		TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 262, "종료", strlen("종료"));
 	}
-	if (_setIndex == 1)//도구 (포션 인벤토리 일때)
-	{
-		if (_pm->getV_PoInven().size() != 0)
-		{
-			for (int i = 0; i<_pm->getV_PoInven().size(); i++)
-			{
-				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, 212 + 50 * i,
-					_pm->getV_PoInven()[i].name.c_str(), 
-					strlen(_pm->getV_PoInven()[i].name.c_str()));
-			}
-		}
-	}
-
-
+	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }

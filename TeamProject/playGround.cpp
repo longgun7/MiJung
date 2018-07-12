@@ -25,8 +25,7 @@ HRESULT playGround::init(void)
 	_psm = new playSceneManager;
 	_psm->init();
 	
-	_startScene = new startScene;
-	_startScene->init();
+	
 	return S_OK;
 }
 
@@ -42,21 +41,10 @@ void playGround::update(void)
 	
 	gameNode::update();
 	SCENEMANAGER->update();
-	if (!_startScene->getIsPlay())
+	if(SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À" )
 	{
-		_startScene->update();
-		if (!SOUNDMANAGER->isPlaySound("MainTheMa"))
-		{
-			SOUNDMANAGER->play("MainTheMa", 0.5f);
-		}
-	}
-	if (_startScene->getIsPlay())
-	{
-		SOUNDMANAGER->stop("MainTheMa");
 		_psm->update();
 	}
-	
-	
 	
 }
 
@@ -75,7 +63,7 @@ void playGround::render(void)
 	//============== ÀÌ À§·Î´Â °Çµå¸®Áö ¸»ÀÚ ==============
 
 	
-	if (_startScene->getIsPlay())
+	if (SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À")
 	{
 		_psm->render();
 	}

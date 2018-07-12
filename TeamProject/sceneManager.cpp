@@ -31,6 +31,7 @@ HRESULT sceneManager::init()
 	_em->init();
 
 	_currentScene = NULL;
+	_isShop = false;
 
 	return S_OK;
 }
@@ -56,7 +57,6 @@ void sceneManager::release()
 void sceneManager::update()
 {
 	if (_currentScene) _currentScene->update();
-	
 }
 
 void sceneManager::render()
@@ -89,7 +89,7 @@ HRESULT sceneManager::changeScene(string sceneName)
 	//성공적으로 씬이 바뀌면 init() 함수를 실행한다
 	if (SUCCEEDED(find->second->init()))
 	{
-		if (sceneName != "상태씬" || sceneName != "배틀씬") { _sceneName = sceneName; }
+		if (sceneName != "상태씬" && sceneName != "배틀씬") { _sceneName = sceneName; }
 		//현재씬에 어떤 정보가 있으면 (미리 어떤 씬이 배정되어있으면)
 		//해당 씬을 릴리즈 해주고
 		if (_currentScene) _currentScene->release();
