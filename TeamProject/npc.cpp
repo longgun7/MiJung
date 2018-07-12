@@ -15,7 +15,6 @@ HRESULT npc::init()
 {
 	IMAGEMANAGER->addFrameImage("NPC", "image/maptool/NPC/NPC.bmp", 432, 288, 6, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("대화창", "image/ui/대화창.bmp", 600, 125, false, RGB(0, 0, 0));
-	//IMAGEMANAGER->addFrameImage("캐릭터이미지1", "image/ui/캐릭터이미지.bmp", 1000, 250, 8, 2, false, RGB(0, 0, 0));
 
 	_talkNPC = false;
 	_count = 0;
@@ -73,7 +72,6 @@ void npc::render()
 
 		if (_talkNPC)
 		{
-			//IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
 			IMAGEMANAGER->findImage("대화창")->render(CAMERA->getCameraDC(), 272, 400);
 			SetTextColor(getMemDC(), RGB(255, 255, 255));
 

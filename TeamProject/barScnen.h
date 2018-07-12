@@ -23,7 +23,7 @@ private:
 	bool _isHotelCheck;		//여관이 체크되었늬?
 
 	int _who = 0;
-	int _start;
+	int _start = 0;
 	int _count;
 	int _index;
 	int _talkIndex;
@@ -43,7 +43,7 @@ private:
 	string str9 = "린샹이　납치　당했다고요!!　얼른　구하러　가요!";
 	string str10 = "우선　자리를　이동하고　자세히　얘기해 보게!";
 	string str11 = "다시　말해　보게. 린샹이　납치를　당했다고??";
-	string str12 = "네! 길가다가　우연히　린샹을　봐서　다가가려했는데　린샹 옆에　그녀석이　있었어요!!";
+	string str12 = "네! 길가다가　우연히　린샹을　봐서　다가가려했는데　린샹　옆에　그녀석이　있었어요!!";
 	string str13 = "그　녀석??　누구를　말하는겐가??";
 	string str14 = "그녀석이요! 그녀석! 린샹의　예전　두목이였던　총통이요! ";
 	string str15 = "뭐라고?!　그　뒤로　린샹한테　접근하지　않겠다고　약속했었는데　총통　그　자가　도대체　왜... ";
