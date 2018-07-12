@@ -102,19 +102,19 @@ void fieldScene::sceneChange(void)
 	}
 
 	// ∏ÛΩ∫≈Õ ∑£¥˝ ∏∏≥≤
-	if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
-		 _pm->getPlayer()->getMove() == RIGHTMOVE	||
-		 _pm->getPlayer()->getMove() == UPMOVE		||
-		 _pm->getPlayer()->getMove() == DOWNMOVE))
-	{
-		if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
-			_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
-		{
-			if (RND->getFloat(100) < 0.8f)
-			{
-				SCENEMANAGER->changeScene("πË∆≤æ¿");
-			}
-		}
-	}
+	//if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
+	//	 _pm->getPlayer()->getMove() == RIGHTMOVE	||
+	//	 _pm->getPlayer()->getMove() == UPMOVE		||
+	//	 _pm->getPlayer()->getMove() == DOWNMOVE))
+	//{
+	//	if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
+	//		_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
+	//	{
+	//		if (RND->getFloat(100) < 0.8f)
+	//		{
+	//			SCENEMANAGER->changeScene("πË∆≤æ¿");
+	//		}
+	//	}
+	//}
 
 }
