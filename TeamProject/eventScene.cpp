@@ -14,8 +14,9 @@ eventScene::~eventScene()
 HRESULT eventScene::init(void)
 {
 	IMAGEMANAGER->addImage("카페베네", "image/player/카페베네.bmp", 367, 137, true, RGB(255, 0, 255), true);
-	SOUNDMANAGER->addSound("낙사", "falling.mp3", true, false);
-
+	SOUNDMANAGER->addSound("낙사", "soundEffect/falling.mp3", true, false);
+	talk();
+	_talkIndex = 0;
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_map = SCENEMANAGER->getPlayMapLink();
 	_map->init(EVENT);
@@ -61,8 +62,9 @@ void eventScene::update(void)
 			++_soundFrame;
 
 		}
-		if (_soundFrame == 2)
+		if (_soundFrame == 1)
 		{
+			SOUNDMANAGER->stop("eventTheMa");
 			SOUNDMANAGER->play("낙사", 0.5f);
 		}
 		if (_soundFrame >= 1 && _alphaNum <= 252)
@@ -98,6 +100,10 @@ void eventScene::update(void)
 	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
 
 	sceneChange();
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN) && _talkIndex < 5)
+	{
+		++_talkIndex;
+	}
 }
 
 void eventScene::render(void)
@@ -108,6 +114,12 @@ void eventScene::render(void)
 	sprintf_s(str, " 기울기 : %d", _pm->getPlayer()->getSlopeNum());
 	TextOut(getMemDC(), WINSIZEX / 2, 50, str, strlen(str));
 
+	if (_pm->getPlayer()->getX() > WINSIZEX + 150)
+	{
+		IMAGEMANAGER->findImage("대화창1")->render(CAMERA->getCameraDC(), 272, 400);
+		TextOut(CAMERA->getCameraDC(), 300, 450 , _vTalk[_talkIndex].c_str(), strlen(_vTalk[_talkIndex].c_str() ));
+
+	}
 
 	if (_soundFrame >= 2)
 	{
@@ -118,6 +130,17 @@ void eventScene::render(void)
 	_map->objRender();
 
 
+}
+
+void eventScene::talk()
+{
+	_vTalk.push_back(talk1);
+	_vTalk.push_back(talk2);
+	_vTalk.push_back(talk3);
+	_vTalk.push_back(talk4);
+	_vTalk.push_back(talk5);
+	_vTalk.push_back(talk6);
+	
 }
 
 void eventScene::sceneChange(void)
