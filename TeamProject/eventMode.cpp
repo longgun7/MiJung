@@ -5,7 +5,7 @@
 HRESULT eventMode::init()
 {
 	IMAGEMANAGER->addImage("카페베네", "image/player/카페베네.bmp", 367, 137, true, RGB(255, 0, 255),true);
-	SOUNDMANAGER->addSound("낙사", "falling.mp3", true, false);
+	SOUNDMANAGER->addSound("커쥬워마이걸", "soundEffect/falling.mp3", true, false);
 
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_pm->getPlayer()->setEventMode(EVENTMODE);
@@ -28,7 +28,7 @@ void eventMode::update()
 		}
 		if (_soundFrame == 2)
 		{
-			SOUNDMANAGER->play("낙사", 1.0f);
+			SOUNDMANAGER->play("커쥬워마이걸", 1.0f);
 		}
 		if (_soundFrame >= 1 && _alphaNum <= 252)
 		{
@@ -55,7 +55,7 @@ void eventMode::update()
 	if (KEYMANAGER->isOnceKeyDown('U'))
 	{
 		init();
-		SOUNDMANAGER->stop("낙사");
+		SOUNDMANAGER->stop("커쥬워마이걸");
 	}
 }
 
