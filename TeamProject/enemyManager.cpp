@@ -62,7 +62,6 @@ void enemyManager::render()
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
 		
-		int damage = _vEnemy[i]->getTagEnmey().damage;
 		int width = (_vEnemy[i]->getTagEnmey().rc.right - _vEnemy[i]->getTagEnmey().rc.left) / 2;
 		int height = (_vEnemy[i]->getTagEnmey().rc.bottom - _vEnemy[i]->getTagEnmey().rc.top) / 2;
 		_img->setX(_vEnemy[i]->getTagEnmey().rc.left + width);
@@ -70,11 +69,13 @@ void enemyManager::render()
 
 		if (_vEnemy[i]->getTagEnmey().direction == HIT)
 		{
-
-			_img->frameRender(CAMERA->getCameraDC(), _img->getX() + width / 2, _img->getY() + height - 10, (damage % 10), 0);
-
-			if (damage > 10) _img->frameRender(CAMERA->getCameraDC(), _img->getX() + width / 2 + 8, _img->getY() + height - 10, (damage / 10) % 10, 0);
-			
+			int damage = _vEnemy[i]->getTagEnmey().damage;
+			for (int i = 0; i <= 4; ++i)
+			{
+				int f = pow(10,i);
+				if (damage / f == 0) break;
+				_img->frameRender(CAMERA->getCameraDC(), _img->getX() - (8 * i), _img->getY() + height, (damage / f) % 10, 0);
+			}
 		}
 
 		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)
@@ -84,19 +85,21 @@ void enemyManager::render()
 
 			_vEnemy[i]->setIsDead(true);
 		}
+
 		if (_vEnemy[i]->getTagEnmey().fadeCount >= 4 && _vEnemy[i]->getTagEnmey().fadeCount <= 150)
 		{
 			int cost = _vEnemy[i]->getTagEnmey().dropGold;
 
-			_img->frameRender(CAMERA->getCameraDC(), _img->getX()+10, _img->getY(), (cost % 10), 0);
-			if (cost >=10) _img->frameRender(CAMERA->getCameraDC(), _img->getX() + 2, _img->getY(), (cost / 10) % 10, 0);
-			if (cost >= 100) _img->frameRender(CAMERA->getCameraDC(), _img->getX() - 6, _img->getY(), (cost / 100) % 10, 0);
-			if (cost >= 1000) _img->frameRender(CAMERA->getCameraDC(), _img->getX() - 14, _img->getY(), (cost / 1000) % 10, 0);
+			for (int i = 0; i < 5; ++i)
+			{
+				int f = pow(10, i);
+				if (cost / f == 0) break;
+				_img->frameRender(CAMERA->getCameraDC(), _img->getX() - (8 * i), _img->getY(), (cost / f) % 10, 0);
+			}
 		}
 		
 	}
 	_ge->render();
-
 }
 
 void enemyManager::setEnemy(float x, float y)
@@ -238,7 +241,7 @@ void enemyManager::randEnemy()
 
 	for (int i = 0; i < _randNum; i++)
 	{
-		_enemyIndex = RND->getFromIntTo(1, 11);
+		_enemyIndex = RND->getFromIntTo(1,2);
 
 		if (_randNum == 1)
 		{

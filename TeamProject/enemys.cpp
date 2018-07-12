@@ -45,14 +45,6 @@ void spearMan::release()
 
 void spearMan::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = DEAD;
-	}
 
 	motion();
 }
