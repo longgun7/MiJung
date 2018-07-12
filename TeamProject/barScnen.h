@@ -1,5 +1,6 @@
 #pragma once
 #include "shop.h"
+#include "saveLoad.h"
 #include "gameNode.h"
 
 class playerManager;
@@ -8,7 +9,8 @@ class barScnen : public gameNode
 {
 private:
 	playerManager * _pm;
-
+	
+	saveLoad* _sl;
 	shop * _shop;
 
 	bool _isShopCheck;		//상점이 체크되었늬?

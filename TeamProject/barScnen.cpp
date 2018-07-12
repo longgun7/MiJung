@@ -24,7 +24,8 @@ HRESULT barScnen::init(void)
 	
 	_isShopCheck = false;
 	_isHotelCheck = false;
-
+	_sl = new saveLoad;
+	_sl->init();
 
 	
 	return S_OK;
@@ -65,6 +66,9 @@ void barScnen::update(void)
 		if(!SCENEMANAGER->getIsShop())
 		SCENEMANAGER->changeScene("╩Себ╬ю");
 	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD3)) _sl->save();
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD4)) _sl->loadInt();
 
 }
 

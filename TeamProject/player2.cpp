@@ -117,24 +117,8 @@ void player2::update()
 
 void player2::render()
 {
-	//RECT
-	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-
-	char str[125];
-
-	sprintf_s(str, "스킬 프레임 : %d", _skillFrame);
-	TextOut(getMemDC(), 100, 350, str, strlen(str));
-
-	char str2[123];
-	sprintf_s(str2, "이미지프레임 : %d", _imageFrame);
-	TextOut(getMemDC(), 100, 370, str2, strlen(str2));
-	//if (_isJumping)
-	{
-		char str3[123];
-		sprintf_s(str3, "점핑여부 : %d", _isJumping);
-		TextOut(getMemDC(), 100, 390, str3, strlen(str3));
-	}
-	char str4[234];
+	
+	
 	
 	//image
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
@@ -146,14 +130,8 @@ void player2::render()
 	_areaSkill3->render();
 	_gameEffect->render();
 
-	for (int i = 0; i < 7; i++)
-	{
-		Rectangle(getMemDC(), _skillRC[i].left, _skillRC[i].top, _skillRC[i].right, _skillRC[i].bottom);
-	}
-	for (int i = 0; i < 5; i++)
-	{
-		//Rectangle(getMemDC(), _rc2[i].left, _rc2[i].top, _rc2[i].right, _rc2[i].bottom);
-	}
+	
+
 	
 }
 
