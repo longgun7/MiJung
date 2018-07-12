@@ -30,6 +30,7 @@ struct saveBeforItem
 	int luck;
 	int cri;
 	int speed;
+	string name;
 	
 };
 struct tagMoney
@@ -114,6 +115,12 @@ public:
 	int getHpPoIndex() { return _HPpoIndex; }
 	int getMpPoIndex() { return _MPpoIndex; }
 	tagMoney getTagMoney() { return _gold; }
+
+	string getA_WeapItemName() { return _A_saveBeforWeapon.name; }
+	string getA_ArmorItemName() { return _A_saveBeforArmor.name; }
+	string getS_WeapItemName() { return _S_saveBeforWeapon.name; }
+	string getS_ArmorItemName() { return _S_saveBeforArmor.name; }
+	
 	playerManager();
 	~playerManager();
 };

@@ -139,7 +139,7 @@ public:
 
 	void setIsMotionLive(bool motion) { _isMotionLive = motion; }
 	tagAttribute getAttribute() { return _attribute; } //속성접근자
-	void setAttribute(tagAttribute attribute) { _attribute = attribute; }
+	void setAttribute(int attribute);
 
 	
 
