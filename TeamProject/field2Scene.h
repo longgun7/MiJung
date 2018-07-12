@@ -1,11 +1,13 @@
 #pragma once
-#include"gameNode.h"
+#include "gameNode.h"
 #include "playMap.h"
+#include <vector>
 
 class playerManager;
 class enemyManager;
 class itemManager;
-class fieldScene : public gameNode
+
+class field2Scene : public gameNode
 {
 private:
 	playerManager * _pm;
@@ -14,8 +16,8 @@ private:
 	playMap* _map;
 
 public:
-	fieldScene();
-	~fieldScene();
+	field2Scene();
+	~field2Scene();
 
 	virtual HRESULT init(void);
 	virtual void release(void);
@@ -23,6 +25,7 @@ public:
 	virtual void render(void);
 
 	void fontUI(void);
+
 	void sceneChange(void);
 
 };

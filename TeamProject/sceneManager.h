@@ -9,6 +9,7 @@ class gameNode;
 class playerManager;
 class itemManager;
 class enemyManager;
+class playMap;
 
 class sceneManager : public singletonBase<sceneManager>
 {
@@ -23,6 +24,8 @@ private:
 	playerManager* _pm;
 	enemyManager* _em;
 	itemManager* _im;
+	playMap*		_map;
+
 	string _sceneName;
 	bool _isShop;
 public:
@@ -40,13 +43,15 @@ public:
 	//¾À º¯°æ
 	HRESULT changeScene(string sceneName);
 
-	void setPlayerManagerLink(playerManager* pm) { _pm = pm; }
+	//void setPlayerManagerLink(playerManager* pm) { _pm = pm; }
 	playerManager* getPlayerManagerLink() { return _pm; }
-	void setItemManagerLink(itemManager* im) { _im = im; }
+	//void setItemManagerLink(itemManager* im) { _im = im; }
 	itemManager* getItemManagerLink() { return _im; }
-	void setEnemyManagerLink(enemyManager* em) { _em = em; }
+	//void setEnemyManagerLink(enemyManager* em) { _em = em; }
 	enemyManager* getEnemyManagerLink() { return _em; }
 	//void setCurrentSceneName(string sceneName) { _sceneName = sceneName; }
+	playMap* getPlayMapLink() { return _map; }
+	
 	string getCurrentSceneName() { return _sceneName; }
 	void setIsShop(bool isShop) { _isShop = isShop; }
 	bool getIsShop() { return _isShop; }

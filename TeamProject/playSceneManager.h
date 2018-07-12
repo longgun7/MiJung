@@ -7,6 +7,8 @@
 #include"statusScene.h"
 #include"townScene.h"
 #include"fieldScene.h"
+#include"field2Scene.h"
+#include"field3Scene.h"
 #include"battleScene.h"
 #include"eventScene.h"
 #include"barScnen.h"
@@ -14,15 +16,12 @@ class playerManager;
 class enemyManager;
 class itemManager;
 
-#include "playMap.h"
-
 class playSceneManager : public gameNode
 {
 private:
 	playerManager * _pm;
 	itemManager* _im;
 	enemyManager* _em;
-	playMap* _map;
 	bool _isStatus;
 	string _nowSong;
 	string _beforeScene;
@@ -53,9 +52,5 @@ public:
 
 	void renderProgressBar(void);
 	void updateProgressBar(void);
-
-	void sceneChange(void);
-	void sceneMapPlayerSetting(string loadMap, float x, float y);
-	void battleSceneChange(void);
 };
 

@@ -11,7 +11,7 @@ playMap::~playMap()
 {
 }
 
-HRESULT playMap::init()
+HRESULT playMap::init(MAPSCENE mapscene)
 {
 	IMAGEMANAGER->addFrameImage("town", "image/maptool/town.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("InHouse", "image/maptool/inHouse.bmp", 975, 325, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
@@ -22,7 +22,13 @@ HRESULT playMap::init()
 
 	IMAGEMANAGER->addImage("윈도우맵", 3750, 3750);
 
-	load("town");
+	string str[6] = { "town", "InHouse", "field1Tile", "field2Tile", "field3Tile", "event" };
+	for (int i = 0; i < 6; ++i)
+	{
+		if (i == mapscene) _currentTile = str[i];
+	}
+
+	load(_currentTile);
 
 	return S_OK;
 }
@@ -95,7 +101,7 @@ void playMap::load(string tileName)
 		for (int j = 0; j < TILEX; ++j)
 		{
 			if (_tiles[i * TILEX + j].obj < OBJ_UPPORTAL) continue;
-			
+
 			_vPortal.push_back(_tiles[i * TILEX + j]);
 		}
 	}
@@ -108,33 +114,27 @@ void playMap::portal(float x, float y)
 
 void playMap::setTilePos(RECT rc, OBJECT obj)
 {
-	vector<pair<int, int>> vTilePos;
 	for (int i = rc.top; i < rc.bottom; i += TILESIZE)
 	{
 		for (int j = rc.left; j < rc.right; j += TILESIZE)
 		{
-			vTilePos.push_back(make_pair(j / TILEX, i / TILEY));
+			vTilePos.push_back(make_pair(obj, PointMake(j / TILEX, i / TILEY)));
+		}
+	}
+}
+
+POINT playMap::getTileIndex(RECT rc, OBJECT obj)
+{
+	POINT camera = CAMERA->getPosition();
+	for (int i = camera.y / TILESIZE; i < camera.y / TILESIZE + SHOWTILEY; ++i)
+	{
+		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
+		{
+			// 총 제트오더 사각형 크기 중, 중앙 타일길이를 기준으로 측정한다.
+			if ((rc.left + (rc.right - rc.left)) / TILESIZE == j && rc.top / TILESIZE == i)
+				return PointMake(j, i);
 		}
 	}
 
-	//POINT camera = CAMERA->getPosition();
-	//for (int i = camera.y / TILESIZE; i < camera.y / TILESIZE + SHOWTILEY; ++i)
-	//{
-	//	for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
-	//	{
-	//		if (_tiles[i * TILEX + j].obj == obj)
-	//		{
-	//
-	//		}
-	//
-	//		for (int k = 0; k < vTilePos.size(); ++k)
-	//		{				
-	//			if (vTilePos[k].first == j && vTilePos[k].second == i)
-	//			{
-	//				_tiles[i * TILEX + j].obj = obj;
-	//			}
-	//		}
-	//	}
-	//}
-
+	return PointMake(NULL, NULL);
 }

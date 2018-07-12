@@ -285,6 +285,12 @@
     <ClInclude Include="eventScene.h">
       <Filter>playGround\Scene\startScene\playScene\eventScene</Filter>
     </ClInclude>
+    <ClInclude Include="field3Scene.h">
+      <Filter>playGround\Scene\startScene\playScene\fieldScene</Filter>
+    </ClInclude>
+    <ClInclude Include="field2Scene.h">
+      <Filter>playGround\Scene\startScene\playScene\fieldScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -463,6 +469,12 @@
     </ClCompile>
     <ClCompile Include="eventScene.cpp">
       <Filter>playGround\Scene\startScene\playScene\eventScene</Filter>
+    </ClCompile>
+    <ClCompile Include="field2Scene.cpp">
+      <Filter>playGround\Scene\startScene\playScene\fieldScene</Filter>
+    </ClCompile>
+    <ClCompile Include="field3Scene.cpp">
+      <Filter>playGround\Scene\startScene\playScene\fieldScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

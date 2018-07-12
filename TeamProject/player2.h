@@ -85,6 +85,10 @@ private:
 	sumsuTargetSkill2* _soloSkill2;
 	sumsuTargetSkill3* _soloSkill3;
 	gameEffect* _gameEffect;
+
+	// Ãß°¡(¹Î°æ)
+	RECT _zOrderRC;
+
 public:
 	
 	HRESULT init(float x , float y);
@@ -147,6 +151,9 @@ public:
 	void setIsMotionLive(bool motion) { _isMotionLive = motion; }
 	image* getImage() { return _img; }
 	
+	// Ãß°¡(¹Î°æ)
+	RECT getZorderRC() { return _zOrderRC; }
+
 	player2();
 	~player2();
 };

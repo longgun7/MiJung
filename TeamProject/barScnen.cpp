@@ -16,6 +16,7 @@ barScnen::~barScnen()
 HRESULT barScnen::init(void)
 {
 	_pm = SCENEMANAGER->getPlayerManagerLink();
+	_map = SCENEMANAGER->getPlayMapLink();
 
 	IMAGEMANAGER->addImage("상점창", "image/ui/상점창.bmp", 450, 360, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("상점창소지수", "image/ui/상점창2.bmp", 200, 120, false, RGB(0, 0, 0));
@@ -28,6 +29,8 @@ HRESULT barScnen::init(void)
 	_shop = new shop;
 	_shop->init();
 	
+	_map->init(BAR);
+
 	return S_OK;
 }
 
@@ -65,10 +68,18 @@ void barScnen::update(void)
 		SCENEMANAGER->changeScene("상태씬");
 	}
 
+	// 플레이어가 어느 타일에 있는지 인덱스 번호 세팅
+	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
+	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
+	sceneChange();
+
 }
 
 void barScnen::render(void)
 {
+	_map->render();
+	// 오브젝트 렌더
+	_map->objRender();
 
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
@@ -99,6 +110,28 @@ void barScnen::fontUI(void)
 	TextOut(CAMERA->getCameraDC(), WINSIZEX - 320, WINSIZEY - 160, str, strlen(str));
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
+
+}
+
+void barScnen::sceneChange(void)
+{
+	//플레이어가 어느 위치에 있느냐에 따라 포탈 이동 및 씬 이동
+	int idX = _pm->getPlayer()->getZorderRC().right / TILESIZE - 1;
+	int idY = _pm->getPlayer()->getZorderRC().top / TILESIZE;
+	switch (_map->getTiles()[idY * TILEX + idX].obj)
+	{
+	case OBJ_UPPORTAL: break;
+
+	case OBJ_DOWNPORTAL:
+		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(250);
+		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(250);
+		SCENEMANAGER->changeScene("타운씬");
+		break;
+
+	case OBJ_LEFTPORTAL:	break;
+	case OBJ_RIGHTPORTAL:	break;
+
+	}
 
 }
 
