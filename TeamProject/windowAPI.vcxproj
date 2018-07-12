@@ -163,6 +163,8 @@
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="eventScene.h" />
     <ClInclude Include="eventMode.h" />
+    <ClInclude Include="field2Scene.h" />
+    <ClInclude Include="field3Scene.h" />
     <ClInclude Include="fieldScene.h" />
     <ClInclude Include="gameEffect.h" />
     <ClInclude Include="gameNode.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="mapToolScene.h" />
+    <ClInclude Include="npc.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="player2.h" />
     <ClInclude Include="playerManager.h" />
@@ -219,6 +222,8 @@
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="eventScene.cpp" />
     <ClCompile Include="eventMode.cpp" />
+    <ClCompile Include="field2Scene.cpp" />
+    <ClCompile Include="field3Scene.cpp" />
     <ClCompile Include="fieldScene.cpp" />
     <ClCompile Include="gameEffect.cpp" />
     <ClCompile Include="gameNode.cpp" />
@@ -231,6 +236,7 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="mapToolScene.cpp" />
+    <ClCompile Include="npc.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player2.cpp" />
     <ClCompile Include="playerManager.cpp" />

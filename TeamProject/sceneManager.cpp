@@ -4,6 +4,8 @@
 #include "playerManager.h"
 #include "itemManager.h"
 #include "enemyManager.h"
+#include "playMap.h"
+
 sceneManager::sceneManager()
 {
 }
@@ -21,6 +23,7 @@ HRESULT sceneManager::init()
 	_pm = new playerManager;
 	_im = new itemManager;
 	_em = new enemyManager;
+	_map = new playMap;
 
 	_pm->setEnemyManagerAdressLink(_em);
 	_pm->setItemManagerAdressLink(_im);

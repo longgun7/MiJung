@@ -19,17 +19,11 @@ HRESULT playSceneManager::init(void)
 	basicUI();
 
 	_isStatus = false;
-	
-	_map = new playMap;
-	_map->init();
-	
+
 	//Àü¹æ¼±¾ð	
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
 	_em = SCENEMANAGER->getEnemyManagerLink();
-
-	_pm->getPlayer()->setplayMapMemoryAddressLink(_map);
-
 
 	setProgressBar();	//ÇÁ·Î±×·¡½º¹Ù ¼ÂÆÃ!
 
@@ -47,8 +41,6 @@ void playSceneManager::update(void)
 	_em->update();
 	_im->update();
 	
-	sceneChange();
-	//battleSceneChange();
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("Å¸¿î¾À");
@@ -116,12 +108,10 @@ void playSceneManager::update(void)
 	}
 	
 	updateProgressBar();
-	_map->setTilePos(_pm->getPlayer()->getRC(), OBJ_PLAYER1);
 }
 
 void playSceneManager::render(void)
 {
-	_map->render();
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
 	IMAGEMANAGER->findImage("±âº»status")->render(CAMERA->getCameraDC(), 0, 550);
@@ -137,9 +127,6 @@ void playSceneManager::render(void)
 	_em->render();
 	_im->render();
 		
-	// ¿ÀºêÁ§Æ® ·»´õ
-	_map->objRender();
-
 	fontUI();
 }
 
@@ -148,7 +135,9 @@ void playSceneManager::sceneAdd(void)
 
 	SCENEMANAGER->addScene("»óÅÂ¾À", new statusScene);
 	SCENEMANAGER->addScene("Å¸¿î¾À", new townScene);
-	SCENEMANAGER->addScene("ÇÊµå¾À", new fieldScene);
+	SCENEMANAGER->addScene("ÇÊµå¾À1", new fieldScene);
+	SCENEMANAGER->addScene("ÇÊµå¾À2", new field2Scene);
+	SCENEMANAGER->addScene("ÇÊµå¾À3", new field3Scene);
 	SCENEMANAGER->addScene("¹èÆ²¾À", new battleScene);
 	SCENEMANAGER->addScene("¼úÁý¾À", new barScnen);
 	SCENEMANAGER->addScene("ÀÌº¥Æ®¾À", new eventScene);
@@ -318,136 +307,3 @@ void playSceneManager::renderProgressBar(void)
 	_exp1->render();
 	_exp2->render();
 }
-
-// ²ûÂï(¼öÁ¤ ¹Ýµå½Ã ÇÊ¿ä)
-void playSceneManager::sceneChange(void)
-{	
-	//ÇÃ·¹ÀÌ¾î°¡ ¾î´À À§Ä¡¿¡ ÀÖ´À³Ä¿¡ µû¶ó Æ÷Å» ÀÌµ¿ ¹× ¾À ÀÌµ¿
-	int idX = _pm->getPlayer()->getZorderRC().right / TILESIZE - 1;
-	int idY = _pm->getPlayer()->getZorderRC().top / TILESIZE;
-	switch (_map->getTiles()[idY * TILEX + idX].obj)
-	{
-	case OBJ_UPPORTAL:
-		if (_map->getCurrentTileName() == "field2Tile")
-		{
-			sceneMapPlayerSetting("field1Tile", 1235, 2000);
-		}
-		else if (_map->getCurrentTileName() == "event")
-		{
-			sceneMapPlayerSetting("field2Tile", 360, 2750);
-		}
-		if (_map->getCurrentTileName() == "field3Tile")
-		{
-			SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
-			sceneMapPlayerSetting("event", 500, 1950);
-		}
-		if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À")
-		{
-			SCENEMANAGER->changeScene("¼úÁý¾À");
-			sceneMapPlayerSetting("InHouse", 500, 500);
-		}
-		break;
-
-	case OBJ_DOWNPORTAL:
-		if (_map->getCurrentTileName() == "field1Tile")
-		{
-			sceneMapPlayerSetting("field2Tile", 100, 100);
-		}
-		else if (_map->getCurrentTileName() == "field2Tile")
-		{
-			sceneMapPlayerSetting("event", 100, 100);
-		}
-		else if (SCENEMANAGER->getSceneName() == "ÀÌº¥Æ®¾À")
-		{
-			SCENEMANAGER->changeScene("ÇÊµå¾À");
-			sceneMapPlayerSetting("field3Tile", 100, 100);
-		}
-		if (SCENEMANAGER->getSceneName() == "¼úÁý¾À")
-		{
-			SCENEMANAGER->changeScene("Å¸¿î¾À");
-			sceneMapPlayerSetting("town", 500, 500);
-		}
-		break;
-
-	case OBJ_LEFTPORTAL:
-		if (SCENEMANAGER->getSceneName() == "ÇÊµå¾À")
-		{
-			SCENEMANAGER->changeScene("Å¸¿î¾À");
-			sceneMapPlayerSetting("town", 2310, 1050);
-		}
-		break;
-
-	case OBJ_RIGHTPORTAL:
-		if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À")
-		{
-			SCENEMANAGER->changeScene("ÇÊµå¾À");
-			sceneMapPlayerSetting("field1Tile", 100, 100);
-		}
-		break;
-
-	}
-
-	
-}
-
-void playSceneManager::sceneMapPlayerSetting(string loadMap, float x, float y)
-{
-	_pm->getPlayer()->setX(x);	_pm->getPlayer()->setY(y);
-	_pm->getPlayer2()->setX(x);	_pm->getPlayer2()->setY(y);
-
-	if (SCENEMANAGER->getSceneName() == "Å¸¿î¾À" || SCENEMANAGER->getSceneName() == "ÇÊµå¾À" ||
-		SCENEMANAGER->getSceneName() == "¼úÁý¾À")
-	{
-		_pm->getPlayer()->setSceneMode(FIELDMODE, RIGHT);
-		_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_RIGHT);
-		_map->load(loadMap);
-	}
-	else if (SCENEMANAGER->getSceneName() == "¹èÆ²¾À")
-	{
-		_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
-		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
-
-	}
-}
-
-void playSceneManager::battleSceneChange(void)
-{	
-	//ÇÃ·¹ÀÌ¾î°¡ ¾î´À À§Ä¡¿¡ ÀÖ´À³Ä¿¡ µû¶ó Æ÷Å» ÀÌµ¿ ¹× ¾À ÀÌµ¿
-	int idX = _pm->getPlayer()->getZorderRC().right / TILESIZE - 1;
-	int idY = _pm->getPlayer()->getZorderRC().top / TILESIZE;
-
-	if (SCENEMANAGER->getSceneName() == "ÇÊµå¾À" &&
-		(_pm->getPlayer()->getMove() == LEFTMOVE ||
-		_pm->getPlayer()->getMove() == RIGHTMOVE || 
-		_pm->getPlayer()->getMove() == UPMOVE || 
-		_pm->getPlayer()->getMove() == DOWNMOVE))
-	{
-		if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
-			_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
-		{
-			if (RND->getFloat(100) < 1.1f)
-			{	
-				_savePlayerPosX = _pm->getPlayer()->getX();
-				_savePlayerPosY = _pm->getPlayer()->getY();
-				SCENEMANAGER->changeScene("¹èÆ²¾À");
-				sceneMapPlayerSetting("¹èÆ²¾À", 100, 400);
-				_em->randEnemy();
-			}
-		}
-	}
-	else if (SCENEMANAGER->getSceneName() == "¹èÆ²¾À")
-	{
-		if((_pm->getPlayer()->getAttribute().currentHp <= 0 && _pm->getPlayer2()->getAttribute().currentHp > 0) ||
-			(_pm->getPlayer()->getAttribute().currentHp > 0 && _pm->getPlayer2()->getAttribute().currentHp <= 0) ||
-			(_em->getVEnmey().size() <= 0))
-		{
-			if (!(_pm->getPlayer2()->getIsExpSet()))
-			{
-				SCENEMANAGER->changeScene("ÇÊµå¾À");
-				sceneMapPlayerSetting("field1Tile", _savePlayerPosX, _savePlayerPosY);
-			}
-		}
-	}
-
-}
-

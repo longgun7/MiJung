@@ -43,7 +43,7 @@ void mapToolScene::release(void)
 
 void mapToolScene::update(void)
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_F9)) SCENEMANAGER->changeScene("½ºÅ¸Æ®¾À");
+	if (KEYMANAGER->isOnceKeyDown(VK_F1)) SCENEMANAGER->changeScene("½ºÅ¸Æ®¾À");
 
 	keyInput();
 	if (_isLButtonDown && !_isShowMoveTile)
@@ -128,7 +128,7 @@ void mapToolScene::render(void)
 				SetTextColor(getMemDC(), RGB(0, 200, 200));
 				SetBkMode(getMemDC(), TRANSPARENT);
 				char str[128];
-				sprintf_s(str, "%d %d", _tiles[i * TILEX + j].terrain, _tiles[i * TILEX + j].obj); // i * TILEX + j);
+				sprintf_s(str, "%d %d", _tiles[i * TILEX + j].terrain, i * TILEX + j); // i * TILEX + j);
 				TextOut(getMemDC(), _tiles[i * TILEX + j].rc.left + (_tiles[i * TILEX + j].rc.right - _tiles[i * TILEX + j].rc.left) / 2 - 10
 					, _tiles[i * TILEX + j].rc.top + (_tiles[i * TILEX + j].rc.bottom - _tiles[i * TILEX + j].rc.top) / 2 - 10
 					, str, strlen(str));
@@ -496,12 +496,12 @@ void mapToolScene::load()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
-	/*for (int i = 0; i < TILEY; ++i)
-	{
-	for (int j = 0; j < TILEX; ++j)
-	{
-		if (_tiles[i * TILEX + j].terrain == TR_UNMOVE)
-			_tiles[i * TILEX + j].terrain = TR_NONE;
+	//for (int i = 0; i < TILEY; ++i)
+	//{
+	//for (int j = 0; j < TILEX; ++j)
+	//{
+	//	if (_tiles[i * TILEX + j].terrain == TR_UNMOVE)
+	//		_tiles[i * TILEX + j].terrain = TR_NONE;
 	//if(_tiles[i * TILEX + j].terrain == TR_MOVE)
 	//	_tiles[i * TILEX + j].terrain = TR_UNMOVE;
 	//else if (_tiles[i * TILEX + j].terrain == TR_UNMOVE)
@@ -511,8 +511,8 @@ void mapToolScene::load()
 	//else if (_tiles[i * TILEX + j].terrain == 7)
 	//	_tiles[i * TILEX + j].terrain = TR_NONE;
 	//
-	//if(_tiles[i * TILEX + j].obj == OBJ_EXIST)
-	//	_tiles[i * TILEX + j].obj = OBJ_NONE;
+	//	if(_tiles[i * TILEX + j].obj == 6)
+	//		_tiles[i * TILEX + j].obj = OBJ_NONE;
 	//if (_tiles[i * TILEX + j].obj == 5)
 	//_tiles[i * TILEX + j].obj = OBJ_NONE;
 	//else if (_tiles[i * TILEX + j].terrain == TR_MOVE)
@@ -521,9 +521,8 @@ void mapToolScene::load()
 	//	_tiles[i * TILEX + j].terrain = TR_MOVE;
 	//else if (_tiles[i * TILEX + j].terrain == TR_LEFTPORTAL)
 	//	_tiles[i * TILEX + j].terrain = TR_DOOR;
-
-	}
-	}*/
+	//}
+	//}
 
 	CloseHandle(file);
 }
@@ -578,6 +577,8 @@ OBJECT mapToolScene::objSelect(int frameX, int frameY)
 	{
 	case CTRL_TOWN:
 	{
+		if (frameX == 4 && frameY == 12) return OBJ_NPC;
+
 		for (int j = 16; j <= 28; ++j) if (frameX == j && frameY == 10) return OBJ_EXIST;
 		for (int j = 33; j <= 38; ++j) if (frameX == j && frameY == 10) return OBJ_EXIST;
 		if (frameX == 32 && frameY == 12) return OBJ_NONE;
@@ -587,6 +588,8 @@ OBJECT mapToolScene::objSelect(int frameX, int frameY)
 	break;
 	case CTRL_INHOUSE:
 	{
+		if (frameX == 4 && frameY == 12) return OBJ_NPC;
+
 		objStartX = 21; objStartY = 10, objEndX = SAMPLETILEX, objEndY = SAMPLETILEY;
 	}
 	break;
@@ -649,6 +652,8 @@ OBJECT mapToolScene::objSelect(int frameX, int frameY)
 	break;
 	case CTRL_EVENT:
 	{
+		if (frameX == 5 && frameY == 12) return OBJ_ROPEEND;
+
 		if ((frameX == 36 || frameX == 37) && frameY == 4) return OBJ_EXIST;
 		if (frameX == 36 && frameY == 3) return OBJ_EXIST;
 

@@ -90,6 +90,7 @@ public:
 	void setEnemyDead(); // ¿¡³Ê¹Ì 
 	void setMoney(int money);
 
+	
 	player* getPlayer() { return _ataho; }
 	player2* getPlayer2() { return _smasyu; }
 	
