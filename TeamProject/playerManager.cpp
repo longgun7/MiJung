@@ -162,6 +162,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_A_saveBeforWeapon.atk = _vA_WeapInven[invenIndex].atk;
 			_A_saveBeforWeapon.luck = _vA_WeapInven[invenIndex].luck;
 			_A_saveBeforWeapon.cri = _vA_WeapInven[invenIndex].cri;
+			_A_saveBeforWeapon.name = _vA_WeapInven[invenIndex].name;
 			if (_vA_WeapInven[invenIndex].name == "명주 귀신살")
 			{
 				_ataho->setSwordMounting(true);
@@ -179,6 +180,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_ataho->setStat(_vA_ArmorInven[invenIndex].atk, _vA_ArmorInven[invenIndex].def, _vA_ArmorInven[invenIndex].luck, _vA_ArmorInven[invenIndex].cri, _vA_ArmorInven[invenIndex].speed);
 			_A_saveBeforArmor.def = _vA_ArmorInven[invenIndex].def;
 			_A_saveBeforArmor.speed = _vA_ArmorInven[invenIndex].speed;
+			_A_saveBeforArmor.name = _vA_ArmorInven[invenIndex].name;
 		}
 	}
 
@@ -195,6 +197,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_S_saveBeforWeapon.atk = _vS_WeapInven[invenIndex].atk;
 			_S_saveBeforWeapon.luck = _vS_WeapInven[invenIndex].luck;
 			_S_saveBeforWeapon.cri = _vS_WeapInven[invenIndex].cri;
+			_S_saveBeforWeapon.name = _vS_WeapInven[invenIndex].name;
 			if (_vS_WeapInven[invenIndex].name == "마인아수라")
 			{
 				_smasyu->setMounting(true);
@@ -213,6 +216,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_smasyu->setStat(_vS_ArmorInven[invenIndex].atk, _vS_ArmorInven[invenIndex].def, _vS_ArmorInven[invenIndex].luck, _vS_ArmorInven[invenIndex].cri, _vS_ArmorInven[invenIndex].speed);
 			_S_saveBeforArmor.def = _vS_ArmorInven[invenIndex].def;
 			_S_saveBeforArmor.speed = _vS_ArmorInven[invenIndex].speed;
+			_S_saveBeforWeapon.name = _vS_ArmorInven[invenIndex].name;
 		}
 	}
 

@@ -110,7 +110,7 @@ public:
 	
 	bool getIsExpSet() { return _isExpSet; }
 
-
+	float getX() { return _x; }
 	float getY() { return _y; }
 	
 	// Ãß°¡(¹Î°æ)
