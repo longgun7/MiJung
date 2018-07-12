@@ -152,19 +152,7 @@ void player::update()
 
 void player::render()
 {
-	//RECT
-	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-
-	char str2[124];
-	sprintf_s(str2, "아타호 이미지프레임: %d", _imageFrame);
-	TextOut(getMemDC(), 100, 440, str2, strlen(str2));
-	//기울기 프레임
-	char str[125];
-	if (KEYMANAGER->isToggleKey('Z') && _em->getVEnmey().size() > 0)
-	{
-		sprintf_s(str, "에너미 hp : %d", _em->getVEnmey()[0]->getTagEnmey().hp);
-		TextOut(getMemDC(), 100, 410, str, strlen(str));
-	}//image
+	
 	_img->frameRender(getMemDC(), _rc.left, _rc.top);
 	//스킬 이펙트 렌더
 	_soloSkillEffect1->render(); 
@@ -184,10 +172,7 @@ void player::render()
 			_effectImage.img->frameRender(getMemDC(), _x - 30 , _y + 5);
 		}
 	}
-	for (int i = 0; i < 9; i++)
-	{
-		Rectangle(getMemDC(), _skillRC[i].left, _skillRC[i].top, _skillRC[i].right, _skillRC[i].bottom);
-	}
+	
 }
 
 void player::release()

@@ -191,9 +191,21 @@ void playSceneManager::fontUI(void)
 	sprintf_s(currentMP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentMp, _pm->getPlayer2()->getAttribute().maxMp);
 
 	char currentEXP1[128];	//아타호 현재경험치 / 최대경험치
-	sprintf_s(currentEXP1, "%d / %d", _pm->getPlayer()->getAttribute().currentExp, _pm->getPlayer()->getAttribute().maxExp);
+	if(_pm->getPlayer()->getAttribute().currentExp == 0)
+	{
+		sprintf_s(currentEXP1, "%d / %d", 0, _pm->getPlayer()->getAttribute().maxExp / (_pm->getPlayer()->getAttribute().maxExp / 100));
+	}else
+	{
+		sprintf_s(currentEXP1, "%d / %d", _pm->getPlayer()->getAttribute().currentExp / (_pm->getPlayer()->getAttribute().currentExp / 100), _pm->getPlayer()->getAttribute().maxExp / (_pm->getPlayer()->getAttribute().maxExp / 100));
+	}
+	
 	char currentEXP2[128];	//스마슈 현재경험치 / 최대경험치
-	sprintf_s(currentEXP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentExp, _pm->getPlayer2()->getAttribute().maxExp);
+	if(_pm->getPlayer2()->getAttribute().currentExp == 0)
+	{
+		sprintf_s(currentEXP2, "%d / %d", 0, _pm->getPlayer2()->getAttribute().maxExp / (_pm->getPlayer2()->getAttribute().maxExp / 100));
+	}
+	else
+	sprintf_s(currentEXP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentExp/(_pm->getPlayer2()->getAttribute().currentExp/100), _pm->getPlayer2()->getAttribute().maxExp/(_pm->getPlayer2()->getAttribute().maxExp/100));
 
 	char currentAtk1[128];
 	sprintf_s(currentAtk1, "%d", _pm->getPlayer()->getAttribute().atk);

@@ -96,7 +96,6 @@ void townScene::npcCollision()
 	vector<pair<POINT, tagTile>> vObjTile = _map->getVObjectTile();	
 	vector<tagNPC> vNpc = _npc->getVTagNPC();
 
-	int frameNum = 0;
 	for (int i = 0; i < vObjTile.size(); ++i)
 	{
 		RECT rc;
@@ -108,13 +107,7 @@ void townScene::npcCollision()
 					vObjTile[i].first.y == vNpc[j].tileY)
 					_npc->talkNPC(vNpc[j].frameX, vNpc[j].frameY);
 			}
-						
-			// 대사처리 하시오
-			//_isTemp = true;
 		}
-		else frameNum++;
-		//else _isTemp = false;
-		
 	}
 }
 
@@ -151,7 +144,7 @@ void townScene::sceneChange(void)
 		SOUNDMANAGER->stop("TownTheMa");
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
-		SCENEMANAGER->changeScene("필드씬1");
+		SCENEMANAGER->changeScene("이벤트씬");
 		break;
 	}
 }

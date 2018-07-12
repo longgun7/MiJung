@@ -35,6 +35,8 @@ HRESULT battleScene::init(void)
 	_monX = 660;
 	_monY = 570;
 
+	_gameTurn = ATAHO_CHOICE;
+
 	_isSkillCheck = false;
 	_isMonCheck = false;
 	_isFight = false;

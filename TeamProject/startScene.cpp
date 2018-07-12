@@ -43,6 +43,10 @@ HRESULT startScene::init(void)
 	_frameCount = 0;
 	_isCount = false;
 	_isPlay = false;
+
+	_sl = new saveLoad;
+	_sl->init();
+
 	return S_OK;
 }
 
@@ -102,6 +106,8 @@ void startScene::update(void)
 		if (_isLoadCheck)
 		{
 			IMAGEMANAGER->findImage("LOADBUTTON")->setFrameY(1);
+			_sl->loadInt(_index);
+			SCENEMANAGER->changeScene("¼úÁý¾À");
 		}
 		IMAGEMANAGER->findImage("UIBUTTON")->setFrameY(1);
 		if(_index==0)
