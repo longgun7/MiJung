@@ -43,7 +43,7 @@ HRESULT player2::init(float x , float y)
 	_y2[0] = y;
 	_angle2[0] = 0;
 
-	_x = _x2[4] - 60;
+	_x = _x2[4] + 60;
 	_y = _y2[4] - 60;
 	_angle = 0;
 	

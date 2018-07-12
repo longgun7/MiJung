@@ -15,8 +15,12 @@ HRESULT npc::init()
 {
 	IMAGEMANAGER->addFrameImage("NPC", "image/maptool/NPC/NPC.bmp", 432, 288, 6, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("대화창", "image/ui/대화창.bmp", 600, 125, false, RGB(0, 0, 0));
+	//IMAGEMANAGER->addFrameImage("캐릭터이미지1", "image/ui/캐릭터이미지.bmp", 1000, 250, 8, 2, false, RGB(0, 0, 0));
+
 	_talkNPC = false;
 	_count = 0;
+	talkNPCSave();
+	talkNPCLoad();
 	return S_OK;
 }
 
@@ -26,6 +30,7 @@ void npc::release()
 
 void npc::update()
 {
+	
 	if (_talkNPC)
 	{
 		_count++;
@@ -68,7 +73,8 @@ void npc::render()
 
 		if (_talkNPC)
 		{
-			IMAGEMANAGER->findImage("대화창")->render(CAMERA->getCameraDC(), 0, 400);
+			//IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
+			IMAGEMANAGER->findImage("대화창")->render(CAMERA->getCameraDC(), 272, 400);
 			SetTextColor(getMemDC(), RGB(255, 255, 255));
 
 			for (int i = 0; i < 12; ++i)
@@ -79,31 +85,31 @@ void npc::render()
 
 					if ((_talkIndex * 2) < 100)
 					{
-						TextOut(CAMERA->getCameraDC(), 100, 450, vStrNPC[i].c_str(), (_talkIndex * 2));
+						TextOut(CAMERA->getCameraDC(), 300, 450, vStrNPC[i].c_str(), (_talkIndex * 2));
 					}
-					else if ((_talkIndex * 2) >= 100 && (_talkIndex * 2) < 200)
-					{
-						string text = "";
-
-						text = vStrNPC[i].substr(0, 100);
-						TextOut(CAMERA->getCameraDC(), 100, 450, text.c_str(), text.size());
-
-						text = vStrNPC[i].substr(100, _maxTalkIndex);
-						TextOut(CAMERA->getCameraDC(), 100, 470, text.c_str(), (_talkIndex * 2) - 100);
-					}
-					else
-					{
-						string text = "";
-
-						text = vStrNPC[i].substr(0, 100);
-						TextOut(CAMERA->getCameraDC(), 100, 450, text.c_str(), text.size());
-
-						text = vStrNPC[i].substr(101, 200);
-						TextOut(CAMERA->getCameraDC(), 100, 470, text.c_str(), text.size());
-
-						text = vStrNPC[i].substr(200, _maxTalkIndex);
-						TextOut(CAMERA->getCameraDC(), 100, 490, text.c_str(), (_talkIndex * 2) - 200);
-					}
+					//else if ((_talkIndex * 2) >= 100 && (_talkIndex * 2) < 200)
+					//{
+					//	string text = "";
+					//
+					//	text = vStrNPC[i].substr(0, 100);
+					//	TextOut(CAMERA->getCameraDC(), 100, 450, text.c_str(), text.size());
+					//
+					//	text = vStrNPC[i].substr(100, _maxTalkIndex);
+					//	TextOut(CAMERA->getCameraDC(), 100, 470, text.c_str(), (_talkIndex * 2) - 100);
+					//}
+					//else
+					//{
+					//	string text = "";
+					//
+					//	text = vStrNPC[i].substr(0, 100);
+					//	TextOut(CAMERA->getCameraDC(), 100, 450, text.c_str(), text.size());
+					//
+					//	text = vStrNPC[i].substr(101, 200);
+					//	TextOut(CAMERA->getCameraDC(), 100, 470, text.c_str(), text.size());
+					//
+					//	text = vStrNPC[i].substr(200, _maxTalkIndex);
+					//	TextOut(CAMERA->getCameraDC(), 100, 490, text.c_str(), (_talkIndex * 2) - 200);
+					//}
 					break;
 				}
 			}
@@ -135,7 +141,7 @@ void npc::talkNPC(int frameX, int frameY)
 		if (_viTagNPC->frameX == frameX && _viTagNPC->frameY == frameY)
 		{
 			_talkNPC = true;
-			_index = frameX * (frameY + 5);
+			_index = frameX + (frameY * 6);
 		}
 	}
 }

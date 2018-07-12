@@ -64,14 +64,15 @@ HRESULT player::init()
 
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY/2;
+	_x = WINSIZEX / 2 + 240;
+	_y = WINSIZEY / 2 - 140;
 	_jumpPower  = 5.0f;
 	_gravity    = 0.2f;
 	_imageFrame	= 0;
 	_frame		= 0;
 	_skillFrame = 0;
 	_slopeFrame = 0;
+	_move = RIGHT;
 	_moveSpeed  = 5.0f;
 	_isMotionLive = false;
 	_isJumping = false;

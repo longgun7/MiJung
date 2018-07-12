@@ -150,7 +150,8 @@ void startScene::update(void)
 	}
 	if (_frameCount >= 255)
 	{
-		SCENEMANAGER->changeScene("Å¸¿î¾À");
+		
+		SCENEMANAGER->changeScene("¼úÁı¾À");
 		
 	}
 }

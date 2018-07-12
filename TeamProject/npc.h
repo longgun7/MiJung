@@ -29,7 +29,7 @@ class npc : public gameNode
 	vector<string>				vStrNPC;
 
 	string strNPC = "올해야말로　슈스케　우승하겠어!!";
-	string strNPC1 = "안녕하십니까↗ 오랜만입니다↗ ";
+	string strNPC1 = "안녕하십니까↗오랜만입니다↗";
 	string strNPC2 = "롤ㄱㄱ? 배그ㄱㄱ? ";
 	string strNPC3 = "무조건이지　무조건　말해　뭐해~ ";
 	string strNPC4 = "언제쯤　질문을　받아주실까...?";

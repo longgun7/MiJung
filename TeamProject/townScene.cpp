@@ -54,7 +54,7 @@ void townScene::update(void)
 	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
 	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
 	sceneChange();
-
+	_npc->update();
 }
 
 void townScene::render(void)
