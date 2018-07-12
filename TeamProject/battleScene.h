@@ -66,5 +66,7 @@ public:
 	void fontUI(void);
 	void iconChange(void);			//아이콘 변경
 	void skillChoice(void);			//스킬선택
+	void atahoSkillCheck();
+	void sumsuSkillCheck();
 };
 
