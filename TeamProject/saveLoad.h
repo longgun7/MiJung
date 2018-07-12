@@ -9,8 +9,8 @@ class saveLoad : public gameNode
 public:
 
 	HRESULT init();
-	void save();
-	void loadInt();
+	void save(int index);
+	void loadInt(int index);
 	saveLoad();
 	~saveLoad();
 };

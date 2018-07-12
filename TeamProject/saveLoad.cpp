@@ -10,7 +10,7 @@ HRESULT saveLoad::init()
 	return S_OK;
 }
 
-void saveLoad::save()
+void saveLoad::save(int index)
 {
 	char str[128];
 	sprintf_s(str, "%d", (int)_pm->getPlayer()->getX());
@@ -184,78 +184,83 @@ void saveLoad::save()
 	INIDATA->addData("골드", "총골드", str35);
 
 
-	INIDATA->iniSave("플레이어정보");
+	char str36[128];
+	sprintf_s(str36, "플레이어정보%d", index);
+	INIDATA->iniSave(str36);
 
 }
 
-void saveLoad::loadInt()
+void saveLoad::loadInt(int index)
 {
-	_pm->getPlayer()->setX(INIDATA->loadDataInterger("플레이어정보", "아타호", "좌표x"));
-	_pm->getPlayer()->setY(INIDATA->loadDataInterger("플레이어정보", "아타호", "좌표y"));
-	_pm->getPlayer2()->setX(INIDATA->loadDataInterger("플레이어정보", "스마슈", "좌표x"));
-	_pm->getPlayer2()->setY(INIDATA->loadDataInterger("플레이어정보", "스마슈", "좌표y"));
+	char str10[128];
+	sprintf_s(str10, "플레이어정보%d", index);
 
-	_pm->getPlayer()->setAttribute(INIDATA->loadDataInterger("플레이어정보", "아타호", "공격력"), INIDATA->loadDataInterger("플레이어정보", "아타호", "현재방어력"), INIDATA->loadDataInterger("플레이어정보", "아타호", "크리티컬"),
-		INIDATA->loadDataInterger("플레이어정보", "아타호", "스피드"), INIDATA->loadDataInterger("플레이어정보", "아타호", "현재체력"), INIDATA->loadDataInterger("플레이어정보", "아타호", "총체력")
-		, INIDATA->loadDataInterger("플레이어정보", "아타호", "현재마나"), INIDATA->loadDataInterger("플레이어정보", "아타호", "총마나"), INIDATA->loadDataInterger("플레이어정보", "아타호", "현재경험치"), INIDATA->loadDataInterger("플레이어정보", "아타호", "총경험치")
-		, INIDATA->loadDataInterger("플레이어정보", "아타호", "현재레벨"));
+	_pm->getPlayer()->setX(INIDATA->loadDataInterger(str10, "아타호", "좌표x"));
+	_pm->getPlayer()->setY(INIDATA->loadDataInterger(str10, "아타호", "좌표y"));
+	_pm->getPlayer2()->setX(INIDATA->loadDataInterger(str10, "스마슈", "좌표x"));
+	_pm->getPlayer2()->setY(INIDATA->loadDataInterger(str10, "스마슈", "좌표y"));
+
+	_pm->getPlayer()->setAttribute(INIDATA->loadDataInterger(str10, "아타호", "공격력"), INIDATA->loadDataInterger(str10, "아타호", "현재방어력"), INIDATA->loadDataInterger(str10, "아타호", "크리티컬"),
+		INIDATA->loadDataInterger(str10, "아타호", "스피드"), INIDATA->loadDataInterger(str10, "아타호", "현재체력"), INIDATA->loadDataInterger(str10, "아타호", "총체력")
+		, INIDATA->loadDataInterger(str10, "아타호", "현재마나"), INIDATA->loadDataInterger(str10, "아타호", "총마나"), INIDATA->loadDataInterger(str10, "아타호", "현재경험치"), INIDATA->loadDataInterger(str10, "아타호", "총경험치")
+		, INIDATA->loadDataInterger(str10, "아타호", "현재레벨"));
 	
 
-	_pm->getPlayer2()->setAttribute(INIDATA->loadDataInterger("플레이어정보", "스마슈", "공격력"), INIDATA->loadDataInterger("플레이어정보", "스마슈", "현재방어력"), INIDATA->loadDataInterger("플레이어정보", "스마슈", "크리티컬"),
-		INIDATA->loadDataInterger("플레이어정보", "스마슈", "스피드"), INIDATA->loadDataInterger("플레이어정보", "스마슈", "현재체력"), INIDATA->loadDataInterger("플레이어정보", "스마슈", "총체력")
-		, INIDATA->loadDataInterger("플레이어정보", "스마슈", "현재마나"), INIDATA->loadDataInterger("플레이어정보", "스마슈", "총마나"), INIDATA->loadDataInterger("플레이어정보", "스마슈", "현재경험치"), INIDATA->loadDataInterger("플레이어정보", "스마슈", "총경험치")
-		, INIDATA->loadDataInterger("플레이어정보", "스마슈", "현재레벨"));
+	_pm->getPlayer2()->setAttribute(INIDATA->loadDataInterger(str10, "스마슈", "공격력"), INIDATA->loadDataInterger(str10, "스마슈", "현재방어력"), INIDATA->loadDataInterger(str10, "스마슈", "크리티컬"),
+		INIDATA->loadDataInterger(str10, "스마슈", "스피드"), INIDATA->loadDataInterger(str10, "스마슈", "현재체력"), INIDATA->loadDataInterger(str10, "스마슈", "총체력")
+		, INIDATA->loadDataInterger(str10, "스마슈", "현재마나"), INIDATA->loadDataInterger(str10, "스마슈", "총마나"), INIDATA->loadDataInterger(str10, "스마슈", "현재경험치"), INIDATA->loadDataInterger(str10, "스마슈", "총경험치")
+		, INIDATA->loadDataInterger(str10, "스마슈", "현재레벨"));
 
 	for (int i = 0; i < 4; ++i)
 	{
 		char str[128];
 		sprintf_s(str, "무기%d", i);
-		if (INIDATA->loadDataString("플레이어정보", "야타호", str) == "") break;
-		_pm->getItemValue(INIDATA->loadDataString("플레이어정보", "야타호", str));
+		if (INIDATA->loadDataString(str10, "야타호", str) == "") break;
+		_pm->getItemValue(INIDATA->loadDataString(str10, "야타호", str));
 	}
 	
 	for (int i = 0; i < 4; ++i)
 	{
 		char str[128];
 		sprintf_s(str, "방어구%d", i);
-		if (INIDATA->loadDataString("플레이어정보", "야타호", str) == "") break;
-		_pm->getItemValue(INIDATA->loadDataString("플레이어정보", "야타호", str));
+		if (INIDATA->loadDataString(str10, "야타호", str) == "") break;
+		_pm->getItemValue(INIDATA->loadDataString(str10, "야타호", str));
 	}
 
 	for (int i = 0; i < 4; ++i)
 	{
 		char str[128];
 		sprintf_s(str, "무기%d", i);
-		if (INIDATA->loadDataString("플레이어정보", "스마슈", str) == "") break;
-		_pm->getItemValue(INIDATA->loadDataString("플레이어정보", "스마슈", str));
+		if (INIDATA->loadDataString(str10, "스마슈", str) == "") break;
+		_pm->getItemValue(INIDATA->loadDataString(str10, "스마슈", str));
 	}
 
 	for (int i = 0; i < 4; ++i)
 	{
 		char str[128];
 		sprintf_s(str, "방어구%d", i);
-		if (INIDATA->loadDataString("플레이어정보", "스마슈", str) == "") break;
-		_pm->getItemValue(INIDATA->loadDataString("플레이어정보", "스마슈", str));
+		if (INIDATA->loadDataString(str10, "스마슈", str) == "") break;
+		_pm->getItemValue(INIDATA->loadDataString(str10, "스마슈", str));
 	}
 
 	for (int i = 0; i < 4; ++i)
 	{
 		char str[128];
 		sprintf_s(str, "포션%d", i);
-		if (INIDATA->loadDataString("플레이어정보", "포션", str) == "") break;
-		_pm->getItemValue(INIDATA->loadDataString("플레이어정보", "포션", str));
+		if (INIDATA->loadDataString(str10, "포션", str) == "") break;
+		_pm->getItemValue(INIDATA->loadDataString("str10", "포션", str));
 	}
 
-	_pm->setHpPoindex(INIDATA->loadDataInterger("플레이어정보","포션", "hp포션수"));
-	_pm->setMpPoindex(INIDATA->loadDataInterger("플레이어정보","포션", "mp포션수"));
+	_pm->setHpPoindex(INIDATA->loadDataInterger(str10,"포션", "hp포션수"));
+	_pm->setMpPoindex(INIDATA->loadDataInterger(str10,"포션", "mp포션수"));
 
-	_pm->setA_WeapItemName((INIDATA->loadDataString("플레이어정보", "야타호", "장착무기")));
-	_pm->setA_ArmorItemName((INIDATA->loadDataString("플레이어정보", "야타호", "장착방어구")));
+	_pm->setA_WeapItemName((INIDATA->loadDataString(str10, "야타호", "장착무기")));
+	_pm->setA_ArmorItemName((INIDATA->loadDataString(str10, "야타호", "장착방어구")));
 
-	_pm->setS_WeapItemName((INIDATA->loadDataString("플레이어정보", "스마슈", "장착무기")));
-	_pm->setS_ArmorItemName((INIDATA->loadDataString("플레이어정보", "스마슈", "장착방어구")));
+	_pm->setS_WeapItemName((INIDATA->loadDataString(str10, "스마슈", "장착무기")));
+	_pm->setS_ArmorItemName((INIDATA->loadDataString(str10, "스마슈", "장착방어구")));
 
-	_pm->setGold(INIDATA->loadDataInterger("플레이어정보", "골드", "총골드"));
+	_pm->setGold(INIDATA->loadDataInterger(str10, "골드", "총골드"));
 
 }
 

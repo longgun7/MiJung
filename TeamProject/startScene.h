@@ -1,5 +1,6 @@
 #pragma once
 #include"gameNode.h"
+#include "saveLoad.h"
 
 class playerManager;
 class itemManager;
@@ -20,6 +21,8 @@ private:
 	playerManager* _pm;
 	itemManager* _im;
 	enemyManager* _em;
+
+	saveLoad*    _sl;
 public:
 	startScene();
 	~startScene();

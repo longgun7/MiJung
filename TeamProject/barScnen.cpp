@@ -75,6 +75,7 @@ void barScnen::update(void)
 	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
 	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
 	sceneChange();
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD0)) _sl->save(1);
 
 }
 
