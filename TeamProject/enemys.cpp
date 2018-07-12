@@ -8,6 +8,8 @@ HRESULT spearMan::init(float x, float y)
 	// ±âº» Á¤º¸ ¼¼ÆÃ
 
 	_enemy.img = IMAGEMANAGER->addFrameImage("Ã¢º´", "image/enemy/Ã¢º´.bmp", 576, 64, 4, 1, true, RGB(255, 0, 255), true);
+
+	_enemy.name = "Ã¢º´";
 	
 	_enemy.alphaValue = 255;
 
@@ -148,6 +150,8 @@ HRESULT kungpu::init(float x, float y)
 	_enemy.img = IMAGEMANAGER->addFrameImage("ÄôÇª", "image/enemy/ÄôÇª.bmp", 1215, 153, 9, 1, true, RGB(255, 0, 255), true);
 
 	_enemy.alphaValue = 255;
+
+	_enemy.name = "ÄôÇª";
 
 	_enemy.hp = 50;
 	_enemy.totalHp = 50;
@@ -311,6 +315,8 @@ HRESULT spirit::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
+	_enemy.name = "Á¤·É";
+
 	_enemy.hp = 50;
 	_enemy.totalHp = 50;
 	_enemy.att = 20;
@@ -463,6 +469,8 @@ HRESULT bat::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
+	_enemy.name = "¹ÚÁã";
+
 	_enemy.hp = 100;
 	_enemy.totalHp = 100;
 	_enemy.att = 27;
@@ -601,6 +609,8 @@ HRESULT snake::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
+	_enemy.name = "¹ì";
+
 	_enemy.hp = 100;
 	_enemy.totalHp = 100;
 	_enemy.att = 27;
@@ -734,6 +744,8 @@ HRESULT wildboar::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
+	_enemy.name = "¸ËµÅÁö";
+
 	_enemy.hp = 100;
 	_enemy.totalHp = 100;
 	_enemy.att = 27;
@@ -866,6 +878,8 @@ HRESULT skeleton::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
+	_enemy.name = "½ºÄÌ·¹Åæ";
+
 	_enemy.hp = 300;
 	_enemy.totalHp = 300;
 	_enemy.att = 35;
@@ -991,13 +1005,15 @@ skeleton::~skeleton()
 {
 }
 
-// ½ºÄÌ·¹Åæ ¸ÞÀÌÁö
+// À§Ä¡
 // ÇØ´ç ¿¡³Ê¹ÌÀÇ ÃâÇö Àå¼Ò : ½ºÅ×ÀÌÁö 3
 HRESULT skeletonMage::init(float x, float y)
 {
-	_enemy.img = IMAGEMANAGER->addFrameImage("½ºÄÌ·¹Åæ¸¶¹ý»ç", "image/enemy/ÇØ°ñ¸¶¹ý»ç.bmp", 612, 80, 4, 1, true, RGB(255, 0, 255), true);
+	_enemy.img = IMAGEMANAGER->addFrameImage("À§Ä¡", "image/enemy/À§Ä¡.bmp", 612, 80, 4, 1, true, RGB(255, 0, 255), true);
 
 	_enemy.alphaValue = 255;
+
+	_enemy.name = "À§Ä¡";
 
 	_enemy.hp = 300;
 	_enemy.totalHp = 300;
@@ -1160,6 +1176,8 @@ HRESULT dragon::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
+	_enemy.name = "µå·¡°ï";
+
 	_enemy.hp = 300;
 	_enemy.totalHp = 300;
 	_enemy.att = 35;
@@ -1297,6 +1315,8 @@ HRESULT boss::init(float x, float y)
 	_enemy.img = IMAGEMANAGER->addFrameImage("º¸½º", "image/enemy/º¸½º.bmp", 1200, 792, 8, 6, true, RGB(255, 0, 255), true);
 
 	_enemy.alphaValue = 255;
+
+	_enemy.name = "º¸½º";
 
 	_enemy.hp = 750;
 	_enemy.totalHp = 750;
