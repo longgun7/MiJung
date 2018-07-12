@@ -31,6 +31,9 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
+	void npcTileSetting();
+	void npcCollision();
+	
 	void fontUI(void);
 	void sceneChange(void);
 

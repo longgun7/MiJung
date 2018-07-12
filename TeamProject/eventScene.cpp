@@ -20,11 +20,7 @@ HRESULT eventScene::init(void)
 	_map = SCENEMANAGER->getPlayMapLink();
 	_map->init(EVENT);
 
-	//_pm->getPlayer()->setX(150); _pm->getPlayer()->setY(50);
-	//_pm->getPlayer2()->setX(150); _pm->getPlayer2()->setY(50);
-	//
-	//_pm->getPlayer()->setEventMode(FIELDMODE);
-	//_pm->getPlayer2()->setEventMode(S_FIELDMODE);
+	SOUNDMANAGER->play("eventTheMa");
 
 	_soundFrame = 0;
 	_isEventMode = false;
@@ -53,7 +49,8 @@ void eventScene::update(void)
 
 	if (_pm->getPlayer()->getSceneMode() == EVENTMODE)
 	{
-		if (_map->getTiles()[index.y * TILEX + index.x].obj == OBJ_ROPE)
+		POINT index2 = _map->getTileIndex(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
+		if (_map->getTiles()[index2.y * TILEX + index2.x].obj == OBJ_ROPEEND)
 		{
 			_pm->getPlayer()->setEventMode(FIELDMODE);
 			_pm->getPlayer2()->setEventMode(S_FIELDMODE);
@@ -131,7 +128,7 @@ void eventScene::sceneChange(void)
 	switch (_map->getTiles()[idY * TILEX + idX].obj)
 	{
 	case OBJ_UPPORTAL:
-		//SOUNDMANAGER->stop("FiledTheMa");
+		SOUNDMANAGER->stop("eventTheMa");
 		_pm->getPlayer()->setX(360); _pm->getPlayer()->setY(2750);
 		_pm->getPlayer2()->setX(360); _pm->getPlayer2()->setY(2750);
 		SCENEMANAGER->changeScene("ÇÊµå¾À2");
@@ -139,7 +136,7 @@ void eventScene::sceneChange(void)
 		break;
 
 	case OBJ_DOWNPORTAL:
-		//SOUNDMANAGER->stop("FiledTheMa");
+		SOUNDMANAGER->stop("eventTheMa");
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
 		_pm->getPlayer2()->setX(100); _pm->getPlayer2()->setY(100);
 		SCENEMANAGER->changeScene("ÇÊµå¾À3");

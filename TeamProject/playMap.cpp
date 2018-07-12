@@ -135,7 +135,7 @@ POINT playMap::getTileIndex(RECT rc, OBJECT obj)
 		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
 		{
 			// 총 제트오더 사각형 크기 중, 중앙 타일길이를 기준으로 측정한다.
-			if ((rc.left + (rc.right - rc.left)) / TILESIZE == j && rc.top / TILESIZE == i ||
+			if ((rc.left / TILESIZE == j && rc.top / TILESIZE == i) ||
 				_tiles[i * TILEX + j].obj == obj)
 				return PointMake(j, i);
 		}
