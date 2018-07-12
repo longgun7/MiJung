@@ -1,13 +1,13 @@
 #pragma once
 #include "gameNode.h"
 
-enum SKELETONDIRECTION	// 상태
+enum SKELETONDIRECTION		// 상태
 {
 	SKELETON_RIGHT_MOVE,	// 오른쪽 이동
-	SKELETON_LEFT_MOVE,	// 왼쪽 이동
-	SKELETON_UP_MOVE,	// 위로 이동
-	SKELETON_DOWN_MOVE,	// 아래로 이동
-	SKELETON_STAND		// 가만히
+	SKELETON_LEFT_MOVE,		// 왼쪽 이동
+	SKELETON_UP_MOVE,		// 위로 이동
+	SKELETON_DOWN_MOVE,		// 아래로 이동
+	SKELETON_STAND			// 가만히
 };
 
 

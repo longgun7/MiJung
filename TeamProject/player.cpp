@@ -1015,7 +1015,7 @@ void player::move()
 			_move = FIGHTREADY;
 		}
 	}
-	//hp , mp 회복 
+	//hp회복 
 	if (_move == HPUP|| _move == MPUP)
 	{
 		_isMotionLive = true;

@@ -64,8 +64,29 @@ void statusScene::render(void)
 	IMAGEMANAGER->findImage("소지")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 175, 50);
 	IMAGEMANAGER->findImage("모드")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 125, 50);
 	IMAGEMANAGER->findImage("환경설정")->frameRender(CAMERA->getCameraDC(), WINSIZEX - 75, 50);
-	//_pm.get
-	
+	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 0) 
+	{
+		for (int i = 0; i<_pm->getVA_WeapInven().size(); i++)
+		{
+			_pm->getVA_WeapInven()[i].img->frameRender(CAMERA->getCameraDC(), 50, 210);
+		}
+		for (int i = 0; i<_pm->getVA_ArmorInven().size(); i++)
+		{
+			_pm->getVA_ArmorInven()[i].img->frameRender(CAMERA->getCameraDC(), 50, 310);
+		}
+	}
+	if (IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX() == 1)
+	{
+		for (int i = 0; i<_pm->getVS_WeapInven().size(); i++)
+		{
+			_pm->getVS_WeapInven()[i].img->frameRender(CAMERA->getCameraDC(), 50, 210);
+		}
+		for (int i = 0; i<_pm->getVS_ArmorInven().size(); i++)
+		{
+			_pm->getVS_ArmorInven()[i].img->frameRender(CAMERA->getCameraDC(), 50, 310);
+		}
+	}
+
 	if (_isCheck)
 	{
 		IMAGEMANAGER->findImage("INVENBUTTON")->frameRender(CAMERA->getCameraDC(), _invenX, _invenY);
@@ -620,6 +641,18 @@ void statusScene::fontUI(void)
 		TextOut(CAMERA->getCameraDC(), 410, 250, def1, strlen(def1));
 		TextOut(CAMERA->getCameraDC(), 410, 290, speed1, strlen(speed1));
 		TextOut(CAMERA->getCameraDC(), 410, 330, luck1, strlen(luck1));
+		for(int i=0;i<_pm->getVA_WeapInven().size();i++)
+		{
+			TextOut(CAMERA->getCameraDC(), 100, 220, 
+				_pm->getVA_WeapInven()[i].name.c_str(),
+				strlen(_pm->getVA_WeapInven()[i].name.c_str()));
+		}
+		for (int i = 0; i<_pm->getVA_ArmorInven().size(); i++)
+		{
+			TextOut(CAMERA->getCameraDC(), 100, 320,
+				_pm->getVA_ArmorInven()[i].name.c_str(),
+				strlen(_pm->getVA_ArmorInven()[i].name.c_str()));
+		}
 		
 	}
 	//스마슈 능력치
@@ -634,6 +667,18 @@ void statusScene::fontUI(void)
 		TextOut(CAMERA->getCameraDC(), 410, 250, def2, strlen(def2));
 		TextOut(CAMERA->getCameraDC(), 410, 290, speed2, strlen(speed2));
 		TextOut(CAMERA->getCameraDC(), 410, 330, luck2, strlen(luck2));
+		for (int i = 0; i<_pm->getVS_WeapInven().size(); i++)
+		{
+			TextOut(CAMERA->getCameraDC(), 100, 220,
+				_pm->getVS_WeapInven()[i].name.c_str(),
+				strlen(_pm->getVS_WeapInven()[i].name.c_str()));
+		}
+		for (int i = 0; i<_pm->getVS_ArmorInven().size(); i++)
+		{
+			TextOut(CAMERA->getCameraDC(), 100, 320,
+				_pm->getVS_ArmorInven()[i].name.c_str(),
+				strlen(_pm->getVS_ArmorInven()[i].name.c_str()));
+		}
 	}
 	//캐릭터 정보
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 200, 40, str1, strlen(str1));

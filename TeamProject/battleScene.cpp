@@ -253,6 +253,7 @@ void battleScene::update(void)
 		
 		//if (_pm->getPlayer2()->getMove() == S_FIGHTREADY)
 		_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
+		_pm->getPlayer2()->setSkill(_choiceIndex, _skillIndex, _monIndex);
 
 		_isFight = false;
 		
