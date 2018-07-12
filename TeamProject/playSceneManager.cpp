@@ -23,7 +23,6 @@ HRESULT playSceneManager::init(void)
 	_map = new playMap;
 	_map->init();
 	
-	
 	//전방선언	
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
