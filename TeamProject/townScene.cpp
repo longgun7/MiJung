@@ -79,7 +79,7 @@ void townScene::npcTileSetting()
 	{
 		if (vObjTile[i].second.obj == OBJ_NPC)
 		{
-			_npc->addNPC(vObjTile[i].first.x * TILESIZE, vObjTile[i].first.y * TILESIZE, NORMAL, frameIdX, frameIdY);
+			_npc->addNPC((vObjTile[i].first.x+1) * TILESIZE, (vObjTile[i].first.y-1) * TILESIZE, NORMAL, frameIdX, frameIdY);
 			frameIdX++;
 			if (frameIdX > 5) frameIdX = 0, frameIdY = 1;
 		}
