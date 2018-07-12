@@ -25,6 +25,8 @@ HRESULT barScnen::init(void)
 	
 	_isShopCheck = false;
 	_isHotelCheck = false;
+	_sl = new saveLoad;
+	_sl->init();
 
 
 	

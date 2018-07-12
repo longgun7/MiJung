@@ -87,48 +87,8 @@ void playerManager::render()
 		_smasyu->render();
 	}
 
-	char str[1000];
 	
-	for (int i = 0; i < _vA_WeapInven.size(); ++i)
-	{
-		sprintf_s(str, "이름 : %s", _vA_WeapInven[i].name.c_str());
-		TextOut(getMemDC(), 250 +i*100, WINSIZEY / 2-150 + 100, str, strlen(str));
-	}
-		sprintf_s(str, "아타호 돈 : %d", _gold.money);
-		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 120, str, strlen(str));
-		sprintf_s(str, "아타호 방어력 : %d", _ataho->getAttribute().def);
-		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 140, str, strlen(str));
-		sprintf_s(str, "아타호 운 : %d", _ataho->getAttribute().luck);
-		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 160, str, strlen(str));
-		sprintf_s(str, "아타호 스피드 : %d", _ataho->getAttribute().speed);
-		TextOut(getMemDC(), 250, WINSIZEY / 2 - 150 + 180, str, strlen(str));
 	
-		for (int i = 0; i < _em->getVEnmey().size(); i++)
-		{
-			char str2[1000];
-			sprintf_s(str2, "적 체력 : %d", _em->getVEnmey()[i]->getTagEnmey().hp);
-			TextOut(getMemDC(),  WINSIZEX - 200,100 + i*20 , str2, strlen(str2));
-			
-		}
-
-	
-	for (int i = 0; i < _vPoInven.size(); i++)
-	{
-		if (_vPoInven[i].hp != 0)
-		{
-			Rectangle(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, _vPoInven[i].rc.right, _vPoInven[i].rc.bottom);
-			char str[100];
-			sprintf_s(str, "%d", _HPpoIndex);
-			TextOut(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, str, strlen(str));
-		}
-		if (_vPoInven[i].mp != 0)
-		{
-			Rectangle(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, _vPoInven[i].rc.right, _vPoInven[i].rc.bottom);
-			char str2[100];
-			sprintf_s(str2, "%d", _MPpoIndex);
-			TextOut(getMemDC(), _vPoInven[i].rc.left, _vPoInven[i].rc.top, str2, strlen(str2));
-		}
-	}
 }
 
 

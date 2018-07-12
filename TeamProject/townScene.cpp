@@ -83,7 +83,7 @@ void townScene::npcTileSetting()
 	{
 		if (vObjTile[i].second.obj == OBJ_NPC)
 		{
-			_npc->addNPC((vObjTile[i].first.x+1) * TILESIZE, (vObjTile[i].first.y-1) * TILESIZE, NORMAL, frameIdX, frameIdY);
+			_npc->addNPC((vObjTile[i].first.x+1) * TILESIZE, (vObjTile[i].first.y-1) * TILESIZE, NORMAL, frameIdX, frameIdY, vObjTile[i].first.x, vObjTile[i].first.y);
 			frameIdX++;
 			if (frameIdX > 5) frameIdX = 0, frameIdY = 1;
 		}
@@ -94,18 +94,27 @@ void townScene::npcTileSetting()
 void townScene::npcCollision()
 {
 	vector<pair<POINT, tagTile>> vObjTile = _map->getVObjectTile();	
-	RECT rc;
+	vector<tagNPC> vNpc = _npc->getVTagNPC();
+
+	int frameNum = 0;
 	for (int i = 0; i < vObjTile.size(); ++i)
 	{
-		if (vObjTile[i].second.obj == OBJ_NPC)
+		RECT rc;
+		if (vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
 		{
-			if (IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
+			for (int j = 0; j < vNpc.size(); ++j)
 			{
-				// 대사처리 하시오
-				_isTemp = true;
+				if(vObjTile[i].first.x == vNpc[j].tileX &&
+					vObjTile[i].first.y == vNpc[j].tileY)
+					_npc->talkNPC(vNpc[j].frameX, vNpc[j].frameY);
 			}
-			//else _isTemp = false;
+						
+			// 대사처리 하시오
+			//_isTemp = true;
 		}
+		else frameNum++;
+		//else _isTemp = false;
+		
 	}
 }
 

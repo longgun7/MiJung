@@ -114,7 +114,10 @@ public:
 
 	int getHpPoIndex() { return _HPpoIndex; }
 	int getMpPoIndex() { return _MPpoIndex; }
+	void setHpPoindex(int num) { _HPpoIndex = num; }
+	void setMpPoindex(int num) { _MPpoIndex = num; }
 	tagMoney getTagMoney() { return _gold; }
+	void setGold(int num) { _gold.money = num; }
 
 	string getA_WeapItemName() { return _A_saveBeforWeapon.name; }
 	string getA_ArmorItemName() { return _A_saveBeforArmor.name; }
@@ -126,6 +129,12 @@ public:
 	image* getS_WeapItemImage() { return _S_saveBeforWeapon.img; }
 	image* getS_ArmorItemImage() { return _S_saveBeforArmor.img; }
 	
+	void  setA_WeapItemName(string name) { _A_saveBeforWeapon.name = name; }
+	void  setA_ArmorItemName(string name) { _A_saveBeforArmor.name = name; }
+	void  setS_WeapItemName(string name) { _S_saveBeforWeapon.name = name; }
+	void  setS_ArmorItemName(string name) { _S_saveBeforArmor.name = name; }
+
+
 	playerManager();
 	~playerManager();
 };

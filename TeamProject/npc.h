@@ -15,6 +15,7 @@ struct tagNPC
 	RECT rc;
 	float x, y;
 	int frameX, frameY;
+	int tileX, tileY;
 };
 class npc : public gameNode
 {
@@ -52,7 +53,7 @@ public:
 	void update();
 	void render();
 
-	void addNPC(float x, float y, NPCKIND kind, int frameX, int frameY);
+	void addNPC(float x, float y, NPCKIND kind, int frameX, int frameY, int tileX, int tileY);
 	void talkNPC(int frameX, int frameY);
 	void talkNPCSave();
 

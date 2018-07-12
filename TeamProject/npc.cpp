@@ -68,6 +68,7 @@ void npc::render()
 
 		if (_talkNPC)
 		{
+			IMAGEMANAGER->findImage("´ëÈ­Ã¢")->render(CAMERA->getCameraDC(), 0, 400);
 			SetTextColor(getMemDC(), RGB(255, 255, 255));
 
 			for (int i = 0; i < 12; ++i)
@@ -78,30 +79,30 @@ void npc::render()
 
 					if ((_talkIndex * 2) < 100)
 					{
-						TextOut(getMemDC(), 100, 400, vStrNPC[i].c_str(), (_talkIndex * 2));
+						TextOut(CAMERA->getCameraDC(), 100, 450, vStrNPC[i].c_str(), (_talkIndex * 2));
 					}
 					else if ((_talkIndex * 2) >= 100 && (_talkIndex * 2) < 200)
 					{
 						string text = "";
 
 						text = vStrNPC[i].substr(0, 100);
-						TextOut(getMemDC(), 100, 400, text.c_str(), text.size());
+						TextOut(CAMERA->getCameraDC(), 100, 450, text.c_str(), text.size());
 
 						text = vStrNPC[i].substr(100, _maxTalkIndex);
-						TextOut(getMemDC(), 100, 420, text.c_str(), (_talkIndex * 2) - 100);
+						TextOut(CAMERA->getCameraDC(), 100, 470, text.c_str(), (_talkIndex * 2) - 100);
 					}
 					else
 					{
 						string text = "";
 
 						text = vStrNPC[i].substr(0, 100);
-						TextOut(getMemDC(), 100, 400, text.c_str(), text.size());
+						TextOut(CAMERA->getCameraDC(), 100, 450, text.c_str(), text.size());
 
 						text = vStrNPC[i].substr(101, 200);
-						TextOut(getMemDC(), 100, 420, text.c_str(), text.size());
+						TextOut(CAMERA->getCameraDC(), 100, 470, text.c_str(), text.size());
 
 						text = vStrNPC[i].substr(200, _maxTalkIndex);
-						TextOut(getMemDC(), 100, 440, text.c_str(), (_talkIndex * 2) - 200);
+						TextOut(CAMERA->getCameraDC(), 100, 490, text.c_str(), (_talkIndex * 2) - 200);
 					}
 					break;
 				}
@@ -110,7 +111,7 @@ void npc::render()
 	}
 }
 
-void npc::addNPC(float x, float y, NPCKIND kind, int frameX, int frameY)
+void npc::addNPC(float x, float y, NPCKIND kind, int frameX, int frameY, int tileX, int tileY)
 {
 	tagNPC NPC;
 	NPC.kind = kind;
@@ -118,7 +119,8 @@ void npc::addNPC(float x, float y, NPCKIND kind, int frameX, int frameY)
 	NPC.img = IMAGEMANAGER->findImage("NPC");
 	NPC.frameX = frameX;
 	NPC.frameY = frameY;
-
+	NPC.tileX = tileX;
+	NPC.tileY = tileY;
 	NPC.x = x;
 	NPC.y = y;
 	NPC.rc = RectMakeCenter(NPC.x, NPC.y, NPC.img->getFrameWidth(), NPC.img->getFrameHeight());
