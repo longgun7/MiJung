@@ -297,6 +297,9 @@
     <ClInclude Include="saveLoad.h">
       <Filter>playGround\saveLoad</Filter>
     </ClInclude>
+    <ClInclude Include="npc.h">
+      <Filter>playGround\Scene\startScene\playScene\townScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -484,6 +487,9 @@
     </ClCompile>
     <ClCompile Include="saveLoad.cpp">
       <Filter>playGround\saveLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="npc.cpp">
+      <Filter>playGround\Scene\startScene\playScene\townScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

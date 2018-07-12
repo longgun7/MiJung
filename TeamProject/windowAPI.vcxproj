@@ -177,6 +177,7 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="mapToolScene.h" />
+    <ClInclude Include="npc.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="player2.h" />
     <ClInclude Include="playerManager.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="mapToolScene.cpp" />
+    <ClCompile Include="npc.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player2.cpp" />
     <ClCompile Include="playerManager.cpp" />
