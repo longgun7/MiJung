@@ -26,8 +26,7 @@ HRESULT barScnen::init(void)
 	_isShopCheck = false;
 	_isHotelCheck = false;
 
-	_shop = new shop;
-	_shop->init();
+
 	
 	_map->init(BAR);
 
@@ -49,6 +48,8 @@ void barScnen::update(void)
 		{
 			SCENEMANAGER->setIsShop(true);
 			_isShopCheck = true;
+			_shop = new shop;
+			_shop->init();
 			_shop->setItem();
 		}
 		else if (_isShopCheck)
@@ -92,6 +93,7 @@ void barScnen::render(void)
 		IMAGEMANAGER->findImage("»óÁ¡Ã¢¹øµ·")->render(CAMERA->getCameraDC(), 625, 335);
 		_shop->fontUI();
 		_shop->render();
+		
 	}
 	
 	fontUI();

@@ -18,8 +18,19 @@ HRESULT shop::init(void)
 {
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
+
+	IMAGEMANAGER->addFrameImage("¼¥UI¹öÆ°", "image/ui/UI¹öÆ°.bmp", 450, 75, 18, 3, false, RGB(0, 0, 0));
+	IMAGEMANAGER->addFrameImage("¼¥¿ÞÂÊ", "image/ui/UI¹öÆ°.bmp", 450, 75, 18, 3, false, RGB(0, 0, 0));
+	IMAGEMANAGER->addFrameImage("¼¥¿À¸¥ÂÊ", "image/ui/UI¹öÆ°.bmp", 450, 75, 18, 3, false, RGB(0, 0, 0));
+
+	IMAGEMANAGER->findImage("¼¥UI¹öÆ°")->setFrameX(7);
+	IMAGEMANAGER->findImage("¼¥¿ÞÂÊ")->setFrameX(8);
+	IMAGEMANAGER->findImage("¼¥¿À¸¥ÂÊ")->setFrameX(9);
+
 	_buyNum	  = 0;
 	_totalNum = 0;
+	_purchase = true;
+	_index = 0;
 
 	return S_OK;
 }
@@ -30,20 +41,45 @@ void shop::release(void)
 
 void shop::update(void)
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LEFT) && _buyNum > 0)
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
 		_buyNum--;
+		if (_buyNum < 0) _buyNum = 10;
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && _totalNum < 10)
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
 		++_buyNum;
+		if (_buyNum > _maxNum || _totalNum > 10) _buyNum = 0;
 	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		_index--;
+		if (_index < 0) _index = _im->getPortion()->getVPotion().size() + _im->getPItem()->getVItem().size() - 1;
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		_index++;
+		if (_index > _im->getPortion()->getVPotion().size() + _im->getPItem()->getVItem().size() - 1) _index = 0;
+	}
+
+	if (_buyNum == 0)  IMAGEMANAGER->findImage("¼¥¿ÞÂÊ")->setFrameY(5);
+	else IMAGEMANAGER->findImage("¼¥¿ÞÂÊ")->setFrameY(0);
+
+	if (_buyNum == 10) IMAGEMANAGER->findImage("¼¥¿À¸¥ÂÊ")->setFrameY(5);
+	else IMAGEMANAGER->findImage("¼¥¿À¸¥ÂÊ")->setFrameY(0);
+
 	buyItem();
+
 }
 
 void shop::render(void)
 {
 	_im->render();
+	IMAGEMANAGER->findImage("¼¥UI¹öÆ°")->frameRender(CAMERA->getCameraDC(), 190, 115 + (_index * 50));
+	IMAGEMANAGER->findImage("¼¥¿ÞÂÊ")->frameRender(CAMERA->getCameraDC(), WINSIZEX / 2 + 135, WINSIZEY / 2 - 110);
+	IMAGEMANAGER->findImage("¼¥¿À¸¥ÂÊ")->frameRender(CAMERA->getCameraDC(), WINSIZEX / 2 + 295, WINSIZEY / 2 - 110);
 }
 
 void shop::fontUI()
@@ -76,12 +112,50 @@ void shop::fontUI()
 		sprintf_s(str2, "%d", _im->getPItem()->getVItem()[i].cost);
 		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 50, 120 + i * 50, str2, strlen(str2));
 
-		if (PtInRect(&_im->getPItem()->getVItem()[i].rc, _ptMouse))
+		if (_index == i)
 		{
+			_maxNum = 1;
 			sprintf_s(str2, "%dG", _im->getPItem()->getVItem()[i].cost*_buyNum);
 			TextOut(CAMERA->getCameraDC(), WINSIZEX - 280, WINSIZEY / 3 + 40, str2, strlen(str2));
+
+			if (_purchase == true)
+			{
+				for (int j = 0; j < _pm->getVA_WeapInven().size(); ++j)
+				{
+					if (_pm->getVA_WeapInven()[j].name == _im->getPItem()->getVItem()[i].name) _purchase = false;
+				}
+			}
+
+			if (_purchase == true)
+			{
+				for (int j = 0; j < _pm->getVA_ArmorInven().size(); ++j)
+				{
+					if (_pm->getVA_ArmorInven()[j].name == _im->getPItem()->getVItem()[i].name) _purchase = false;
+				}
+			}
+
+			if (_purchase == true)
+			{
+
+				for (int j = 0; j < _pm->getVS_WeapInven().size(); ++j)
+				{
+					if (_pm->getVS_WeapInven()[j].name == _im->getPItem()->getVItem()[i].name) _purchase = false;
+				}
+			}
+
+			if (_purchase == true)
+			{
+
+				for (int j = 0; j < _pm->getVS_ArmorInven().size(); ++j)
+				{
+					if (_pm->getVS_ArmorInven()[j].name == _im->getPItem()->getVItem()[i].name) _purchase = false;
+				}
+			}
+
+			if (_purchase == false) _buyNum = 0;
+
+			_purchase = true;
 		}
-		else _totalNum = 0;
 	}
 
 	for (int i = 0; i < _im->getPortion()->getVPotion().size(); ++i)
@@ -95,9 +169,9 @@ void shop::fontUI()
 		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 + 50, 120 + (_im->getPItem()->getVItem().size() + i) * 50,
 			str2, strlen(str2));
 
-		if (PtInRect(&_im->getPortion()->getVPotion()[i].rc, _ptMouse))
+		if (_index == i + _im->getPItem()->getVItem().size())
 		{
-	
+			_maxNum = 10;
 			if (_im->getPortion()->getVPotion()[i].name == "¾àÃÊ")
 			{
 
@@ -115,16 +189,16 @@ void shop::fontUI()
 			TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, WINSIZEY / 6 + 40, str2, strlen(str2));
 			sprintf_s(str2, "%dG", _im->getPortion()->getVPotion()[i].cost*_buyNum);
 			TextOut(CAMERA->getCameraDC(), WINSIZEX - 280, WINSIZEY / 3 + 40, str2, strlen(str2));
-
-			if (_totalNum > 10) _buyNum--;
 		}
-		else _totalNum = 0;
+		
 	}
 
 	if (_totalNum > 10) _buyNum--;
 
 	sprintf_s(str2, "%d", _buyNum);
 	TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, WINSIZEY / 3 + 10, str2, strlen(str2));
+	sprintf_s(str2, "%d", _index);
+	TextOut(CAMERA->getCameraDC(), WINSIZEX - 240, 10, str2, strlen(str2));
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 
@@ -151,29 +225,31 @@ void shop::setItem()
 	_im->itemMakeSet("È£¶ûÀÌ µµº¹", WINSIZEX / 2 - 260, 280);
 	_im->potionMakeSet("¾àÃÊ", WINSIZEX / 2 - 260, 330);
 	_im->potionMakeSet("¸¶¹ýÀÇ ¹°¾à", WINSIZEX / 2 - 260, 380);
+
 }
 
 void shop::buyItem()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
+		
+		IMAGEMANAGER->findImage("¼¥UI¹öÆ°")->setFrameY(1);
 		for (int i = 0; i < _im->getPItem()->getVItem().size(); ++i)
 		{
-			if (PtInRect(&_im->getPItem()->getVItem()[i].rc, _ptMouse))
+			if (_index == i)
 			{
-				while (_buyNum > 0)
-				{
-					if (_pm->getTagMoney().money < _im->getPItem()->getVItem()[i].cost) break;
-					_pm->getItemValue(_im->getPItem()->getVItem()[i].name);
-					_pm->setMoney(_im->getPItem()->getVItem()[i].cost);
-					_buyNum--;
-				}
+				if (_buyNum == 0) break;
+
+				if (_pm->getTagMoney().money < _im->getPItem()->getVItem()[i].cost) break;
+				_pm->getItemValue(_im->getPItem()->getVItem()[i].name);
+				_pm->setMoney(_im->getPItem()->getVItem()[i].cost);
+				_buyNum--;
 			}
 		}
 
 		for (int i = 0; i < _im->getPortion()->getVPotion().size(); ++i)
 		{
-			if (PtInRect(&_im->getPortion()->getVPotion()[i].rc, _ptMouse))
+			if (_index == i + _im->getPItem()->getVItem().size())
 			{
 				while (_buyNum > 0)
 				{
@@ -185,4 +261,6 @@ void shop::buyItem()
 			}
 		}
 	}
+
+	if (KEYMANAGER->isOnceKeyUp(VK_RETURN)) IMAGEMANAGER->findImage("¼¥UI¹öÆ°")->setFrameY(0);
 }

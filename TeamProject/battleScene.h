@@ -6,6 +6,15 @@ enum PLAYER_TURN
 	ATAHO_TURN,
 	SUMSU_TURN
 };
+enum GAME_TURN
+{
+	ATAHO_CHOICE,
+	SUMSU_CHOICE,
+	ATAHO_ATTACK,
+	SUMSU_ATTACK,
+	ENEMY_ATTACK,
+
+};
 
 class playerManager;
 class enemyManager;

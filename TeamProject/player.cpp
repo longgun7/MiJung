@@ -283,90 +283,6 @@ void player::battleKeyManager()
 	//배틀장면일 때
 	if (_sceneMode == BATTLEMODE)
 	{	
-		
-		if (_attribute.currentHp > 0 && _em->getVEnmey().size() != 0)
-		{
-			//스킬
-			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-			{
-				if (PtInRect(&_skillRC[0],_ptMouse) && _attribute.currentMp >= 20)
-				{
-					_move = SOLOSKILL1;
-					_isMotionLive = true;
-					_attribute.currentMp -= 20;
-
-				}
-				if (PtInRect(&_skillRC[1], _ptMouse) && _attribute.currentMp >= 25)
-				{
-					_move = SOLOSKILL2;
-					_isMotionLive = true;
-					_attribute.currentMp -= 25;
-				}
-				if (PtInRect(&_skillRC[2], _ptMouse) && _attribute.currentMp >= 30)
-				{
-					_move = SOLOSKILL3;
-					_isMotionLive = true;
-					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
-					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-					_attribute.currentMp -= 30;
-				}
-				if (PtInRect(&_skillRC[3], _ptMouse) && _attribute.currentMp >= 40)
-				{
-					_move = AREASKILL1;
-					_isMotionLive = true;
-					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 100;
-					_y = WINSIZEY / 3;
-					_jumpPower = 5.0f;
-					_gravity = 0.2f;
-					_attribute.currentMp -= 40;
-				}
-				if (PtInRect(&_skillRC[4], _ptMouse) && _attribute.currentMp >= 40)
-				{
-					_move = DRINK;
-					_isMotionLive = true;
-					_attribute.currentMp -= 40;
-				}
-				if (PtInRect(&_skillRC[5], _ptMouse) && _attribute.currentMp >= 45)
-				{
-					_move = AREASKILL3;
-					_isMotionLive = true;
-					_x = WINSIZEX / 2;
-					_attribute.currentMp -= 45;
-				}
-				if (PtInRect(&_skillRC[6], _ptMouse))
-				{
-					_move = BASICSKILL1;
-					_isMotionLive = true;
-					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
-					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-
-				}
-				if (PtInRect(&_skillRC[7], _ptMouse))
-				{
-					_move = BASICSKILL2;
-					_isMotionLive = true;
-
-				}
-				if (PtInRect(&_skillRC[8], _ptMouse))
-				{
-					_move = BASICSKILL3;
-					_isMotionLive = true;
-
-				}
-			}
-			if (KEYMANAGER->isOnceKeyDown('V'))
-			{
-				setPlayerDamage(11);
-			}
-			if (KEYMANAGER->isOnceKeyDown('B'))
-			{
-				_move = HPUP;
-			}
-			if (KEYMANAGER->isOnceKeyDown('J'))
-			{
-				_move = ESCAPE;
-			}
-		}
 		if(_attribute.currentHp ==0)
 		{
 			_move = NOCKDOWN;
@@ -1407,29 +1323,29 @@ void player::setSkil(int choiceIndex, int skillIndex, int monIndex)
 					_move = BASICSKILL3;
 					_isMotionLive = true;
 				}
-				if (choiceIndex == 1 && skillIndex == 0 && _attribute.currentMp >= 3)
+				if (choiceIndex == 1 && skillIndex == 0 )
 				{
 					_move = SOLOSKILL1;
 					_isMotionLive = true;
-					_attribute.currentMp -= 3;
+					
 				}
-				if (choiceIndex == 1 && skillIndex == 2 && _attribute.currentMp >= 3)
+				if (choiceIndex == 1 && skillIndex == 2 )
 				{
 					_move = SOLOSKILL2;
 					_isMotionLive = true;
-					_attribute.currentMp -= 3;
+					
 				}
-				if (choiceIndex == 1 && skillIndex == 1 && _attribute.currentMp >= 3)
+				if (choiceIndex == 1 && skillIndex == 1 )
 				{
 					_move = SOLOSKILL3;
 					_isMotionLive = true;
 					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
 					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-					_attribute.currentMp -= 3;
+					
 				}
 			}
 
-			if (choiceIndex == 2 && skillIndex == 0 && _attribute.currentMp >= 3)
+			if (choiceIndex == 2 && skillIndex == 0 )
 			{
 				_move = AREASKILL1;
 				_isMotionLive = true;
@@ -1437,24 +1353,40 @@ void player::setSkil(int choiceIndex, int skillIndex, int monIndex)
 				_y = WINSIZEY / 3;
 				_jumpPower = 5.0f;
 				_gravity = 0.2f;
-				_attribute.currentMp -= 3;
+				
 			}
-			if (choiceIndex == 2 && skillIndex == 2 && _attribute.currentMp >= 3)
+			if (choiceIndex == 2 && skillIndex == 2  )
 			{
 				_move = DRINK;
 				_isMotionLive = true;
-				_attribute.currentMp -= 3;
+				
 			}
-			if (choiceIndex == 2 && skillIndex == 1 && _attribute.currentMp >= 3)
+			if (choiceIndex == 2 && skillIndex == 1 )
 			{
 				_move = AREASKILL3;
 				_isMotionLive = true;
 				_x = WINSIZEX / 2;
-				_attribute.currentMp -= 3;
+				
 			}
-			
+			if (choiceIndex == 3&& skillIndex == 0)
+			{
+				_move = HPUP;
+				_isMotionLive = true;
+			}
+			if (choiceIndex == 3 && skillIndex == 1)
+			{
+				_move = MPUP;
+				_isMotionLive = true;
+			}
+			if (choiceIndex == 5 && skillIndex == 0)
+			{
+				_move = ESCAPE;
+				_isMotionLive = true;
+			}
+
 		}
 	}
+
 }
 
 void player::setEventMode(SCENEMODE mode)

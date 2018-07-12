@@ -40,12 +40,12 @@ void enemy::setHp(int damage)
 	_enemy.damage = damage;								// 적의 상태를 HIT상태로 바꾼다
 	_enemy.hp -= _enemy.damage;							// 적의 hp에서 공격력을 빼준다
 
-
 	if (_enemy.hp <= 0)									// 체력이 0 이하가 되면
 	{
 		_enemy.hp = 0;									// 0으로 초기화 해준다
 	}
-	_enemy.direction = HIT;
+
+	_enemy.direction = HIT;								// 에너미의 상태롤 HIT로 바꿔준다
 }
 
 enemy::enemy()

@@ -187,6 +187,7 @@
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="saveLoad.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="shop.h" />
     <ClInclude Include="singletonBase.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="playScene.cpp" />
     <ClCompile Include="playSceneManager.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="saveLoad.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="fildSkeleton.cpp" />
     <ClCompile Include="shop.cpp" />

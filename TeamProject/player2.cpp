@@ -324,82 +324,7 @@ void player2::fieldKeyManager(float x , float y,float angle)
 //배틀모드
 void player2::battleKeyManager()
 {
-	if (_attribute.currentHp > 0)
-	{
-		if (_sceneMode == S_BATTLEMODE && _em->getVEnmey().size() != 0)
-		{
-			
-			//스킬
-			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-			{
-				if (PtInRect(&_skillRC[0], _ptMouse))
-				{
-					_move = S_BASICSKILL1;
-					_isMotionLive = true;
-					_skillFrame = 0;
-					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 50;
-					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-					setSoloDamage(6);
-
-				}
-				if (PtInRect(&_skillRC[1], _ptMouse))
-				{
-					_move = S_SOLOSKILL1;
-					_isMotionLive = true;
-					_skillFrame = 0;
-					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-					_attribute.currentMp -= 3;
-				}
-				if (PtInRect(&_skillRC[2], _ptMouse))
-				{
-					_move = S_SOLOSKILL2;
-					_isMotionLive = true;
-					_skillFrame = 0;
-					_attribute.currentMp -= 3;
-				}
-				if (PtInRect(&_skillRC[3], _ptMouse))
-				{
-					_move = S_AREASKILL1;
-					_isMotionLive = true;
-					_skillFrame = 0;
-					_attribute.currentMp -= 3;
-				}
-				if (PtInRect(&_skillRC[4], _ptMouse))
-				{
-					_move = S_AREASKILL3;
-					_isMotionLive = true;
-					_skillFrame = 0;
-					_attribute.currentMp -= 3;
-				}
-				if (PtInRect(&_skillRC[5], _ptMouse))
-				{
-					_move = S_SOLOSKILL3;
-					_isMotionLive = true;
-					_skillFrame = 0;
-					_attribute.currentMp -= 3;
-				}
-				if (PtInRect(&_skillRC[6], _ptMouse))
-				{
-					_x = WINSIZEX / 2;
-					_y = WINSIZEY / 3;
-					_move = S_AREASKILL2;
-					_isMotionLive = true;
-					_skillFrame = 0;
-					_attribute.currentMp -= 3;
-				}
-				if (KEYMANAGER->isOnceKeyDown('J'))
-				{
-					_move = S_ESCAPE;
-					_isMotionLive = true;
-				}
-				if (KEYMANAGER->isOnceKeyDown('V'))
-				{
-					setPlayerDamage(11);
-				}
-			}
-		}
-	}
-	else
+	if(_attribute.currentHp == 0)
 	{
 		_move = S_NOCKDOWN;
 		_isMotionLive = true;
@@ -748,6 +673,25 @@ void player2::move()
 		}
 	}
 	
+	//hp , mp 회복 
+	if (_move == S_HPUP || _move == S_MPUP)
+	{
+		_isMotionLive = true;
+		if (_img->getFrameX() >= _img->getMaxFrameX())
+		{
+			_imageFrame = 3;
+		}
+		++_skillFrame;
+		_soloSkillEffect->addSkill(_x, _y - 20);
+		if (_skillFrame > 100)
+		{
+			_imageFrame = 0;
+			_move = S_FIGHTREADY;
+			_skillFrame = 0;
+		}
+
+	}
+
 	if (_move == S_ESCAPE)
 	{
 		++_skillFrame;
@@ -1041,54 +985,68 @@ void player2::setSkill(int choiceIndex, int skillIndex, int monIndex)
 			_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
 			setSoloDamage(6);
 		}
-		if (choiceIndex == 1 && skillIndex == 0 && _attribute.currentMp >= 20)
+		if (choiceIndex == 1 && skillIndex == 0 )
 		{
 			_move = S_SOLOSKILL1;
 			_isMotionLive = true;
 			_skillFrame = 0;
 			_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-			_attribute.currentMp -= 20;
+			
 		}
-		if (choiceIndex == 1 && skillIndex == 2 && _attribute.currentMp >= 20)
+		if (choiceIndex == 1 && skillIndex == 2 )
 		{
 			_move = S_SOLOSKILL2;
 			_isMotionLive = true;
 			_skillFrame = 0;
-			_attribute.currentMp -= 20;
+			
 		}
-		if (choiceIndex == 1 && skillIndex == 1 && _attribute.currentMp >= 30)
+		if (choiceIndex == 1 && skillIndex == 1 )
 		{
 			_move = S_SOLOSKILL3;
 			_isMotionLive = true;
 			_skillFrame = 0;
-			_attribute.currentMp -= 30;
+			
 		}
 	}
 
-	if (choiceIndex == 2 && skillIndex == 0 && _attribute.currentMp >= 40)
+	if (choiceIndex == 2 && skillIndex == 0 )
 	{
 		_move = S_AREASKILL1;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		_attribute.currentMp -= 40;
+		
 	}
-	if (choiceIndex == 2 && skillIndex == 1&& _attribute.currentMp >= 40)
+	if (choiceIndex == 2 && skillIndex == 1)
 	{
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 3;
 		_move = S_AREASKILL2;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		_attribute.currentMp -= 40;
+		
 	}
-	if (choiceIndex == 2 && skillIndex == 2 && _attribute.currentMp >= 45)
+	if (choiceIndex == 2 && skillIndex == 2  )
 	{
 		_move = S_AREASKILL3;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		_attribute.currentMp -= 45;
+		
 	}
-	
+	if (choiceIndex == 3 && skillIndex == 0)
+	{
+		_move = S_HPUP;
+		_isMotionLive = true;
+	}
+	if (choiceIndex == 3 && skillIndex == 1)
+	{
+		_move = S_MPUP;
+		_isMotionLive = true;
+	}
+	if (choiceIndex == 5 && skillIndex == 0)
+	{
+		_move = S_ESCAPE;
+		_isMotionLive = true;
+	}
 	
 
 	

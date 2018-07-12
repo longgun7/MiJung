@@ -28,13 +28,16 @@ HRESULT sceneManager::init()
 	_pm->setEnemyManagerAdressLink(_em);
 	_pm->setItemManagerAdressLink(_im);
 	_em->setAdressLinkPlayerManager(_pm);
-	
+	IMAGEMANAGER->addImage("씬전환", "image/ui/화면전환.bmp", 3000, 3000, false, RGB(0, 0, 0), true);
 	_pm->init();
 	_im->init();
 	_em->init();
 
 	_currentScene = NULL;
 	_isShop = false;
+	_isChange = false;
+	_frameCount = 0;
+	_alphaValue = 255;
 
 	return S_OK;
 }
@@ -60,12 +63,36 @@ void sceneManager::release()
 void sceneManager::update()
 {
 	if (_currentScene) _currentScene->update();
+	if(_isChange)
+	{
+		_frameCount++;
+		if (_frameCount % 1 == 0)
+		{
+			if (_alphaValue>0)
+			{
+				_alphaValue-=20;
+				if (_alphaValue < 0) _alphaValue = 0;
+			}
+			_frameCount = 0;
+		}
+	
+	}
+	if (_alphaValue == 0)
+	{
+		_isChange = false;
+		_alphaValue = 255;
+	}
 }
 
 void sceneManager::render()
 {
+	
 	if (_currentScene) _currentScene->render();
-
+	if (_isChange)
+	{
+		IMAGEMANAGER->findImage("씬전환")->alphaRender(_currentScene->getMemDC(),_alphaValue);
+	}
+	
 }
 
 gameNode * sceneManager::addScene(string sceneName, gameNode* scene)
@@ -80,7 +107,7 @@ gameNode * sceneManager::addScene(string sceneName, gameNode* scene)
 
 HRESULT sceneManager::changeScene(string sceneName)
 {
-
+	
 	mapSceneIter find = _mSceneList.find(sceneName);
 
 	//이터레이터 == 맵의 엔드와 같다? -> 못찾았다
@@ -99,12 +126,12 @@ HRESULT sceneManager::changeScene(string sceneName)
 		
 		//바꾸려는 씬을 현재 씬으로 교체한다
 		_currentScene = find->second;
-
+		_isChange = true;
 		//지금 이 씬 변환구조의 그나마 단점을 꽂자면
 		//바뀐 씬에서 데이터를 받아온 다음 이전씬을 해제해야하는 경우는
 		//먼저 릴리즈가 불러와지기 때문에 따로 처리를 해줘야한다는 불편함이
 		//있다.
-
+		
 		return S_OK;
 	}
 
