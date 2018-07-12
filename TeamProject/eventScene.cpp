@@ -21,7 +21,7 @@ HRESULT eventScene::init(void)
 	_map = SCENEMANAGER->getPlayMapLink();
 	_map->init(EVENT);
 
-	SOUNDMANAGER->play("eventTheMa");
+	
 
 	_soundFrame = 0;
 	_isEventMode = false;
@@ -89,10 +89,11 @@ void eventScene::update(void)
 			_pm->getPlayer2()->setY(_pm->getPlayer2()->getY() + 3);
 		}
 	}
-	if (KEYMANAGER->isOnceKeyDown('U'))
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
 		init();
 		SOUNDMANAGER->stop("낙사");
+		SOUNDMANAGER->resume("eventTheMa");
 	}
 
 	// 플레이어가 어느 타일에 있는지 인덱스 번호 세팅
