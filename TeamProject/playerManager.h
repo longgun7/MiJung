@@ -24,7 +24,7 @@ struct tagInventory
 
 struct saveBeforItem
 {
-
+	image* img;
 	int atk;
 	int def;
 	int luck;
@@ -120,6 +120,11 @@ public:
 	string getA_ArmorItemName() { return _A_saveBeforArmor.name; }
 	string getS_WeapItemName() { return _S_saveBeforWeapon.name; }
 	string getS_ArmorItemName() { return _S_saveBeforArmor.name; }
+
+	image* getA_WeapItemImage() { return _A_saveBeforWeapon.img; }
+	image* getA_ArmorItemImage() { return _A_saveBeforArmor.img; }
+	image* getS_WeapItemImage() { return _S_saveBeforWeapon.img; }
+	image* getS_ArmorItemImage() { return _S_saveBeforArmor.img; }
 	
 	playerManager();
 	~playerManager();
