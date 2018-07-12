@@ -589,6 +589,8 @@ OBJECT mapToolScene::objSelect(int frameX, int frameY)
 	case CTRL_INHOUSE:
 	{
 		if (frameX == 4 && frameY == 12) return OBJ_NPC;
+		if (frameX == 5 && frameY == 12) return OBJ_SHOP;
+		if (frameX == 6 && frameY == 12) return OBJ_MOTEL;
 
 		objStartX = 21; objStartY = 10, objEndX = SAMPLETILEX, objEndY = SAMPLETILEY;
 	}
