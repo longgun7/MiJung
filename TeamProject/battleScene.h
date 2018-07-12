@@ -26,6 +26,8 @@ private:
 	enemyManager * _em;
 	itemManager* _im;
 
+	GAME_TURN _gameTurn;
+
 	int _choiceIndex;			//스킬 타입 인덱스
 	int _skillIndex;			//스킬 인덱스
 	int _monIndex;				//몬스터 선택 인덱스

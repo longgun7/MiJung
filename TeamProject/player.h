@@ -167,16 +167,16 @@ public:
 	void setAttribute(int atk, int def,  int cri, int speed, int currentHp, int maxHp, int currentMp, int maxMp, int currentExp, int maxExp, int level)
 	{
 		_attribute.atk = atk;
-		_attribute.atk = def;
-		_attribute.atk = cri;
-		_attribute.atk = speed;
-		_attribute.atk = currentHp;
-		_attribute.atk = maxHp;
-		_attribute.atk = currentMp;
-		_attribute.atk = maxMp;
-		_attribute.atk = currentExp;
-		_attribute.atk = maxExp;
-		_attribute.atk = level;	
+		_attribute.def = def;
+		_attribute.cri = cri;
+		_attribute.speed = speed;
+		_attribute.currentHp = currentHp;
+		_attribute.maxHp = maxHp;
+		_attribute.currentMp = currentMp;
+		_attribute.maxMp = maxMp;
+		_attribute.currentExp = currentExp;
+		_attribute.maxExp = maxExp;
+		_attribute.level = level;
 	}
 
 	player();
