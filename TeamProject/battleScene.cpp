@@ -49,7 +49,6 @@ HRESULT battleScene::init(void)
 	_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
 	_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
 
-
 	return S_OK;
 }
 
