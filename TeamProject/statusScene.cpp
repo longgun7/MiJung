@@ -374,11 +374,12 @@ void statusScene::keyManager(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
 		IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameY(1);
-		if(!_isCheck)_isCheck = true;
-		if(_isCheck)
+		if (_isCheck)
 		{
 			itemChoice();
 		}
+		if(!_isCheck)_isCheck = true;
+		
 	}
 
 	for (int i = 0; i<6; i++)
@@ -529,7 +530,16 @@ void statusScene::iconChange(void)
 //아이템 선택
 void statusScene::itemChoice(void)
 {
-	_pm->mounting(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX(), _setIndex, _invenTypeIndex, _invenIndex);
+	if(_pm->getVA_ArmorInven().size() != 0
+		&& _pm->getVA_WeapInven().size() != 0 
+		&& _pm->getVS_WeapInven().size() != 0
+		&& _pm->getVS_ArmorInven().size() != 0 
+		&& _pm->getVA_WeapInven().size() != 0 
+		&& _pm->getV_PoInven().size() != 0)
+	{
+		_pm->mounting(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX(), _setIndex, _invenTypeIndex, _invenIndex);
+	}
+	
 }
 //텍스트
 void statusScene::fontUI(void)
