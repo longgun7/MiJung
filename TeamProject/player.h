@@ -167,7 +167,9 @@ public:
 		_move = move;
 		_isMotionLive = true;
 	}
-	void setSkillMove(MOVE move);
+	void setSkil(int choiceIndex, int skillIndedx,int monIndex);
+
+
 	int getSkillFrame() { return _skillFrame; }
 	
 	

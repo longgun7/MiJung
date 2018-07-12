@@ -86,9 +86,7 @@ public:
 	void eventMode();
 	void mounting(int frameX, int setIndex, int invenTypeIndex, int invenIndex);
 			//아타호인지 스마슈인지 , 포션과아이템번호 , 아이템 무기방어구번호, 무기방어구 각각의 번호 
-
 	void getItemValue(string itemName); //받을 아이템 종류
-	void inventory(); //인벤토리
 	void setEnemyDead(); // 에너미 
 	void setMoney(int money);
 

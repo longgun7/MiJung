@@ -1380,33 +1380,55 @@ void player::effectImage()
 
 
 
-void player::setSkillMove(MOVE move)
+void player::setSkil(int choiceIndex, int skillIndex, int monIndex)
 {
+	_enemyIndex = monIndex;
 	if (_sceneMode == BATTLEMODE)
 	{
 		if (_attribute.currentHp > 0)
 		{
-			if (move == SOLOSKILL1 && _attribute.currentMp >= 3)
+			if (_enemyIndex < 4)
 			{
-				_move = SOLOSKILL1;
-				_isMotionLive = true;
-				_attribute.currentMp -= 3;
+				if (choiceIndex == 0 && skillIndex == 0)
+				{
+					_move = BASICSKILL1;
+					_isMotionLive = true;
+					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
+					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+				}
+				if (choiceIndex == 0 && skillIndex == 1)
+				{
+					_move = BASICSKILL2;
+					_isMotionLive = true;
+				}
+				if (choiceIndex == 0 && skillIndex == 2)
+				{
+					_move = BASICSKILL3;
+					_isMotionLive = true;
+				}
+				if (choiceIndex == 1 && skillIndex == 0 && _attribute.currentMp >= 3)
+				{
+					_move = SOLOSKILL1;
+					_isMotionLive = true;
+					_attribute.currentMp -= 3;
+				}
+				if (choiceIndex == 1 && skillIndex == 2 && _attribute.currentMp >= 3)
+				{
+					_move = SOLOSKILL2;
+					_isMotionLive = true;
+					_attribute.currentMp -= 3;
+				}
+				if (choiceIndex == 1 && skillIndex == 1 && _attribute.currentMp >= 3)
+				{
+					_move = SOLOSKILL3;
+					_isMotionLive = true;
+					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
+					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
+					_attribute.currentMp -= 3;
+				}
 			}
-			if (move == SOLOSKILL2 && _attribute.currentMp >= 3)
-			{
-				_move = SOLOSKILL2;
-				_isMotionLive = true;
-				_attribute.currentMp -= 3;
-			}
-			if (move == SOLOSKILL3 && _attribute.currentMp >= 3)
-			{
-				_move = SOLOSKILL3;
-				_isMotionLive = true;
-				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
-				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-				_attribute.currentMp -= 3;
-			}
-			if (move == AREASKILL1 && _attribute.currentMp >= 3)
+
+			if (choiceIndex == 2 && skillIndex == 0 && _attribute.currentMp >= 3)
 			{
 				_move = AREASKILL1;
 				_isMotionLive = true;
@@ -1416,36 +1438,20 @@ void player::setSkillMove(MOVE move)
 				_gravity = 0.2f;
 				_attribute.currentMp -= 3;
 			}
-			if (move == DRINK && _attribute.currentMp >= 3)
+			if (choiceIndex == 2 && skillIndex == 2 && _attribute.currentMp >= 3)
 			{
 				_move = DRINK;
 				_isMotionLive = true;
 				_attribute.currentMp -= 3;
 			}
-			if (move == AREASKILL3 && _attribute.currentMp >= 3)
+			if (choiceIndex == 2 && skillIndex == 1 && _attribute.currentMp >= 3)
 			{
 				_move = AREASKILL3;
 				_isMotionLive = true;
 				_x = WINSIZEX / 2;
 				_attribute.currentMp -= 3;
 			}
-			if (move == BASICSKILL1)
-			{
-				_move = BASICSKILL1;
-				_isMotionLive = true;
-				_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
-				_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-			}
-			if (move == BASICSKILL2)
-			{
-				_move = BASICSKILL2;
-				_isMotionLive = true;
-			}
-			if (move == BASICSKILL3)
-			{
-				_move = BASICSKILL3;
-				_isMotionLive = true;
-			}
+			
 		}
 	}
 }
