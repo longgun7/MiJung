@@ -57,10 +57,8 @@ void playerManager::update()
 	//플레이어
 	_ataho->update();	
 	_smasyu->update();
-	
 	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY(), _ataho->getAngle());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
-	inventory(); //인벤토리
 	setEnemyDead(); //돈 드랍
 	
 	//인벤토리
