@@ -10,7 +10,6 @@ HRESULT enemyManager::init()
 	_ge = new gameEffect;
 	_ge->init();
 
-	_x = _y = 0;
 	return S_OK;
 	
 }
@@ -30,11 +29,6 @@ void enemyManager::update()
 	{
 		randEnemy();									// randEnemy 함수를 호출한다
 	}
-	if (KEYMANAGER->isOnceKeyDown('W'))					// A키를 누르면
-	{
-		_ge->addMoney(WINSIZEX/2 + 200, WINSIZEY/2);									// randEnemy 함수를 호출한다
-	}
-	
 	if (KEYMANAGER->isToggleKey('F'))					// Z키를 누르면
 	{
 		hitPlayer();									// hitPlayer 함수를 호출한다
@@ -62,7 +56,6 @@ void enemyManager::render()
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
 		
-		int damage = _vEnemy[i]->getTagEnmey().damage;
 		int width = (_vEnemy[i]->getTagEnmey().rc.right - _vEnemy[i]->getTagEnmey().rc.left) / 2;
 		int height = (_vEnemy[i]->getTagEnmey().rc.bottom - _vEnemy[i]->getTagEnmey().rc.top) / 2;
 		_img->setX(_vEnemy[i]->getTagEnmey().rc.left + width);
@@ -70,33 +63,34 @@ void enemyManager::render()
 
 		if (_vEnemy[i]->getTagEnmey().direction == HIT)
 		{
-
-			_img->frameRender(CAMERA->getCameraDC(), _img->getX() + width / 2, _img->getY() + height - 10, (damage % 10), 0);
-
-			if (damage > 10) _img->frameRender(CAMERA->getCameraDC(), _img->getX() + width / 2 + 8, _img->getY() + height - 10, (damage / 10) % 10, 0);
-			
+			int damage = _vEnemy[i]->getTagEnmey().damage;
+			for (int i = 0; i <= 4; ++i)
+			{
+				int f = pow(10,i);
+				if (damage / f == 0) break;
+				_img->frameRender(CAMERA->getCameraDC(), _img->getX() - (8 * i), _img->getY() + height, (damage / f) % 10, 0);
+			}
 		}
 
-		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)
+		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)															// 
 		{
+			_ge->addMoney(_vEnemy[i]->getTagEnmey().rc.left + width, _vEnemy[i]->getTagEnmey().rc.top + height);											// 
 
-			_ge->addMoney(_vEnemy[i]->getTagEnmey().rc.left + width, _vEnemy[i]->getTagEnmey().rc.top + height);
-
-			_vEnemy[i]->setIsDead(true);
+			_vEnemy[i]->setIsDead(true);																													// 
 		}
 		if (_vEnemy[i]->getTagEnmey().fadeCount >= 4 && _vEnemy[i]->getTagEnmey().fadeCount <= 150)
 		{
 			int cost = _vEnemy[i]->getTagEnmey().dropGold;
 
-			_img->frameRender(CAMERA->getCameraDC(), _img->getX()+10, _img->getY(), (cost % 10), 0);
-			if (cost >=10) _img->frameRender(CAMERA->getCameraDC(), _img->getX() + 2, _img->getY(), (cost / 10) % 10, 0);
-			if (cost >= 100) _img->frameRender(CAMERA->getCameraDC(), _img->getX() - 6, _img->getY(), (cost / 100) % 10, 0);
-			if (cost >= 1000) _img->frameRender(CAMERA->getCameraDC(), _img->getX() - 14, _img->getY(), (cost / 1000) % 10, 0);
+			for (int i = 0; i < 5; ++i)
+			{
+				int f = pow(10, i);
+				if (cost / f == 0) break;
+				_img->frameRender(CAMERA->getCameraDC(), _img->getX() - (8 * i), _img->getY(), (cost / f) % 10, 0);
+			}
 		}
-		
 	}
 	_ge->render();
-
 }
 
 void enemyManager::setEnemy(float x, float y)
@@ -127,70 +121,70 @@ void enemyManager::setEnemy(float x, float y)
 		enemy3 = new spirit;			// enemy3을 spirit로 할당한다
 		enemy3->init(x, y);				// x, y좌표를 넣어준다
 
-		_vEnemy.push_back(enemy3);		// 벡터에 ebemy3을 담는다
+		_vEnemy.push_back(enemy3);		// 벡터에 enemy3을 담는다
 
 	break;
 
-	case 4:
-		bat * enemy4;
-		enemy4 = new bat;
-		enemy4->init(x, y);
-
-		_vEnemy.push_back(enemy4);
-
-	break;
-
-	case 5:
-		snake * enemy5;
-		enemy5 = new snake;
-		enemy5->init(x, y);
-
-		_vEnemy.push_back(enemy5);
+	case 4:								// _enemyIndex의 값이 4일 때
+		bat * enemy4;					// bat을 enemy4란 이름으로 사용한다
+		enemy4 = new bat;				// enemy4를 bat로 할당한다
+		enemy4->init(x, y);				// x,y 좌표를 넣어준다
+										
+		_vEnemy.push_back(enemy4);		// 벡터에 enemy4를 담는다
 
 	break;
 
-	case 6:
-		wildboar * enemy6;
-		enemy6 = new wildboar;
-		enemy6->init(x, y);
-
-		_vEnemy.push_back(enemy6);
-
-	break;
-
-	case 7:
-		skeleton * enemy7;
-		enemy7 = new skeleton;
-		enemy7->init(x, y);
-
-		_vEnemy.push_back(enemy7);
+	case 5:								// _enemyIndex의 값이 5일 때
+		snake * enemy5;					// snake를 enemy5란 이름으로 사용한다
+		enemy5 = new snake;				// enemy5를 snake로 할당한다
+		enemy5->init(x, y);				// x, y 좌표를 넣어준다
+										
+		_vEnemy.push_back(enemy5);		// 벡터에 enemy5를 담는다
 
 	break;
 
-	case 8:
-		skeletonMage * enemy8;
-		enemy8 = new skeletonMage;
-		enemy8->init(x, y);
-
-		_vEnemy.push_back(enemy8);
-
-	break;
-
-	case 9:
-		dragon * enemy9;
-		enemy9 = new dragon;
-		enemy9->init(x, y);
-
-		_vEnemy.push_back(enemy9);
+	case 6:								// _enemyIndex의 값이 6일 때
+		wildboar * enemy6;				// wildboar을 enemy6이란 이름으로 사용한다
+		enemy6 = new wildboar;			// enemy6을 wildboar로 할당한다
+		enemy6->init(x, y);				// x, y 좌표를 넣어준다
+										
+		_vEnemy.push_back(enemy6);		// 벡터에 enemy6를 담는다
 
 	break;
 
-	case 10:
-		boss * enemy10;
-		enemy10 = new boss;
-		enemy10->init(x, y);
+	case 7:								// _enemyIndex의 값이 7일 때
+		skeleton * enemy7;				// skeleton를 enemy7이란 이름으로 사용한다
+		enemy7 = new skeleton;			// enemy7을 skeleton으로 할당한다
+		enemy7->init(x, y);				// x, y 좌표를 넣어준다
+										
+		_vEnemy.push_back(enemy7);		// 벡터에 enemy7을 담는다
 
-		_vEnemy.push_back(enemy10);
+	break;
+
+	case 8:								// _enemyIndex의 값이 8일 떄
+		skeletonMage * enemy8;			// skeletonMage를 enemy8이란 이름으로 사용한다
+		enemy8 = new skeletonMage;		// enemy8을 skeletonMage로 할당한다
+		enemy8->init(x, y);				// x, y 좌표를 넣어준다
+										
+		_vEnemy.push_back(enemy8);		// 벡터에 enemy8을 담는다
+
+	break;
+
+	case 9:								// _enemyIndex의 값이 9일 때
+		dragon * enemy9;				// dargon을 enemy9란 이름으로 사용한다
+		enemy9 = new dragon;			// enemy9를 dragon으로 할당한다
+		enemy9->init(x, y);				// x, y 좌표를 넣어준다
+										
+		_vEnemy.push_back(enemy9);		// 벡터에 enemy9를 담는다
+
+	break;
+
+	case 10:							// _enemyIndex의 값이 10일 때
+		boss * enemy10;					// boss를 enemy10이란 이름으로 사용한다
+		enemy10 = new boss;				// enemy10을 boss로 할당한다
+		enemy10->init(x, y);			// x, y 좌표를 넣어준다
+										
+		_vEnemy.push_back(enemy10);		// 벡터에 enemy10을 담는다
 
 		break;
 	}
@@ -198,69 +192,69 @@ void enemyManager::setEnemy(float x, float y)
 
 void enemyManager::hitEnemy(int index, int damge)
 {
-	_vEnemy[index]->setHp(damge);
+	_vEnemy[index]->setHp(damge);						// 인덱스와 damge를 받아서 몇번째 에너미인지 넣어주고, setHp에 필요한 매개변수 값을 넣어준다
 }
 
 void enemyManager::hitPlayer()
 {
 	// 예외처리추가(민경), 에너미가 한마리도 없을때 이 함수는 실행되지 않는다.
-	if (_vEnemy.size() <= 0) return;
+	if (_vEnemy.size() <= 0) return;													// 벡터의 사이즈가 0보다 같거나 작으면 돌아가라
 
-	if (_vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0 && _hitCount == 0)
+	if (_vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0 && _hitCount == 0)			// _hitIndex번째의 에너미의 현재 프레임 X가 0이고, _hitCount가 0일 떄
 	{
-		_vEnemy[_hitIndex]->setEnemyDirection(ATTACK);
+		_vEnemy[_hitIndex]->setEnemyDirection(ATTACK);									// _hitIndex번째의 에너미 디렉션을 ATTACK로 바꿔준다
 	}
 
-	if (_vEnemy[_hitIndex]->getTagEnmey().isAttack == true)
+	if (_vEnemy[_hitIndex]->getTagEnmey().isAttack == true)								// _hitIndex번째의 에너미의 isAttack가 true일 때
 	{
-		_pm->getPlayer()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);
-		_hitTume = true;
-		_vEnemy[_hitIndex]->setIsAttack(false);
+		_pm->getPlayer()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);		// 플레이어 매니저의 getPlayer로 접근하여 setPlayerDamge에 있는 매개변수으 값에 _hitIndex번째의 에너미의 데미지값을 넣는다
+		_hitTume = true;																// _hitTume를 true로 만든다
+		_vEnemy[_hitIndex]->setIsAttack(false);											// _hitCount번째 에너미의 isAttack를 false로 만든다
 		
 	}
-	if (_hitTume) ++_hitCount;
 
-	if (_hitCount >= 90)
+	if (_hitTume) ++_hitCount;							// _hitTume가 true일 때, ++_hitCount를 해준다
+
+	if (_hitCount >= 90)								// _hitCount가 90하고 같거나 크면
 	{
-		_hitIndex++;
-		_hitTume = false;
-		_hitCount = 0;
+		_hitIndex++;									// _hitIndex++ 해준다
+		_hitTume = false;								// _hitTume에 false를 넣어준다
+		_hitCount = 0;									// _hitCount를 0으로 초기화한다
 	}
 	
-	if (_hitIndex >= _vEnemy.size()) _hitIndex = 0;
-
-	
+	if (_hitIndex >= _vEnemy.size()) _hitIndex = 0;		// _hitIndex가 에너미 벡터의 사이즈보다 같거나 커질 경우 _hitIndex를 0으로 초기화한다
 }
 
+// 에너미들이 몇마리 나오는지, 좌표 설정
 void enemyManager::randEnemy()
 {
-	_randNum = RND->getFromIntTo(1, 5);
+	_randNum = RND->getFromIntTo(1, 5);					// _randNum에 1 ~ 4까지의 랜덤한 값을 넣는다
 
-	for (int i = 0; i < _randNum; i++)
+	for (int i = 0; i < _randNum; i++)														// i는 0 i가 _randNum보다 작으면 i를 ++ 해준다
 	{
-		_enemyIndex = RND->getFromIntTo(1, 11);
-
-		if (_randNum == 1)
-		{
-			setEnemy(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);
-		}
-		if (_randNum == 2)
-		{
-			setEnemy((WINSIZEX / 2 + 200) + (i * 30), (PLAYMAPSIZEY / 3) * (i + 1));
-		}
-		if (_randNum == 3)
-		{
-			setEnemy((WINSIZEX / 2 + 200) + (i * 30), (PLAYMAPSIZEY / 4) * (i + 1));
-		}
-		if (_randNum == 4)
-		{
-			if (i == 0 || i == 3)
-			{
-				setEnemy(WINSIZEX / 2 + 200, (PLAYMAPSIZEY / 5) * (i + 1));
-			}
-			if (i == 1 || i == 2)
-			{
-				setEnemy((WINSIZEX / 2 + 200) - 30, (PLAYMAPSIZEY / 5) * (i + 1));
+		_enemyIndex = RND->getFromIntTo(1, 11);												// _enemyIndex에 1 ~ 10까지의 랜덤한 값을 받는다
+																							
+		if (_randNum == 1)																	// _randNum이 1일 때
+		{																					
+			setEnemy(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);									// setEnemy(float x, float y) 매개변수에 값을 넣어준다
+		}																					
+		if (_randNum == 2)																	// _randNum이 2일 때
+		{																					
+			setEnemy((WINSIZEX / 2 + 200) + (i * 30), (PLAYMAPSIZEY / 3) * (i + 1));		// setEnemy(float x, float y) 매개변수에 값을 넣어준다
+		}																					
+		if (_randNum == 3)																	// _randNum이 3일 때
+		{																					
+			setEnemy((WINSIZEX / 2 + 200) + (i * 30), (PLAYMAPSIZEY / 4) * (i + 1));		// setEnemy(float x, float y) 매개변수에 값을 넣어준다
+		}																					
+		if (_randNum == 4)																	// _randNum이 4일 때
+		{																					
+			if (i == 0 || i == 3)															// i의 값이 0이거나 3일 때
+			{																				
+				setEnemy(WINSIZEX / 2 + 200, (PLAYMAPSIZEY / 5) * (i + 1));					// setEnemy(float x, float y) 매개변수에 값을 넣어준다
+			}																				
+			if (i == 1 || i == 2)															// i의 값이 1이거나 2일 때
+			{																				
+				setEnemy((WINSIZEX / 2 + 200) - 30, (PLAYMAPSIZEY / 5) * (i + 1));			// setEnemy(float x, float y) 매개변수에 값을 넣어준다
 			}
 		}
 	}
@@ -268,7 +262,7 @@ void enemyManager::randEnemy()
 
 void enemyManager::removeEnemy(int arrNum)
 {
-	_vEnemy.erase(_vEnemy.begin() + arrNum);
+	_vEnemy.erase(_vEnemy.begin() + arrNum);	// arrNum번 째 벡터를 지워준다
 }
 
 enemyManager::enemyManager()

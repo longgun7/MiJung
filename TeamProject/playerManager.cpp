@@ -284,11 +284,53 @@ void playerManager::getItemValue(string itemName)
 		inventory.img->setFrameX(1);
 		inventory.img->setFrameY(0);
 	}
+	if (inventory.name == "화주")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("화주",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(4);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "특급주")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("특급주",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(2);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "명주 귀신살")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("명주 귀신살",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(5);
+		inventory.img->setFrameY(0);
+	}
 	if (inventory.name == "권법가 도복")
 	{
 		inventory.img = IMAGEMANAGER->addFrameImage("권법가 도복",
 			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
 		inventory.img->setFrameX(7);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "호랑이 도복")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("호랑이 도복",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(9);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "나찰의 도복")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("나찰의 도복",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(10);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "백호 도복")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("백호 도복",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(11);
 		inventory.img->setFrameY(0);
 	}
 	if (inventory.name == "청룡도")
@@ -298,11 +340,53 @@ void playerManager::getItemValue(string itemName)
 		inventory.img->setFrameX(1);
 		inventory.img->setFrameY(2);
 	}
+	if (inventory.name == "불타는 마검")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("불타는 마검",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(2);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "나찰의 흉인")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("나찰의 흉인",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(4);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "마인아수라")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("마인아수라",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(5);
+		inventory.img->setFrameY(2);
+	}
 	if (inventory.name == "가죽 갑옷")
 	{
 		inventory.img = IMAGEMANAGER->addFrameImage("가죽 갑옷",
 			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
 		inventory.img->setFrameX(7);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "철편 갑옷")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("철편 갑옷",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(9);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "어설트 슈트")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("어설트 슈트",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(10);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "투신의 갑옷")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("투신의 갑옷",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(11);
 		inventory.img->setFrameY(2);
 	}
 
@@ -435,6 +519,7 @@ void playerManager::setMoney(int money)
 {
 	_gold.money -= money;
 }
+
 
 
 playerManager::playerManager()

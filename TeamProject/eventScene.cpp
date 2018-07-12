@@ -28,7 +28,10 @@ void eventScene::release(void)
 void eventScene::update(void)
 {
 	_event->update();
-
+	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		SCENEMANAGER->changeScene("╩Себ╬ю");
+	}
 }
 
 void eventScene::render(void)

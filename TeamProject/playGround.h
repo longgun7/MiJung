@@ -10,7 +10,6 @@ class playGround : public gameNode
 {
 private:
 	playSceneManager * _psm;
-	startScene* _startScene;
 
 	bool _isPlay;
 public:

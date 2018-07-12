@@ -115,20 +115,6 @@ void playSceneManager::update(void)
 			SOUNDMANAGER->play(_nowSong, 1.0f);
 		}
 	}
-	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
-	{
-		if (!_isStatus) 
-		{
-
-			SCENEMANAGER->changeScene("╩Себ╬ю");
-			_isStatus = true;
-		}
-		else if (_isStatus)
-		{
-			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
-			_isStatus = false;
-		}
-	}
 	
 	updateProgressBar();
 	_map->setTilePos(_pm->getPlayer()->getRC(), OBJ_PLAYER1);

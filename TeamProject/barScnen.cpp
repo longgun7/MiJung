@@ -44,11 +44,13 @@ void barScnen::update(void)
 	{
 		if (!_isShopCheck)
 		{
+			SCENEMANAGER->setIsShop(true);
 			_isShopCheck = true;
 			_shop->setItem();
 		}
 		else if (_isShopCheck)
 		{
+			SCENEMANAGER->setIsShop(false);
 			_isShopCheck = false;
 			_shop->shopRemove();
 		}
@@ -59,7 +61,8 @@ void barScnen::update(void)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
-		//SCENEMANAGER->changeScene("╩Себ╬ю");
+		if(!SCENEMANAGER->getIsShop())
+		SCENEMANAGER->changeScene("╩Себ╬ю");
 	}
 
 }
