@@ -588,6 +588,8 @@ OBJECT mapToolScene::objSelect(int frameX, int frameY)
 	break;
 	case CTRL_INHOUSE:
 	{
+		if (frameX == 4 && frameY == 12) return OBJ_NPC;
+
 		objStartX = 21; objStartY = 10, objEndX = SAMPLETILEX, objEndY = SAMPLETILEY;
 	}
 	break;
