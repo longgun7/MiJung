@@ -543,9 +543,9 @@ void statusScene::itemChoice(void)
 {
 	if(_pm->getVA_ArmorInven().size() != 0
 		&& _pm->getVA_WeapInven().size() != 0 
+		&& _pm->getVA_ArmorInven().size() != 0
 		&& _pm->getVS_WeapInven().size() != 0
 		&& _pm->getVS_ArmorInven().size() != 0 
-		&& _pm->getVA_WeapInven().size() != 0 
 		)
 	{
 		if (_setIndex == 1 && _pm->getV_PoInven().size() == 0);
