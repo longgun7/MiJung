@@ -108,19 +108,11 @@ void playSceneManager::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F6))
 	{
 		SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
-	}
-	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
-	{
-		if (!_isStatus) 
+		SOUNDMANAGER->stop(_nowSong);
+		_nowSong = "eventTheMa";
+		if (!SOUNDMANAGER->isPlaySound(_nowSong))
 		{
-
-			SCENEMANAGER->changeScene("»óÅÂ¾À");
-			_isStatus = true;
-		}
-		else if (_isStatus)
-		{
-			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
-			_isStatus = false;
+			SOUNDMANAGER->play(_nowSong, 1.0f);
 		}
 	}
 	

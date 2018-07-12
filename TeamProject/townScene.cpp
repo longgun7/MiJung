@@ -37,7 +37,7 @@ void townScene::update(void)
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
-		//SCENEMANAGER->changeScene("╩Себ╬ю");
+		SCENEMANAGER->changeScene("╩Себ╬ю");
 	}
 }
 

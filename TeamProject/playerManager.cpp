@@ -62,7 +62,7 @@ void playerManager::update()
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
 	inventory(); //인벤토리
 	setEnemyDead(); //돈 드랍
-	mounting();//장착하기
+	
 	//인벤토리
 
 }
@@ -167,87 +167,96 @@ void playerManager::eventMode()
 	}
 }
 //장착하기
-void playerManager::mounting()
-{
+void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int invenIndex)
+{                   //아타호인지 스마슈인지 , 포션과아이템번호 , 아이템 무기방어구번호, 무기방어구 각각의 번호 
 	//아타호 무기
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	if (frameX == 0 && setIndex == 2)
 	{
-		for (int i = 0; i < _vA_WeapInven.size(); i++)
+		if (invenTypeIndex == 0)
 		{
-			
-			if (PtInRect(&_vA_WeapInven[i].rc, _ptMouse) )
+			_ataho->setStat(-_A_saveBeforWeapon.atk, 0, -_A_saveBeforWeapon.luck, -_A_saveBeforWeapon.cri, 0);
+			_ataho->setStat(_vA_WeapInven[invenIndex].atk, _vA_WeapInven[invenIndex].def, _vA_WeapInven[invenIndex].luck, _vA_WeapInven[invenIndex].cri, _vA_WeapInven[invenIndex].speed);
+			_A_saveBeforWeapon.atk = _vA_WeapInven[invenIndex].atk;
+			_A_saveBeforWeapon.luck = _vA_WeapInven[invenIndex].luck;
+			_A_saveBeforWeapon.cri = _vA_WeapInven[invenIndex].cri;
+			if (_vA_WeapInven[invenIndex].name == "명주 귀신살")
 			{
-				_ataho->setStat(-_A_saveBeforWeapon.atk, 0, -_A_saveBeforWeapon.luck, -_A_saveBeforWeapon.cri, 0);
-				_ataho->setStat(_vA_WeapInven[i].atk, _vA_WeapInven[i].def, _vA_WeapInven[i].luck, _vA_WeapInven[i].cri, _vA_WeapInven[i].speed);
-				_A_saveBeforWeapon.atk = _vA_WeapInven[i].atk;
-				_A_saveBeforWeapon.luck = _vA_WeapInven[i].luck;
-				_A_saveBeforWeapon.cri = _vA_WeapInven[i].cri;
-				if (_vA_WeapInven[i].name == "명주 귀신살")
-				{
-					_ataho->setSwordMounting(true);
-				}
-				else
-				{
-					_ataho->setSwordMounting(false);
-				}
+				_ataho->setSwordMounting(true);
 			}
-			
-		}
+			else
+			{
+				_ataho->setSwordMounting(false);
+			}
 
-		//아타호 갑옷
-		for (int i = 0; i < _vA_ArmorInven.size(); i++)
-		{
-			if (PtInRect(&_vA_ArmorInven[i].rc, _ptMouse))
-			{
-				_ataho->setStat(-_A_saveBeforArmor.atk, -_A_saveBeforArmor.def, -_A_saveBeforArmor.luck, -_A_saveBeforArmor.cri, -_A_saveBeforArmor.speed);
-				_ataho->setStat(_vA_ArmorInven[i].atk, _vA_ArmorInven[i].def, _vA_ArmorInven[i].luck, _vA_ArmorInven[i].cri, _vA_ArmorInven[i].speed);
-				_A_saveBeforArmor.def = _vA_ArmorInven[i].def;
-				_A_saveBeforArmor.speed = _vA_ArmorInven[i].speed;
-			}
+
 		}
-		
+	
+		if (invenTypeIndex == 1)
+		{
+			//아타호 갑옷
+
+
+			_ataho->setStat(-_A_saveBeforArmor.atk, -_A_saveBeforArmor.def, -_A_saveBeforArmor.luck, -_A_saveBeforArmor.cri, -_A_saveBeforArmor.speed);
+			_ataho->setStat(_vA_ArmorInven[invenIndex].atk, _vA_ArmorInven[invenIndex].def, _vA_ArmorInven[invenIndex].luck, _vA_ArmorInven[invenIndex].cri, _vA_ArmorInven[invenIndex].speed);
+			_A_saveBeforArmor.def = _vA_ArmorInven[invenIndex].def;
+			_A_saveBeforArmor.speed = _vA_ArmorInven[invenIndex].speed;
+
+
+		}
+	}
+
+
+
+
+
+	if (frameX == 1 && setIndex == 2)
+	{
 		//스마슈 무기
-		for (int i = 0; i < _vS_WeapInven.size(); i++)
+		if (invenTypeIndex == 0)
 		{
-			if (PtInRect(&_vS_WeapInven[i].rc, _ptMouse))
-			{
-				_smasyu->setStat(-_S_saveBeforWeapon.atk, 0, -_S_saveBeforWeapon.luck, -_S_saveBeforWeapon.cri, 0);
-				_smasyu->setStat(_vS_WeapInven[i].atk, _vS_WeapInven[i].def, _vS_WeapInven[i].luck, _vS_WeapInven[i].cri, _vS_WeapInven[i].speed);
-				_S_saveBeforWeapon.atk = _vS_WeapInven[i].atk;
-				_S_saveBeforWeapon.luck = _vS_WeapInven[i].luck;
-				_S_saveBeforWeapon.cri = _vS_WeapInven[i].cri;
-				if (_vS_WeapInven[i].name == "마인아수라")
-				{
-					_smasyu->setMounting(true);
-				}
-				else
-				{
-					_smasyu->setMounting(false);
 
-				}
-			}
-		}
-		//스마슈 갑옷
-		for (int i = 0; i < _vS_ArmorInven.size(); i++)
-		{
-			if (PtInRect(&_vS_ArmorInven[i].rc, _ptMouse))
+			_smasyu->setStat(-_S_saveBeforWeapon.atk, 0, -_S_saveBeforWeapon.luck, -_S_saveBeforWeapon.cri, 0);
+			_smasyu->setStat(_vS_WeapInven[invenIndex].atk, _vS_WeapInven[invenIndex].def, _vS_WeapInven[invenIndex].luck, _vS_WeapInven[invenIndex].cri, _vS_WeapInven[invenIndex].speed);
+			_S_saveBeforWeapon.atk = _vS_WeapInven[invenIndex].atk;
+			_S_saveBeforWeapon.luck = _vS_WeapInven[invenIndex].luck;
+			_S_saveBeforWeapon.cri = _vS_WeapInven[invenIndex].cri;
+			if (_vS_WeapInven[invenIndex].name == "마인아수라")
 			{
-				_smasyu->setStat(-_S_saveBeforArmor.atk, -_S_saveBeforArmor.def, -_S_saveBeforArmor.luck, -_S_saveBeforArmor.cri, -_S_saveBeforArmor.speed);
-				_smasyu->setStat(_vS_ArmorInven[i].atk, _vS_ArmorInven[i].def, _vS_ArmorInven[i].luck, _vS_ArmorInven[i].cri, _vS_ArmorInven[i].speed);
-				_S_saveBeforArmor.def = _vS_ArmorInven[i].def;
-				_S_saveBeforArmor.speed = _vS_ArmorInven[i].speed;
+				_smasyu->setMounting(true);
 			}
+			else
+			{
+				_smasyu->setMounting(false);
+
+			}
+
+
 		}
-		//포션
+		if (invenTypeIndex == 1)
+		{
+			//스마슈 갑옷
+
+			_smasyu->setStat(-_S_saveBeforArmor.atk, -_S_saveBeforArmor.def, -_S_saveBeforArmor.luck, -_S_saveBeforArmor.cri, -_S_saveBeforArmor.speed);
+			_smasyu->setStat(_vS_ArmorInven[invenIndex].atk, _vS_ArmorInven[invenIndex].def, _vS_ArmorInven[invenIndex].luck, _vS_ArmorInven[invenIndex].cri, _vS_ArmorInven[invenIndex].speed);
+			_S_saveBeforArmor.def = _vS_ArmorInven[invenIndex].def;
+			_S_saveBeforArmor.speed = _vS_ArmorInven[invenIndex].speed;
+
+
+		}
+	}
+
+
+	if (setIndex == 1)
+	{	//포션
 		for (int i = 0; i < _vPoInven.size(); i++)
 		{
 			if (PtInRect(&_vPoInven[i].rc, _ptMouse))
 			{
 				//아타호일 때
-				_ataho->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);				
+				_ataho->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);
 				//스마슈일 때
 				_smasyu->setPortion(_vPoInven[i].hp, _vPoInven[i].mp);
-				
+
 				if (_vPoInven[i].hp != 0)
 				{
 					_HPpoIndex -= 1;
@@ -256,7 +265,7 @@ void playerManager::mounting()
 				{
 					_MPpoIndex -= 1;
 				}
-				if (_MPpoIndex == 0 && _vPoInven[i].mp != 0 && _vPoInven.size() > 0 )
+				if (_MPpoIndex == 0 && _vPoInven[i].mp != 0 && _vPoInven.size() > 0)
 				{
 					_vPoInven.erase(_vPoInven.begin() + i);
 				}
@@ -264,7 +273,7 @@ void playerManager::mounting()
 				{
 					_vPoInven.erase(_vPoInven.begin() + i);
 				}
-				
+
 			}
 		}
 	}
@@ -309,11 +318,53 @@ void playerManager::getItemValue(string itemName)
 		inventory.img->setFrameX(1);
 		inventory.img->setFrameY(0);
 	}
+	if (inventory.name == "화주")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("화주",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(4);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "특급주")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("특급주",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(2);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "명주 귀신살")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("명주 귀신살",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(5);
+		inventory.img->setFrameY(0);
+	}
 	if (inventory.name == "권법가 도복")
 	{
 		inventory.img = IMAGEMANAGER->addFrameImage("권법가 도복",
 			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
 		inventory.img->setFrameX(7);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "호랑이 도복")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("호랑이 도복",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(9);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "나찰의 도복")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("나찰의 도복",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(10);
+		inventory.img->setFrameY(0);
+	}
+	if (inventory.name == "백호 도복")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("백호 도복",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(11);
 		inventory.img->setFrameY(0);
 	}
 	if (inventory.name == "청룡도")
@@ -323,11 +374,53 @@ void playerManager::getItemValue(string itemName)
 		inventory.img->setFrameX(1);
 		inventory.img->setFrameY(2);
 	}
+	if (inventory.name == "불타는 마검")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("불타는 마검",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(2);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "나찰의 흉인")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("나찰의 흉인",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(4);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "마인아수라")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("마인아수라",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(5);
+		inventory.img->setFrameY(2);
+	}
 	if (inventory.name == "가죽 갑옷")
 	{
 		inventory.img = IMAGEMANAGER->addFrameImage("가죽 갑옷",
 			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
 		inventory.img->setFrameX(7);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "철편 갑옷")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("철편 갑옷",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(9);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "어설트 슈트")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("어설트 슈트",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(10);
+		inventory.img->setFrameY(2);
+	}
+	if (inventory.name == "투신의 갑옷")
+	{
+		inventory.img = IMAGEMANAGER->addFrameImage("투신의 갑옷",
+			"image/ui/아이템.bmp", 600, 250, 12, 5, false, RGB(0, 0, 0));
+		inventory.img->setFrameX(11);
 		inventory.img->setFrameY(2);
 	}
 
@@ -460,6 +553,7 @@ void playerManager::setMoney(int money)
 {
 	_gold.money -= money;
 }
+
 
 
 playerManager::playerManager()

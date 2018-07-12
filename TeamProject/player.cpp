@@ -130,7 +130,11 @@ void player::update()
 	{
 		imageFrame();	  //이미지프레임
 	}
-	move();			      //움직임
+	if(SCENEMANAGER->getSceneName() != "상태씬"&&!SCENEMANAGER->getIsShop())
+	{
+		move();			      //움직임
+	}
+	
 	levelCheck();	      //레벨업 여부
 
 	//스킬 이펙트 업데이트

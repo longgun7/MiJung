@@ -24,6 +24,7 @@ private:
 	enemyManager* _em;
 	itemManager* _im;
 	string _sceneName;
+	bool _isShop;
 public:
 	sceneManager();
 	~sceneManager();
@@ -47,6 +48,8 @@ public:
 	enemyManager* getEnemyManagerLink() { return _em; }
 	//void setCurrentSceneName(string sceneName) { _sceneName = sceneName; }
 	string getCurrentSceneName() { return _sceneName; }
+	void setIsShop(bool isShop) { _isShop = isShop; }
+	bool getIsShop() { return _isShop; }
 
 	//현재 씬 이름이 무엇인지 받아오는 접근자
 	string getSceneName();

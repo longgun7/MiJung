@@ -25,8 +25,7 @@ HRESULT playGround::init(void)
 	_psm = new playSceneManager;
 	_psm->init();
 	
-	_startScene = new startScene;
-	_startScene->init();
+	
 	return S_OK;
 }
 
@@ -42,21 +41,10 @@ void playGround::update(void)
 	
 	gameNode::update();
 	SCENEMANAGER->update();
-	if (!_startScene->getIsPlay())
+	if(SCENEMANAGER->getCurrentSceneName() != "스타트씬" && SCENEMANAGER->getCurrentSceneName() != "맵툴씬" )
 	{
-		_startScene->update();
-		if (!SOUNDMANAGER->isPlaySound("MainTheMa"))
-		{
-			SOUNDMANAGER->play("MainTheMa", 0.5f);
-		}
-	}
-	if (_startScene->getIsPlay())
-	{
-		SOUNDMANAGER->stop("MainTheMa");
 		_psm->update();
 	}
-	
-	
 	
 }
 
@@ -75,7 +63,7 @@ void playGround::render(void)
 	//============== 이 위로는 건드리지 말자 ==============
 
 	
-	if (_startScene->getIsPlay())
+	if (SCENEMANAGER->getCurrentSceneName() != "스타트씬" && SCENEMANAGER->getCurrentSceneName() != "맵툴씬")
 	{
 		_psm->render();
 	}
@@ -99,6 +87,7 @@ void playGround::musicInit()
 	SOUNDMANAGER->addSound("BattleTheMa1", "soundOST/BattleTheMa1.mp3", true, true);
 	SOUNDMANAGER->addSound("BattleTheMa2", "soundOST/BattleTheMa2.mp3", true, true);
 	SOUNDMANAGER->addSound("FiledTheMa", "soundOST/FiledTheMa.mp3", true, true);
+	SOUNDMANAGER->addSound("eventTheMa", "soundOST/eventTheMa.mp3", true, true);
 	// 호격권
 	SOUNDMANAGER->addSound("TigerSound", "soundEffect/TigerSound.mp3", true, false);
 	// 비기 광파참
