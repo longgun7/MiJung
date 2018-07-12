@@ -86,7 +86,9 @@ HRESULT player2::init(float x , float y)
 	_areaSkill3->init();
 	_gameEffect = new gameEffect;
 	_gameEffect->init();
-	
+
+	_zOrderRC = RectMake(_rc.left, _rc.bottom - 25, _img->getFrameWidth(), 25);
+
 	return S_OK;
 }
 
@@ -112,6 +114,8 @@ void player2::update()
 	_areaSkill2->update();
 	_areaSkill3->update();
 	_gameEffect->update();
+
+	_zOrderRC = RectMake(_rc.left, _rc.bottom - 25, _img->getFrameWidth(), 25);
 
 }
 

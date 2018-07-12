@@ -1,46 +1,42 @@
 #include "stdafx.h"
-#include "fieldScene.h"
+#include "field3Scene.h"
 #include "playerManager.h"
 #include "enemyManager.h"
 #include "itemManager.h"
 
-fieldScene::fieldScene()
+field3Scene::field3Scene()
 {
 }
 
 
-fieldScene::~fieldScene()
+field3Scene::~field3Scene()
 {
 }
 
-HRESULT fieldScene::init(void)
+HRESULT field3Scene::init(void)
 {
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_em = SCENEMANAGER->getEnemyManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
 	_map = SCENEMANAGER->getPlayMapLink();
 
-	_map->init(FIELD1);
+	_map->init(FIELD3);
 
 	_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
 	_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
-	SOUNDMANAGER->play("FiledTheMa", 0.5f);
+
+	SOUNDMANAGER->play("FiledTheMa");
 
 	return S_OK;
 }
 
-void fieldScene::release(void)
+void field3Scene::release(void)
 {
 }
 
-void fieldScene::update(void)
+void field3Scene::update(void)
 {
 	CAMERA->setPosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
-
-	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
-	{
-		SCENEMANAGER->changeScene("상태씬");
-	}
 
 	// 플레이어가 어느 타일에 있는지 인덱스 번호 세팅
 	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
@@ -51,18 +47,19 @@ void fieldScene::update(void)
 
 }
 
-void fieldScene::render(void)
+void field3Scene::render(void)
 {
 	_map->render();
 	// 오브젝트 렌더
 	_map->objRender();
 
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
-	
+
 	fontUI();
+
 }
 
-void fieldScene::fontUI(void)
+void field3Scene::fontUI(void)
 {
 	HFONT font, ofont;
 	char str[] = "필드씬";
@@ -77,44 +74,35 @@ void fieldScene::fontUI(void)
 	DeleteObject(font);
 }
 
-void fieldScene::sceneChange(void)
+void field3Scene::fieldSettingEnemy(void)
+{
+	for (int i = 0; i < TILEY; ++i)
+	{
+		for (int j = 0; j < TILEX; ++j)
+		{
+			if (_map->getTiles()[i * TILEX + j].terrain == TR_MOVE)
+			{
+
+			}
+		}
+	}
+}
+
+void field3Scene::sceneChange(void)
 {
 	//플레이어가 어느 위치에 있느냐에 따라 포탈 이동 및 씬 이동
 	int idX = _pm->getPlayer()->getZorderRC().right / TILESIZE - 1;
 	int idY = _pm->getPlayer()->getZorderRC().top / TILESIZE;
 	switch (_map->getTiles()[idY * TILEX + idX].obj)
 	{
-	case OBJ_UPPORTAL:		break;
-	case OBJ_DOWNPORTAL:
-		_pm->getPlayer()->setX(100);	_pm->getPlayer()->setY(100);
-		_pm->getPlayer2()->setX(100);	_pm->getPlayer2()->setY(100);
-
-		SCENEMANAGER->changeScene("필드씬2");
-		break;
-	case OBJ_LEFTPORTAL:
-		SOUNDMANAGER->stop("FiledTheMa");
-		_pm->getPlayer()->setX(2310); _pm->getPlayer()->setY(1050);
-		_pm->getPlayer2()->setX(2310); _pm->getPlayer2()->setY(1050);
-		SCENEMANAGER->changeScene("타운씬");
-		break;
-	case OBJ_RIGHTPORTAL:	break;
+	case OBJ_UPPORTAL:
+		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(1950);
+		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(1950);
+		SCENEMANAGER->changeScene("이벤트씬");		
+	break;
+	case OBJ_DOWNPORTAL: break;
+	case OBJ_LEFTPORTAL: break;
+	case OBJ_RIGHTPORTAL:break;
 
 	}
-
-	// 몬스터 랜덤 만남
-	//if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
-	//	 _pm->getPlayer()->getMove() == RIGHTMOVE	||
-	//	 _pm->getPlayer()->getMove() == UPMOVE		||
-	//	 _pm->getPlayer()->getMove() == DOWNMOVE))
-	//{
-	//	if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
-	//		_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
-	//	{
-	//		if (RND->getFloat(100) < 0.8f)
-	//		{
-	//			SCENEMANAGER->changeScene("배틀씬");
-	//		}
-	//	}
-	//}
-
 }

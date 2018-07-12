@@ -114,7 +114,8 @@ HRESULT player::init()
 	_gameEffect->init();
 
 	_zOrderRC = RectMake(_rc.left, _rc.bottom - 25, _img->getFrameWidth(), 25);
-	
+	_map = SCENEMANAGER->getPlayMapLink();
+
 	return S_OK;
 }
 

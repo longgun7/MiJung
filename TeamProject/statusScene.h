@@ -36,6 +36,7 @@ private:
 	int _setIndex;
 	int _invenIndex;
 	int _invenTypeIndex;
+	
 
 	
 	
