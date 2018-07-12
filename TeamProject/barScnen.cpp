@@ -169,9 +169,16 @@ void barScnen::render(void)
 		IMAGEMANAGER->findImage("상점창번돈")->render(CAMERA->getCameraDC(), 625, 335);
 		_shop->fontUI();
 		_shop->render();
-		
 	}
-	
+	for (int i = 0; i < 5; ++i)
+	{
+		char str[128];
+		sprintf_s(str, "플레이어정보%d", i);
+		if (INIDATA->loadDataInterger(str, "세이브", "세이브여부") == 1)
+		{
+
+		}
+	}
 	fontUI();
 
 }

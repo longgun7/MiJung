@@ -105,9 +105,14 @@ void startScene::update(void)
 	{
 		if (_isLoadCheck)
 		{
-			IMAGEMANAGER->findImage("LOADBUTTON")->setFrameY(1);
-			_sl->loadInt(_index);
-			SCENEMANAGER->changeScene("술집씬");
+			char str[128];
+			sprintf_s(str, "플레이어정보%d", _loadIndex);
+			if (INIDATA->loadDataInterger(str, "세이브", "세이브여부") == 1)
+			{
+				IMAGEMANAGER->findImage("LOADBUTTON")->setFrameY(1);
+				_sl->loadInt(_loadIndex);
+				SCENEMANAGER->changeScene("술집씬");
+			}
 		}
 		IMAGEMANAGER->findImage("UIBUTTON")->setFrameY(1);
 		if(_index==0)
@@ -121,6 +126,7 @@ void startScene::update(void)
 			_isLoadCheck = true;
 		}
 	}
+
 	if(KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		if (_isLoadCheck)
@@ -146,12 +152,12 @@ void startScene::update(void)
 		_uiY = WINSIZEY / 2 + 110;
 	}
 
-	for(int i=0;i<5;i++)
+	for (int i = 0; i < 5; i++)
 	{
-		if(_loadIndex == i)
+		if (_loadIndex == i)
 		{
 			_loadX = WINSIZEX - 320;
-			_loadY = WINSIZEY / 2 - 100+i*50;
+			_loadY = WINSIZEY / 2 - 100 + i * 50;
 		}
 	}
 	if (_frameCount >= 255)
@@ -174,6 +180,7 @@ void startScene::render(void)
 	}
 	IMAGEMANAGER->findImage("화면전환")->alphaRender(CAMERA->getCameraDC(), 0, 0,_frameCount);
 	fontUI();
+
 }
 
 void startScene::fontUI()
@@ -188,6 +195,21 @@ void startScene::fontUI()
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 100, WINSIZEY / 2+80, str, strlen(str));
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2 - 100, WINSIZEY / 2 + 115, str2, strlen(str2));
+	if (_isLoadCheck)
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			char str[128];
+			sprintf_s(str, "플레이어정보%d", i);
+			// 세이브가 된 경우에만 세이브 여부가 1이 된다.
+			if (INIDATA->loadDataInterger(str, "세이브", "세이브여부") == 1)
+			{
+				char str2[128];
+				sprintf_s(str2, "세이브 데이터 %d", i + 1);
+				TextOut(CAMERA->getCameraDC(), WINSIZEX - 250, WINSIZEY / 2 - 100 + (50 * i), str2, strlen(str2));
+			}
+		}
+	}
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 
