@@ -29,12 +29,10 @@ private:
 	
 	int _randNum;						// 적이 몇마리가 생성될지
 	int _enemyIndex;					// 몇번째 적인지
-	int _hitIndex;
-	int _hitCount;
-	int _hitTume;
-	int _x;
-	int _y;
-	image* _img;
+	int _hitIndex;						// 몇번째 애가 공격했는지
+	int _hitCount;						// 공격 모션을 길게해주는 카운트
+	int _hitTume;						// 공격 텀
+	image* _img;						// 데미지 수치 이미지
 
 public:
 

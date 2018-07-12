@@ -19,6 +19,8 @@ struct tagEnemy	// 에너미 구조체
 	
 	DIRECTION direction;		// 상태
 
+	string name;			// 적 이름
+
 	int hp;						// 현재 체력	
 	int totalHp;				// 체력
 	int att;					// 공격력

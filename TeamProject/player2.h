@@ -126,7 +126,7 @@ public:
 		_isMotionLive = true;
 	}
 	
-	void setSkillMove(SMOVE move);
+	void setSkill(int choiceIndex, int skillIndex, int monIndex);
 	
 	void setMounting(bool mounting) { _isSwordMounting = mounting; } //무기 장착여부
 	
