@@ -42,6 +42,7 @@ void enemyManager::update()
 		}
 		
 	}
+
 	_ge->update();
 }
 
@@ -72,11 +73,11 @@ void enemyManager::render()
 			}
 		}
 
-		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)															// 
+		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)															
 		{
-			_ge->addMoney(_vEnemy[i]->getTagEnmey().rc.left + width, _vEnemy[i]->getTagEnmey().rc.top + height);											// 
+			_ge->addMoney(_vEnemy[i]->getTagEnmey().rc.left + width, _vEnemy[i]->getTagEnmey().rc.top + height);											
 
-			_vEnemy[i]->setIsDead(true);																													// 
+			_vEnemy[i]->setIsDead(true);																													
 		}
 		if (_vEnemy[i]->getTagEnmey().fadeCount >= 4 && _vEnemy[i]->getTagEnmey().fadeCount <= 150)
 		{
@@ -237,21 +238,25 @@ void enemyManager::randEnemy()
 		if (_randNum == 1)																	// _randNum이 1일 때
 		{																					
 			setEnemy(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);									// setEnemy(float x, float y) 매개변수에 값을 넣어준다
-		}																					
+		}	
+
 		if (_randNum == 2)																	// _randNum이 2일 때
 		{																					
 			setEnemy((WINSIZEX / 2 + 200) + (i * 30), (PLAYMAPSIZEY / 3) * (i + 1));		// setEnemy(float x, float y) 매개변수에 값을 넣어준다
-		}																					
+		}	
+
 		if (_randNum == 3)																	// _randNum이 3일 때
 		{																					
 			setEnemy((WINSIZEX / 2 + 200) + (i * 30), (PLAYMAPSIZEY / 4) * (i + 1));		// setEnemy(float x, float y) 매개변수에 값을 넣어준다
-		}																					
+		}	
+
 		if (_randNum == 4)																	// _randNum이 4일 때
 		{																					
 			if (i == 0 || i == 3)															// i의 값이 0이거나 3일 때
 			{																				
 				setEnemy(WINSIZEX / 2 + 200, (PLAYMAPSIZEY / 5) * (i + 1));					// setEnemy(float x, float y) 매개변수에 값을 넣어준다
-			}																				
+			}						
+
 			if (i == 1 || i == 2)															// i의 값이 1이거나 2일 때
 			{																				
 				setEnemy((WINSIZEX / 2 + 200) - 30, (PLAYMAPSIZEY / 5) * (i + 1));			// setEnemy(float x, float y) 매개변수에 값을 넣어준다

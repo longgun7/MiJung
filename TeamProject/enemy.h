@@ -37,9 +37,8 @@ struct tagEnemy	// 에너미 구조체
 	int randAttack;				// 어떤 공격을 할지 랜덤값
 	int dropGold;				// 드랍 골드
 	int maxAttackFrameX;		// 최대 공격 프레임
-	int damage;
-	int skillCount;
-	int skillReCount;
+	int damage;					// 데미지 출력을 위한 변수
+	int skillCount;				// 보스 스킬 타이밍을 맞추기 위한 스킬 카운트
 
 	bool isGoldSet;				// 돈을 보냈는지
 	bool isAttack;				// 공격했는지
@@ -55,7 +54,7 @@ class enemy : public gameNode
 {
 protected:
 
-	tagEnemy _enemy;
+	tagEnemy _enemy;							// tagEnemy를 _enemy란 이름으로 사용
 
 public:
 
@@ -64,7 +63,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setHp(int damage);
+	void setHp(int damage);																	// 에너미가 데미지를 입는 함수
 
 	void setisGoldSet(bool gold) { _enemy.isGoldSet = gold; }								// 플레이어가 골드를 받아갈 수 있게 해주는 설정자
 	void setEnemyDirection(DIRECTION direction) { _enemy.direction = direction; }			// 플레이어가 에너미의 상태를 설정할 수 있게 해주는 설정자
