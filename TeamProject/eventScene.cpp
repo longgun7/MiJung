@@ -64,7 +64,7 @@ void eventScene::update(void)
 		}
 		if (_soundFrame == 1)
 		{
-			SOUNDMANAGER->stop("eventTheMa");
+			SOUNDMANAGER->pause("eventTheMa");
 			SOUNDMANAGER->play("낙사", 0.5f);
 		}
 		if (_soundFrame >= 1 && _alphaNum <= 252)
@@ -116,6 +116,14 @@ void eventScene::render(void)
 
 	if (_pm->getPlayer()->getX() > WINSIZEX + 150)
 	{
+		if (_talkIndex == 4)
+		{
+			IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
+		}
+		else
+		{
+			IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
+		}
 		IMAGEMANAGER->findImage("대화창1")->render(CAMERA->getCameraDC(), 272, 400);
 		TextOut(CAMERA->getCameraDC(), 300, 450 , _vTalk[_talkIndex].c_str(), strlen(_vTalk[_talkIndex].c_str() ));
 
