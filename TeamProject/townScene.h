@@ -16,6 +16,8 @@ private:
 	npc*				_npc;
 	playMap*			_map;
 
+	bool _isTemp;
+
 public:
 	townScene();
 	~townScene();
@@ -26,9 +28,10 @@ public:
 	virtual void render(void);
 
 	void npcTileSetting();
+	void npcCollision();
 
 	void fontUI(void);
 	void sceneChange(void);
-
+	
 };
 
