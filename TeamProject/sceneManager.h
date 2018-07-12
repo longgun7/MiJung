@@ -25,6 +25,9 @@ private:
 	itemManager* _im;
 	string _sceneName;
 	bool _isShop;
+	bool _isChange;
+	int _frameCount;
+	int _alphaValue;
 public:
 	sceneManager();
 	~sceneManager();

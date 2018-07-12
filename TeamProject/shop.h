@@ -12,8 +12,11 @@ private:
 	enemyManager * _em;
 	itemManager* _im;
 
-	int _buyNum;
-	int _totalNum;
+	int  _buyNum;
+	int  _totalNum;
+	bool _purchase;
+	int  _index;
+	image*  _uiImg;
 public:
 	shop();
 	~shop();

@@ -49,7 +49,7 @@ void playSceneManager::update(void)
 	_im->update();
 	
 	sceneChange();
-	battleSceneChange();
+	//battleSceneChange();
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("타운씬");
@@ -159,6 +159,7 @@ void playSceneManager::sceneAdd(void)
 
 void playSceneManager::basicUI(void)
 {
+
 	IMAGEMANAGER->addFrameImage("HP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("MP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("EXP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
