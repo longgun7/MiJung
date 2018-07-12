@@ -48,6 +48,8 @@ void townScene::update(void)
 		SCENEMANAGER->changeScene("상태씬");
 	}
 
+	npcCollision();
+
 	// 플레이어가 어느 타일에 있는지 인덱스 번호 세팅
 	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
 	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
@@ -66,6 +68,8 @@ void townScene::render(void)
 	
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
+	if (_isTemp) TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, 400, "대화대화", strlen("ㅇㅇㅇㅇ"));
+
 	fontUI();
 }
 
@@ -85,6 +89,24 @@ void townScene::npcTileSetting()
 		}
 	}
 
+}
+
+void townScene::npcCollision()
+{
+	vector<pair<POINT, tagTile>> vObjTile = _map->getVObjectTile();	
+	RECT rc;
+	for (int i = 0; i < vObjTile.size(); ++i)
+	{
+		if (vObjTile[i].second.obj == OBJ_NPC)
+		{
+			if (IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
+			{
+				// 대사처리 하시오
+				_isTemp = true;
+			}
+			//else _isTemp = false;
+		}
+	}
 }
 
 void townScene::fontUI(void)
