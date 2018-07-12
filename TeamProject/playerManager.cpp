@@ -216,7 +216,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_smasyu->setStat(_vS_ArmorInven[invenIndex].atk, _vS_ArmorInven[invenIndex].def, _vS_ArmorInven[invenIndex].luck, _vS_ArmorInven[invenIndex].cri, _vS_ArmorInven[invenIndex].speed);
 			_S_saveBeforArmor.def = _vS_ArmorInven[invenIndex].def;
 			_S_saveBeforArmor.speed = _vS_ArmorInven[invenIndex].speed;
-			_S_saveBeforWeapon.name = _vS_ArmorInven[invenIndex].name;
+			_S_saveBeforArmor.name = _vS_ArmorInven[invenIndex].name;
 		}
 	}
 

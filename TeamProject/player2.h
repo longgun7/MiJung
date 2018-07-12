@@ -147,6 +147,22 @@ public:
 	void setIsMotionLive(bool motion) { _isMotionLive = motion; }
 	image* getImage() { return _img; }
 	
+	void setAttribute(int atk, int def, int cri, int speed, int currentHp, int maxHp, int currentMp, int maxMp, int currentExp, int maxExp, int level)
+	{
+		_attribute.atk = atk;
+		_attribute.atk = def;
+		_attribute.atk = cri;
+		_attribute.atk = speed;
+		_attribute.atk = currentHp;
+		_attribute.atk = maxHp;
+		_attribute.atk = currentMp;
+		_attribute.atk = maxMp;
+		_attribute.atk = currentExp;
+		_attribute.atk = maxExp;
+		_attribute.atk = level;
+	}
+
+
 	player2();
 	~player2();
 };
