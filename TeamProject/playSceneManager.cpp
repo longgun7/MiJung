@@ -23,7 +23,6 @@ HRESULT playSceneManager::init(void)
 	_map = new playMap;
 	_map->init();
 	
-	
 	//¿¸πÊº±æ	
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
@@ -49,7 +48,7 @@ void playSceneManager::update(void)
 	_im->update();
 	
 	sceneChange();
-	battleSceneChange();
+	//battleSceneChange();
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene("≈∏øÓæ¿");
@@ -159,6 +158,7 @@ void playSceneManager::sceneAdd(void)
 
 void playSceneManager::basicUI(void)
 {
+
 	IMAGEMANAGER->addFrameImage("HP", "image/ui/UIπˆ∆∞.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("MP", "image/ui/UIπˆ∆∞.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("EXP", "image/ui/UIπˆ∆∞.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
@@ -239,11 +239,13 @@ void playSceneManager::fontUI(void)
 		TextOut(CAMERA->getCameraDC(), WINSIZEX - 300, WINSIZEY - 50, "π¯ µ∑", strlen("π¯ µ∑"));
 		TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, WINSIZEY - 50, playerMoney, strlen(playerMoney));
 	}
-	if (SCENEMANAGER->getSceneName() != "¿¸≈ıæ¿")
+	if (SCENEMANAGER->getSceneName() == "πË∆≤æ¿")
 	{
 		for(int i=0;i<_em->getVEnmey().size();i++)
 		{
-			TextOut(CAMERA->getCameraDC(), WINSIZEX - 300, (WINSIZEY - 50)+25*i,"π¯µ∑", strlen("π¯ µ∑"));
+			TextOut(CAMERA->getCameraDC(), WINSIZEX - 300, (WINSIZEY - 170)+40*i,
+				_em->getVEnmey()[i]->getTagEnmey().name.c_str(),
+				strlen(_em->getVEnmey()[i]->getTagEnmey().name.c_str()));
 		}
 		
 	}

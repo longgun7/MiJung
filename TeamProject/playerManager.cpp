@@ -57,10 +57,8 @@ void playerManager::update()
 	//플레이어
 	_ataho->update();	
 	_smasyu->update();
-	
 	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY(), _ataho->getAngle());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
-	inventory(); //인벤토리
 	setEnemyDead(); //돈 드랍
 	
 	//인벤토리
@@ -147,7 +145,7 @@ void playerManager::eventMode()
 
 		if (_ataho->getSlopeNum() <= 2 || _ataho->getSlopeNum() >= 6)
 		{
-			_smasyu->setSkillMove(S_AFRAID);
+			_smasyu->setMove(S_AFRAID);
 		}
 	}
 }
@@ -164,6 +162,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_A_saveBeforWeapon.atk = _vA_WeapInven[invenIndex].atk;
 			_A_saveBeforWeapon.luck = _vA_WeapInven[invenIndex].luck;
 			_A_saveBeforWeapon.cri = _vA_WeapInven[invenIndex].cri;
+			_A_saveBeforWeapon.name = _vA_WeapInven[invenIndex].name;
 			if (_vA_WeapInven[invenIndex].name == "명주 귀신살")
 			{
 				_ataho->setSwordMounting(true);
@@ -181,6 +180,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_ataho->setStat(_vA_ArmorInven[invenIndex].atk, _vA_ArmorInven[invenIndex].def, _vA_ArmorInven[invenIndex].luck, _vA_ArmorInven[invenIndex].cri, _vA_ArmorInven[invenIndex].speed);
 			_A_saveBeforArmor.def = _vA_ArmorInven[invenIndex].def;
 			_A_saveBeforArmor.speed = _vA_ArmorInven[invenIndex].speed;
+			_A_saveBeforArmor.name = _vA_ArmorInven[invenIndex].name;
 		}
 	}
 
@@ -197,6 +197,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_S_saveBeforWeapon.atk = _vS_WeapInven[invenIndex].atk;
 			_S_saveBeforWeapon.luck = _vS_WeapInven[invenIndex].luck;
 			_S_saveBeforWeapon.cri = _vS_WeapInven[invenIndex].cri;
+			_S_saveBeforWeapon.name = _vS_WeapInven[invenIndex].name;
 			if (_vS_WeapInven[invenIndex].name == "마인아수라")
 			{
 				_smasyu->setMounting(true);
@@ -215,6 +216,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_smasyu->setStat(_vS_ArmorInven[invenIndex].atk, _vS_ArmorInven[invenIndex].def, _vS_ArmorInven[invenIndex].luck, _vS_ArmorInven[invenIndex].cri, _vS_ArmorInven[invenIndex].speed);
 			_S_saveBeforArmor.def = _vS_ArmorInven[invenIndex].def;
 			_S_saveBeforArmor.speed = _vS_ArmorInven[invenIndex].speed;
+			_S_saveBeforWeapon.name = _vS_ArmorInven[invenIndex].name;
 		}
 	}
 
@@ -444,34 +446,7 @@ void playerManager::getItemValue(string itemName)
 	}
 }
 
-void playerManager::inventory()
-{
-	//아타호 무기
-	for (int i = 0; i < _vA_WeapInven.size(); i++)
-	{
-		_vA_WeapInven[i].rc = RectMakeCenter(600+ i * 50, 100, 50, 50);
-	}
-	//아타호 방어구
-	for (int i = 0; i < _vA_ArmorInven.size(); i++)
-	{
-		_vA_ArmorInven[i].rc = RectMakeCenter(600 + i * 50, 150, 50, 50);
-	}
-	//스마슈 무기
-	for (int i = 0; i <_vS_WeapInven.size(); i++)
-	{
-		_vS_WeapInven[i].rc = RectMakeCenter(600 + i * 50, 250, 50, 50);
-	}
-	//스마슈 방어구
-	for (int i = 0; i <_vS_ArmorInven.size(); i++)
-	{
-		_vS_ArmorInven[i].rc = RectMakeCenter(600 + i * 50, 300, 50, 50);
-	}
-	//포션
-	for  (int i = 0; i < _vPoInven.size();  i++)
-	{
-		_vPoInven[i].rc = RectMakeCenter(600 + i*50, 350, 50, 50);
-	}
-}
+
 
 void playerManager::setEnemyDead()
 {

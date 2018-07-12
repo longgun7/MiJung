@@ -112,6 +112,9 @@
     <Filter Include="playGround\Scene\startScene\playScene\eventScene">
       <UniqueIdentifier>{6fe53a2a-cda9-4c6e-9f5f-c99f1d89b848}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\saveLoad">
+      <UniqueIdentifier>{59ebffb2-7e1e-4397-80ad-82e25159673c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -284,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="eventScene.h">
       <Filter>playGround\Scene\startScene\playScene\eventScene</Filter>
+    </ClInclude>
+    <ClInclude Include="saveLoad.h">
+      <Filter>playGround\saveLoad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +469,9 @@
     </ClCompile>
     <ClCompile Include="eventScene.cpp">
       <Filter>playGround\Scene\startScene\playScene\eventScene</Filter>
+    </ClCompile>
+    <ClCompile Include="saveLoad.cpp">
+      <Filter>playGround\saveLoad</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

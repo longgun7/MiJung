@@ -139,7 +139,7 @@ public:
 
 	void setIsMotionLive(bool motion) { _isMotionLive = motion; }
 	tagAttribute getAttribute() { return _attribute; } //속성접근자
-	void setAttribute(tagAttribute attribute) { _attribute = attribute; }
+	void setAttribute(int attribute);
 
 	
 
@@ -167,7 +167,9 @@ public:
 		_move = move;
 		_isMotionLive = true;
 	}
-	void setSkillMove(MOVE move);
+	void setSkil(int choiceIndex, int skillIndex,int monIndex);
+
+
 	int getSkillFrame() { return _skillFrame; }
 	
 	

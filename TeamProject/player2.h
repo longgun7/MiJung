@@ -110,7 +110,7 @@ public:
 	
 	bool getIsExpSet() { return _isExpSet; }
 
-
+	float getX() { return _x; }
 	float getY() { return _y; }
 	
 	// 추가(민경)
@@ -126,7 +126,7 @@ public:
 		_isMotionLive = true;
 	}
 	
-	void setSkillMove(SMOVE move);
+	void setSkill(int choiceIndex, int skillIndex, int monIndex);
 	
 	void setMounting(bool mounting) { _isSwordMounting = mounting; } //무기 장착여부
 	
