@@ -33,9 +33,10 @@ void enemyManager::update()
 	{
 		hitPlayer();									// hitPlayer 함수를 호출한다
 	}
-	if (KEYMANAGER->isOnceKeyDown('V'))						// V키를 누르면
+
+	if (KEYMANAGER->isOnceKeyDown('V'))
 	{
-		while (_vEnemy.size() > 0)
+		while (_vEnemy.size() > 0)										// V키를 누르면
 		{
 			removeEnemy(0);								// 벡터 사이즈만큼 removeEnemy 함수를 호출한다
 		}
@@ -52,20 +53,23 @@ void enemyManager::render()
 		(*_viEnemy)->render();
 	}
 
-	for (int i = 0; i < _vEnemy.size(); ++i)	// i는 0 i가 벡터 사이즈보다 작을경우 ++i를 해준다
+	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
 		
-		int damage = _vEnemy[i]->getTagEnmey().damage;												// dagme에 i번째 벡터의 데미지를 넣어준다															
-		int width = (_vEnemy[i]->getTagEnmey().rc.right - _vEnemy[i]->getTagEnmey().rc.left) / 2;	// width에 i번째 에너미의 x 중점을 넣는다
-		int height = (_vEnemy[i]->getTagEnmey().rc.bottom - _vEnemy[i]->getTagEnmey().rc.top) / 2;	// height에 i번째 에너미의 y 중점을 넣는다
-		_img->setX(_vEnemy[i]->getTagEnmey().rc.left + width);										// img의 setX에 i번째 에너미의 x 중점을 넣는다
-		_img->setY(_vEnemy[i]->getTagEnmey().rc.top + height);										// img의 setY에 i번째 에너미의 y 중점을 넣는다
+		int width = (_vEnemy[i]->getTagEnmey().rc.right - _vEnemy[i]->getTagEnmey().rc.left) / 2;
+		int height = (_vEnemy[i]->getTagEnmey().rc.bottom - _vEnemy[i]->getTagEnmey().rc.top) / 2;
+		_img->setX(_vEnemy[i]->getTagEnmey().rc.left + width);
+		_img->setY(_vEnemy[i]->getTagEnmey().rc.top + height);
 
-		if (_vEnemy[i]->getTagEnmey().direction == HIT)																										// 
+		if (_vEnemy[i]->getTagEnmey().direction == HIT)
 		{
-			_img->frameRender(CAMERA->getCameraDC(), _img->getX() + width / 2, _img->getY() + height - 10, (damage % 10), 0);								// 
-
-			if (damage > 10) _img->frameRender(CAMERA->getCameraDC(), _img->getX() + width / 2 + 8, _img->getY() + height - 10, (damage / 10) % 10, 0);		// 
+			int damage = _vEnemy[i]->getTagEnmey().damage;
+			for (int i = 0; i <= 4; ++i)
+			{
+				int f = pow(10,i);
+				if (damage / f == 0) break;
+				_img->frameRender(CAMERA->getCameraDC(), _img->getX() - (8 * i), _img->getY() + height, (damage / f) % 10, 0);
+			}
 		}
 
 		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)															// 
@@ -74,19 +78,19 @@ void enemyManager::render()
 
 			_vEnemy[i]->setIsDead(true);																													// 
 		}
-
-		if (_vEnemy[i]->getTagEnmey().fadeCount >= 4 && _vEnemy[i]->getTagEnmey().fadeCount <= 150)															// 
+		if (_vEnemy[i]->getTagEnmey().fadeCount >= 4 && _vEnemy[i]->getTagEnmey().fadeCount <= 150)
 		{
 			int cost = _vEnemy[i]->getTagEnmey().dropGold;
 
-			_img->frameRender(CAMERA->getCameraDC(), _img->getX()+10, _img->getY(), (cost % 10), 0);
-			if (cost >=10) _img->frameRender(CAMERA->getCameraDC(), _img->getX() + 2, _img->getY(), (cost / 10) % 10, 0);
-			if (cost >= 100) _img->frameRender(CAMERA->getCameraDC(), _img->getX() - 6, _img->getY(), (cost / 100) % 10, 0);
-			if (cost >= 1000) _img->frameRender(CAMERA->getCameraDC(), _img->getX() - 14, _img->getY(), (cost / 1000) % 10, 0);
+			for (int i = 0; i < 5; ++i)
+			{
+				int f = pow(10, i);
+				if (cost / f == 0) break;
+				_img->frameRender(CAMERA->getCameraDC(), _img->getX() - (8 * i), _img->getY(), (cost / f) % 10, 0);
+			}
 		}
 	}
 	_ge->render();
-
 }
 
 void enemyManager::setEnemy(float x, float y)
