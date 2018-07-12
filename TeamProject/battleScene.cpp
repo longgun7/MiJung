@@ -43,10 +43,6 @@ HRESULT battleScene::init(void)
 	_playerTurn = ATAHO_TURN;
 
 	CAMERA->setPosition(0, 0);
-	_pm->getPlayer()->setX(100);
-	_pm->getPlayer()->setY(200);
-	_pm->getPlayer2()->setX(100);
-	_pm->getPlayer2()->setY(400);
 
 	return S_OK;
 }
@@ -252,9 +248,9 @@ void battleScene::update(void)
 	{
 		_isTurn = false;
 		if(_pm->getPlayer()->getMove()==FIGHTREADY)
-		_pm->getPlayer()->setSkillMove(SOLOSKILL1);
+		_pm->getPlayer()->setSkillMove(AREASKILL2);
 		if (_pm->getPlayer2()->getMove() == S_FIGHTREADY)
-		_pm->getPlayer2()->setSkillMove(S_SOLOSKILL2);
+		_pm->getPlayer2()->setSkillMove(S_AREASKILL2);
 
 		_isFight = false;
 		
@@ -264,7 +260,7 @@ void battleScene::update(void)
 		if (_em->getVEnmey().size() == 0)
 		{
 			//_isTurn = true;
-			SCENEMANAGER->changeScene("ÇÊµå¾À");
+			//SCENEMANAGER->changeScene("ÇÊµå¾À");
 		}
 	}
 }

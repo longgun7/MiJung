@@ -14,10 +14,10 @@ HRESULT mapToolScene::init(void)
 {
 	setImageInit();
 
-	_tileSetName = "InHouse";
+	_tileSetName = "town";
 	_sampleImg = IMAGEMANAGER->findImage(_tileSetName);
 	_drawTileImg = IMAGEMANAGER->findImage(_tileSetName);
-	_ctrl = CTRL_INHOUSE;
+	_ctrl = CTRL_TOWN;
 
 	string str[6] = { "town", "InHouse", "field1Tile", "field2Tile", "field3Tile", "event" };
 	for (int i = 0; i < 6; ++i)
@@ -59,7 +59,6 @@ void mapToolScene::update(void)
 	setShowTileIndex();
 
 	autoSave(); // 자동저장 오토세이브
-				//imageCopy();
 }
 
 void mapToolScene::render(void)
@@ -452,7 +451,6 @@ void mapToolScene::buttonClick()
 			_drawTileImg = IMAGEMANAGER->findImage(_tileSetName);
 			IMAGEMANAGER->findImage("타일셋배경")->setFrameY(i);
 			_ctrl = (CTRL)i;
-			//save();
 			load();
 			break;
 		}
@@ -466,7 +464,6 @@ void mapToolScene::buttonClick()
 
 void mapToolScene::autoSave()
 {
-	//_autoSaveCount += TIMEMANAGER->getElapsedTime();
 	if ((int)(TIMEMANAGER->getWorldTime()) % 60 == 0)
 	{
 		save();
@@ -483,25 +480,6 @@ void mapToolScene::save()
 	file = CreateFile((char*)str.c_str(), GENERIC_WRITE, NULL, NULL,
 		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	//vector<tagTile> vTile;
-	//for (int i = 0; i < TILEY; ++i)
-	//{
-	//	for (int j = 0; j < TILEX; ++j)
-	//	{
-	//		if (_tiles[i * TILEX + j].terrain != TR_NONE)
-	//		{
-	//			vTile.push_back(_tiles[i * TILEX + j]);
-	//		}
-	//	}
-	//}
-	//
-	//tagTile* setTiles = new tagTile[vTile.size()];
-	//for (int i = 0; i < vTile.size(); ++i)
-	//{
-	//	setTiles[i] = vTile[i];
-	//}
-	//
-	//WriteFile(file, &setTiles, sizeof(tagTile) * vTile.size(), &save, NULL);
 	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
 
 	CloseHandle(file);
@@ -522,6 +500,8 @@ void mapToolScene::load()
 	{
 	for (int j = 0; j < TILEX; ++j)
 	{
+		if (_tiles[i * TILEX + j].terrain == TR_UNMOVE)
+			_tiles[i * TILEX + j].terrain = TR_NONE;
 	//if(_tiles[i * TILEX + j].terrain == TR_MOVE)
 	//	_tiles[i * TILEX + j].terrain = TR_UNMOVE;
 	//else if (_tiles[i * TILEX + j].terrain == TR_UNMOVE)
@@ -531,10 +511,10 @@ void mapToolScene::load()
 	//else if (_tiles[i * TILEX + j].terrain == 7)
 	//	_tiles[i * TILEX + j].terrain = TR_NONE;
 	//
-	//if(_tiles[i * TILEX + j].obj == OBJ_NONE)
-	//	_tiles[i * TILEX + j].obj = OBJ_EXIST;
-	if (_tiles[i * TILEX + j].obj == 12)
-	_tiles[i * TILEX + j].obj = OBJ_NONE;
+	//if(_tiles[i * TILEX + j].obj == OBJ_EXIST)
+	//	_tiles[i * TILEX + j].obj = OBJ_NONE;
+	//if (_tiles[i * TILEX + j].obj == 5)
+	//_tiles[i * TILEX + j].obj = OBJ_NONE;
 	//else if (_tiles[i * TILEX + j].terrain == TR_MOVE)
 	//	_tiles[i * TILEX + j].terrain = TR_UNMOVE;
 	//else if (_tiles[i * TILEX + j].terrain == TR_DOOR)

@@ -125,7 +125,7 @@ public:
 	void setPortion(int hp, int mp);
 	void randEffect();
 	void randAreaEffect();
-	
+
 	void effectImage();
 	
 	float getX() { return _x; }
@@ -168,6 +168,8 @@ public:
 		_isMotionLive = true;
 	}
 	void setSkillMove(MOVE move);
+	int getSkillFrame() { return _skillFrame; }
+	
 	
 	void setEventMode(SCENEMODE mode);
 	// Ãß°¡(¹Î°æ)

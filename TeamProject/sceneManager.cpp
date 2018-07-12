@@ -101,7 +101,6 @@ HRESULT sceneManager::changeScene(string sceneName)
 		//바뀐 씬에서 데이터를 받아온 다음 이전씬을 해제해야하는 경우는
 		//먼저 릴리즈가 불러와지기 때문에 따로 처리를 해줘야한다는 불편함이
 		//있다.
-		//뭐 대혁이나 민경이나 은지나가 써보다 불편하면 바꾸리라 본다
 
 		return S_OK;
 	}

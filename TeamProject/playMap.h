@@ -6,8 +6,8 @@
 class playMap : public gameNode
 {
 private:
-	vector<POINT>			_vPosition;
-	vector<POINT>::iterator _viPosition;
+	vector<tagTile>				_vPortal;
+	vector<tagTile>::iterator	_viPortal;
 
 	tagTile	_tiles[TILEX * TILEY];
 	string _currentTile;
@@ -23,6 +23,7 @@ public:
 	void objRender();
 
 	void load(string tileName);
+	void portal(float x, float y);
 
 	//타일 접근자
 	tagTile* getTiles() { return _tiles; }

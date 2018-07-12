@@ -189,7 +189,6 @@
     <ClInclude Include="shop.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="fildSkeleton.h" />
-    <ClInclude Include="skeletonWizard.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="startScene.h" />
