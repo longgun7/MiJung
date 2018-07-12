@@ -25,10 +25,12 @@ HRESULT barScnen::init(void)
 	
 	_isShopCheck = false;
 	_isHotelCheck = false;
-
-
 	
 	_map->init(BAR);
+
+	_npc = new npc;
+	_npc->init();
+	npcTileSetting();
 
 	return S_OK;
 }
@@ -69,6 +71,8 @@ void barScnen::update(void)
 		SCENEMANAGER->changeScene("상태씬");
 	}
 
+	npcCollision();
+
 	// 플레이어가 어느 타일에 있는지 인덱스 번호 세팅
 	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
 	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
@@ -79,6 +83,9 @@ void barScnen::update(void)
 void barScnen::render(void)
 {
 	_map->render();
+
+	_npc->render();
+	
 	// 오브젝트 렌더
 	_map->objRender();
 
@@ -86,7 +93,6 @@ void barScnen::render(void)
 	
 	if(_isShopCheck)
 	{	
-
 		IMAGEMANAGER->findImage("상점창")->render(CAMERA->getCameraDC(), 175, 95);
 		IMAGEMANAGER->findImage("상점창소지수")->render(CAMERA->getCameraDC(), 625, 95);
 		IMAGEMANAGER->findImage("상점창구입수")->render(CAMERA->getCameraDC(), 625, 215);
@@ -138,3 +144,46 @@ void barScnen::sceneChange(void)
 }
 
 
+void barScnen::npcTileSetting()
+{
+	vector<pair<POINT, tagTile>> vObjTile;
+	vObjTile = _map->getVObjectTile();
+
+	int frameIdX = 1, frameIdY = 1;
+	for (int i = 0; i < vObjTile.size(); ++i)
+	{
+		if (vObjTile[i].second.obj == OBJ_NPC)
+		{
+			_npc->addNPC((vObjTile[i].first.x + 1) * TILESIZE, (vObjTile[i].first.y - 1) * TILESIZE, NORMAL, frameIdX, frameIdY, vObjTile[i].first.x, vObjTile[i].first.y);
+			frameIdX++;
+			if (frameIdX > 5) frameIdX = 0, frameIdY = 1;
+		}
+		else if (vObjTile[i].second.obj == OBJ_SHOP)
+			_npc->addNPC((vObjTile[i].first.x + 1) * TILESIZE, (vObjTile[i].first.y - 1) * TILESIZE, SHOP, 1, 2, vObjTile[i].first.x, vObjTile[i].first.y);
+		else if (vObjTile[i].second.obj == OBJ_MOTEL)
+			_npc->addNPC((vObjTile[i].first.x + 1) * TILESIZE, (vObjTile[i].first.y - 1) * TILESIZE, MOTEL, 0, 2, vObjTile[i].first.x, vObjTile[i].first.y);
+	}
+
+}
+
+void barScnen::npcCollision()
+{
+	vector<pair<POINT, tagTile>> vObjTile = _map->getVObjectTile();
+	vector<tagNPC> vNpc = _npc->getVTagNPC();
+
+	for (int i = 0; i < vObjTile.size(); ++i)
+	{
+		RECT rc;
+		if ((vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()) ||
+			 vObjTile[i].second.obj == OBJ_SHOP || vObjTile[i].second.obj == OBJ_MOTEL))
+		{
+			for (int j = 0; j < vNpc.size(); ++j)
+			{
+				if (vObjTile[i].first.x == vNpc[j].tileX &&
+					vObjTile[i].first.y == vNpc[j].tileY)
+					_npc->talkNPC(vNpc[j].frameX, vNpc[j].frameY);
+			}
+		}
+		
+	}
+}
