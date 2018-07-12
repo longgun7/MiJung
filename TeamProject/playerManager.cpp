@@ -57,10 +57,8 @@ void playerManager::update()
 	//플레이어
 	_ataho->update();	
 	_smasyu->update();
-	
 	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY(), _ataho->getAngle());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
-	inventory(); //인벤토리
 	setEnemyDead(); //돈 드랍
 	
 	//인벤토리
@@ -444,34 +442,7 @@ void playerManager::getItemValue(string itemName)
 	}
 }
 
-void playerManager::inventory()
-{
-	//아타호 무기
-	for (int i = 0; i < _vA_WeapInven.size(); i++)
-	{
-		_vA_WeapInven[i].rc = RectMakeCenter(600+ i * 50, 100, 50, 50);
-	}
-	//아타호 방어구
-	for (int i = 0; i < _vA_ArmorInven.size(); i++)
-	{
-		_vA_ArmorInven[i].rc = RectMakeCenter(600 + i * 50, 150, 50, 50);
-	}
-	//스마슈 무기
-	for (int i = 0; i <_vS_WeapInven.size(); i++)
-	{
-		_vS_WeapInven[i].rc = RectMakeCenter(600 + i * 50, 250, 50, 50);
-	}
-	//스마슈 방어구
-	for (int i = 0; i <_vS_ArmorInven.size(); i++)
-	{
-		_vS_ArmorInven[i].rc = RectMakeCenter(600 + i * 50, 300, 50, 50);
-	}
-	//포션
-	for  (int i = 0; i < _vPoInven.size();  i++)
-	{
-		_vPoInven[i].rc = RectMakeCenter(600 + i*50, 350, 50, 50);
-	}
-}
+
 
 void playerManager::setEnemyDead()
 {
