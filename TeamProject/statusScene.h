@@ -51,6 +51,8 @@ public:
 	void addImage(void);
 	
 	void iconChange(void);
+	void itemChoice(void);
 	void fontUI(void);
+	
 };
 

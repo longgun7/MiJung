@@ -224,6 +224,9 @@ void playSceneManager::fontUI(void)
 	char currentLuck2[128];
 	sprintf_s(currentLuck2, "%d", _pm->getPlayer2()->getAttribute().luck);
 
+	char playerMoney[128];
+	sprintf_s(playerMoney, "%d G", _pm->getTagMoney().money);
+
 	font = CreateFont(20, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
@@ -231,6 +234,19 @@ void playSceneManager::fontUI(void)
 	
 	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 150, charName, strlen(charName));
 	TextOut(CAMERA->getCameraDC(), 25, WINSIZEY - 100, charName1, strlen(charName1));
+	if(SCENEMANAGER->getSceneName() != "¹èÆ²¾À")
+	{
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 300, WINSIZEY - 50, "¹ø µ·", strlen("¹ø µ·"));
+		TextOut(CAMERA->getCameraDC(), WINSIZEX - 200, WINSIZEY - 50, playerMoney, strlen(playerMoney));
+	}
+	if (SCENEMANAGER->getSceneName() != "ÀüÅõ¾À")
+	{
+		for(int i=0;i<_em->getVEnmey().size();i++)
+		{
+			TextOut(CAMERA->getCameraDC(), WINSIZEX - 300, (WINSIZEY - 50)+25*i,"¹øµ·", strlen("¹ø µ·"));
+		}
+		
+	}
 	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);

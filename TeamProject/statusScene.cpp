@@ -374,7 +374,11 @@ void statusScene::keyManager(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
 		IMAGEMANAGER->findImage("SETTINGBUTTON")->setFrameY(1);
-		_isCheck = true;
+		if(!_isCheck)_isCheck = true;
+		if(_isCheck)
+		{
+			itemChoice();
+		}
 	}
 
 	for (int i = 0; i<6; i++)
@@ -521,6 +525,11 @@ void statusScene::iconChange(void)
 			IMAGEMANAGER->findImage("스킬2")->setFrameY(3);
 		break;
 	}
+}
+//아이템 선택
+void statusScene::itemChoice(void)
+{
+	_pm->mounting(IMAGEMANAGER->findImage("캐릭터이미지")->getFrameX(), _setIndex, _invenTypeIndex, _invenIndex);
 }
 //텍스트
 void statusScene::fontUI(void)
