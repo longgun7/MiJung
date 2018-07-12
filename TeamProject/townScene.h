@@ -1,6 +1,7 @@
 #pragma once
 #include"gameNode.h"
 #include "playMap.h"
+#include "npc.h"
 
 class playerManager;
 class enemyManager;
@@ -9,10 +10,11 @@ class itemManager;
 class townScene : public gameNode
 {
 private:
-	playerManager * _pm;
-	enemyManager * _em;
-	itemManager* _im;
-	playMap* _map;
+	playerManager *		_pm;
+	enemyManager *		_em;
+	itemManager*		_im;
+	npc*				_npc;
+	playMap*			_map;
 
 public:
 	townScene();
@@ -22,6 +24,8 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+
+	void npcTileSetting();
 
 	void fontUI(void);
 	void sceneChange(void);

@@ -24,6 +24,10 @@ HRESULT townScene::init(void)
 	_map->init(TOWN);
 	SOUNDMANAGER->play("TownTheMa", 0.5f);
 
+	_npc = new npc;
+	_npc->init();
+	npcTileSetting();
+
 	return S_OK;
 }
 
@@ -54,14 +58,33 @@ void townScene::update(void)
 void townScene::render(void)
 {
 	_map->render();
+
+	_npc->render();
+
 	// 오브젝트 렌더
 	_map->objRender();
-
-
+	
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
-
 	fontUI();
+}
+
+void townScene::npcTileSetting()
+{
+	vector<pair<POINT, tagTile>> vObjTile;
+	vObjTile = _map->getVObjectTile();
+
+	int frameIdX = 0, frameIdY = 0;
+	for (int i = 0; i < vObjTile.size(); ++i)
+	{
+		if (vObjTile[i].second.obj == OBJ_NPC)
+		{
+			_npc->addNPC(vObjTile[i].first.x * TILESIZE, vObjTile[i].first.y * TILESIZE, NORMAL, frameIdX, frameIdY);
+			frameIdX++;
+			if (frameIdX > 5) frameIdX = 0, frameIdY = 1;
+		}
+	}
+
 }
 
 void townScene::fontUI(void)

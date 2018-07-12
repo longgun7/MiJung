@@ -55,7 +55,8 @@ void playMap::objRender()
 		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
 		{
 			if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
-			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL) continue;
+			else if (_tiles[i * TILEX + j].obj == OBJ_NPC) continue;
+			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL) continue;			
 
 			IMAGEMANAGER->frameRender(_currentTile, getMemDC(),
 				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
@@ -96,13 +97,15 @@ void playMap::load(string tileName)
 
 	CAMERA->setMaxPositon(maxTileX * TILESIZE, maxTileY * TILESIZE);
 
+	// 오브젝트 속성이 있는 타일만 담기
 	for (int i = 0; i < TILEY; ++i)
 	{
 		for (int j = 0; j < TILEX; ++j)
 		{
-			if (_tiles[i * TILEX + j].obj < OBJ_UPPORTAL) continue;
+			if (_tiles[i * TILEX + j].obj == OBJ_NONE ||
+				_tiles[i * TILEX + j].obj == OBJ_EXIST) continue;
 
-			_vPortal.push_back(_tiles[i * TILEX + j]);
+			_vObjectTile.push_back(make_pair(PointMake(j, i), _tiles[i * TILEX + j]));
 		}
 	}
 }
@@ -118,7 +121,7 @@ void playMap::setTilePos(RECT rc, OBJECT obj)
 	{
 		for (int j = rc.left; j < rc.right; j += TILESIZE)
 		{
-			vTilePos.push_back(make_pair(obj, PointMake(j / TILEX, i / TILEY)));
+			_vTilePos.push_back(make_pair(obj, PointMake(j / TILEX, i / TILEY)));
 		}
 	}
 }
@@ -131,7 +134,8 @@ POINT playMap::getTileIndex(RECT rc, OBJECT obj)
 		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
 		{
 			// 총 제트오더 사각형 크기 중, 중앙 타일길이를 기준으로 측정한다.
-			if ((rc.left + (rc.right - rc.left)) / TILESIZE == j && rc.top / TILESIZE == i)
+			if ((rc.left + (rc.right - rc.left)) / TILESIZE == j && rc.top / TILESIZE == i ||
+				_tiles[i * TILEX + j].obj == obj)
 				return PointMake(j, i);
 		}
 	}

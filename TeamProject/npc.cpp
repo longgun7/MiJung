@@ -12,7 +12,7 @@ npc::~npc()
 
 HRESULT npc::init()
 {
-	IMAGEMANAGER->addFrameImage("NPC", "image/maptool/NPC.bmp", 288, 192, 6, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("NPC", "image/maptool/NPC/NPC.bmp", 288, 192, 6, 3, true, RGB(255, 0, 255));
 
 	return S_OK;
 }
