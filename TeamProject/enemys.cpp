@@ -11,12 +11,12 @@ HRESULT spearMan::init(float x, float y)
 	
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 20;
-	_enemy.totalHp = 20;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
 	_enemy.att = 20;
-	_enemy.def = 1;
+	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 50;
+	_enemy.exp = 20;
 	_enemy.isAttack = false;
 	_enemy.isDead = false;
 
@@ -45,15 +45,6 @@ void spearMan::release()
 
 void spearMan::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Z'))
-	{
-		_enemy.direction = ATTACK;
-	}
-	if (KEYMANAGER->isOnceKeyDown('X'))
-	{
-		_enemy.direction = DEAD;
-	}
-
 	motion();
 }
 
@@ -158,12 +149,12 @@ HRESULT kungpu::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 20;
-	_enemy.totalHp = 20;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
 	_enemy.att = 20;
-	_enemy.def = 1;
+	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 10;
+	_enemy.exp = 20;
 
 	_enemy.isAttack = false;
 	_enemy.isRandAttack = false;
@@ -225,11 +216,6 @@ void kungpu::motion()
 				_enemy.currentFrameX = 4;
 				_enemy.maxAttackFrameX = 5;
 			}
-			if (_enemy.randAttack == 3)
-			{
-				_enemy.currentFrameX = 6;
-				_enemy.maxAttackFrameX = 7;
-			}
 			_enemy.isRandAttack = true;
 		}
 	}
@@ -254,11 +240,11 @@ void kungpu::motion()
 			}
 		}
 
-		else if (_enemy.direction == HIT)
+		if (_enemy.direction == HIT)
 		{
 			_enemy.hitCount++;
 
-			_enemy.currentFrameX = 0;
+			_enemy.currentFrameX = 8;
 
 			if (_enemy.hitCount == 5)
 			{
@@ -270,6 +256,7 @@ void kungpu::motion()
 
 		_enemy.count = 0;
 	}
+
 	if (_enemy.direction == DEAD)
 	{
 		_enemy.currentFrameX = 8;
@@ -281,9 +268,7 @@ void kungpu::motion()
 
 			if (_enemy.alphaValue <= 0)
 			{
-				_enemy.alphaValue = 0;
-
-				
+				_enemy.alphaValue = 0;		
 			}
 		}
 		else
@@ -326,12 +311,12 @@ HRESULT spirit::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 30;
-	_enemy.totalHp = 30;
-	_enemy.att = 23;
+	_enemy.hp = 50;
+	_enemy.totalHp = 50;
+	_enemy.att = 20;
 	_enemy.def = 3;
 	_enemy.miss = 10;
-	_enemy.exp = 70;
+	_enemy.exp = 20;
 
 	_enemy.isAttack = false;
 	_enemy.isRandAttack = false;
@@ -478,10 +463,10 @@ HRESULT bat::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 30;
-	_enemy.totalHp = 30;
-	_enemy.att = 25;
-	_enemy.def = 3;
+	_enemy.hp = 100;
+	_enemy.totalHp = 100;
+	_enemy.att = 27;
+	_enemy.def = 10;
 	_enemy.miss = 10;
 	_enemy.exp = 70;
 
@@ -616,10 +601,10 @@ HRESULT snake::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 30;
-	_enemy.totalHp = 30;
-	_enemy.att = 25;
-	_enemy.def = 3;
+	_enemy.hp = 100;
+	_enemy.totalHp = 100;
+	_enemy.att = 27;
+	_enemy.def = 10;
 	_enemy.miss = 10;
 	_enemy.exp = 70;
 
@@ -749,10 +734,10 @@ HRESULT wildboar::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 50;
-	_enemy.totalHp = 50;
-	_enemy.att = 30;
-	_enemy.def = 5;
+	_enemy.hp = 100;
+	_enemy.totalHp = 100;
+	_enemy.att = 27;
+	_enemy.def = 10;
 	_enemy.miss = 10;
 	_enemy.exp = 90;
 
@@ -881,10 +866,10 @@ HRESULT skeleton::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 50;
-	_enemy.totalHp = 50;
+	_enemy.hp = 300;
+	_enemy.totalHp = 300;
 	_enemy.att = 35;
-	_enemy.def = 5;
+	_enemy.def = 20;
 	_enemy.miss = 10;
 	_enemy.exp = 100;
 
@@ -1014,10 +999,10 @@ HRESULT skeletonMage::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 50;
-	_enemy.totalHp = 50;
+	_enemy.hp = 300;
+	_enemy.totalHp = 300;
 	_enemy.att = 35;
-	_enemy.def = 5;
+	_enemy.def = 20;
 	_enemy.miss = 10;
 	_enemy.exp = 100;
 
@@ -1175,10 +1160,10 @@ HRESULT dragon::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 70;
-	_enemy.totalHp = 70;
-	_enemy.att = 100;
-	_enemy.def = 7;
+	_enemy.hp = 300;
+	_enemy.totalHp = 300;
+	_enemy.att = 35;
+	_enemy.def = 20;
 	_enemy.miss = 10;
 	_enemy.exp = 130;
 
@@ -1313,10 +1298,10 @@ HRESULT boss::init(float x, float y)
 
 	_enemy.alphaValue = 255;
 
-	_enemy.hp = 500;
-	_enemy.totalHp = 500;
-	_enemy.att = 45;
-	_enemy.def = 10;
+	_enemy.hp = 750;
+	_enemy.totalHp = 750;
+	_enemy.att = 50;
+	_enemy.def = 30;
 	_enemy.miss = 10;
 	_enemy.exp = 0;
 	_enemy.skillCount = 0;
@@ -1418,7 +1403,7 @@ void boss::motion()
 			{
 				_bs->addAreaSkill(_enemy.x, _enemy.y);
 			}
-			else if ((_enemy.randAttack == 2 || _enemy.randAttack == 3) && _enemy.currentFrameX / 2 == 0 && _enemy.currentFrameX != 0 && _enemy.currentFrameX != 1)
+			else if ((_enemy.randAttack == 2 || _enemy.randAttack == 3) && _enemy.currentFrameX % 2 == 0 && _enemy.currentFrameX != 0 && _enemy.currentFrameX != 1)
 			{
 				_enemy.isAttack = true;
 			}
