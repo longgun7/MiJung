@@ -43,6 +43,12 @@ HRESULT battleScene::init(void)
 	_playerTurn = ATAHO_TURN;
 
 	CAMERA->setPosition(0, 0);
+	_em->randEnemy();
+	_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(400);
+	_pm->getPlayer2()->setX(100); _pm->getPlayer2()->setY(400);
+	_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
+	_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
+
 
 	return S_OK;
 }

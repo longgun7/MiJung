@@ -125,31 +125,19 @@ public:
 	void setPortion(int hp, int mp);
 	void randEffect();
 	void randAreaEffect();
-
-	void effectImage();
-	
+	void effectImage();	
 	float getX() { return _x; }
-	void setX(float x) { _x = x; }
-	
+	void setX(float x) { _x = x; }	
 	float getY() { return _y; }
-	void setY(float y) { _y = y; }
-	
+	void setY(float y) { _y = y; }	
 	float getAngle() { return _angle; }                                                                                                                                                                    
 	MOVE getMove() { return _move; } //상태정의 접근자
-
 	void setIsMotionLive(bool motion) { _isMotionLive = motion; }
 	tagAttribute getAttribute() { return _attribute; } //속성접근자
-	void setAttribute(int attribute);
-
-	
-
 	bool getIsJumping() { return _isJumping; } //점핑여부
 	int getSlopeNum() { return _slopeNum; }
-
-	void setSwordMounting(bool mounting) { _isWeaponMounting = mounting; } //무기 장착여부
-	
-	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언
-	
+	void setSwordMounting(bool mounting) { _isWeaponMounting = mounting; } //무기 장착여부	
+	void setEnemyManagerAdressLink(enemyManager* em) { _em = em; } //전방선언	
 	void setSceneMode(SCENEMODE _scene, MOVE move) //씬전환모음
 	{
 		_sceneMode = _scene;
@@ -168,11 +156,7 @@ public:
 		_isMotionLive = true;
 	}
 	void setSkil(int choiceIndex, int skillIndex,int monIndex);
-
-
-	int getSkillFrame() { return _skillFrame; }
-	
-	
+	int getSkillFrame() { return _skillFrame; }	
 	void setEventMode(SCENEMODE mode);
 	// 추가(민경)
 	RECT getRC() { return _rc; }
@@ -180,7 +164,21 @@ public:
 	void tileMove(void);
 	void setplayMapMemoryAddressLink(playMap* map) { _map = map; }
 
-	
+	void setAttribute(int atk, int def,  int cri, int speed, int currentHp, int maxHp, int currentMp, int maxMp, int currentExp, int maxExp, int level)
+	{
+		_attribute.atk = atk;
+		_attribute.atk = def;
+		_attribute.atk = cri;
+		_attribute.atk = speed;
+		_attribute.atk = currentHp;
+		_attribute.atk = maxHp;
+		_attribute.atk = currentMp;
+		_attribute.atk = maxMp;
+		_attribute.atk = currentExp;
+		_attribute.atk = maxExp;
+		_attribute.atk = level;	
+	}
+
 	player();
 	~player();
 };

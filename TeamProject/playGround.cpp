@@ -25,7 +25,8 @@ HRESULT playGround::init(void)
 	_psm = new playSceneManager;
 	_psm->init();
 	
-	
+	SOUNDMANAGER->play("MainTheMa", 0.5f);
+
 	return S_OK;
 }
 
@@ -43,6 +44,7 @@ void playGround::update(void)
 	SCENEMANAGER->update();
 	if(SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À" )
 	{
+		SOUNDMANAGER->stop("MainTheMa");
 		_psm->update();
 	}
 	
@@ -62,12 +64,12 @@ void playGround::render(void)
 
 	//============== ÀÌ À§·Î´Â °Çµå¸®Áö ¸»ÀÚ ==============
 
-	
+	SCENEMANAGER->render();
+
 	if (SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À")
 	{
 		_psm->render();
 	}
-	SCENEMANAGER->render();
 	
 	TIMEMANAGER->render(CAMERA->getCameraDC());
 

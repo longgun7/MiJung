@@ -18,6 +18,13 @@ HRESULT fieldScene::init(void)
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_em = SCENEMANAGER->getEnemyManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
+	_map = SCENEMANAGER->getPlayMapLink();
+
+	_map->init(FIELD1);
+
+	_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
+	_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
+	SOUNDMANAGER->play("FiledTheMa", 0.5f);
 
 	return S_OK;
 }
@@ -35,10 +42,21 @@ void fieldScene::update(void)
 		SCENEMANAGER->changeScene("상태씬");
 	}
 
+	// 플레이어가 어느 타일에 있는지 인덱스 번호 세팅
+	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
+	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
+	// 적 타일 인덱스번호 추가해야함
+
+	sceneChange();
+
 }
 
 void fieldScene::render(void)
 {
+	_map->render();
+	// 오브젝트 렌더
+	_map->objRender();
+
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
 	fontUI();
@@ -57,4 +75,46 @@ void fieldScene::fontUI(void)
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
+}
+
+void fieldScene::sceneChange(void)
+{
+	//플레이어가 어느 위치에 있느냐에 따라 포탈 이동 및 씬 이동
+	int idX = _pm->getPlayer()->getZorderRC().right / TILESIZE - 1;
+	int idY = _pm->getPlayer()->getZorderRC().top / TILESIZE;
+	switch (_map->getTiles()[idY * TILEX + idX].obj)
+	{
+	case OBJ_UPPORTAL:		break;
+	case OBJ_DOWNPORTAL:
+		_pm->getPlayer()->setX(100);	_pm->getPlayer()->setY(100);
+		_pm->getPlayer2()->setX(100);	_pm->getPlayer2()->setY(100);
+
+		SCENEMANAGER->changeScene("필드씬2");
+		break;
+	case OBJ_LEFTPORTAL:
+		SOUNDMANAGER->stop("FiledTheMa");
+		_pm->getPlayer()->setX(2310); _pm->getPlayer()->setY(1050);
+		_pm->getPlayer2()->setX(2310); _pm->getPlayer2()->setY(1050);
+		SCENEMANAGER->changeScene("타운씬");
+		break;
+	case OBJ_RIGHTPORTAL:	break;
+
+	}
+
+	// 몬스터 랜덤 만남
+	//if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
+	//	 _pm->getPlayer()->getMove() == RIGHTMOVE	||
+	//	 _pm->getPlayer()->getMove() == UPMOVE		||
+	//	 _pm->getPlayer()->getMove() == DOWNMOVE))
+	//{
+	//	if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
+	//		_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
+	//	{
+	//		if (RND->getFloat(100) < 0.8f)
+	//		{
+	//			SCENEMANAGER->changeScene("배틀씬");
+	//		}
+	//	}
+	//}
+
 }
