@@ -145,7 +145,7 @@ void playerManager::eventMode()
 
 		if (_ataho->getSlopeNum() <= 2 || _ataho->getSlopeNum() >= 6)
 		{
-			_smasyu->setSkillMove(S_AFRAID);
+			_smasyu->setMove(S_AFRAID);
 		}
 	}
 }
