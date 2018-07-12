@@ -48,6 +48,14 @@ HRESULT playerManager::init()
 	_S_saveBeforArmor.def = _vS_ArmorInven[0].def;
 	_S_saveBeforArmor.speed = _vS_ArmorInven[0].speed;
 	
+	_A_saveBeforWeapon.name="¼ú";
+	_A_saveBeforWeapon.img = IMAGEMANAGER->findImage("¼ú");
+	_A_saveBeforArmor.name = "±Ç¹ý°¡ µµº¹";
+	_A_saveBeforArmor.img = IMAGEMANAGER->findImage("±Ç¹ý°¡ µµº¹");
+	_S_saveBeforWeapon.name = "Ã»·æµµ";
+	_S_saveBeforWeapon.img = IMAGEMANAGER->findImage("Ã»·æµµ");
+	_S_saveBeforArmor.name = "°¡Á× °©¿Ê";
+	_S_saveBeforArmor.img = IMAGEMANAGER->findImage("°¡Á× °©¿Ê");
 
 	return S_OK;
 }
@@ -163,6 +171,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_A_saveBeforWeapon.luck = _vA_WeapInven[invenIndex].luck;
 			_A_saveBeforWeapon.cri = _vA_WeapInven[invenIndex].cri;
 			_A_saveBeforWeapon.name = _vA_WeapInven[invenIndex].name;
+			_A_saveBeforWeapon.img = _vA_WeapInven[invenIndex].img;
 			if (_vA_WeapInven[invenIndex].name == "¸íÁÖ ±Í½Å»ì")
 			{
 				_ataho->setSwordMounting(true);
@@ -181,6 +190,8 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_A_saveBeforArmor.def = _vA_ArmorInven[invenIndex].def;
 			_A_saveBeforArmor.speed = _vA_ArmorInven[invenIndex].speed;
 			_A_saveBeforArmor.name = _vA_ArmorInven[invenIndex].name;
+			_A_saveBeforArmor.img = _vA_ArmorInven[invenIndex].img;
+
 		}
 	}
 
@@ -198,6 +209,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_S_saveBeforWeapon.luck = _vS_WeapInven[invenIndex].luck;
 			_S_saveBeforWeapon.cri = _vS_WeapInven[invenIndex].cri;
 			_S_saveBeforWeapon.name = _vS_WeapInven[invenIndex].name;
+			_S_saveBeforWeapon.img = _vS_WeapInven[invenIndex].img;
 			if (_vS_WeapInven[invenIndex].name == "¸¶ÀÎ¾Æ¼ö¶ó")
 			{
 				_smasyu->setMounting(true);
@@ -217,6 +229,7 @@ void playerManager::mounting(int frameX, int setIndex, int invenTypeIndex, int i
 			_S_saveBeforArmor.def = _vS_ArmorInven[invenIndex].def;
 			_S_saveBeforArmor.speed = _vS_ArmorInven[invenIndex].speed;
 			_S_saveBeforArmor.name = _vS_ArmorInven[invenIndex].name;
+			_S_saveBeforArmor.img = _vS_ArmorInven[invenIndex].img;
 		}
 	}
 
