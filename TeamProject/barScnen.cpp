@@ -36,8 +36,6 @@ HRESULT barScnen::init(void)
 	_npc->init();
 	npcTileSetting();
 
-
-	_start = 0;
 	if (_start == 0)
 	{
 		talkSave();
@@ -74,6 +72,10 @@ void barScnen::update(void)
 			_count = 0;
 			_talkIndex = 0;
 			_maxTalkIndex = 0;
+			if (_index == 21)
+			{
+				_start = 1;
+			}
 		}
 	}
 
@@ -134,13 +136,28 @@ void barScnen::render(void)
 
 	if (_start == 0)
 	{
-		if (_who % 2 == 0)
+		if (_who <= 10)
 		{
-			IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
+			if (_who % 2 == 0)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
+			}
+			else if (_who % 2 == 1)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
+			}
 		}
-		else if (_who % 2 == 1)
+		else
 		{
-			IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
+			if (_who % 2 == 0)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
+			}
+			else if (_who % 2 == 1)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
+			}
+
 		}
 		IMAGEMANAGER->findImage("대화창1")->render(CAMERA->getCameraDC(), 272, 400);
 		SetTextColor(getMemDC(), RGB(255, 255, 255));
@@ -151,9 +168,32 @@ void barScnen::render(void)
 			{
 				_maxTalkIndex = strlen(vStr[i].c_str());
 
-				if ((_talkIndex * 2) < 100)
+				if ((_talkIndex * 2) < 70)
 				{
-					TextOut(CAMERA->getCameraDC(), 300, 450, vStr[i].c_str(), (_talkIndex * 2));
+					TextOut(CAMERA->getCameraDC(), 300, 430, vStr[i].c_str(), (_talkIndex * 2));
+				}
+				else if ((_talkIndex * 2) >= 70 && (_talkIndex * 2) < 140)
+				{
+					string text = "";
+				
+					text = vStr[i].substr(0, 70);
+					TextOut(CAMERA->getCameraDC(), 300, 430, text.c_str(), text.size());
+				
+					text = vStr[i].substr(70, 140);
+					TextOut(CAMERA->getCameraDC(), 300, 450, text.c_str(), (_talkIndex * 2) - 70);
+				}
+				else
+				{
+					string text = "";
+				
+					text = vStr[i].substr(0, 70);
+					TextOut(CAMERA->getCameraDC(), 300, 430, text.c_str(), text.size());
+				
+					text = vStr[i].substr(70, 140);
+					TextOut(CAMERA->getCameraDC(), 300, 450, text.c_str(), text.size() - 70);
+				
+					text = vStr[i].substr(140, _maxTalkIndex);
+					TextOut(CAMERA->getCameraDC(), 300, 470, text.c_str(), (_talkIndex * 2) - 140);
 				}
 			}
 		}
@@ -244,8 +284,8 @@ void barScnen::npcCollision()
 	for (int i = 0; i < vObjTile.size(); ++i)
 	{
 		RECT rc;
-		if ((vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()) ||
-			 vObjTile[i].second.obj == OBJ_SHOP || vObjTile[i].second.obj == OBJ_MOTEL))
+		if ((vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()) &&
+			 vObjTile[i].second.obj == OBJ_SHOP && vObjTile[i].second.obj == OBJ_MOTEL))
 		{
 			for (int j = 0; j < vNpc.size(); ++j)
 			{
@@ -254,7 +294,6 @@ void barScnen::npcCollision()
 					_npc->talkNPC(vNpc[j].frameX, vNpc[j].frameY);
 			}
 		}
-		
 	}
 }
 void barScnen::talkSave()
