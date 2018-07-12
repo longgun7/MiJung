@@ -6,7 +6,6 @@ HRESULT saveLoad::init()
 {
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	
-	
 	return S_OK;
 }
 
@@ -183,6 +182,9 @@ void saveLoad::save(int index)
 	sprintf_s(str35, "%d", _pm->getTagMoney().money);
 	INIDATA->addData("골드", "총골드", str35);
 
+	INIDATA->addData("세이브", "세이브여부", "1");
+
+	INIDATA->addData("세이브", "장소세이브", "여관");
 
 	char str36[128];
 	sprintf_s(str36, "플레이어정보%d", index);
