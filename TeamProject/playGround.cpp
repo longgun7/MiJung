@@ -87,6 +87,7 @@ void playGround::musicInit()
 	SOUNDMANAGER->addSound("BattleTheMa1", "soundOST/BattleTheMa1.mp3", true, true);
 	SOUNDMANAGER->addSound("BattleTheMa2", "soundOST/BattleTheMa2.mp3", true, true);
 	SOUNDMANAGER->addSound("FiledTheMa", "soundOST/FiledTheMa.mp3", true, true);
+	SOUNDMANAGER->addSound("eventTheMa", "soundOST/eventTheMa.mp3", true, true);
 	// 호격권
 	SOUNDMANAGER->addSound("TigerSound", "soundEffect/TigerSound.mp3", true, false);
 	// 비기 광파참

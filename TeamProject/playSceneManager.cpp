@@ -108,6 +108,12 @@ void playSceneManager::update(void)
 	if (KEYMANAGER->isOnceKeyDown(VK_F6))
 	{
 		SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
+		SOUNDMANAGER->stop(_nowSong);
+		_nowSong = "eventTheMa";
+		if (!SOUNDMANAGER->isPlaySound(_nowSong))
+		{
+			SOUNDMANAGER->play(_nowSong, 1.0f);
+		}
 	}
 	
 	updateProgressBar();
