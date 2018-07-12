@@ -98,6 +98,7 @@ void playMap::load(string tileName)
 	CAMERA->setMaxPositon(maxTileX * TILESIZE, maxTileY * TILESIZE);
 
 	// 오브젝트 속성이 있는 타일만 담기
+	_vObjectTile.clear();
 	for (int i = 0; i < TILEY; ++i)
 	{
 		for (int j = 0; j < TILEX; ++j)

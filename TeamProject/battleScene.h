@@ -30,14 +30,22 @@ private:
 	int _skillIndex;			//스킬 인덱스
 	int _monIndex;				//몬스터 선택 인덱스
 
+	//아~직 사용 X
+	int _sChoiceIndex;
+	int _sSkillIndex;
+	int _sMonIndex;
+
 	float _choiceX, _choiceY;	//모드 선택 버튼 좌표
 	float _skillX, _skillY;		//스킬 선택 버튼	좌표
 	float _monX, _monY;			//몬스터 선택 버튼 좌표
 
+	//-------------------enum 으로 뺄 부분--------------
 	bool _isTurn;				//스킬쓸 차례인가
 	bool _isSkillCheck;			//스킬 선택했늬?
 	bool _isMonCheck;			//몬스터 체크했늬?(기본,개인공격 시)
 	bool _isFight;				//스킬을 다 선택하고 배틀하늬?
+	//--------------------------------------------------
+
 	bool _isAtahoSkillFire;		//스킬이 발사 되었는가?
 	bool _isSumsuSkillFire;		//스킬이 발사 되었는가?
 	
