@@ -68,6 +68,7 @@ void npc::render()
 
 		if (_talkNPC)
 		{
+			IMAGEMANAGER->findImage("´ëÈ­Ã¢")->render(getMemDC(), 0, 400);
 			SetTextColor(getMemDC(), RGB(255, 255, 255));
 
 			for (int i = 0; i < 12; ++i)
@@ -78,30 +79,30 @@ void npc::render()
 
 					if ((_talkIndex * 2) < 100)
 					{
-						TextOut(getMemDC(), 100, 400, vStrNPC[i].c_str(), (_talkIndex * 2));
+						TextOut(getMemDC(), 100, 450, vStrNPC[i].c_str(), (_talkIndex * 2));
 					}
 					else if ((_talkIndex * 2) >= 100 && (_talkIndex * 2) < 200)
 					{
 						string text = "";
 
 						text = vStrNPC[i].substr(0, 100);
-						TextOut(getMemDC(), 100, 400, text.c_str(), text.size());
+						TextOut(getMemDC(), 100, 450, text.c_str(), text.size());
 
 						text = vStrNPC[i].substr(100, _maxTalkIndex);
-						TextOut(getMemDC(), 100, 420, text.c_str(), (_talkIndex * 2) - 100);
+						TextOut(getMemDC(), 100, 470, text.c_str(), (_talkIndex * 2) - 100);
 					}
 					else
 					{
 						string text = "";
 
 						text = vStrNPC[i].substr(0, 100);
-						TextOut(getMemDC(), 100, 400, text.c_str(), text.size());
+						TextOut(getMemDC(), 100, 450, text.c_str(), text.size());
 
 						text = vStrNPC[i].substr(101, 200);
-						TextOut(getMemDC(), 100, 420, text.c_str(), text.size());
+						TextOut(getMemDC(), 100, 470, text.c_str(), text.size());
 
 						text = vStrNPC[i].substr(200, _maxTalkIndex);
-						TextOut(getMemDC(), 100, 440, text.c_str(), (_talkIndex * 2) - 200);
+						TextOut(getMemDC(), 100, 490, text.c_str(), (_talkIndex * 2) - 200);
 					}
 					break;
 				}
