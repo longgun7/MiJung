@@ -65,7 +65,7 @@ HRESULT player::init()
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
 	_x = WINSIZEX / 2 + 240;
-	_y = WINSIZEY / 2 - 140;
+	_y = WINSIZEY / 2 - 40;
 	_jumpPower  = 5.0f;
 	_gravity    = 0.2f;
 	_imageFrame	= 0;
@@ -114,7 +114,8 @@ HRESULT player::init()
 	_gameEffect = new gameEffect;
 	_gameEffect->init();
 
-	_zOrderRC = RectMake(_rc.left, _rc.bottom - 25, _img->getFrameWidth(), 25);
+	_zOrderRC = RectMake(_rc.left, _rc.bottom - 27, _img->getFrameWidth(), 27);
+	_rangeRC = RectMakeCenter(_x, _y, _img->getFrameWidth() * 4, _img->getFrameHeight() * 2);
 	_map = SCENEMANAGER->getPlayMapLink();
 
 	return S_OK;
@@ -147,6 +148,9 @@ void player::update()
 	_areaSkillEffect3->update(); //노익장 대폭발!
 	_gameEffect->update();//게임 이펙트
 	effectImage();
+
+	_zOrderRC = RectMake(_rc.left, _rc.bottom - 27, _img->getFrameWidth(), 27);
+	_rangeRC = RectMakeCenter(_x, _y, _img->getFrameWidth() * 4, _img->getFrameHeight() * 2);
 
 }
 
@@ -1309,29 +1313,29 @@ void player::setSkil(int choiceIndex, int skillIndex, int monIndex)
 					_move = BASICSKILL3;
 					_isMotionLive = true;
 				}
-				if (choiceIndex == 1 && skillIndex == 0 )
+				if (choiceIndex == 1 && skillIndex == 0 && _attribute.currentMp >= _attribute.maxMp/3 )
 				{
 					_move = SOLOSKILL1;
 					_isMotionLive = true;
-					
+					_attribute.currentMp -= _attribute.maxMp / 3;
 				}
-				if (choiceIndex == 1 && skillIndex == 2 )
+				if (choiceIndex == 1 && skillIndex == 2 && _attribute.currentMp >= _attribute.maxMp /3 )
 				{
 					_move = SOLOSKILL2;
 					_isMotionLive = true;
-					
+					_attribute.currentMp -= _attribute.maxMp / 3;
 				}
-				if (choiceIndex == 1 && skillIndex == 1 )
+				if (choiceIndex == 1 && skillIndex == 1 && _attribute.currentMp >= _attribute.maxMp / 2)
 				{
 					_move = SOLOSKILL3;
 					_isMotionLive = true;
 					_x = _em->getVEnmey()[_enemyIndex]->getTagEnmey().x - 80;
 					_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-					
+					_attribute.currentMp -= _attribute.maxMp / 2;
 				}
 			}
 
-			if (choiceIndex == 2 && skillIndex == 0 )
+			if (choiceIndex == 2 && skillIndex == 0 && _attribute.currentMp >= _attribute.maxMp / 2)
 			{
 				_move = AREASKILL1;
 				_isMotionLive = true;
@@ -1339,30 +1343,33 @@ void player::setSkil(int choiceIndex, int skillIndex, int monIndex)
 				_y = WINSIZEY / 3;
 				_jumpPower = 5.0f;
 				_gravity = 0.2f;
-				
+				_attribute.currentMp -= _attribute.maxMp / 2;
 			}
-			if (choiceIndex == 2 && skillIndex == 2  )
+			if (choiceIndex == 2 && skillIndex == 2 && _attribute.currentMp >= _attribute.maxMp / 2)
 			{
 				_move = DRINK;
 				_isMotionLive = true;
-				
+				_attribute.currentMp -= _attribute.maxMp / 2;
 			}
-			if (choiceIndex == 2 && skillIndex == 1 )
+			if (choiceIndex == 2 && skillIndex == 1 && _attribute.currentMp >= _attribute.maxMp /2)
 			{
 				_move = AREASKILL3;
 				_isMotionLive = true;
 				_x = WINSIZEX / 2;
-				
+				_attribute.currentMp -= _attribute.maxMp / 2;
 			}
-			if (choiceIndex == 3&& skillIndex == 0)
+			if (choiceIndex == 3&& skillIndex == 0 && _attribute.currentMp >= _attribute.maxMp / 2)
 			{
 				_move = HPUP;
 				_isMotionLive = true;
+				_attribute.currentMp -= _attribute.maxMp / 2;
+				_attribute.currentHp += _attribute.maxHp / 2;
 			}
-			if (choiceIndex == 3 && skillIndex == 1)
+			if (choiceIndex == 3 && skillIndex == 1 )
 			{
 				_move = MPUP;
 				_isMotionLive = true;
+				_attribute.currentMp += _attribute.maxMp ;
 			}
 			if (choiceIndex == 5 && skillIndex == 0)
 			{
