@@ -233,6 +233,8 @@ void eventScene::collision()
 	}
 	if (!_isEventMode && _talkIndex2 >= 2)
 	{
+		_map->setTile(OBJ_BOTTLE, OBJ_NONE);
+
 		POINT index = _map->getTileIndex(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
 		if (_map->getTiles()[index.y * TILEX + index.x].obj == OBJ_ROPE)
 		{

@@ -147,3 +147,17 @@ POINT playMap::getTileIndex(RECT rc, OBJECT obj)
 
 	return PointMake(NULL, NULL);
 }
+
+void playMap::setTile(OBJECT findObj, OBJECT changeObj)
+{
+	POINT camera = CAMERA->getPosition();
+	for (int i = camera.y / TILESIZE; i < camera.y / TILESIZE + SHOWTILEY; ++i)
+	{
+		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
+		{
+			if (_tiles[i * TILEX + j].obj == findObj)
+				_tiles[i * TILEX + j].obj = changeObj;
+
+		}
+	}
+}
