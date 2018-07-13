@@ -131,14 +131,13 @@ void playSceneManager::render(void)
 	IMAGEMANAGER->findImage("EXP")->frameRender(CAMERA->getCameraDC(), 500, 562);
 
 	renderProgressBar();	//ÇÁ·Î±×·¡½º¹Ù ·»´õ
-
-	
+		
 	_pm->render();
 	_em->render();
 	_im->render();
 		
 	// ¿ÀºêÁ§Æ® ·»´õ
-	if (SCENEMANAGER->getSceneName() != "¹èÆ²¾À")_map->objRender();
+	if (SCENEMANAGER->getSceneName() != "¹èÆ²¾À") _map->objRender();
 
 	fontUI();
 }
