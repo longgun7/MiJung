@@ -257,7 +257,7 @@ void battleScene::update(void)
 			if(_isMonCheck)
 			{
 				_isSkillCheck = false;
-				//_isMonCheck = false;
+				_isMonCheck = false;
 				_isAtahoSkillFire = true;
 				_gameTurn = SUMSU_CHOICE;
 			}
@@ -279,7 +279,7 @@ void battleScene::update(void)
 			if (_isMonCheck)
 			{
 				_isSkillCheck = false;
-				//_isMonCheck = false;
+				_isMonCheck = false;
 				_gameTurn = ATAHO_ATTACK;
 			}
 			else if (_sChoiceIndex>1)
@@ -479,8 +479,8 @@ void battleScene::fontUI(void)
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 
-	sprintf(temp, "%d", _em->getVEnmey().size());
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, temp, strlen(temp));
+	//sprintf(temp, "%d", _em->getVEnmey().size());
+	//TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, temp, strlen(temp));
 	if(_gameTurn==ATAHO_CHOICE||_gameTurn==SUMSU_CHOICE)
 	{
 		if (_gameTurn == ATAHO_CHOICE) TextOut(CAMERA->getCameraDC(), 345, 25, charName, strlen(charName));

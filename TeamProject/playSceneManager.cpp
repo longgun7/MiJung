@@ -125,8 +125,6 @@ void playSceneManager::render(void)
 
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
-	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
-	IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
 	IMAGEMANAGER->findImage("HP")->frameRender(CAMERA->getCameraDC(), 200, 562);
 	IMAGEMANAGER->findImage("MP")->frameRender(CAMERA->getCameraDC(), 350, 562);
 	IMAGEMANAGER->findImage("EXP")->frameRender(CAMERA->getCameraDC(), 500, 562);
@@ -169,8 +167,6 @@ void playSceneManager::basicUI(void)
 	IMAGEMANAGER->addFrameImage("MP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("EXP", "image/ui/UI버튼.bmp", 450, 75, 9, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("테두리", "image/ui/게임테두리.bmp", 1000, 550, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("기본status", "image/ui/기본status.bmp", 650, 200, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("infoStatus", "image/ui/infoStatus.bmp", 350, 200, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스킬1", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스킬2", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("스킬3", "image/ui/아이콘.bmp", 1000, 200, 20, 4, true, RGB(255, 0, 255));
