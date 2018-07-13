@@ -127,12 +127,12 @@ void barScnen::update(void)
 
 void barScnen::render(void)
 {
-	_map->render();
+	//_map->render();
 
 	_npc->render();
 	
 	// 오브젝트 렌더
-	_map->objRender();
+	//_map->objRender();
 
 	if (_start == 0)
 	{
@@ -291,8 +291,8 @@ void barScnen::npcCollision()
 	for (int i = 0; i < vObjTile.size(); ++i)
 	{
 		RECT rc;
-		if ((vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()) &&
-			 vObjTile[i].second.obj == OBJ_SHOP && vObjTile[i].second.obj == OBJ_MOTEL))
+		POINT index = _map->getTileIndex(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
+		if (vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
 		{
 			for (int j = 0; j < vNpc.size(); ++j)
 			{
@@ -300,6 +300,18 @@ void barScnen::npcCollision()
 					vObjTile[i].first.y == vNpc[j].tileY)
 					_npc->talkNPC(vNpc[j].frameX, vNpc[j].frameY);
 			}
+		}
+
+		if (!_isShopCheck && vObjTile[i].second.obj == OBJ_SHOP && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getRangeRC()))
+		{
+			_isShopCheck = true;
+			_shop->init();
+			_shop->setItem();
+		}
+
+		if (!_isHotelCheck && vObjTile[i].second.obj == OBJ_MOTEL && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getRangeRC()))
+		{
+			_isHotelCheck = true;
 		}
 	}
 }

@@ -114,7 +114,8 @@ HRESULT player::init()
 	_gameEffect = new gameEffect;
 	_gameEffect->init();
 
-	_zOrderRC = RectMake(_rc.left, _rc.bottom - 25, _img->getFrameWidth(), 25);
+	_zOrderRC = RectMake(_rc.left, _rc.bottom - 27, _img->getFrameWidth(), 27);
+	_rangeRC = RectMakeCenter(_x, _y, _img->getFrameWidth() * 4, _img->getFrameHeight() * 2);
 	_map = SCENEMANAGER->getPlayMapLink();
 
 	return S_OK;
@@ -147,6 +148,9 @@ void player::update()
 	_areaSkillEffect3->update(); //노익장 대폭발!
 	_gameEffect->update();//게임 이펙트
 	effectImage();
+
+	_zOrderRC = RectMake(_rc.left, _rc.bottom - 27, _img->getFrameWidth(), 27);
+	_rangeRC = RectMakeCenter(_x, _y, _img->getFrameWidth() * 4, _img->getFrameHeight() * 2);
 
 }
 

@@ -24,6 +24,7 @@ HRESULT playSceneManager::init(void)
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
 	_em = SCENEMANAGER->getEnemyManagerLink();
+	_map = SCENEMANAGER->getPlayMapLink();
 
 	setProgressBar();	//프로그래스바 셋팅!
 
@@ -112,6 +113,7 @@ void playSceneManager::update(void)
 
 void playSceneManager::render(void)
 {
+	_map->render();
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
 	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
@@ -127,6 +129,9 @@ void playSceneManager::render(void)
 	_em->render();
 	_im->render();
 		
+	// 오브젝트 렌더
+	_map->objRender();
+
 	fontUI();
 }
 

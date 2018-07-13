@@ -109,7 +109,7 @@ void eventScene::update(void)
 
 void eventScene::render(void)
 {
-	_map->render();
+	//_map->render();
 
 	char str[128];
 	sprintf_s(str, " 기울기 : %d", _pm->getPlayer()->getSlopeNum());
@@ -136,7 +136,7 @@ void eventScene::render(void)
 	}
 
 	// 오브젝트 렌더
-	_map->objRender();
+	//_map->objRender();
 
 
 }
