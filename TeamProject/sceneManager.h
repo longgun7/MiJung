@@ -29,6 +29,7 @@ private:
 	string _sceneName;
 	bool _isShop;
 	bool _isChange;
+	bool _isInHouseTalk;
 	int _frameCount;
 	int _alphaValue;
 public:
@@ -57,6 +58,8 @@ public:
 	
 	string getCurrentSceneName() { return _sceneName; }
 	void setIsShop(bool isShop) { _isShop = isShop; }
+	void setIsInHouseTalk(bool isInHouseTalk) { _isInHouseTalk = isInHouseTalk; }
+	bool getIsInHouseTalk() { return _isInHouseTalk; }
 	bool getIsShop() { return _isShop; }
 
 	//현재 씬 이름이 무엇인지 받아오는 접근자

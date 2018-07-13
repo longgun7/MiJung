@@ -26,11 +26,14 @@ HRESULT barScnen::init(void)
 	IMAGEMANAGER->addImage("대화창1", "image/ui/대화창.bmp", 600, 125, false, RGB(0, 0, 0));
 	_isShopCheck = false;
 	_isHotelCheck = false;
+	_isTalkCheck = false;
+
 	_sl = new saveLoad;
 	_sl->init();
 
 	_shop = new shop;
 
+	
 	_map->init(BAR);
 
 	_npc = new npc;
@@ -39,6 +42,8 @@ HRESULT barScnen::init(void)
 
 	if (_start == 0)
 	{
+		_isTalkCheck = true;
+		SCENEMANAGER->setIsInHouseTalk(true);
 		talkSave();
 		talkLoad();
 	}
@@ -76,6 +81,8 @@ void barScnen::update(void)
 			if (_index == 21)
 			{
 				_start = 1;
+				_isTalkCheck = false;
+				SCENEMANAGER->setIsInHouseTalk(false);
 			}
 		}
 	}
@@ -139,9 +146,8 @@ void barScnen::render(void)
 
 
 	// 오브젝트 렌더
-	//_map->objRender();
-
-	if (_start == 0)
+	_map->objRender();
+	if ((_start == 0) && (SCENEMANAGER->getIsInHouseTalk()))
 	{
 		if (_who <= 10)
 		{

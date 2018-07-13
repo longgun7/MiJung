@@ -316,18 +316,19 @@ void battleScene::update(void)
 			sumsuSkillCheck();
 		break;
 		case ATAHO_ATTACK:
-			_isSkillCheck = false;
-			_isMonCheck = false;
+			
 			_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
+			if((_pm->getPlayer()->getImge()->getFrameX() == _pm->getPlayer()->getImge()->getMaxFrameX()))
 			_gameTurn = SUMSU_ATTACK;
 		break;
 		case SUMSU_ATTACK:
 			_pm->getPlayer2()->setSkill(_sChoiceIndex, _sSkillIndex, _sMonIndex);
-			if (_pm->getPlayer2()->getSkillFrame() ==50)
+			if (_pm->getPlayer2()->getImage()->getFrameX() == _pm->getPlayer2()->getImage()->getMaxFrameX());
 			_gameTurn = ENEMY_ATTACK;
 		break;
 		case ENEMY_ATTACK:
 			_em->hitPlayer();
+			if(_em->getVEnmey()[_em->getVEnmey().size()-1]->getImage()->getFrameX()== _em->getVEnmey()[_em->getVEnmey().size() - 1]->getImage()->getMaxFrameX())
 			_gameTurn = ATAHO_CHOICE;
 		break;
 
@@ -337,8 +338,7 @@ void battleScene::update(void)
 	{
 		if (_em->getVEnmey().size() == 0)
 		{
-			//_isTurn = true;
-			//SCENEMANAGER->changeScene("ÇÊµå¾À");
+			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
 		}
 	}
 }
