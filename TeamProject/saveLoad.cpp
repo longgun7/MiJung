@@ -6,6 +6,8 @@ HRESULT saveLoad::init()
 {
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	
+	_isLoad = false;
+
 	return S_OK;
 }
 
@@ -194,6 +196,8 @@ void saveLoad::save(int index)
 
 void saveLoad::loadInt(int index)
 {
+	_pm->invenClear();
+
 	char str10[128];
 	sprintf_s(str10, "플레이어정보%d", index);
 
@@ -217,16 +221,16 @@ void saveLoad::loadInt(int index)
 	{
 		char str[128];
 		sprintf_s(str, "무기%d", i);
-		if (INIDATA->loadDataString(str10, "야타호", str) == "") break;
-		_pm->getItemValue(INIDATA->loadDataString(str10, "야타호", str));
+		if (INIDATA->loadDataString(str10, "아타호", str) == "") break;
+		_pm->getItemValue(INIDATA->loadDataString(str10, "아타호", str));
 	}
 	
 	for (int i = 0; i < 4; ++i)
 	{
 		char str[128];
 		sprintf_s(str, "방어구%d", i);
-		if (INIDATA->loadDataString(str10, "야타호", str) == "") break;
-		_pm->getItemValue(INIDATA->loadDataString(str10, "야타호", str));
+		if (INIDATA->loadDataString(str10, "아타호", str) == "") break;
+		_pm->getItemValue(INIDATA->loadDataString(str10, "아타호", str));
 	}
 
 	for (int i = 0; i < 4; ++i)
@@ -256,14 +260,14 @@ void saveLoad::loadInt(int index)
 	_pm->setHpPoindex(INIDATA->loadDataInterger(str10,"포션", "hp포션수"));
 	_pm->setMpPoindex(INIDATA->loadDataInterger(str10,"포션", "mp포션수"));
 
-	_pm->setA_WeapItemName((INIDATA->loadDataString(str10, "야타호", "장착무기")));
-	_pm->setA_ArmorItemName((INIDATA->loadDataString(str10, "야타호", "장착방어구")));
+	_pm->setA_WeapItemName((INIDATA->loadDataString(str10, "아타호", "장착무기")));
+	_pm->setA_ArmorItemName((INIDATA->loadDataString(str10, "아타호", "장착방어구")));
 
 	_pm->setS_WeapItemName((INIDATA->loadDataString(str10, "스마슈", "장착무기")));
 	_pm->setS_ArmorItemName((INIDATA->loadDataString(str10, "스마슈", "장착방어구")));
 
 	_pm->setGold(INIDATA->loadDataInterger(str10, "골드", "총골드"));
-
+	
 }
 
 
