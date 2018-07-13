@@ -525,6 +525,7 @@ void player2::move()
 				SOUNDMANAGER->play("Cut4", 1.0f);
 			}
 			_soloSkill3->cutBigSkill(_x + 30, _y);
+			setSoloDamage(10);
 		}
 		if (_img->getFrameX() >= 44 && _skillFrame >= 200)
 		{
