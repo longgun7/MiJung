@@ -244,17 +244,6 @@ void enemyManager::hitPlayer()
 	
 	if (_hitIndex >= _vEnemy.size()) _hitIndex = 0;		// _hitIndex가 에너미 벡터의 사이즈보다 같거나 커질 경우 _hitIndex를 0으로 초기화한다
 
-	// 전투 패배시 씬 전환 및 에너미 벡터 삭제
-	if (_pm->getPlayer2()->getAttribute().currentHp == 0 && _pm->getPlayer()->getAttribute().currentHp == 0 &&
-		SCENEMANAGER->getSceneName() == "배틀씬")
-	{
-		while (_vEnemy.size() > 0)
-		{
-			removeEnemy(0);
-		}
-		SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
-	}
-
 }
 
 // 에너미들이 몇마리 나오는지, 좌표 설정
