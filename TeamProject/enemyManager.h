@@ -5,9 +5,7 @@
 #include "playerManager.h"
 #include "gameEffect.h"
 
-#define MAXSKELETON 20
 #define PLAYMAPSIZEY 525
-
 
 class playerManager;
 

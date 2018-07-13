@@ -2,7 +2,7 @@
 #include "gameNode.h"
 
 #define Count 18
-#define dCount 6
+
 enum DIRECTION
 {
 	STAND,	// 가만히 있는 상태
@@ -65,12 +65,13 @@ public:
 
 	void setHp(int damage);																	// 에너미가 데미지를 입는 함수
 
-	void setisGoldSet(bool gold) { _enemy.isGoldSet = gold; }								// 플레이어가 골드를 받아갈 수 있게 해주는 설정자
-	void setEnemyDirection(DIRECTION direction) { _enemy.direction = direction; }			// 플레이어가 에너미의 상태를 설정할 수 있게 해주는 설정자
+	void setisGoldSet(bool gold) { _enemy.isGoldSet = gold; }								// 돈을 보냈는지 안보냈는지 설정할 수 있게 해주는 설정자
+	void setEnemyDirection(DIRECTION direction) { _enemy.direction = direction; }			// 에너미의 상태를 설정할 수 있게 해주는 설정자
 	tagEnemy getTagEnmey() { return _enemy; }												// 다른곳에서 에너미 구조체를 사용할 수 있게 반환
-	void setIsDead(bool dead) { _enemy.isDead = dead; }
-	void setIsAttack(bool attack) { _enemy.isAttack = attack; }
-	image* getImage() { return _enemy.img; }
+	void setIsDead(bool dead) { _enemy.isDead = dead; }										// 적이 죽었는지 살았는지 설정할 수 있게 해주는 설정자
+	void setIsAttack(bool attack) { _enemy.isAttack = attack; }								// 적이 공격을 했는지 설정해주는 설정자
+	image* getImage() { return _enemy.img; }												// 에너미 이미지에 접근을 위한 에너미 이미지 접근자
+
 	enemy();
 	~enemy();
 };
