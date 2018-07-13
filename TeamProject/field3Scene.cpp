@@ -29,6 +29,11 @@ HRESULT field3Scene::init(void)
 
 	IMAGEMANAGER->addFrameImage("NPC1", "image/maptool/NPC/NPC.bmp", 432, 288, 6, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("린샹앉은모습", "image/player/린샹앉은모습.bmp", 55, 65, true, RGB(255, 0, 255));
+
+	talkSave();
+	talkLoad();
+	_npc = new npc;
+	_bossTalk = false;
 	return S_OK;
 }
 
@@ -45,6 +50,43 @@ void field3Scene::update(void)
 	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
 	// 적 타일 인덱스번호 추가해야함
 
+	_npc->update();
+	if (_bossTalk)
+	{
+		_count++;
+		if (_count % 8 == 0)
+		{
+			_talkIndex++;
+			if (_maxTalkIndex <= (_talkIndex * 2))
+			{
+				_talkIndex = (_maxTalkIndex / 2);
+			}
+		}
+
+		if (_talkIndex == (_maxTalkIndex / 2))
+		{
+			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			{
+				_index++;
+				_who++;
+				_count = 0;
+				_talkIndex = 0;
+				_maxTalkIndex = 0;
+				if (_index == 17)
+				{
+					_start = 1;
+				}
+			}
+		}
+
+		else if (_talkIndex < (_maxTalkIndex / 2));
+		{
+			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			{
+				_talkIndex = (_maxTalkIndex / 2);
+			}
+		}
+	}
 	sceneChange();
 
 }
@@ -61,6 +103,71 @@ void field3Scene::render(void)
 	
 	//_map->objRender();
 	
+	if (_bossTalk)
+	{
+		if (_who <= 10)
+		{
+			if (_who % 2 == 0)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
+			}
+			else if (_who % 2 == 1)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
+			}
+		}
+		else
+		{
+			if (_who % 2 == 0)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
+			}
+			else if (_who % 2 == 1)
+			{
+				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
+			}
+
+		}
+		IMAGEMANAGER->findImage("대화창1")->render(CAMERA->getCameraDC(), 272, 400);
+		SetTextColor(getMemDC(), RGB(255, 255, 255));
+
+		for (int i = 0; i < 21; ++i)
+		{
+			if (_index == i)
+			{
+				_maxTalkIndex = strlen(vStrBoss[i].c_str());
+
+				if ((_talkIndex * 2) < 70)
+				{
+					TextOut(CAMERA->getCameraDC(), 300, 430, vStrBoss[i].c_str(), (_talkIndex * 2));
+				}
+				else if ((_talkIndex * 2) >= 70 && (_talkIndex * 2) < 140)
+				{
+					string text = "";
+
+					text = vStrBoss[i].substr(0, 70);
+					TextOut(CAMERA->getCameraDC(), 300, 430, text.c_str(), text.size());
+
+					text = vStrBoss[i].substr(70, 140);
+					TextOut(CAMERA->getCameraDC(), 300, 450, text.c_str(), (_talkIndex * 2) - 70);
+				}
+				else
+				{
+					string text = "";
+
+					text = vStrBoss[i].substr(0, 70);
+					TextOut(CAMERA->getCameraDC(), 300, 430, text.c_str(), text.size());
+
+					text = vStrBoss[i].substr(70, 140);
+					TextOut(CAMERA->getCameraDC(), 300, 450, text.c_str(), text.size() - 70);
+
+					text = vStrBoss[i].substr(140, _maxTalkIndex);
+					TextOut(CAMERA->getCameraDC(), 300, 470, text.c_str(), (_talkIndex * 2) - 140);
+				}
+			}
+		}
+	}
+
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 
 	fontUI();
@@ -113,4 +220,32 @@ void field3Scene::sceneChange(void)
 	case OBJ_RIGHTPORTAL:break;
 
 	}
+}
+
+void field3Scene::talkSave()
+{
+	vStrBoss.push_back(strBoss1);
+	vStrBoss.push_back(strBoss2);
+	vStrBoss.push_back(strBoss3);
+	vStrBoss.push_back(strBoss4);
+	vStrBoss.push_back(strBoss5);
+	vStrBoss.push_back(strBoss6);
+	vStrBoss.push_back(strBoss7);
+	vStrBoss.push_back(strBoss8);
+	vStrBoss.push_back(strBoss9);
+	vStrBoss.push_back(strBoss10);
+	vStrBoss.push_back(strBoss11);
+	vStrBoss.push_back(strBoss12);
+	vStrBoss.push_back(strBoss13);
+	vStrBoss.push_back(strBoss14);
+	vStrBoss.push_back(strBoss15);
+	vStrBoss.push_back(strBoss16);
+	vStrBoss.push_back(strBoss17);
+
+	TXTDATA->txtSave("Boss대사.txt", vStrBoss);
+}
+
+void field3Scene::talkLoad()
+{
+	vStrBoss = TXTDATA->txtLoad("Boss대사.txt");
 }
