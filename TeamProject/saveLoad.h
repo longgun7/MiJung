@@ -6,6 +6,7 @@ class playerManager;
 class saveLoad : public gameNode
 {
 	playerManager* _pm;
+	bool		   _isLoad;
 public:
 
 	HRESULT init();
