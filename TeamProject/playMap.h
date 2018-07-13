@@ -40,7 +40,7 @@ public:
 	tagTile* getTiles() { return _tiles; }
 	// 특정 오브젝트 속성이 있는 타일만 담겨있는 벡터 접근자
 	vector<pair<POINT, tagTile>> getVObjectTile() { return _vObjectTile; }
-	
+
 	//각 플레이어와 에너미가 어느 타일에 있는지 위치 세팅
 	void setTilePos(RECT rc, OBJECT obj);
 

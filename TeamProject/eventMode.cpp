@@ -52,11 +52,7 @@ void eventMode::update()
 			_pm->getPlayer2()->setY(_pm->getPlayer2()->getY() + 3);
 		}
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-	{
-		init();
-		SOUNDMANAGER->stop("커쥬워마이걸");
-	}
+	
 }
 
 
