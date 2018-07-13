@@ -233,20 +233,20 @@ void battleScene::update(void)
 					if (_sSkillIndex > 2) _sSkillIndex = 0;
 				}
 			}
-			else if (_isMonCheck)
+		}
+		else if (_isMonCheck)
+		{
+			if (_gameTurn == ATAHO_CHOICE)
 			{
-				if (_gameTurn == ATAHO_CHOICE)
-				{
-					_monIndex++;
-					if (_monIndex > _em->getVEnmey().size() - 1)_monIndex = 0;
-				}
-				else if (_gameTurn == SUMSU_CHOICE)
-				{
-					_sMonIndex++;
-					if (_sMonIndex < _em->getVEnmey().size() - 1)_sMonIndex = 0;
-				}
-
+				_monIndex++;
+				if (_monIndex > _em->getVEnmey().size() - 1)_monIndex = 0;
 			}
+			else if (_gameTurn == SUMSU_CHOICE)
+			{
+				_sMonIndex++;
+				if (_sMonIndex < _em->getVEnmey().size() - 1)_sMonIndex = 0;
+			}
+
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -258,14 +258,16 @@ void battleScene::update(void)
 			{
 				_isSkillCheck = false;
 				_isMonCheck = false;
+				_isAtahoSkillFire = true;
 				_gameTurn = SUMSU_CHOICE;
 			}
-			if(_choiceIndex>1)
+			else if(_choiceIndex>1)
 			{
+				_isSkillCheck = false;
 				_gameTurn = SUMSU_CHOICE;
-				_isSkillCheck = false;			
+							
 			}
-			if(_choiceIndex<2)
+			else if(_choiceIndex<2)
 			{
 				_isMonCheck = true;
 			}
@@ -279,14 +281,14 @@ void battleScene::update(void)
 				_isSkillCheck = false;
 				_isMonCheck = false;
 				_gameTurn = ATAHO_ATTACK;
+			}
+			else if (_sChoiceIndex>1)
+			{
+				_isSkillCheck = false;
+				_gameTurn = ATAHO_ATTACK;
 				
 			}
-			if (_sChoiceIndex>1)
-			{
-				_gameTurn = ATAHO_ATTACK;
-				_isSkillCheck = false;
-			}
-			if (_sChoiceIndex<2)
+			else if (_sChoiceIndex<2)
 			{
 				_isMonCheck = true;
 			}
@@ -316,20 +318,29 @@ void battleScene::update(void)
 			sumsuSkillCheck();
 		break;
 		case ATAHO_ATTACK:
-			
-			_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
-			if((_pm->getPlayer()->getImge()->getFrameX() == _pm->getPlayer()->getImge()->getMaxFrameX()))
-			_gameTurn = SUMSU_ATTACK;
+			if(_isAtahoSkillFire)
+			{
+				_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
+				if(_pm->getPlayer()->getImg()->getFrameX()==_pm->getPlayer()->getImg()->getMaxFrameX())
+				_gameTurn = SUMSU_ATTACK;
+				_isSumsuSkillFire = true;
+			}
 		break;
 		case SUMSU_ATTACK:
-			_pm->getPlayer2()->setSkill(_sChoiceIndex, _sSkillIndex, _sMonIndex);
-			if (_pm->getPlayer2()->getImage()->getFrameX() == _pm->getPlayer2()->getImage()->getMaxFrameX());
-			_gameTurn = ENEMY_ATTACK;
+			if(_isSumsuSkillFire)
+			{
+				_isAtahoSkillFire = false;
+				_pm->getPlayer2()->setSkill(_sChoiceIndex, _sSkillIndex, _sMonIndex);
+				if (_pm->getPlayer2()->getImage()->getFrameX() == _pm->getPlayer2()->getImage()->getMaxFrameX());
+				_gameTurn = ENEMY_ATTACK;
+			}
+			
 		break;
 		case ENEMY_ATTACK:
+			_isAtahoSkillFire = false;
 			_em->hitPlayer();
-			if(_em->getVEnmey()[_em->getVEnmey().size()-1]->getImage()->getFrameX()== _em->getVEnmey()[_em->getVEnmey().size() - 1]->getImage()->getMaxFrameX())
 			_gameTurn = ATAHO_CHOICE;
+			
 		break;
 
 	}
@@ -403,7 +414,7 @@ void battleScene::render(void)
 		}
 		
 	}
-	if (!_isMonCheck)
+	if (_isMonCheck)
 	{
 		IMAGEMANAGER->findImage("MONCHECKBUTTON")->frameRender(CAMERA->getCameraDC(), _monX, _monY);
 	}
