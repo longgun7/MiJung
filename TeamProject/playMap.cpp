@@ -56,7 +56,7 @@ void playMap::objRender()
 		{
 			if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
 			else if (_tiles[i * TILEX + j].obj == OBJ_NPC) continue;
-			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL) continue;			
+			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL) continue;
 
 			IMAGEMANAGER->frameRender(_currentTile, getMemDC(),
 				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
@@ -135,8 +135,9 @@ POINT playMap::getTileIndex(RECT rc, OBJECT obj)
 		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
 		{
 			// 총 제트오더 사각형 크기 중, 중앙 타일길이를 기준으로 측정한다.
-			if ((rc.left / TILESIZE == j && rc.top / TILESIZE == i) ||
-				_tiles[i * TILEX + j].obj == obj)
+			int a = (rc.left + (rc.right - rc.left)) / TILESIZE;
+			int b = (rc.top + (rc.bottom - rc.top)) / TILESIZE;
+			if ((a == j && b == i))
 				return PointMake(j, i);
 		}
 	}

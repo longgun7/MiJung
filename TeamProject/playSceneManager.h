@@ -15,6 +15,7 @@
 class playerManager;
 class enemyManager;
 class itemManager;
+class playMap;
 
 class playSceneManager : public gameNode
 {
@@ -22,6 +23,8 @@ private:
 	playerManager * _pm;
 	itemManager* _im;
 	enemyManager* _em;
+	playMap* _map;
+
 	bool _isStatus;
 	string _nowSong;
 	string _beforeScene;

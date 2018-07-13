@@ -59,12 +59,12 @@ void townScene::update(void)
 
 void townScene::render(void)
 {
-	_map->render();
+	//_map->render();
 
 	_npc->render();
 
 	// 오브젝트 렌더
-	_map->objRender();
+	//_map->objRender();
 	
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	

@@ -102,6 +102,7 @@ private:
 	// Ãß°¡(¹Î°æ)
 	RECT _zOrderRC;
 	playMap* _map;
+	RECT _rangeRC;
 
 public:
 	
@@ -162,6 +163,8 @@ public:
 	// Ãß°¡(¹Î°æ)
 	RECT getRC() { return _rc; }
 	RECT getZorderRC() { return _zOrderRC; }
+	RECT getRangeRC() { return _rangeRC; }
+	
 	void tileMove(void);
 	void setplayMapMemoryAddressLink(playMap* map) { _map = map; }
 
