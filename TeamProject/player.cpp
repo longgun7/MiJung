@@ -822,7 +822,7 @@ void player::move()
 			_x += 10;
 			_soloSkillEffect2->addSkill(_x, _y + 10);
 		}
-		if (_img->getFrameX() >= 25)
+		if (_skillFrame == 350)
 		{
 			_move = ATTACKEND;
 		}
@@ -832,6 +832,8 @@ void player::move()
 			setSoloDamage(6);
 			_move = FIGHTREADY;
 			_img->setFrameX(0);
+			_imageFrame = 0;
+			
 		}
 
 	}
