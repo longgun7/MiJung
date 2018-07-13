@@ -20,7 +20,7 @@ HRESULT eventScene::init(void)
 	_pm = SCENEMANAGER->getPlayerManagerLink();
 	_map = SCENEMANAGER->getPlayMapLink();
 	_map->init(EVENT);
-
+	
 	if (!SOUNDMANAGER->isPauseSound("eventTheMa"))
 	{
 		SOUNDMANAGER->play("eventTheMa");
