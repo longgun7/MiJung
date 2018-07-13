@@ -102,6 +102,7 @@ private:
 	// Ãß°¡(¹Î°æ)
 	RECT _zOrderRC;
 	playMap* _map;
+	RECT _rangeRC;
 
 public:
 	
@@ -158,9 +159,12 @@ public:
 	void setSkil(int choiceIndex, int skillIndex,int monIndex);
 	int getSkillFrame() { return _skillFrame; }	
 	void setEventMode(SCENEMODE mode);
+	image* getImg() { return _img; }
 	// Ãß°¡(¹Î°æ)
 	RECT getRC() { return _rc; }
 	RECT getZorderRC() { return _zOrderRC; }
+	RECT getRangeRC() { return _rangeRC; }
+	
 	void tileMove(void);
 	void setplayMapMemoryAddressLink(playMap* map) { _map = map; }
 
