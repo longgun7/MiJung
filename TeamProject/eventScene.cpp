@@ -21,8 +21,14 @@ HRESULT eventScene::init(void)
 	_map = SCENEMANAGER->getPlayMapLink();
 	_map->init(EVENT);
 
-	
-
+	if (!SOUNDMANAGER->isPauseSound("eventTheMa"))
+	{
+		SOUNDMANAGER->play("eventTheMa");
+	}
+	else
+	{
+		SOUNDMANAGER->resume("eventTheMa");
+	}
 	_soundFrame = 0;
 	_isEventMode = false;
 
