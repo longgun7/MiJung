@@ -263,7 +263,7 @@ void saveLoad::loadInt(int index)
 	_pm->setS_ArmorItemName((INIDATA->loadDataString(str10, "½º¸¶½´", "ÀåÂø¹æ¾î±¸")));
 
 	_pm->setGold(INIDATA->loadDataInterger(str10, "°ñµå", "ÃÑ°ñµå"));
-
+	
 }
 
 
