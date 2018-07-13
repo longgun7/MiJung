@@ -240,13 +240,12 @@ void barScnen::render(void)
 void barScnen::fontUI(void)
 {
 	HFONT font, ofont;
-	char str[] = "¼úÁý¾À";
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-	TextOut(CAMERA->getCameraDC(), WINSIZEX - 320, WINSIZEY - 160, str, strlen(str));
+	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 
