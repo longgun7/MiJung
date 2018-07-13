@@ -159,8 +159,8 @@ public:
 		_move = move;
 		_isMotionLive = true;
 	}
-
-	
+	void setSlopeNum(int num) { _slopeNum = num; }
+	void setIsWoodDrop(bool drop) {  _isWoodDrop = drop; }
 	void setSkil(int choiceIndex, int skillIndex,int monIndex);
 	int getSkillFrame() { return _skillFrame; }	
 	void setEventMode(SCENEMODE mode);

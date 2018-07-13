@@ -53,7 +53,7 @@ void field3Scene::render(void)
 {
 	//_map->render();
 	// 오브젝트 렌더
-	_map->objRender();
+	//_map->objRender();
 
 	// 보스 위치 
 	IMAGEMANAGER->findImage("NPC1")->frameRender(getMemDC(), 2700, 950, 2, 2);

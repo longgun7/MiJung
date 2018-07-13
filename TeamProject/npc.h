@@ -59,6 +59,9 @@ public:
 
 	void talkNPCLoad();
 
+	void setIsTalk(bool isTalk) { _talkNPC = isTalk; }
+	BOOL getIsTalk() { return _talkNPC; }
+
 	vector<tagNPC>				getVTagNPC() { return _vTagNPC; }
 	vector<tagNPC>::iterator	getVITagNPC() { return _viTagNPC; }
 };

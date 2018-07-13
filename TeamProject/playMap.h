@@ -46,5 +46,8 @@ public:
 
 	// 오브젝트가 현재 어느 타일에 있는지 받아오기
 	POINT getTileIndex(RECT rc, OBJECT obj);
+
+	// 오브젝트 속성 변경
+	void setTile(OBJECT findObj, OBJECT changeObj);
 };
 

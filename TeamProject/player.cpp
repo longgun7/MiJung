@@ -65,7 +65,7 @@ HRESULT player::init()
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
 	_x = WINSIZEX / 2 + 240;
-	_y = WINSIZEY / 2 - 40;
+	_y = WINSIZEY / 2 - 30;
 	_jumpPower  = 5.0f;
 	_gravity    = 0.2f;
 	_imageFrame	= 0;
