@@ -41,7 +41,7 @@ void townScene::update(void)
 
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
-		SCENEMANAGER->changeScene("¼úÁý¾À");
+		SCENEMANAGER->changeScene("ÇÊµå¾À3");
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{

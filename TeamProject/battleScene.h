@@ -59,6 +59,8 @@ private:
 	bool _isSceneCount;
 	int sceneCount;
 
+	string _nowSong;
+
 public:
 	battleScene();
 	~battleScene();

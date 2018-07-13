@@ -63,7 +63,7 @@ void playSceneManager::update(void)
 		SCENEMANAGER->changeScene("¹èÆ²¾À");
 		_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
 		_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
-		SOUNDMANAGER->stop(_nowSong);
+		SOUNDMANAGER->stop("TownTheMa");
 		int randumSound;
 		randumSound = RND->getInt(2);
 		if (randumSound == 0)

@@ -165,7 +165,11 @@ public:
 		_attribute.maxExp = maxExp;
 		_attribute.level = level;
 	}
-
+	void setAttributeTest(int currentHp, int currentMp)
+	{
+		_attribute.currentHp = currentHp;
+		_attribute.currentMp = currentMp;
+	}
 
 	// Ãß°¡(¹Î°æ)
 	RECT getZorderRC() { return _zOrderRC; }

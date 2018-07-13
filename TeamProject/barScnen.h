@@ -54,6 +54,8 @@ private:
 	string str19 = "그래. 알겠다. ";
 	string str20 = "가자! 린샹을　구하러!";
 
+	string _nowSong;
+
 public:
 	barScnen();
 	~barScnen();

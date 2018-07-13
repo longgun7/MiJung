@@ -26,6 +26,8 @@ private:
 	itemManager* _im;
 	playMap*		_map;
 
+	float _px, _py;
+
 	string _sceneName;
 	bool _isShop;
 	bool _isChange;
@@ -61,6 +63,7 @@ public:
 	void setIsInHouseTalk(bool isInHouseTalk) { _isInHouseTalk = isInHouseTalk; }
 	bool getIsInHouseTalk() { return _isInHouseTalk; }
 	bool getIsShop() { return _isShop; }
+	POINT getPlayerScenePosition() { return PointMake(_px, _py); }
 
 	//현재 씬 이름이 무엇인지 받아오는 접근자
 	string getSceneName();

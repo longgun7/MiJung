@@ -259,8 +259,8 @@ void enemyManager::randEnemy()
 
 	for (int i = 0; i < _randNum; i++)														// i는 0 i가 _randNum보다 작으면 i를 ++ 해준다
 	{														
-		if(SCENEMANAGER->getSceneName() == "술집씬") 		_enemyIndex = RND->getFromIntTo(1, 4);
-		if(SCENEMANAGER->getSceneName() == "필드씬2") 		_enemyIndex = RND->getFromIntTo(4, 7);
+		if(SCENEMANAGER->getSceneName() == "필드씬1") 		_enemyIndex = RND->getFromIntTo(1, 4);
+		if(SCENEMANAGER->getSceneName() == "술집씬") 		_enemyIndex = RND->getFromIntTo(4, 7);
 		if(SCENEMANAGER->getSceneName() == "필드씬3") 	_enemyIndex = RND->getFromIntTo(7, 10);
 
 		if (_randNum == 1)																	// _randNum이 1일 때

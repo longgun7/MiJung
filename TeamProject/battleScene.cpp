@@ -44,6 +44,7 @@ HRESULT battleScene::init(void)
 	_monY = 570;
 
 	totalMoney = totalExp = 0;
+	sceneCount = _isSceneCount = 0;
 
 	_gameTurn = ATAHO_CHOICE;
 
@@ -61,6 +62,26 @@ HRESULT battleScene::init(void)
 	_pm->getPlayer()->setSceneMode(BATTLEMODE, FIGHTREADY);
 	_pm->getPlayer2()->setSceneMode(S_BATTLEMODE, S_FIGHTREADY);
 
+	//_em->randEnemy();
+
+	int randumSound;
+	randumSound = RND->getInt(2);
+	if (randumSound == 0)
+	{
+		_nowSong = "BattleTheMa1";
+		if (!SOUNDMANAGER->isPlaySound(_nowSong))
+		{
+			SOUNDMANAGER->play(_nowSong, 0.5f);
+		}
+	}
+	else if (randumSound == 1)
+	{
+		_nowSong = "BattleTheMa2";
+		if (!SOUNDMANAGER->isPlaySound(_nowSong))
+		{
+			SOUNDMANAGER->play(_nowSong, 0.5f);
+		}
+	}
 	return S_OK;
 }
 
@@ -392,13 +413,13 @@ void battleScene::update(void)
 
 	}
 
-	if (_isTurn==false&&_isFight == false)
-	{
-		if (_em->getVEnmey().size() == 0)
-		{
-			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
-		}
-	}
+	//if (_isTurn==false&&_isFight == false)
+	//{
+	//	if (_em->getVEnmey().size() == 0)
+	//	{
+	//		SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
+	//	}
+	//}
 
 	if (!_isSceneCount)
 	{
@@ -426,13 +447,18 @@ void battleScene::update(void)
 			_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_LEFT);
 
 
-			_pm->getPlayer()->setX(WINSIZEX / 2); _pm->getPlayer()->setY(300);
-			_pm->getPlayer2()->setX(WINSIZEX / 2);_pm->getPlayer2()->setY(300);
+			//_pm->getPlayer()->setX(WINSIZEX / 2); _pm->getPlayer()->setY(200);
+			//_pm->getPlayer2()->setX(WINSIZEX / 2);_pm->getPlayer2()->setY(200);
 
 			while (_em->getVEnmey().size() > 0)
 			{
 				_em->removeEnemy(0);
 			}
+			SOUNDMANAGER->stop("BattleTheMa1");
+			SOUNDMANAGER->stop("BattleTheMa2");
+
+			_pm->getPlayer()->setMove(LEFT);
+			_pm->getPlayer2()->setMove(S_LEFT);
 
 			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
 		}
@@ -507,9 +533,9 @@ void battleScene::render(void)
 		IMAGEMANAGER->findImage("MONCHECKBUTTON")->frameRender(CAMERA->getCameraDC(), _monX, _monY);
 	}
 	fontUI();
-	char str[123];
-	sprintf_s(str, "%d", _em->getVEnmey().size());
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2, str, strlen(str));
+	//char str[123];
+	//sprintf_s(str, "%d", _em->getVEnmey().size());
+	//TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2, str, strlen(str));
 }
 
 void battleScene::addImage(void)

@@ -24,6 +24,12 @@ HRESULT fieldScene::init(void)
 
 	_pm->getPlayer()->setSceneMode(FIELDMODE, DOWN);
 	_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_DOWN);
+
+	//if (SCENEMANAGER->getCurrentSceneName() == "« µÂæ¿1")
+	//{
+	//	_pm->getPlayer()->setX(SCENEMANAGER->getPlayerScenePosition().x);
+	//	_pm->getPlayer()->setX(SCENEMANAGER->getPlayerScenePosition().y - 10);
+	//}
 	SOUNDMANAGER->play("FiledTheMa", 0.5f);
 
 	return S_OK;
@@ -102,19 +108,20 @@ void fieldScene::sceneChange(void)
 	}
 
 	// ∏ÛΩ∫≈Õ ∑£¥˝ ∏∏≥≤
-	//if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
-	//	 _pm->getPlayer()->getMove() == RIGHTMOVE	||
-	//	 _pm->getPlayer()->getMove() == UPMOVE		||
-	//	 _pm->getPlayer()->getMove() == DOWNMOVE))
-	//{
-	//	if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
-	//		_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
-	//	{
-	//		if (RND->getFloat(100) < 0.8f)
-	//		{
-	//			SCENEMANAGER->changeScene("πË∆≤æ¿");
-	//		}
-	//	}
-	//}
+	if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
+		 _pm->getPlayer()->getMove() == RIGHTMOVE	||
+		 _pm->getPlayer()->getMove() == UPMOVE		||
+		 _pm->getPlayer()->getMove() == DOWNMOVE))
+	{
+		if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
+			_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
+		{
+			if (RND->getFloat(100) < 0.8f)
+			{
+				SOUNDMANAGER->stop("FiledTheMa");
+				SCENEMANAGER->changeScene("πË∆≤æ¿");
+			}
+		}
+	}
 
 }

@@ -72,7 +72,11 @@ void playerManager::update()
 	//setEnemyDead(); //돈 드랍
 	
 	//인벤토리
-
+	if (KEYMANAGER->isOnceKeyDown(VK_F7))
+	{
+		_ataho->setAttributeTest(_ataho->getAttribute().maxHp, _ataho->getAttribute().maxMp);
+		_smasyu->setAttributeTest(_smasyu->getAttribute().maxHp, _smasyu->getAttribute().maxMp);
+	}
 }
 
 void playerManager::render()

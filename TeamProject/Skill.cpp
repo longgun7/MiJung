@@ -69,10 +69,6 @@ void atahoTargetSkill1::render()
 {
 	for (_viTagSkill = _vTagSkill.begin(); _viTagSkill != _vTagSkill.end(); ++_viTagSkill)
 	{
-		if (KEYMANAGER->isToggleKey(VK_TAB))
-		{
-			Rectangle(getMemDC(), _viTagSkill->rc.left, _viTagSkill->rc.top, _viTagSkill->rc.right, _viTagSkill->rc.bottom);
-		}
 		if (_viTagSkill->count / 200 <= 0)
 		{
 			//½ºÅ³ ¾ËÆÄ ·»´õ

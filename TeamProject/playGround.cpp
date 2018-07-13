@@ -74,11 +74,12 @@ void playGround::render(void)
 
 		_psm->render();		
 	}
-	else SCENEMANAGER->render();
+	else 
+		SCENEMANAGER->render();
 	
 
 
-	TIMEMANAGER->render(CAMERA->getCameraDC());
+	//TIMEMANAGER->render(CAMERA->getCameraDC());
 
 
 	//================이 밑으로도 건드리지 말자 =============

@@ -48,6 +48,13 @@ HRESULT barScnen::init(void)
 	}
 	talkLoad();
 
+	SOUNDMANAGER->stop(_nowSong);
+	_nowSong = "TownTheMa";
+	if (!SOUNDMANAGER->isPlaySound(_nowSong))
+	{
+		SOUNDMANAGER->play(_nowSong, 0.5f);
+	}
+
 	return S_OK;
 }
 
@@ -58,6 +65,11 @@ void barScnen::release(void)
 void barScnen::update(void)
 {
 	CAMERA->setPosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F8))
+	{
+		_index = 21;
+	}
 
 	_npc->update();
 	_count++;
@@ -261,9 +273,9 @@ void barScnen::sceneChange(void)
 	case OBJ_UPPORTAL: break;
 
 	case OBJ_DOWNPORTAL:
-		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(250);
-		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(250);
-		SCENEMANAGER->changeScene("ÇÊµå¾À3");
+		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(100);
+		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(100);
+		SCENEMANAGER->changeScene("ÇÊµå¾À1");
 		break;
 
 	case OBJ_LEFTPORTAL:	break;
