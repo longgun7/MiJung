@@ -31,7 +31,7 @@ private:
 	string talk7 = "여기 물통이 있군";
 	string talk8 = "이게 있으면 줄을 건널 때 좀 더 중심을 잘 잡을 수 있겠어!";
 	string talk9 = "아타호는 물통을 주웠다.....!";
-	
+	string talk10 = "";
 	string talk12 = "이상한 상상을 했어 ..";
 
 

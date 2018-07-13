@@ -425,6 +425,10 @@ void player2::move()
 		{
 			_soloSkillEffect->addSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
 		}
+		if (_skillFrame == 79)
+		{
+			_move = S_ATTACKEND;
+		}
 		if (_skillFrame > 80)
 		{
 			_move = S_FIGHTREADY;
@@ -449,6 +453,10 @@ void player2::move()
 		{
 			_soloSkill2->addFireSkill(_em->getVEnmey()[_enemyIndex]->getTagEnmey().x, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
 			_imageFrame = _img->getMaxFrameX();
+		}
+		if (_skillFrame == 99)
+		{
+			_move = S_ATTACKEND;
 		}
 		if (_skillFrame > 100)
 		{
@@ -485,6 +493,10 @@ void player2::move()
 			_imageFrame = _img->getMaxFrameX();
 			_imageFrame = 0;
 		}
+		if (_skillFrame == 149)
+		{
+			_move = S_ATTACKEND;
+		}
 		if (_skillFrame > 150)
 		{
 			_skillFrame = 0;
@@ -518,6 +530,10 @@ void player2::move()
 		{
 			_imageFrame = 44;
 		}
+		if (_skillFrame == 399)
+		{
+			_move = S_ATTACKEND;
+		}
 		if (_skillFrame >= 400)
 		{
 			_imageFrame = 0;
@@ -536,6 +552,10 @@ void player2::move()
 				_areaSkill1->addAreaSkill(_em->getVEnmey()[i]->getTagEnmey().x, _em->getVEnmey()[i]->getTagEnmey().y, _em->getVEnmey().size());
 				setAreaDamage(10);
 			}
+		}
+		if (_skillFrame == 99)
+		{
+			_move = S_ATTACKEND;
 		}
 		if (_skillFrame > 100)
 		{	
@@ -572,6 +592,10 @@ void player2::move()
 			setAreaDamage(6);
 			randAreaEffect();
 		}
+		if (_skillFrame == 399)
+		{
+			_move = S_ATTACKEND;
+		}
 		if (_skillFrame > 400)
 		{
 			_skillFrame = 0;
@@ -606,6 +630,10 @@ void player2::move()
 			
 			setAreaDamage(6);
 			randAreaEffect();
+		}
+		if (_skillFrame == 199)
+		{
+			_move = S_ATTACKEND;
 		}
 		if (_skillFrame > 200)
 		{
@@ -644,6 +672,7 @@ void player2::move()
 		{
 			_x = 100;
 		}
+		
 		if (_skillFrame > 50)
 		{
 			_skillFrame = 0;
@@ -661,6 +690,10 @@ void player2::move()
 		}
 		++_skillFrame;
 		_soloSkillEffect->addSkill(_x, _y - 20);
+		if (_skillFrame == 99)
+		{
+			_move = S_ATTACKEND;
+		}
 		if (_skillFrame > 100)
 		{
 			_imageFrame = 0;

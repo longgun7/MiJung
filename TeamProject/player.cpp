@@ -1066,6 +1066,7 @@ void player::move()
 		}
 
 	}
+	
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	//스킬렉트
@@ -1418,7 +1419,7 @@ void player::setSkil(int choiceIndex, int skillIndex, int monIndex)
 				_move = ESCAPE;
 				_isMotionLive = true;
 			}
-
+			
 		}
 	}
 

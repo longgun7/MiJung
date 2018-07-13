@@ -115,14 +115,11 @@ void townScene::npcCollision()
 void townScene::fontUI(void)
 {
 	HFONT font, ofont;
-	char str[] = "Å¸¿î¾À";
 	font = CreateFont(20, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
-	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }

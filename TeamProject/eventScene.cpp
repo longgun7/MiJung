@@ -124,7 +124,7 @@ void eventScene::update(void)
 	{
 		++_talkIndex;
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_RETURN) && _isBottleCol && _talkIndex2 < 2 && _isBottleCol)
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN) && _isBottleCol && _talkIndex2 < 3 && _isBottleCol)
 	{
 		++_talkIndex2;
 	}
@@ -156,6 +156,7 @@ void eventScene::render(void)
 		IMAGEMANAGER->findImage("´ëÈ­Ã¢1")->render(CAMERA->getCameraDC(), 272, 400);
 		TextOut(CAMERA->getCameraDC(), 300, 450, _vTalk2[_talkIndex2].c_str(), strlen(_vTalk2[_talkIndex2].c_str()));
 	}
+	
 	
 if (_pm->getPlayer()->getX() > WINSIZEX + 150)
 	{
@@ -217,7 +218,7 @@ void eventScene::collision()
 	_vTalk2.push_back(talk7);
 	_vTalk2.push_back(talk8);
 	_vTalk2.push_back(talk9);
-
+	_vTalk2.push_back(talk10);
 
 	vector<pair<POINT, tagTile>> vObjTile = _map->getVObjectTile();
 
@@ -231,9 +232,10 @@ void eventScene::collision()
 
 		}
 	}
-	if (!_isEventMode && _talkIndex2 >= 2)
+	if (!_isEventMode && _talkIndex2 >= 3)
 	{
 		_map->setTile(OBJ_BOTTLE, OBJ_NONE);
+		_isBottleCol = false;
 
 		POINT index = _map->getTileIndex(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
 		if (_map->getTiles()[index.y * TILEX + index.x].obj == OBJ_ROPE)
@@ -242,7 +244,6 @@ void eventScene::collision()
 			_pm->getPlayer2()->setEventMode(S_EVENTMODE);
 			_isEventMode = true;
 			_pm->getPlayer()->setIsWoodDrop(true);
-			_isBottleCol = false;
 		}
 	}
 }
