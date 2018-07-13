@@ -99,13 +99,14 @@ void townScene::npcCollision()
 	for (int i = 0; i < vObjTile.size(); ++i)
 	{
 		RECT rc;
-		if (vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
+		if (!_npc->getIsTalk() && vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
 		{
 			for (int j = 0; j < vNpc.size(); ++j)
 			{
 				if(vObjTile[i].first.x == vNpc[j].tileX &&
 					vObjTile[i].first.y == vNpc[j].tileY)
 					_npc->talkNPC(vNpc[j].frameX, vNpc[j].frameY);
+				_npc->setIsTalk(true);
 			}
 		}
 	}

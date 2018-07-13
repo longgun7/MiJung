@@ -122,8 +122,6 @@ void playSceneManager::render(void)
 	_map->render();
 
 	SCENEMANAGER->render();
-	//else if (SCENEMANAGER->getCurrentSceneName() == "ÇÊµå¾À2") IMAGEMANAGER->findImage("¹èÆ²Àå¸é¾ð´ö")->render(getMemDC());
-	//else if (SCENEMANAGER->getCurrentSceneName() == "ÇÊµå¾À3") IMAGEMANAGER->findImage("¹èÆ²Àå¸é´ë³ª¹«")->render(getMemDC());
 
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
@@ -140,7 +138,11 @@ void playSceneManager::render(void)
 	_im->render();
 		
 	// ¿ÀºêÁ§Æ® ·»´õ
-	if (SCENEMANAGER->getSceneName() != "¹èÆ²¾À") _map->objRender();
+	if (SCENEMANAGER->getSceneName() != "¹èÆ²¾À")
+	{
+		if(SCENEMANAGER->getSceneName() != "ÀÌº¥Æ®¾À")
+			_map->objRender();
+	}
 
 	fontUI();
 }
