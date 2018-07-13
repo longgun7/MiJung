@@ -65,14 +65,14 @@ void fieldScene::render(void)
 void fieldScene::fontUI(void)
 {
 	HFONT font, ofont;
-	char str[] = "« µÂæ¿";
+
 
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "ªı±º∏≤");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
+
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }
@@ -102,19 +102,19 @@ void fieldScene::sceneChange(void)
 	}
 
 	// ∏ÛΩ∫≈Õ ∑£¥˝ ∏∏≥≤
-	if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
-		 _pm->getPlayer()->getMove() == RIGHTMOVE	||
-		 _pm->getPlayer()->getMove() == UPMOVE		||
-		 _pm->getPlayer()->getMove() == DOWNMOVE))
-	{
-		if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
-			_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
-		{
-			if (RND->getFloat(100) < 0.8f)
-			{
-				SCENEMANAGER->changeScene("πË∆≤æ¿");
-			}
-		}
-	}
+	//if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
+	//	 _pm->getPlayer()->getMove() == RIGHTMOVE	||
+	//	 _pm->getPlayer()->getMove() == UPMOVE		||
+	//	 _pm->getPlayer()->getMove() == DOWNMOVE))
+	//{
+	//	if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
+	//		_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
+	//	{
+	//		if (RND->getFloat(100) < 0.8f)
+	//		{
+	//			SCENEMANAGER->changeScene("πË∆≤æ¿");
+	//		}
+	//	}
+	//}
 
 }

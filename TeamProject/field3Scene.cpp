@@ -53,11 +53,11 @@ void field3Scene::render(void)
 {
 	//_map->render();
 	// ¿ÀºêÁ§Æ® ·»´õ
-	_map->objRender();
+	//_map->objRender();
 
 	// º¸½º À§Ä¡ 
 	IMAGEMANAGER->findImage("NPC1")->frameRender(getMemDC(), 2700, 950, 2, 2);
-	IMAGEMANAGER->findImage("¸°¼§¾ÉÀº¸ð½À")->frameRender(getMemDC(), 2700, 1000, 1, 1);
+	IMAGEMANAGER->findImage("¸°¼§¾ÉÀº¸ð½À")->render(getMemDC(), 2750, 1000);
 	
 	//_map->objRender();
 	
@@ -70,14 +70,14 @@ void field3Scene::render(void)
 void field3Scene::fontUI(void)
 {
 	HFONT font, ofont;
-	char str[] = "ÇÊµå¾À";
+	
 
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
+	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }

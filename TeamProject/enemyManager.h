@@ -31,6 +31,7 @@ private:
 	int _hitCount;						// 공격 모션을 길게해주는 카운트
 	int _hitTume;						// 공격 텀
 	image* _img;						// 데미지 수치 이미지
+	int _randAttack;
 
 public:
 

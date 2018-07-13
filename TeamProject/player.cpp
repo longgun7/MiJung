@@ -65,7 +65,7 @@ HRESULT player::init()
 	_img = IMAGEMANAGER->findImage("아타호정면");
 	
 	_x = WINSIZEX / 2 + 240;
-	_y = WINSIZEY / 2 - 40;
+	_y = WINSIZEY / 2 - 30;
 	_jumpPower  = 5.0f;
 	_gravity    = 0.2f;
 	_imageFrame	= 0;
@@ -133,10 +133,14 @@ void player::update()
 	{
 		imageFrame();	  //이미지프레임
 	}
+
+
+	move();
 	if((SCENEMANAGER->getSceneName() != "상태씬" && !SCENEMANAGER->getIsShop())
 		&& !SCENEMANAGER->getIsInHouseTalk())
 	{
-		move();			      //움직임
+		//이동
+		tileMove();		
 	}
 	levelCheck();	      //레벨업 여부
 
@@ -627,8 +631,6 @@ void player::imageFrame()
 
 void player::move()
 {
-	//이동
-	tileMove();
 
 	////////////////////////////////////////////////////////
 	//
@@ -659,7 +661,7 @@ void player::move()
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;
-			_move = FIGHTREADY;
+			//_move = FIGHTREADY;
 			
 		}
 	}
@@ -1064,6 +1066,7 @@ void player::move()
 		}
 
 	}
+	
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	//스킬렉트
@@ -1416,7 +1419,7 @@ void player::setSkil(int choiceIndex, int skillIndex, int monIndex)
 				_move = ESCAPE;
 				_isMotionLive = true;
 			}
-
+			
 		}
 	}
 

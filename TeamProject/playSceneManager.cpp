@@ -117,10 +117,11 @@ void playSceneManager::update(void)
 
 void playSceneManager::render(void)
 {
-	if (SCENEMANAGER->getSceneName() == "배틀씬") IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
-	else 	_map->render();
-	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬2") IMAGEMANAGER->findImage("배틀장면언덕")->render(getMemDC());
-	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬3") IMAGEMANAGER->findImage("배틀장면대나무")->render(getMemDC());
+	//if (SCENEMANAGER->getSceneName() == "배틀씬") IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
+	//else 	_map->render();
+	_map->render();
+
+	SCENEMANAGER->render();
 
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
@@ -137,7 +138,11 @@ void playSceneManager::render(void)
 	_im->render();
 		
 	// 오브젝트 렌더
-	if (SCENEMANAGER->getSceneName() != "배틀씬") _map->objRender();
+	if (SCENEMANAGER->getSceneName() != "배틀씬")
+	{
+		if(SCENEMANAGER->getSceneName() != "이벤트씬")
+			_map->objRender();
+	}
 
 	fontUI();
 }
@@ -203,22 +208,11 @@ void playSceneManager::fontUI(void)
 	sprintf_s(currentMP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentMp, _pm->getPlayer2()->getAttribute().maxMp);
 
 	char currentEXP1[128];	//아타호 현재경험치 / 최대경험치
-	if(_pm->getPlayer()->getAttribute().currentExp == 0)
-	{
-		sprintf_s(currentEXP1, "%d / %d", 0, _pm->getPlayer()->getAttribute().maxExp / (_pm->getPlayer()->getAttribute().maxExp / 100));
-	}else
-	{
-		sprintf_s(currentEXP1, "%d / %d", _pm->getPlayer()->getAttribute().currentExp / (_pm->getPlayer()->getAttribute().currentExp / 100), _pm->getPlayer()->getAttribute().maxExp / (_pm->getPlayer()->getAttribute().maxExp / 100));
-	}
+	sprintf_s(currentEXP1, "%d / %d", _pm->getPlayer()->getAttribute().currentExp / _pm->getPlayer()->getAttribute().level, 100);
 	
 	char currentEXP2[128];	//스마슈 현재경험치 / 최대경험치
-	if(_pm->getPlayer2()->getAttribute().currentExp == 0)
-	{
-		sprintf_s(currentEXP2, "%d / %d", 0, _pm->getPlayer2()->getAttribute().maxExp / (_pm->getPlayer2()->getAttribute().maxExp / 100));
-	}
-	else
-	sprintf_s(currentEXP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentExp/(_pm->getPlayer2()->getAttribute().currentExp/100), _pm->getPlayer2()->getAttribute().maxExp/(_pm->getPlayer2()->getAttribute().maxExp/100));
-
+	sprintf_s(currentEXP2, "%d / %d", _pm->getPlayer2()->getAttribute().currentExp / _pm->getPlayer2()->getAttribute().level, 100);
+	
 	char currentAtk1[128];
 	sprintf_s(currentAtk1, "%d", _pm->getPlayer()->getAttribute().atk);
 	char currentAtk2[128];

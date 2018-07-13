@@ -99,13 +99,14 @@ void townScene::npcCollision()
 	for (int i = 0; i < vObjTile.size(); ++i)
 	{
 		RECT rc;
-		if (vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
+		if (!_npc->getIsTalk() && vObjTile[i].second.obj == OBJ_NPC && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
 		{
 			for (int j = 0; j < vNpc.size(); ++j)
 			{
 				if(vObjTile[i].first.x == vNpc[j].tileX &&
 					vObjTile[i].first.y == vNpc[j].tileY)
 					_npc->talkNPC(vNpc[j].frameX, vNpc[j].frameY);
+				_npc->setIsTalk(true);
 			}
 		}
 	}
@@ -114,14 +115,11 @@ void townScene::npcCollision()
 void townScene::fontUI(void)
 {
 	HFONT font, ofont;
-	char str[] = "Å¸¿î¾À";
 	font = CreateFont(20, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
-	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 }
@@ -144,7 +142,7 @@ void townScene::sceneChange(void)
 		SOUNDMANAGER->stop("TownTheMa");
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
-		SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
+		SCENEMANAGER->changeScene("ÇÊµå¾À1");
 		break;
 	}
 }

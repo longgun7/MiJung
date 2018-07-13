@@ -59,6 +59,7 @@ void barScnen::update(void)
 {
 	CAMERA->setPosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
 
+	_npc->update();
 	_count++;
 	if (_count % 8 == 0)
 	{
@@ -239,13 +240,12 @@ void barScnen::render(void)
 void barScnen::fontUI(void)
 {
 	HFONT font, ofont;
-	char str[] = "¼úÁý¾À";
 
 	font = CreateFont(25, 0, 0, 0, FW_HEAVY, 0, 0, 0, 0, 0, 0, 0, 0, "»õ±¼¸²");
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-	TextOut(CAMERA->getCameraDC(), WINSIZEX - 320, WINSIZEY - 160, str, strlen(str));
+	
 	SelectObject(CAMERA->getCameraDC(), ofont);
 	DeleteObject(font);
 
@@ -263,7 +263,7 @@ void barScnen::sceneChange(void)
 	case OBJ_DOWNPORTAL:
 		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(250);
 		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(250);
-		SCENEMANAGER->changeScene("Å¸¿î¾À");
+		SCENEMANAGER->changeScene("ÇÊµå¾À3");
 		break;
 
 	case OBJ_LEFTPORTAL:	break;

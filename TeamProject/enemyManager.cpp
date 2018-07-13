@@ -10,6 +10,7 @@ HRESULT enemyManager::init()
 	_ge = new gameEffect;
 	_ge->init();
 
+	_randAttack = 0;
 	return S_OK;
 	
 }
@@ -199,20 +200,38 @@ void enemyManager::hitEnemy(int index, int damge)
 
 void enemyManager::hitPlayer()
 {
+	
 	// 예외처리추가(민경), 에너미가 한마리도 없을때 이 함수는 실행되지 않는다.
 	if (_vEnemy.size() <= 0) return;													// 벡터의 사이즈가 0보다 같거나 작으면 돌아가라
 
 	if (_vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0 && _hitCount == 0)			// _hitIndex번째의 에너미의 현재 프레임 X가 0이고, _hitCount가 0일 떄
 	{
-		_vEnemy[_hitIndex]->setEnemyDirection(ATTACK);									// _hitIndex번째의 에너미 디렉션을 ATTACK로 바꿔준다
+		_vEnemy[_hitIndex]->setEnemyDirection(ATTACK);	// _hitIndex번째의 에너미 디렉션을 ATTACK로 바꿔준다
+		_randAttack = RND->getInt(2);
 	}
-
+	
 	if (_vEnemy[_hitIndex]->getTagEnmey().isAttack == true)								// _hitIndex번째의 에너미의 isAttack가 true일 때
 	{
-		_pm->getPlayer()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);		// 플레이어 매니저의 getPlayer로 접근하여 setPlayerDamge에 있는 매개변수으 값에 _hitIndex번째의 에너미의 데미지값을 넣는다
-		_hitTume = true;																// _hitTume를 true로 만든다
-		_vEnemy[_hitIndex]->setIsAttack(false);											// _hitCount번째 에너미의 isAttack를 false로 만든다
 		
+		if (_pm->getPlayer()->getAttribute().currentHp == 0 && _pm->getPlayer2()->getAttribute().currentHp > 0) _randAttack = 1;
+		if (_pm->getPlayer2()->getAttribute().currentHp == 0 && _pm->getPlayer()->getAttribute().currentHp > 0) _randAttack = 0;
+		
+		
+		if (_randAttack == 0)
+		{
+			_pm->getPlayer()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);
+			_hitTume = true;
+			_vEnemy[_hitIndex]->setIsAttack(false);
+		}
+		
+		if (_randAttack == 1)
+		{
+			_pm->getPlayer2()->setPlayerDamage(_vEnemy[_hitIndex]->getTagEnmey().att);
+			_hitTume = true;
+			_vEnemy[_hitIndex]->setIsAttack(false);
+		}
+			
+												// _hitTume를 true로 만든다
 	}
 
 	if (_hitTume) ++_hitCount;							// _hitTume가 true일 때, ++_hitCount를 해준다
@@ -225,6 +244,7 @@ void enemyManager::hitPlayer()
 	}
 	
 	if (_hitIndex >= _vEnemy.size()) _hitIndex = 0;		// _hitIndex가 에너미 벡터의 사이즈보다 같거나 커질 경우 _hitIndex를 0으로 초기화한다
+
 }
 
 // 에너미들이 몇마리 나오는지, 좌표 설정
