@@ -350,6 +350,8 @@ void battleScene::update(void)
 			{
 				//_isAtahoSkillFire = false;
 				_pm->getPlayer2()->setSkill(_sChoiceIndex, _sSkillIndex, _sMonIndex);
+				if (_sChoiceIndex == 5) _pm->getPlayer()->setSkil(_sChoiceIndex, _sSkillIndex, _sMonIndex);
+
 				_isSumsuSkillFire = false;
 				//if (_pm->getPlayer2()->getImage()->getFrameX() == _pm->getPlayer2()->getImage()->getMaxFrameX());
 				//_gameTurn = ENEMY_ATTACK;
