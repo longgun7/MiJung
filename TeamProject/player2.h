@@ -122,7 +122,7 @@ public:
 	void setY(float y) { _y = y; }
 
 	void setIsJumping(bool isJumping) { _isJumping = isJumping; }
-	
+	image* getImg() { return _img; }
 	SMOVE getMove() { return _move; }
 	void setMove(SMOVE move)
 	{

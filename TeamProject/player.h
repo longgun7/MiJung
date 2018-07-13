@@ -158,6 +158,7 @@ public:
 	void setSkil(int choiceIndex, int skillIndex,int monIndex);
 	int getSkillFrame() { return _skillFrame; }	
 	void setEventMode(SCENEMODE mode);
+	image* getImg() { return _img; }
 	// Ãß°¡(¹Î°æ)
 	RECT getRC() { return _rc; }
 	RECT getZorderRC() { return _zOrderRC; }
