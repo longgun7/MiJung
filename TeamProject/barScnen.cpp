@@ -45,8 +45,8 @@ HRESULT barScnen::init(void)
 		_isTalkCheck = true;
 		SCENEMANAGER->setIsInHouseTalk(true);
 		talkSave();
-		talkLoad();
 	}
+	talkLoad();
 
 	return S_OK;
 }

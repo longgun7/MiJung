@@ -22,6 +22,7 @@ private:
 	bool _isShopCheck;		//상점이 체크되었늬?
 	bool _isHotelCheck;		//여관이 체크되었늬?
 	bool _isTalkCheck;
+
 	int _who = 0;
 	int _start = 0;
 	int _count;
