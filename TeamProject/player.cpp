@@ -133,10 +133,14 @@ void player::update()
 	{
 		imageFrame();	  //이미지프레임
 	}
+
+
+	move();
 	if((SCENEMANAGER->getSceneName() != "상태씬" && !SCENEMANAGER->getIsShop())
 		&& !SCENEMANAGER->getIsInHouseTalk())
 	{
-		move();			      //움직임
+		//이동
+		tileMove();		
 	}
 	levelCheck();	      //레벨업 여부
 
@@ -627,8 +631,6 @@ void player::imageFrame()
 
 void player::move()
 {
-	//이동
-	tileMove();
 
 	////////////////////////////////////////////////////////
 	//
@@ -659,7 +661,7 @@ void player::move()
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;
-			_move = FIGHTREADY;
+			//_move = FIGHTREADY;
 			
 		}
 	}

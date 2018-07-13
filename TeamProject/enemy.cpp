@@ -34,7 +34,7 @@ void enemy::setHp(int damage)
 	if (damage <= _enemy.def) damage = 0;				// 방어가 데미지보다 높을 때 데미지를 0으로 만든다
 	else												// 그게 아니라면
 	{
-		damage -= _enemy.def;							// 공격력에서 방어력을 뺀다
+		damage -= _enemy.def;							// 공격력에서 방어력을 뺀 값을 데미지에 넣어준다
 	}
 
 	_enemy.damage = damage;								// 적의 상태를 HIT상태로 바꾼다

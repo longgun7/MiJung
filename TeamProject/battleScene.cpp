@@ -321,7 +321,11 @@ void battleScene::update(void)
 			if(_isAtahoSkillFire)
 			{
 				_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
-				if(_pm->getPlayer()->getImg()->getFrameX()==_pm->getPlayer()->getImg()->getMaxFrameX())
+				_isAtahoSkillFire = false;
+			}
+			else if (!_isAtahoSkillFire && _pm->getPlayer()->getMove() == ATTACKEND)
+			{
+				_pm->getPlayer()->setMove(FIGHTREADY);
 				_gameTurn = SUMSU_ATTACK;
 				_isSumsuSkillFire = true;
 			}
@@ -338,9 +342,16 @@ void battleScene::update(void)
 		break;
 		case ENEMY_ATTACK:
 			_isAtahoSkillFire = false;
-			_em->hitPlayer();
-			_gameTurn = ATAHO_CHOICE;
-			
+			_isSumsuSkillFire = false;
+			if(_em->getAttackEnd() == false)
+			{
+				_em->hitPlayer();
+			}
+			else
+			{
+				_gameTurn = ATAHO_CHOICE;
+				_em->setAttackEnd(true);
+			}
 		break;
 
 	}
@@ -414,7 +425,7 @@ void battleScene::render(void)
 		}
 		
 	}
-	if (_isMonCheck)
+	if (_isSkillCheck)
 	{
 		IMAGEMANAGER->findImage("MONCHECKBUTTON")->frameRender(CAMERA->getCameraDC(), _monX, _monY);
 	}
@@ -475,8 +486,8 @@ void battleScene::fontUI(void)
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
 
-	sprintf(temp, "%d", _em->getVEnmey().size());
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, temp, strlen(temp));
+	//sprintf(temp, "%d", _em->getVEnmey().size());
+	//TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, temp, strlen(temp));
 	if(_gameTurn==ATAHO_CHOICE||_gameTurn==SUMSU_CHOICE)
 	{
 		if (_gameTurn == ATAHO_CHOICE) TextOut(CAMERA->getCameraDC(), 345, 25, charName, strlen(charName));

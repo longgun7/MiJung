@@ -17,6 +17,8 @@ HRESULT playGround::init(void)
 	gameNode::init(true);
 
 	musicInit();
+	IMAGEMANAGER->addImage("기본status", "image/ui/기본status.bmp", 650, 200, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("infoStatus", "image/ui/infoStatus.bmp", 350, 200, true, RGB(255, 0, 255));
 
 	SCENEMANAGER->addScene("스타트씬", new startScene);
 	SCENEMANAGER->addScene("엔드씬", new endScene);
@@ -64,12 +66,17 @@ void playGround::render(void)
 
 	//============== 이 위로는 건드리지 말자 ==============
 
-
+	//if(SCENEMANAGER->getCurrentSceneName() == "배틀씬") SCENEMANAGER->render();
 	if (SCENEMANAGER->getCurrentSceneName() != "스타트씬" && SCENEMANAGER->getCurrentSceneName() != "맵툴씬")
-	{
-		_psm->render();
+	{		
+		IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
+		IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
+
+		_psm->render();		
 	}
 	else SCENEMANAGER->render();
+	
+
 
 	TIMEMANAGER->render(CAMERA->getCameraDC());
 
