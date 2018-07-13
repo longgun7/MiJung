@@ -257,7 +257,7 @@ void battleScene::update(void)
 			if(_isMonCheck)
 			{
 				_isSkillCheck = false;
-				_isMonCheck = false;
+				//_isMonCheck = false;
 				_isAtahoSkillFire = true;
 				_gameTurn = SUMSU_CHOICE;
 			}
@@ -279,7 +279,7 @@ void battleScene::update(void)
 			if (_isMonCheck)
 			{
 				_isSkillCheck = false;
-				_isMonCheck = false;
+				//_isMonCheck = false;
 				_gameTurn = ATAHO_ATTACK;
 			}
 			else if (_sChoiceIndex>1)
@@ -321,7 +321,11 @@ void battleScene::update(void)
 			if(_isAtahoSkillFire)
 			{
 				_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
-				if(_pm->getPlayer()->getImg()->getFrameX()==_pm->getPlayer()->getImg()->getMaxFrameX())
+				_isAtahoSkillFire = false;
+			}
+			else if (!_isAtahoSkillFire && _pm->getPlayer()->getMove() == ATTACKEND)
+			{
+				_pm->getPlayer()->setMove(FIGHTREADY);
 				_gameTurn = SUMSU_ATTACK;
 				_isSumsuSkillFire = true;
 			}
@@ -414,7 +418,7 @@ void battleScene::render(void)
 		}
 		
 	}
-	if (_isMonCheck)
+	if (_isSkillCheck)
 	{
 		IMAGEMANAGER->findImage("MONCHECKBUTTON")->frameRender(CAMERA->getCameraDC(), _monX, _monY);
 	}
