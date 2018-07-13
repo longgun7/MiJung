@@ -15,6 +15,10 @@ playSceneManager::~playSceneManager()
 
 HRESULT playSceneManager::init(void)
 {
+	IMAGEMANAGER->addImage("배틀장면대나무", "image/battleScene/배틀장면 대나무.bmp", 1000, 550, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("배틀장면언덕", "image/battleScene/배틀장면 언덕.bmp", 1000, 550, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("배틀장면절벽", "image/battleScene/배틀장면 절벽.bmp", 1000, 550, true, RGB(255, 0, 255));
+
 	sceneAdd();
 	basicUI();
 
@@ -113,7 +117,14 @@ void playSceneManager::update(void)
 
 void playSceneManager::render(void)
 {
+	//if (SCENEMANAGER->getSceneName() == "배틀씬") IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
+	//else 	_map->render();
 	_map->render();
+
+	SCENEMANAGER->render();
+	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬2") IMAGEMANAGER->findImage("배틀장면언덕")->render(getMemDC());
+	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬3") IMAGEMANAGER->findImage("배틀장면대나무")->render(getMemDC());
+
 	//SetTextColor(getMemDC(), RGB(0, 0, 0));
 	//TIMEMANAGER->render(getMemDC());
 	IMAGEMANAGER->findImage("기본status")->render(CAMERA->getCameraDC(), 0, 550);
@@ -123,14 +134,13 @@ void playSceneManager::render(void)
 	IMAGEMANAGER->findImage("EXP")->frameRender(CAMERA->getCameraDC(), 500, 562);
 
 	renderProgressBar();	//프로그래스바 렌더
-
-	
+		
 	_pm->render();
 	_em->render();
 	_im->render();
 		
 	// 오브젝트 렌더
-	_map->objRender();
+	if (SCENEMANAGER->getSceneName() != "배틀씬") _map->objRender();
 
 	fontUI();
 }

@@ -198,7 +198,7 @@ void player2::fieldKeyManager(float x , float y,float angle)
 			_angle = _angle2[4];
 
 			_x = _x2[4] - cosf(_angle) * 10.0f;
-			_y = _y2[4] - -sinf(_angle) * 10.0f;
+			_y = _y2[4] - -sinf(_angle) * 10.0f - 5;
 		}
 	
 		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
@@ -963,62 +963,64 @@ void player2::setSkill(int choiceIndex, int skillIndex, int monIndex)
 			_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
 			setSoloDamage(6);
 		}
-		if (choiceIndex == 1 && skillIndex == 0 )
+		if (choiceIndex == 1 && skillIndex == 0 && _attribute.currentMp >= _attribute.maxMp/3 )
 		{
 			_move = S_SOLOSKILL1;
 			_isMotionLive = true;
 			_skillFrame = 0;
 			_y = _em->getVEnmey()[_enemyIndex]->getTagEnmey().y;
-			
+			_attribute.currentMp -= _attribute.maxMp / 3;
 		}
-		if (choiceIndex == 1 && skillIndex == 2 )
+		if (choiceIndex == 1 && skillIndex == 2 && _attribute.currentMp >= _attribute.maxMp / 3)
 		{
 			_move = S_SOLOSKILL2;
 			_isMotionLive = true;
 			_skillFrame = 0;
-			
+			_attribute.currentMp -= _attribute.maxMp / 3;
 		}
-		if (choiceIndex == 1 && skillIndex == 1 )
+		if (choiceIndex == 1 && skillIndex == 1 && _attribute.currentMp >= _attribute.maxMp / 2)
 		{
 			_move = S_SOLOSKILL3;
 			_isMotionLive = true;
 			_skillFrame = 0;
-			
+			_attribute.currentMp -= _attribute.maxMp / 2;
 		}
 	}
 
-	if (choiceIndex == 2 && skillIndex == 0 )
+	if (choiceIndex == 2 && skillIndex == 0 && _attribute.currentMp >= _attribute.maxMp / 2)
 	{
 		_move = S_AREASKILL1;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		
+		_attribute.currentMp -= _attribute.maxMp / 2;
 	}
-	if (choiceIndex == 2 && skillIndex == 1)
+	if (choiceIndex == 2 && skillIndex == 1 && _attribute.currentMp >= _attribute.maxMp / 2)
 	{
 		_x = WINSIZEX / 2;
 		_y = WINSIZEY / 3;
 		_move = S_AREASKILL2;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		
+		_attribute.currentMp -= _attribute.maxMp / 2;
 	}
-	if (choiceIndex == 2 && skillIndex == 2  )
+	if (choiceIndex == 2 && skillIndex == 2 && _attribute.currentMp >= _attribute.maxMp / 2)
 	{
 		_move = S_AREASKILL3;
 		_isMotionLive = true;
 		_skillFrame = 0;
-		
+		_attribute.currentMp -= _attribute.maxMp / 2;
 	}
-	if (choiceIndex == 3 && skillIndex == 0)
+	if (choiceIndex == 3 && skillIndex == 0 && _attribute.currentMp >= _attribute.maxMp / 3)
 	{
 		_move = S_HPUP;
 		_isMotionLive = true;
+		_attribute.currentMp -= _attribute.maxMp / 3;
 	}
 	if (choiceIndex == 3 && skillIndex == 1)
 	{
 		_move = S_MPUP;
 		_isMotionLive = true;
+		_attribute.currentMp += _attribute.maxMp / 2;
 	}
 	if (choiceIndex == 5 && skillIndex == 0)
 	{

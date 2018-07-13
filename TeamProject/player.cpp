@@ -133,11 +133,11 @@ void player::update()
 	{
 		imageFrame();	  //이미지프레임
 	}
-	if(SCENEMANAGER->getSceneName() != "상태씬"&&!SCENEMANAGER->getIsShop())
+	if((SCENEMANAGER->getSceneName() != "상태씬" && !SCENEMANAGER->getIsShop())
+		&& !SCENEMANAGER->getIsInHouseTalk())
 	{
 		move();			      //움직임
 	}
-	
 	levelCheck();	      //레벨업 여부
 
 	//스킬 이펙트 업데이트
@@ -652,11 +652,15 @@ void player::move()
 			randEffect();
 			setSoloDamage(0);
 		}
-
+		if (_skillFrame == 99)
+		{
+			_move = ATTACKEND;
+		}
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;
 			_move = FIGHTREADY;
+			
 		}
 	}
 	
@@ -669,11 +673,15 @@ void player::move()
 			randEffect();
 			setSoloDamage(0);
 		}
-		
+		if (_skillFrame == 99)
+		{
+			_move = ATTACKEND;
+		}
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;
 			_move = FIGHTREADY;
+			
 		}
 	}
 
@@ -686,7 +694,10 @@ void player::move()
 			randEffect();
 			setSoloDamage(0);
 		}
-		
+		if (_skillFrame == 99)
+		{
+			_move = ATTACKEND;
+		}
 		if (_skillFrame > 100)
 		{
 			_skillFrame = 0;
@@ -716,6 +727,10 @@ void player::move()
 				randEffect();
 				setSoloDamage(10);
 				_soloSkillEffect1->addSkill(WINSIZEX - 450, _em->getVEnmey()[_enemyIndex]->getTagEnmey().y);
+			}
+			if (_skillFrame == 199)
+			{
+				_move = ATTACKEND;
 			}
 			if (_skillFrame >= 200 )
 			{
@@ -772,6 +787,10 @@ void player::move()
 				setSoloDamage(10);
 			}		
 		}
+		if (_skillFrame == 299)
+		{
+			_move = ATTACKEND;
+		}
 		if (_skillFrame > 300)
 		{	
 			_img->setFrameX(0);
@@ -801,8 +820,13 @@ void player::move()
 			_x += 10;
 			_soloSkillEffect2->addSkill(_x, _y + 10);
 		}
+		if (_img->getFrameX() >= 25)
+		{
+			_move = ATTACKEND;
+		}
 		if (_x >= WINSIZEX)
 		{
+			_skillFrame = 0;
 			setSoloDamage(6);
 			_move = FIGHTREADY;
 			_img->setFrameX(0);
@@ -838,6 +862,10 @@ void player::move()
 			++_skillFrame;
 			_soloSkillEffect2->addSkill(_x+60, _y-29);
 			
+			if (_skillFrame == 49)
+			{
+				_move = ATTACKEND;
+			}
 			if (_skillFrame >= 50)
 			{
 				_move = FIGHTREADY;
@@ -896,6 +924,10 @@ void player::move()
 				setAreaDamage(10);
 			}
 		}
+		if (_skillFrame == 199)
+		{
+			_move = ATTACKEND;
+		}
 		if (_skillFrame > 200)
 		{	
 			_skillFrame = 0;
@@ -926,6 +958,10 @@ void player::move()
 		{
 			randEffect();
 			setAreaDamage(20); //데미지 넣기~
+		}
+		if (_skillFrame == 299)
+		{
+			_move = ATTACKEND;
 		}
 		if (_skillFrame >= 300)
 		{
@@ -1016,6 +1052,10 @@ void player::move()
 		}
 		++_skillFrame;
 		_soloSkillEffect2->addSkill(_x, _y - 20);
+		if (_skillFrame == 99)
+		{
+			_move = ATTACKEND;
+		}
 		if (_skillFrame > 100)
 		{
 			_imageFrame = 0;

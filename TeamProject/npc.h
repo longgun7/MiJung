@@ -30,7 +30,7 @@ class npc : public gameNode
 
 	string strNPC = "올해야말로　슈스케　우승하겠어!!";
 	string strNPC1 = "안녕하십니까↗오랜만입니다↗";
-	string strNPC2 = "롤ㄱㄱ? 배그ㄱㄱ? ";
+	string strNPC2 = "롤ㄱㄱ? 배그ㄱㄱ? 아　잠시만요　프링클　치킨　먹어야되서;;";
 	string strNPC3 = "무조건이지　무조건　말해　뭐해~ ";
 	string strNPC4 = "언제쯤　질문을　받아주실까...?";
 	string strNPC5 = "꿇어라　이것이　너와　나의　코딩높이다. ";

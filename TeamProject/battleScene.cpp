@@ -24,6 +24,7 @@ HRESULT battleScene::init(void)
 	IMAGEMANAGER->addImage("배틀장면대나무","image/battleScene/배틀장면 대나무.bmp", 1000, 550, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("배틀장면언덕", "image/battleScene/배틀장면 언덕.bmp", 1000, 550, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("배틀장면절벽", "image/battleScene/배틀장면 절벽.bmp", 1000, 550, true, RGB(255, 0, 255));
+
 	_isTurn = true;
 	_choiceIndex = 0;
 	_skillIndex = 0;
@@ -315,18 +316,19 @@ void battleScene::update(void)
 			sumsuSkillCheck();
 		break;
 		case ATAHO_ATTACK:
-			_isSkillCheck = false;
-			_isMonCheck = false;
+			
 			_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
+			if((_pm->getPlayer()->getImge()->getFrameX() == _pm->getPlayer()->getImge()->getMaxFrameX()))
 			_gameTurn = SUMSU_ATTACK;
 		break;
 		case SUMSU_ATTACK:
 			_pm->getPlayer2()->setSkill(_sChoiceIndex, _sSkillIndex, _sMonIndex);
-			if (_pm->getPlayer2()->getSkillFrame() ==50)
+			if (_pm->getPlayer2()->getImage()->getFrameX() == _pm->getPlayer2()->getImage()->getMaxFrameX());
 			_gameTurn = ENEMY_ATTACK;
 		break;
 		case ENEMY_ATTACK:
 			_em->hitPlayer();
+			if(_em->getVEnmey()[_em->getVEnmey().size()-1]->getImage()->getFrameX()== _em->getVEnmey()[_em->getVEnmey().size() - 1]->getImage()->getMaxFrameX())
 			_gameTurn = ATAHO_CHOICE;
 		break;
 
@@ -336,14 +338,18 @@ void battleScene::update(void)
 	{
 		if (_em->getVEnmey().size() == 0)
 		{
-			//_isTurn = true;
-			//SCENEMANAGER->changeScene("필드씬");
+			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
 		}
 	}
 }
 
 void battleScene::render(void)
 {
+	IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
+	//if (SCENEMANAGER->getCurrentSceneName() == "필드씬1") IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
+	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬2") IMAGEMANAGER->findImage("배틀장면언덕")->render(getMemDC());
+	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬3") IMAGEMANAGER->findImage("배틀장면대나무")->render(getMemDC());
+	
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
 	if (_gameTurn==ATAHO_CHOICE||_gameTurn==SUMSU_CHOICE)

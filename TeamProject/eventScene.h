@@ -14,6 +14,8 @@ private:
 	int _alphaNum;
 	bool _isEventMode;
 
+	bool _isBottleCol;
+
 	vector<string> _vTalk;
 	int _talkIndex;
 	string talk1 = "절벽 아래로 내다보는 풍경이 아주 아름답구나 ..";
@@ -32,5 +34,8 @@ public:
 	void render(void);
 	void talk();
 	void sceneChange(void);
+
+	void collision();
+
 };
 

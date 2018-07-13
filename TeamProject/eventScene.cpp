@@ -102,6 +102,8 @@ void eventScene::update(void)
 		SOUNDMANAGER->resume("eventTheMa");
 	}
 
+	collision();
+
 	// 플레이어가 어느 타일에 있는지 인덱스 번호 세팅
 	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
 	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
@@ -116,7 +118,7 @@ void eventScene::update(void)
 void eventScene::render(void)
 {
 	//_map->render();
-
+	
 	char str[128];
 	sprintf_s(str, " 기울기 : %d", _pm->getPlayer()->getSlopeNum());
 	TextOut(getMemDC(), WINSIZEX / 2, 50, str, strlen(str));
@@ -143,7 +145,7 @@ void eventScene::render(void)
 
 	// 오브젝트 렌더
 	//_map->objRender();
-
+	if (_isBottleCol) TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, 400, "보틀충돌", strlen("ㅇㅇㅇㅇ"));
 
 }
 
@@ -183,4 +185,26 @@ void eventScene::sceneChange(void)
 
 	}
 
+}
+
+void eventScene::collision()
+{
+	vector<pair<POINT, tagTile>> vObjTile = _map->getVObjectTile();
+
+	for (int i = 0; i < vObjTile.size(); ++i)
+	{
+		RECT rc;
+		POINT index = _map->getTileIndex(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
+		if (vObjTile[i].second.obj == OBJ_BOTTLE && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getZorderRC()))
+		{
+			_isBottleCol = true;		
+
+		}
+	}
+
+	//for (int i = 0; i < vObjTile.size(); ++i)
+	//{
+	//	if (vObjTile[i].second.obj == OBJ_BOTTLE)
+	//		vObjTile[i].second.obj = OBJ_NONE;
+	//}
 }
