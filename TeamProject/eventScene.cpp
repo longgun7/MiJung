@@ -120,7 +120,7 @@ void eventScene::update(void)
 	_map->setTilePos(_pm->getPlayer2()->getZorderRC(), OBJ_PLAYER2);
 
 	sceneChange();
-	if (KEYMANAGER->isOnceKeyDown(VK_RETURN) && _talkIndex < 5 && !_isBottleCol)
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN) && _talkIndex < 5 && _pm->getPlayer()->getX() > WINSIZEX + 150)
 	{
 		++_talkIndex;
 	}
@@ -144,7 +144,7 @@ void eventScene::render(void)
 		IMAGEMANAGER->alphaRender("카페베네", getMemDC(), CAMERA->getPosition().x + WINSIZEX / 3, CAMERA->getPosition().y + (550 / 3) * 2, _alphaNum);
 	}
 
-	if (SOUNDMANAGER->isPlaySound("eventTheMa"))
+	if (SOUNDMANAGER->isPlaySound("eventTheMa") && KEYMANAGER->isToggleKey(VK_RETURN))
 	{
 		IMAGEMANAGER->findImage("대화창1")->render(CAMERA->getCameraDC(), 272, 400);
 	   TextOut(CAMERA->getCameraDC(), 300, 450, talk12.c_str(), strlen(talk12.c_str()));
