@@ -175,38 +175,74 @@ void battleScene::update(void)
 	{
 		if (!_isSkillCheck)
 		{
-			if (_choiceIndex == 0 && _playerTurn == SUMSU_TURN)
+			if (_gameTurn == ATAHO_CHOICE)
 			{
-				_skillIndex = 0;
-			}
-			else if (_choiceIndex == 3)
-			{
-				if (_pm->getV_PoInven().size() != 0)
+				if (_choiceIndex == 3)
+				{
+					if (_pm->getV_PoInven().size() != 0)
+					{
+						_skillIndex++;
+						if (_skillIndex > _pm->getV_PoInven().size() - 1) _skillIndex = 0;
+					}
+				}
+				else if (_choiceIndex == 4)
 				{
 					_skillIndex++;
-					if (_skillIndex >_pm->getV_PoInven().size() - 1) _skillIndex = 0;
+					if (_skillIndex > 4) _skillIndex = 0;
+				}
+				else if (_choiceIndex == 5)
+				{
+					_skillIndex = 0;
+				}
+				else
+				{
+					_skillIndex++;
+					if (_skillIndex > 2) _skillIndex = 0;
+				}
+			}
+			else if (_gameTurn == SUMSU_CHOICE)
+			{
+				if (_sChoiceIndex == 0)
+				{
+					_sSkillIndex = 0;
+				}
+				else if (_sChoiceIndex == 3)
+				{
+					if (_pm->getV_PoInven().size() != 0)
+					{
+						_sSkillIndex++;
+						if (_sSkillIndex > _pm->getV_PoInven().size() - 1) _sSkillIndex = 0;
+					}
+				}
+				else if (_sChoiceIndex == 4)
+				{
+					_sSkillIndex++;
+					if (_sChoiceIndex > 4) _sSkillIndex = 0;
+				}
+				else if (_sChoiceIndex == 5)
+				{
+					_sSkillIndex = 0;
+				}
+				else
+				{
+					_sSkillIndex++;
+					if (_sSkillIndex > 2) _sSkillIndex = 0;
+				}
+			}
+			else if (_isMonCheck)
+			{
+				if (_gameTurn == ATAHO_CHOICE)
+				{
+					_monIndex++;
+					if (_monIndex > _em->getVEnmey().size() - 1)_monIndex = 0;
+				}
+				else if (_gameTurn == SUMSU_CHOICE)
+				{
+					_sMonIndex++;
+					if (_sMonIndex < _em->getVEnmey().size() - 1)_sMonIndex = 0;
 				}
 
 			}
-			else if (_choiceIndex == 4)
-			{
-				_skillIndex++;
-				if (_skillIndex > 4) _skillIndex = 0;
-			}
-			else if (_choiceIndex == 5)
-			{
-				_skillIndex = 0;
-			}
-			else
-			{
-				_skillIndex++;
-				if (_skillIndex > 2) _skillIndex = 0;
-			}
-		}
-		else if (_isSkillCheck)
-		{
-			_monIndex++;
-			if (_monIndex > _em->getVEnmey().size() - 1)_monIndex = 0;
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -283,6 +319,7 @@ void battleScene::update(void)
 		break;
 		case SUMSU_ATTACK:
 			_pm->getPlayer2()->setSkill(_sChoiceIndex, _sSkillIndex, _sMonIndex);
+			if (_pm->getPlayer2()->getSkillFrame() ==50)
 			_gameTurn = ENEMY_ATTACK;
 		break;
 		case ENEMY_ATTACK:
