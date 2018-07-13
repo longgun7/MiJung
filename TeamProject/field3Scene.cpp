@@ -27,6 +27,8 @@ HRESULT field3Scene::init(void)
 
 	SOUNDMANAGER->play("FiledTheMa");
 
+	IMAGEMANAGER->addFrameImage("NPC1", "image/maptool/NPC/NPC.bmp", 432, 288, 6, 3, true, RGB(255, 0, 255));
+
 	return S_OK;
 }
 
@@ -53,6 +55,9 @@ void field3Scene::render(void)
 	// 오브젝트 렌더
 	_map->objRender();
 
+	// 보스 위치 
+	IMAGEMANAGER->findImage("NPC1")->frameRender(getMemDC(), 2700, 950, 2, 2);
+	
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 
 	fontUI();
