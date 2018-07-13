@@ -263,7 +263,7 @@ void barScnen::sceneChange(void)
 	case OBJ_DOWNPORTAL:
 		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(250);
 		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(250);
-		SCENEMANAGER->changeScene("Å¸¿î¾À");
+		SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
 		break;
 
 	case OBJ_LEFTPORTAL:	break;
