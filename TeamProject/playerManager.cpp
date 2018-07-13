@@ -476,6 +476,7 @@ void playerManager::invenClear()
 	_vA_ArmorInven.clear();
 	_vS_WeapInven.clear();
 	_vS_ArmorInven.clear();
+	_vPoInven.clear();
 }
 
 
