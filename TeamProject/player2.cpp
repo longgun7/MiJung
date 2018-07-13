@@ -198,7 +198,7 @@ void player2::fieldKeyManager(float x , float y,float angle)
 			_angle = _angle2[4];
 
 			_x = _x2[4] - cosf(_angle) * 10.0f;
-			_y = _y2[4] - -sinf(_angle) * 10.0f;
+			_y = _y2[4] - -sinf(_angle) * 10.0f - 5;
 		}
 	
 		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
