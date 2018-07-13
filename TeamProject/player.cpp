@@ -867,10 +867,6 @@ void player::move()
 			if (_skillFrame == 49)
 			{
 				_move = ATTACKEND;
-			}
-			if (_skillFrame >= 50)
-			{
-				_move = FIGHTREADY;
 				_jumpPower = 0;
 				_gravity = 0;
 				_isJumping = false;
@@ -878,6 +874,16 @@ void player::move()
 				_skillFrame = 0;
 				_y = WINSIZEY / 2;
 			}
+			//if (_skillFrame >= 50)
+			//{
+			//	_move = FIGHTREADY;
+			//	_jumpPower = 0;
+			//	_gravity = 0;
+			//	_isJumping = false;
+			//	_img->setFrameX(0);
+			//	_skillFrame = 0;
+			//	_y = WINSIZEY / 2;
+			//}
 		}
 
 	}
@@ -1067,6 +1073,16 @@ void player::move()
 
 	}
 	
+	if (_move == ESCAPE)
+	{
+		++_skillFrame;
+		_x -= 2;
+		if (_skillFrame % 10 == 0)
+		{
+			_gameEffect->summonLCloud(_x + 20, _y + 30);
+			_gameEffect->summonRCloud(_x + 20, _y + 30);
+		}
+	}
 	//렉트 갱신
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	//스킬렉트
@@ -1122,7 +1138,7 @@ void player::levelCheck()
 			++_skillFrame;
 			if (_skillFrame > 75 )
 			{
-				_move = FIGHTREADY;
+				_move = ENDSEREMONI;
 			}
 		}
 	}

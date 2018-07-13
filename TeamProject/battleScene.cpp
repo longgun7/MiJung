@@ -43,6 +43,8 @@ HRESULT battleScene::init(void)
 	_monX = 660;
 	_monY = 570;
 
+	totalMoney = totalExp = 0;
+
 	_gameTurn = ATAHO_CHOICE;
 
 	_isSkillCheck = false;
@@ -263,6 +265,7 @@ void battleScene::update(void)
 			}
 			else if(_choiceIndex>1)
 			{
+				_isAtahoSkillFire = true;
 				_isSkillCheck = false;
 				_gameTurn = SUMSU_CHOICE;
 							
@@ -321,23 +324,54 @@ void battleScene::update(void)
 			if(_isAtahoSkillFire)
 			{
 				_pm->getPlayer()->setSkil(_choiceIndex, _skillIndex, _monIndex);
+				if(_choiceIndex == 5) _pm->getPlayer2()->setSkill(_choiceIndex, _skillIndex, _monIndex);
+
 				_isAtahoSkillFire = false;
 			}
-			else if (!_isAtahoSkillFire && _pm->getPlayer()->getMove() == ATTACKEND)
+			else if (!_isAtahoSkillFire)
 			{
-				_pm->getPlayer()->setMove(FIGHTREADY);
-				_gameTurn = SUMSU_ATTACK;
+				if(_pm->getPlayer()->getMove() == ATTACKEND) 
+					_pm->getPlayer()->setMove(FIGHTREADY);
+
+				if (_pm->getPlayer()->getMove() == FIGHTREADY)
+				{
+					if (_em->getVEnmey()[_monIndex]->getTagEnmey().hp > 0)
+						_gameTurn = SUMSU_ATTACK;
+					else if (_em->getVEnmey()[_monIndex]->getTagEnmey().hp <= 0)
+					{
+						setEnemyDead(_monIndex);
+					}
+				}
 				_isSumsuSkillFire = true;
 			}
 		break;
 		case SUMSU_ATTACK:
 			if(_isSumsuSkillFire)
 			{
-				_isAtahoSkillFire = false;
+				//_isAtahoSkillFire = false;
 				_pm->getPlayer2()->setSkill(_sChoiceIndex, _sSkillIndex, _sMonIndex);
-				if (_pm->getPlayer2()->getImage()->getFrameX() == _pm->getPlayer2()->getImage()->getMaxFrameX());
-				_gameTurn = ENEMY_ATTACK;
+				_isSumsuSkillFire = false;
+				//if (_pm->getPlayer2()->getImage()->getFrameX() == _pm->getPlayer2()->getImage()->getMaxFrameX());
+				//_gameTurn = ENEMY_ATTACK;
 			}
+			else if(!_isSumsuSkillFire)
+			{
+				if(_pm->getPlayer2()->getMove() == S_ATTACKEND)
+					_pm->getPlayer2()->setMove(S_FIGHTREADY);
+
+				if (_em->getVEnmey().size() > 0 && _pm->getPlayer2()->getMove() == S_FIGHTREADY)
+				{
+					if (_em->getVEnmey()[_sMonIndex]->getTagEnmey().hp > 0)
+						_gameTurn = ENEMY_ATTACK;
+					else if (_em->getVEnmey()[_sMonIndex]->getTagEnmey().hp <= 0)
+					{
+						setEnemyDead(_sMonIndex);
+					}
+				}
+				//_isSumsuSkillFire = true;
+
+			}
+
 			
 		break;
 		case ENEMY_ATTACK:
@@ -363,6 +397,45 @@ void battleScene::update(void)
 			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
 		}
 	}
+
+	if (!_isSceneCount)
+	{
+		if (_em->getVEnmey().size() == 0 && _pm->getPlayer()->getMove() == FIGHTREADY
+			&& _pm->getPlayer2()->getMove() == S_FIGHTREADY)
+		{
+			_pm->getPlayer()->setMove(SEREMONI);
+			_pm->getPlayer2()->setMove(S_SEREMONI);
+			_isSceneCount = true;
+			//_pm->getPlayer()->setExp(totalExp);
+			//_pm->getPlayer2()->setExp(totalExp);
+			//_pm->setMoney((-1) * totalMoney);
+		}
+		else if (_pm->getPlayer()->getX() < 100 && _pm->getPlayer2()->getX() < 100)
+		{
+			_isSceneCount = true;
+		}
+	}
+	else
+	{
+		sceneCount++;
+		if (sceneCount > 100)
+		{
+			_pm->getPlayer()->setSceneMode(FIELDMODE, LEFT);
+			_pm->getPlayer2()->setSceneMode(S_FIELDMODE, S_LEFT);
+
+
+			_pm->getPlayer()->setX(WINSIZEX / 2); _pm->getPlayer()->setY(300);
+			_pm->getPlayer2()->setX(WINSIZEX / 2);_pm->getPlayer2()->setY(300);
+
+			while (_em->getVEnmey().size() > 0)
+			{
+				_em->removeEnemy(0);
+			}
+
+			SCENEMANAGER->changeScene(SCENEMANAGER->getCurrentSceneName());
+		}
+	}
+
 }
 
 void battleScene::render(void)
@@ -374,6 +447,8 @@ void battleScene::render(void)
 	
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
+	_em->render();
+
 	if (_gameTurn==ATAHO_CHOICE||_gameTurn==SUMSU_CHOICE)
 	{
 		IMAGEMANAGER->findImage("스킬선택창")->render(CAMERA->getCameraDC(), 320, 0);
@@ -430,6 +505,9 @@ void battleScene::render(void)
 		IMAGEMANAGER->findImage("MONCHECKBUTTON")->frameRender(CAMERA->getCameraDC(), _monX, _monY);
 	}
 	fontUI();
+	char str[123];
+	sprintf_s(str, "%d", _em->getVEnmey().size());
+	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2, str, strlen(str));
 }
 
 void battleScene::addImage(void)
@@ -766,5 +844,109 @@ void battleScene::sumsuSkillCheck()
 			}
 		}
 
+	}
+}
+
+void battleScene::setEnemyDead(int index)
+{
+
+	//for (int i = 0; i < _em->getVEnmey().size(); i++)
+	//{
+	//
+	//	//에너미 사망
+	//	if (_em->getVEnmey()[index]->getTagEnmey().direction != DEAD && _em->getVEnmey()[index]->getTagEnmey().hp <= 0)
+	//	{
+	//		if (_pm->getPlayer()->getMove() == FIGHTREADY && _pm->getPlayer2()->getMove() == S_FIGHTREADY)
+	//		{
+	//			_pm->getPlayer()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+	//			_pm->getPlayer2()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+	//			_pm->setMoney((-1) * _em->getVEnmey()[index]->getTagEnmey().dropGold);
+	//
+	//		}
+	//		else if (_pm->getPlayer()->getMove() == FIGHTREADY && _pm->getPlayer2()->getMove() == S_NOCKDOWN)
+	//		{
+	//			_pm->getPlayer()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+	//		//	_gold.money += _em->getVEnmey()[index]->getTagEnmey().dropGold;
+	//			_pm->setMoney((-1) * _em->getVEnmey()[index]->getTagEnmey().dropGold);
+	//		}
+	//		else if (_pm->getPlayer()->getMove() == NOCKDOWN && _pm->getPlayer2()->getMove() == S_FIGHTREADY)
+	//		{
+	//			_pm->getPlayer2()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+	//			//_gold.money += _em->getVEnmey()[index]->getTagEnmey().dropGold;
+	//			_pm->setMoney((-1) * _em->getVEnmey()[index]->getTagEnmey().dropGold);
+	//		}
+	//		if (_pm->getPlayer()->getSkillFrame() == 0)_em->getVEnmey()[index]->setEnemyDirection(DEAD);
+	//
+	//		if (_pm->getPlayer2()->getSkillFrame() == 0) _em->getVEnmey()[index]->setEnemyDirection(DEAD);
+	//	}
+	//	if (_em->getVEnmey()[index]->getTagEnmey().fadeCount >= 80)
+	//	{
+	//		_em->removeEnemy(i);
+	//		if (_gameTurn == ATAHO_ATTACK)
+	//			_gameTurn = SUMSU_ATTACK;
+	//		else if (_gameTurn == SUMSU_ATTACK)
+	//			_gameTurn = ENEMY_ATTACK;
+	//		//return TRUE;
+	//		//_playerTurn++;
+	//	}
+	//	
+	//}
+
+	{
+	
+		//에너미 사망
+		if (_em->getVEnmey()[index]->getTagEnmey().direction != DEAD && _em->getVEnmey()[index]->getTagEnmey().hp <= 0)
+		{
+			//if (_pm->getPlayer()->getMove() == FIGHTREADY && _pm->getPlayer2()->getMove() == S_FIGHTREADY)
+			//{
+			//	_pm->getPlayer()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+			//	_pm->getPlayer2()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+			//	_pm->setMoney((-1) * _em->getVEnmey()[index]->getTagEnmey().dropGold);
+			//
+			//}
+			//else if (_pm->getPlayer()->getMove() == FIGHTREADY && _pm->getPlayer2()->getMove() == S_NOCKDOWN)
+			//{
+			//	_pm->getPlayer()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+			////	_gold.money += _em->getVEnmey()[index]->getTagEnmey().dropGold;
+			//	_pm->setMoney((-1) * _em->getVEnmey()[index]->getTagEnmey().dropGold);
+			//}
+			//else if (_pm->getPlayer()->getMove() == NOCKDOWN && _pm->getPlayer2()->getMove() == S_FIGHTREADY)
+			//{
+			//	_pm->getPlayer2()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+			//	//_gold.money += _em->getVEnmey()[index]->getTagEnmey().dropGold;
+			//	_pm->setMoney((-1) * _em->getVEnmey()[index]->getTagEnmey().dropGold);
+			//}
+			//if (_pm->getPlayer()->getSkillFrame() == 0) _em->getVEnmey()[index]->setEnemyDirection(DEAD);
+	
+			//if (_pm->getPlayer2()->getSkillFrame() == 0) _em->getVEnmey()[index]->setEnemyDirection(DEAD);
+
+			_em->getVEnmey()[index]->setEnemyDirection(DEAD);
+			
+		}
+
+		//if (_em->getVEnmey()[index]->getTagEnmey().hp == 0)
+		//{
+		//	_em->getVEnmey()[index]->setEnemyDirection(DEAD);
+		//	_em->getVEnmey()[index]->setEnemyDirection(DEAD);
+		//}
+
+		if (_em->getVEnmey()[index]->getTagEnmey().fadeCount >= 80)
+		{
+			_pm->getPlayer()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+			_pm->getPlayer2()->setExp(_em->getVEnmey()[index]->getTagEnmey().exp);
+			_pm->setMoney((-1) * _em->getVEnmey()[index]->getTagEnmey().dropGold);
+			
+			_em->removeEnemy(index);
+			if (_gameTurn == ATAHO_ATTACK)
+				_gameTurn = SUMSU_ATTACK;
+			else if (_gameTurn == SUMSU_ATTACK)
+			{
+				if (_em->getVEnmey().size() > 0)  _gameTurn = ENEMY_ATTACK;
+			}
+			//return TRUE;
+			//_playerTurn++;
+		}
+		
+		
 	}
 }

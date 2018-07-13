@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 
-#define Count 18
+#define Count 5
 
 enum DIRECTION
 {

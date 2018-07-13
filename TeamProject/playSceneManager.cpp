@@ -132,7 +132,7 @@ void playSceneManager::render(void)
 	renderProgressBar();	//프로그래스바 렌더
 		
 	_pm->render();
-	_em->render();
+	//_em->render();
 	_im->render();
 		
 	// 오브젝트 렌더

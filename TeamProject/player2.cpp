@@ -985,6 +985,8 @@ void player2::setSkill(int choiceIndex, int skillIndex, int monIndex)
 {
 	_enemyIndex = monIndex;
 	
+	if (_em->getVEnmey().size() <= 0) return;
+
 	if (_enemyIndex < 4)
 	{
 		if (choiceIndex == 0 && skillIndex == 0)

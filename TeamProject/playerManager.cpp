@@ -69,7 +69,7 @@ void playerManager::update()
 	_smasyu->update();
 	_smasyu->fieldKeyManager(_ataho->getX(), _ataho->getY(), _ataho->getAngle());
 	eventMode(); //아타호 떨어질 때 스마슈도 같이 떨어지게 하는 함수
-	setEnemyDead(); //돈 드랍
+	//setEnemyDead(); //돈 드랍
 	
 	//인벤토리
 
@@ -423,47 +423,47 @@ void playerManager::getItemValue(string itemName)
 
 
 
-void playerManager::setEnemyDead()
-{
-
-	for (int i = 0; i < _em->getVEnmey().size(); i++)
-	{
-		
-		//에너미 사망
-		if ( _em->getVEnmey()[i]->getTagEnmey().direction != DEAD && _em->getVEnmey()[i]->getTagEnmey().hp == 0 )
-		{		
-			if (_ataho->getMove() == FIGHTREADY && _smasyu->getMove() == S_FIGHTREADY)
-			{
-				_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
-				_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
-				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
-				
-			}
-			else if (_ataho->getMove() == FIGHTREADY && _smasyu->getMove() == S_NOCKDOWN)
-			{
-				_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
-				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
-			}
-			else if (_ataho->getMove() == NOCKDOWN && _smasyu->getMove() == S_FIGHTREADY)
-			{
-				_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
-				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
-			}
-			//if (_ataho->getSkillFrame() == 0)_em->getVEnmey()[i]->setEnemyDirection(DEAD);
-
-			if (_smasyu->getSkillFrame() == 0) _em->getVEnmey()[i]->setEnemyDirection(DEAD);
-		}
-		if (_em->getVEnmey()[i]->getTagEnmey().fadeCount >= 80 )
-		{
-			_em->removeEnemy(i);
-		}
-		if (_em->getVEnmey().size() == 0)
-		{
-			_ataho->setMove(SEREMONI);
-			_smasyu->setMove(S_SEREMONI);
-		}
-	}
-}
+//void playerManager::setEnemyDead()
+//{
+//
+//	for (int i = 0; i < _em->getVEnmey().size(); i++)
+//	{
+//		
+//		//에너미 사망
+//		if ( _em->getVEnmey()[i]->getTagEnmey().direction != DEAD && _em->getVEnmey()[i]->getTagEnmey().hp == 0 )
+//		{		
+//			if (_ataho->getMove() == FIGHTREADY && _smasyu->getMove() == S_FIGHTREADY)
+//			{
+//				_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+//				_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+//				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
+//				
+//			}
+//			else if (_ataho->getMove() == FIGHTREADY && _smasyu->getMove() == S_NOCKDOWN)
+//			{
+//				_ataho->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+//				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
+//			}
+//			else if (_ataho->getMove() == NOCKDOWN && _smasyu->getMove() == S_FIGHTREADY)
+//			{
+//				_smasyu->setExp(_em->getVEnmey()[i]->getTagEnmey().exp);
+//				_gold.money += _em->getVEnmey()[i]->getTagEnmey().dropGold;
+//			}
+//			if (_ataho->getSkillFrame() == 0)_em->getVEnmey()[i]->setEnemyDirection(DEAD);
+//
+//			if (_smasyu->getSkillFrame() == 0) _em->getVEnmey()[i]->setEnemyDirection(DEAD);
+//		}
+//		if (_em->getVEnmey()[i]->getTagEnmey().fadeCount >= 80 )
+//		{
+//			_em->removeEnemy(i);
+//		}
+//		if (_em->getVEnmey().size() == 0)
+//		{
+//			_ataho->setMove(SEREMONI);
+//			_smasyu->setMove(S_SEREMONI);
+//		}
+//	}
+//}
 
 void playerManager::setMoney(int money)
 {

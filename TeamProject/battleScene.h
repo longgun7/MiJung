@@ -53,6 +53,12 @@ private:
 	
 	PLAYER_TURN _playerTurn;	//아타호 스마슈 스킬 턴
 
+	int totalExp;
+	int totalMoney;
+
+	bool _isSceneCount;
+	int sceneCount;
+
 public:
 	battleScene();
 	~battleScene();
@@ -68,5 +74,7 @@ public:
 	void skillChoice(void);			//스킬선택
 	void atahoSkillCheck();
 	void sumsuSkillCheck();
+
+	void setEnemyDead(int index);
 };
 
