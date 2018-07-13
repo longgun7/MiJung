@@ -24,6 +24,7 @@ HRESULT battleScene::init(void)
 	IMAGEMANAGER->addImage("배틀장면대나무","image/battleScene/배틀장면 대나무.bmp", 1000, 550, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("배틀장면언덕", "image/battleScene/배틀장면 언덕.bmp", 1000, 550, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("배틀장면절벽", "image/battleScene/배틀장면 절벽.bmp", 1000, 550, true, RGB(255, 0, 255));
+
 	_isTurn = true;
 	_choiceIndex = 0;
 	_skillIndex = 0;
@@ -178,38 +179,74 @@ void battleScene::update(void)
 	{
 		if (!_isSkillCheck)
 		{
-			if (_choiceIndex == 0 && _playerTurn == SUMSU_TURN)
+			if (_gameTurn == ATAHO_CHOICE)
 			{
-				_skillIndex = 0;
-			}
-			else if (_choiceIndex == 3)
-			{
-				if (_pm->getV_PoInven().size() != 0)
+				if (_choiceIndex == 3)
+				{
+					if (_pm->getV_PoInven().size() != 0)
+					{
+						_skillIndex++;
+						if (_skillIndex > _pm->getV_PoInven().size() - 1) _skillIndex = 0;
+					}
+				}
+				else if (_choiceIndex == 4)
 				{
 					_skillIndex++;
-					if (_skillIndex >_pm->getV_PoInven().size() - 1) _skillIndex = 0;
+					if (_skillIndex > 4) _skillIndex = 0;
+				}
+				else if (_choiceIndex == 5)
+				{
+					_skillIndex = 0;
+				}
+				else
+				{
+					_skillIndex++;
+					if (_skillIndex > 2) _skillIndex = 0;
+				}
+			}
+			else if (_gameTurn == SUMSU_CHOICE)
+			{
+				if (_sChoiceIndex == 0)
+				{
+					_sSkillIndex = 0;
+				}
+				else if (_sChoiceIndex == 3)
+				{
+					if (_pm->getV_PoInven().size() != 0)
+					{
+						_sSkillIndex++;
+						if (_sSkillIndex > _pm->getV_PoInven().size() - 1) _sSkillIndex = 0;
+					}
+				}
+				else if (_sChoiceIndex == 4)
+				{
+					_sSkillIndex++;
+					if (_sChoiceIndex > 4) _sSkillIndex = 0;
+				}
+				else if (_sChoiceIndex == 5)
+				{
+					_sSkillIndex = 0;
+				}
+				else
+				{
+					_sSkillIndex++;
+					if (_sSkillIndex > 2) _sSkillIndex = 0;
+				}
+			}
+			else if (_isMonCheck)
+			{
+				if (_gameTurn == ATAHO_CHOICE)
+				{
+					_monIndex++;
+					if (_monIndex > _em->getVEnmey().size() - 1)_monIndex = 0;
+				}
+				else if (_gameTurn == SUMSU_CHOICE)
+				{
+					_sMonIndex++;
+					if (_sMonIndex < _em->getVEnmey().size() - 1)_sMonIndex = 0;
 				}
 
 			}
-			else if (_choiceIndex == 4)
-			{
-				_skillIndex++;
-				if (_skillIndex > 4) _skillIndex = 0;
-			}
-			else if (_choiceIndex == 5)
-			{
-				_skillIndex = 0;
-			}
-			else
-			{
-				_skillIndex++;
-				if (_skillIndex > 2) _skillIndex = 0;
-			}
-		}
-		else if (_isSkillCheck)
-		{
-			_monIndex++;
-			if (_monIndex > _em->getVEnmey().size() - 1)_monIndex = 0;
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -286,6 +323,7 @@ void battleScene::update(void)
 		break;
 		case SUMSU_ATTACK:
 			_pm->getPlayer2()->setSkill(_sChoiceIndex, _sSkillIndex, _sMonIndex);
+			if (_pm->getPlayer2()->getSkillFrame() ==50)
 			_gameTurn = ENEMY_ATTACK;
 		break;
 		case ENEMY_ATTACK:
@@ -307,6 +345,11 @@ void battleScene::update(void)
 
 void battleScene::render(void)
 {
+	//IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
+	//if (SCENEMANAGER->getCurrentSceneName() == "필드씬1") IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
+	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬2") IMAGEMANAGER->findImage("배틀장면언덕")->render(getMemDC());
+	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬3") IMAGEMANAGER->findImage("배틀장면대나무")->render(getMemDC());
+	
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
 	if (_gameTurn==ATAHO_CHOICE||_gameTurn==SUMSU_CHOICE)

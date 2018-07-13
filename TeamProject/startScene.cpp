@@ -109,9 +109,9 @@ void startScene::update(void)
 			sprintf_s(str, "플레이어정보%d", _loadIndex);
 			if (INIDATA->loadDataInterger(str, "세이브", "세이브여부") == 1)
 			{
-				IMAGEMANAGER->findImage("LOADBUTTON")->setFrameY(1);
-				_sl->loadInt(_loadIndex);
+				IMAGEMANAGER->findImage("LOADBUTTON")->setFrameY(1);				
 				SCENEMANAGER->changeScene("술집씬");
+				_sl->loadInt(_loadIndex);
 			}
 		}
 		IMAGEMANAGER->findImage("UIBUTTON")->setFrameY(1);

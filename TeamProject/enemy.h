@@ -70,6 +70,7 @@ public:
 	tagEnemy getTagEnmey() { return _enemy; }												// 다른곳에서 에너미 구조체를 사용할 수 있게 반환
 	void setIsDead(bool dead) { _enemy.isDead = dead; }
 	void setIsAttack(bool attack) { _enemy.isAttack = attack; }
+	image* getImage() { return _enemy.img; }
 	enemy();
 	~enemy();
 };
