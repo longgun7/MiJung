@@ -11,6 +11,7 @@ HRESULT enemyManager::init()
 	_ge->init();
 
 	_randAttack = 0;
+	_attackEnd = false;
 	return S_OK;
 	
 }
@@ -26,20 +27,20 @@ void enemyManager::update()
 		(*_viEnemy)->update();
 	}
 
-	if (KEYMANAGER->isOnceKeyDown('A'))					// A키를 누르면
+	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
-		randEnemy();									// randEnemy 함수를 호출한다
+		randEnemy();
 	}
-	if (KEYMANAGER->isToggleKey('F'))					// Z키를 누르면
+	if (KEYMANAGER->isToggleKey('F'))
 	{
-		hitPlayer();									// hitPlayer 함수를 호출한다
+		hitPlayer();
 	}
 
 	if (KEYMANAGER->isOnceKeyDown('V'))
 	{
-		while (_vEnemy.size() > 0)										// V키를 누르면
+		while (_vEnemy.size() > 0)
 		{
-			removeEnemy(0);								// 벡터 사이즈만큼 removeEnemy 함수를 호출한다
+			removeEnemy(0);
 		}
 		
 	}
@@ -58,29 +59,30 @@ void enemyManager::render()
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
 		
-		int width = (_vEnemy[i]->getTagEnmey().rc.right - _vEnemy[i]->getTagEnmey().rc.left) / 2;
-		int height = (_vEnemy[i]->getTagEnmey().rc.bottom - _vEnemy[i]->getTagEnmey().rc.top) / 2;
-		_img->setX(_vEnemy[i]->getTagEnmey().rc.left + width);
-		_img->setY(_vEnemy[i]->getTagEnmey().rc.top + height);
+		int width = (_vEnemy[i]->getTagEnmey().rc.right - _vEnemy[i]->getTagEnmey().rc.left) / 2;									// width에 i번째 에너미의 X 중점값을 넣는다
+		int height = (_vEnemy[i]->getTagEnmey().rc.bottom - _vEnemy[i]->getTagEnmey().rc.top) / 2;									// height에 i번째 에너미의 y 중점값을 넣는다
 
-		if (_vEnemy[i]->getTagEnmey().direction == HIT)
+		_img->setX(_vEnemy[i]->getTagEnmey().rc.left + width);																		// 이미지의 setX는 가로크기
+		_img->setY(_vEnemy[i]->getTagEnmey().rc.top + height);																		// 이미지의 setY는 세로크기
+
+		if (_vEnemy[i]->getTagEnmey().direction == HIT)																				// 몬스터의 상태가 HIT면
 		{
-			int damage = _vEnemy[i]->getTagEnmey().damage;
-			for (int i = 0; i <= 4; ++i)
+			int damage = _vEnemy[i]->getTagEnmey().damage;																			// damge에 i번째 에너미의 데미지를 넣어준다
+			for (int i = 0; i <= 4; ++i)																							// i는 0 i가 4보다 같거나 작으면 ++i를 해준다
 			{
-				int f = pow(10,i);
-				if (damage / f == 0) break;
-				_img->frameRender(CAMERA->getCameraDC(), _img->getX() - (8 * i), _img->getY() + height, (damage / f) % 10, 0);
+				int f = pow(10,i);																									// 
+				if (damage / f == 0) break;																							// 
+				_img->frameRender(CAMERA->getCameraDC(), _img->getX() - (8 * i), _img->getY() + height, (damage / f) % 10, 0);		// 
 			}
 		}
-
-		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)															
+		
+		if (_vEnemy[i]->getTagEnmey().isDead == false && _vEnemy[i]->getTagEnmey().fadeCount >= 4)									// i번째 에너미가 죽고, i번째 에너미의 faceCount가 4와 같거나 크면
 		{
-			_ge->addMoney(_vEnemy[i]->getTagEnmey().rc.left + width, _vEnemy[i]->getTagEnmey().rc.top + height);											
+			_ge->addMoney(_vEnemy[i]->getTagEnmey().rc.left + width, _vEnemy[i]->getTagEnmey().rc.top + height);					// gameEffect에 있는 addMoney함수를 호출한다
 
-			_vEnemy[i]->setIsDead(true);																													
+			_vEnemy[i]->setIsDead(true);																							// i번재 에너미의 isDead를 true로 바꿔준다
 		}
-		if (_vEnemy[i]->getTagEnmey().fadeCount >= 4 && _vEnemy[i]->getTagEnmey().fadeCount <= 150)
+		if (_vEnemy[i]->getTagEnmey().fadeCount >= 4 && _vEnemy[i]->getTagEnmey().fadeCount <= 150)									// 
 		{
 			int cost = _vEnemy[i]->getTagEnmey().dropGold;
 
@@ -242,7 +244,11 @@ void enemyManager::hitPlayer()
 		_hitCount = 0;									// _hitCount를 0으로 초기화한다
 	}
 	
-	if (_hitIndex >= _vEnemy.size()) _hitIndex = 0;		// _hitIndex가 에너미 벡터의 사이즈보다 같거나 커질 경우 _hitIndex를 0으로 초기화한다
+	if (_hitIndex >= _vEnemy.size())
+	{
+		_hitIndex = 0;		// _hitIndex가 에너미 벡터의 사이즈보다 같거나 커질 경우 _hitIndex를 0으로 초기화한다
+		_attackEnd = true;
+	}
 
 }
 
@@ -252,9 +258,11 @@ void enemyManager::randEnemy()
 	_randNum = RND->getFromIntTo(1, 5);					// _randNum에 1 ~ 4까지의 랜덤한 값을 넣는다
 
 	for (int i = 0; i < _randNum; i++)														// i는 0 i가 _randNum보다 작으면 i를 ++ 해준다
-	{
-		_enemyIndex = RND->getFromIntTo(1, 11);												// _enemyIndex에 1 ~ 10까지의 랜덤한 값을 받는다
-																							
+	{														
+		if(SCENEMANAGER->getSceneName() == "필드1") 		_enemyIndex = RND->getFromIntTo(1, 4);
+		if(SCENEMANAGER->getSceneName() == "필드2") 		_enemyIndex = RND->getFromIntTo(4, 7);
+		if(SCENEMANAGER->getSceneName() == "필드3") 	_enemyIndex = RND->getFromIntTo(7, 10);
+
 		if (_randNum == 1)																	// _randNum이 1일 때
 		{																					
 			setEnemy(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);									// setEnemy(float x, float y) 매개변수에 값을 넣어준다
