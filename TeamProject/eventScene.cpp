@@ -150,7 +150,7 @@ void eventScene::render(void)
 	   TextOut(CAMERA->getCameraDC(), 300, 450, talk12.c_str(), strlen(talk12.c_str()));
 	}
 	// 오브젝트 렌더
-	//_map->objRender();
+	_map->objRender();
 	if (_isBottleCol)
 	{
 		IMAGEMANAGER->findImage("대화창1")->render(CAMERA->getCameraDC(), 272, 400);
@@ -171,11 +171,6 @@ if (_pm->getPlayer()->getX() > WINSIZEX + 150)
 		TextOut(CAMERA->getCameraDC(), 300, 450 , _vTalk[_talkIndex].c_str(), strlen(_vTalk[_talkIndex].c_str() ));
 
 	}
-
-
-	// 오브젝트 렌더
-	//_map->objRender();
-	if (_isBottleCol) TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, 400, "보틀충돌", strlen("ㅇㅇㅇㅇ"));
 
 }
 
