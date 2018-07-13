@@ -459,7 +459,7 @@ void battleScene::fontUI(void)
 	char charName[] = "아타호";
 	char charName2[] = "스마슈";
 
-	char str[] = "배틀씬";
+	
 	char str1[] = "기본기";
 	char str2[] = "개인기";
 	char str3[] = "단체기";
@@ -474,7 +474,6 @@ void battleScene::fontUI(void)
 	ofont = (HFONT)SelectObject(CAMERA->getCameraDC(), font);
 	SetTextColor(CAMERA->getCameraDC(), RGB(255, 255, 255));
 	SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
-	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, str, strlen(str));
 
 	sprintf(temp, "%d", _em->getVEnmey().size());
 	TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, WINSIZEY / 2 - 100, temp, strlen(temp));
