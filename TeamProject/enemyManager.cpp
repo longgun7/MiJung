@@ -11,6 +11,7 @@ HRESULT enemyManager::init()
 	_ge->init();
 
 	_randAttack = 0;
+	_attackEnd = false;
 	return S_OK;
 	
 }
@@ -243,7 +244,11 @@ void enemyManager::hitPlayer()
 		_hitCount = 0;									// _hitCount를 0으로 초기화한다
 	}
 	
-	if (_hitIndex >= _vEnemy.size()) _hitIndex = 0;		// _hitIndex가 에너미 벡터의 사이즈보다 같거나 커질 경우 _hitIndex를 0으로 초기화한다
+	if (_hitIndex >= _vEnemy.size())
+	{
+		_hitIndex = 0;		// _hitIndex가 에너미 벡터의 사이즈보다 같거나 커질 경우 _hitIndex를 0으로 초기화한다
+		_attackEnd = true;
+	}
 
 }
 
@@ -253,9 +258,11 @@ void enemyManager::randEnemy()
 	_randNum = RND->getFromIntTo(1, 5);					// _randNum에 1 ~ 4까지의 랜덤한 값을 넣는다
 
 	for (int i = 0; i < _randNum; i++)														// i는 0 i가 _randNum보다 작으면 i를 ++ 해준다
-	{
-		_enemyIndex = RND->getFromIntTo(1, 10);												// _enemyIndex에 1 ~ 10까지의 랜덤한 값을 받는다
-																							
+	{														
+		if(SCENEMANAGER->getSceneName() == "필드1") 		_enemyIndex = RND->getFromIntTo(1, 4);
+		if(SCENEMANAGER->getSceneName() == "필드2") 		_enemyIndex = RND->getFromIntTo(4, 7);
+		if(SCENEMANAGER->getSceneName() == "필드3") 	_enemyIndex = RND->getFromIntTo(7, 10);
+
 		if (_randNum == 1)																	// _randNum이 1일 때
 		{																					
 			setEnemy(WINSIZEX / 2 + 300, PLAYMAPSIZEY / 2);									// setEnemy(float x, float y) 매개변수에 값을 넣어준다
