@@ -117,9 +117,8 @@ void playSceneManager::update(void)
 
 void playSceneManager::render(void)
 {
-	_map->render();
-
-	//if (SCENEMANAGER->getCurrentSceneName() == "배틀씬") IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
+	if (SCENEMANAGER->getSceneName() == "배틀씬") IMAGEMANAGER->findImage("배틀장면절벽")->render(getMemDC());
+	else 	_map->render();
 	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬2") IMAGEMANAGER->findImage("배틀장면언덕")->render(getMemDC());
 	//else if (SCENEMANAGER->getCurrentSceneName() == "필드씬3") IMAGEMANAGER->findImage("배틀장면대나무")->render(getMemDC());
 
@@ -139,7 +138,7 @@ void playSceneManager::render(void)
 	_im->render();
 		
 	// 오브젝트 렌더
-	_map->objRender();
+	if (SCENEMANAGER->getSceneName() != "배틀씬")_map->objRender();
 
 	fontUI();
 }
