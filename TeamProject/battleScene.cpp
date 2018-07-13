@@ -21,6 +21,9 @@ HRESULT battleScene::init(void)
 	_em = SCENEMANAGER->getEnemyManagerLink();
 	_im = SCENEMANAGER->getItemManagerLink();
 
+	IMAGEMANAGER->addImage("배틀장면대나무","image/battleScene/배틀장면 대나무.bmp", 1000, 550, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("배틀장면언덕", "image/battleScene/배틀장면 언덕.bmp", 1000, 550, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("배틀장면절벽", "image/battleScene/배틀장면 절벽.bmp", 1000, 550, true, RGB(255, 0, 255));
 	_isTurn = true;
 	_choiceIndex = 0;
 	_skillIndex = 0;
