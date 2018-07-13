@@ -59,6 +59,7 @@ void barScnen::update(void)
 {
 	CAMERA->setPosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
 
+	_npc->update();
 	_count++;
 	if (_count % 8 == 0)
 	{

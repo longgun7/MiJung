@@ -69,8 +69,7 @@ void playGround::render(void)
 	{
 		_psm->render();
 	}
-
-	SCENEMANAGER->render();
+	else SCENEMANAGER->render();
 
 	TIMEMANAGER->render(CAMERA->getCameraDC());
 

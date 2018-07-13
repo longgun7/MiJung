@@ -173,6 +173,10 @@ if (_pm->getPlayer()->getX() > WINSIZEX + 150)
 	}
 
 
+	// 오브젝트 렌더
+	//_map->objRender();
+	if (_isBottleCol) TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, 400, "보틀충돌", strlen("ㅇㅇㅇㅇ"));
+
 }
 
 void eventScene::talk()
