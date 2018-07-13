@@ -453,7 +453,7 @@ void playerManager::setEnemyDead()
 
 			if (_smasyu->getSkillFrame() == 0) _em->getVEnmey()[i]->setEnemyDirection(DEAD);
 		}
-		if (_em->getVEnmey()[i]->getTagEnmey().fadeCount >= 151 )
+		if (_em->getVEnmey()[i]->getTagEnmey().fadeCount >= 80 )
 		{
 			_em->removeEnemy(i);
 		}

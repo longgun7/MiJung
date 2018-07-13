@@ -342,9 +342,16 @@ void battleScene::update(void)
 		break;
 		case ENEMY_ATTACK:
 			_isAtahoSkillFire = false;
-			_em->hitPlayer();
-			_gameTurn = ATAHO_CHOICE;
-			
+			_isSumsuSkillFire = false;
+			if(_em->getAttackEnd() == false)
+			{
+				_em->hitPlayer();
+			}
+			else
+			{
+				_gameTurn = ATAHO_CHOICE;
+				_em->setAttackEnd(true);
+			}
 		break;
 
 	}

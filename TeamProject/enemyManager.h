@@ -47,6 +47,7 @@ public:
 	void randEnemy();										// 무작위로 적 생성되게 하는 함수
 	void removeEnemy(int arrNum);							// 적을 지워주는 함수
 	void setAttackEnd(bool attackEnd) { _attackEnd = attackEnd; }
+	bool getAttackEnd() { return _attackEnd; }
 
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }			// 외부에서 에너미 벡터에 접근 가능하게 반환
 	vector<enemy*>::iterator getVIEnmey() { return _viEnemy; }			// 외부에서 에너미 벡터 이터레이터에 접근 가능하게 반환
