@@ -93,6 +93,8 @@ void sceneManager::render()
 	{
 		IMAGEMANAGER->findImage("¾ÀÀüÈ¯")->alphaRender(_currentScene->getMemDC(),_alphaValue);
 	}
+
+	
 	
 }
 

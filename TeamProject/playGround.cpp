@@ -17,6 +17,8 @@ HRESULT playGround::init(void)
 	gameNode::init(true);
 
 	musicInit();
+	IMAGEMANAGER->addImage("±âº»status", "image/ui/±âº»status.bmp", 650, 200, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("infoStatus", "image/ui/infoStatus.bmp", 350, 200, true, RGB(255, 0, 255));
 
 	SCENEMANAGER->addScene("½ºÅ¸Æ®¾À", new startScene);
 	SCENEMANAGER->addScene("¿£µå¾À", new endScene);
@@ -64,12 +66,13 @@ void playGround::render(void)
 
 	//============== ÀÌ À§·Î´Â °Çµå¸®Áö ¸»ÀÚ ==============
 
-	//SCENEMANAGER->render();
+	//if(SCENEMANAGER->getCurrentSceneName() == "¹èÆ²¾À") SCENEMANAGER->render();
 	if (SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À")
-	{
-		SCENEMANAGER->render();
-		_psm->render();
-		
+	{		
+		IMAGEMANAGER->findImage("±âº»status")->render(CAMERA->getCameraDC(), 0, 550);
+		IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
+
+		_psm->render();		
 	}
 	else SCENEMANAGER->render();
 	
