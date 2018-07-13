@@ -25,38 +25,40 @@ HRESULT playerManager::init()
 	//_im = new itemManager;
 	//_im->init();
 	//_em = new enemyManager;
-	getItemValue("¼ú");
-	getItemValue("±Ç¹ý°¡ µµº¹");
-	getItemValue("Ã»·æµµ");
-	getItemValue("°¡Á× °©¿Ê");
-	
-	_ataho->setStat(_vA_WeapInven[0].atk, _vA_WeapInven[0].def, _vA_WeapInven[0].luck, _vA_WeapInven[0].cri, _vA_WeapInven[0].speed);
-	_A_saveBeforWeapon.atk = _vA_WeapInven[0].atk;
-	_A_saveBeforWeapon.luck = _vA_WeapInven[0].luck;
-	_A_saveBeforWeapon.cri = _vA_WeapInven[0].cri;
 
-	_ataho->setStat(_vA_ArmorInven[0].atk, _vA_ArmorInven[0].def, _vA_ArmorInven[0].luck, _vA_ArmorInven[0].cri, _vA_ArmorInven[0].speed);
-	_A_saveBeforArmor.def = _vA_ArmorInven[0].def;
-	_A_saveBeforArmor.speed = _vA_ArmorInven[0].speed;
-	
-	_smasyu->setStat(_vS_WeapInven[0].atk, _vS_WeapInven[0].def, _vS_WeapInven[0].luck, _vS_WeapInven[0].cri, _vS_WeapInven[0].speed);
-	_S_saveBeforWeapon.atk = _vS_WeapInven[0].atk;
-	_S_saveBeforWeapon.luck = _vS_WeapInven[0].luck;
-	_S_saveBeforWeapon.cri = _vS_WeapInven[0].cri;
 
-	_smasyu->setStat(_vS_ArmorInven[0].atk, _vS_ArmorInven[0].def, _vS_ArmorInven[0].luck, _vS_ArmorInven[0].cri, _vS_ArmorInven[0].speed);
-	_S_saveBeforArmor.def = _vS_ArmorInven[0].def;
-	_S_saveBeforArmor.speed = _vS_ArmorInven[0].speed;
-	
-	_A_saveBeforWeapon.name="¼ú";
-	_A_saveBeforWeapon.img = IMAGEMANAGER->findImage("¼ú");
-	_A_saveBeforArmor.name = "±Ç¹ý°¡ µµº¹";
-	_A_saveBeforArmor.img = IMAGEMANAGER->findImage("±Ç¹ý°¡ µµº¹");
-	_S_saveBeforWeapon.name = "Ã»·æµµ";
-	_S_saveBeforWeapon.img = IMAGEMANAGER->findImage("Ã»·æµµ");
-	_S_saveBeforArmor.name = "°¡Á× °©¿Ê";
-	_S_saveBeforArmor.img = IMAGEMANAGER->findImage("°¡Á× °©¿Ê");
+		getItemValue("¼ú");
+		getItemValue("±Ç¹ý°¡ µµº¹");
+		getItemValue("Ã»·æµµ");
+		getItemValue("°¡Á× °©¿Ê");
 
+		_ataho->setStat(_vA_WeapInven[0].atk, _vA_WeapInven[0].def, _vA_WeapInven[0].luck, _vA_WeapInven[0].cri, _vA_WeapInven[0].speed);
+		_A_saveBeforWeapon.atk = _vA_WeapInven[0].atk;
+		_A_saveBeforWeapon.luck = _vA_WeapInven[0].luck;
+		_A_saveBeforWeapon.cri = _vA_WeapInven[0].cri;
+
+		_ataho->setStat(_vA_ArmorInven[0].atk, _vA_ArmorInven[0].def, _vA_ArmorInven[0].luck, _vA_ArmorInven[0].cri, _vA_ArmorInven[0].speed);
+		_A_saveBeforArmor.def = _vA_ArmorInven[0].def;
+		_A_saveBeforArmor.speed = _vA_ArmorInven[0].speed;
+
+		_smasyu->setStat(_vS_WeapInven[0].atk, _vS_WeapInven[0].def, _vS_WeapInven[0].luck, _vS_WeapInven[0].cri, _vS_WeapInven[0].speed);
+		_S_saveBeforWeapon.atk = _vS_WeapInven[0].atk;
+		_S_saveBeforWeapon.luck = _vS_WeapInven[0].luck;
+		_S_saveBeforWeapon.cri = _vS_WeapInven[0].cri;
+
+		_smasyu->setStat(_vS_ArmorInven[0].atk, _vS_ArmorInven[0].def, _vS_ArmorInven[0].luck, _vS_ArmorInven[0].cri, _vS_ArmorInven[0].speed);
+		_S_saveBeforArmor.def = _vS_ArmorInven[0].def;
+		_S_saveBeforArmor.speed = _vS_ArmorInven[0].speed;
+
+		_A_saveBeforWeapon.name = "¼ú";
+		_A_saveBeforWeapon.img = IMAGEMANAGER->findImage("¼ú");
+		_A_saveBeforArmor.name = "±Ç¹ý°¡ µµº¹";
+		_A_saveBeforArmor.img = IMAGEMANAGER->findImage("±Ç¹ý°¡ µµº¹");
+		_S_saveBeforWeapon.name = "Ã»·æµµ";
+		_S_saveBeforWeapon.img = IMAGEMANAGER->findImage("Ã»·æµµ");
+		_S_saveBeforArmor.name = "°¡Á× °©¿Ê";
+		_S_saveBeforArmor.img = IMAGEMANAGER->findImage("°¡Á× °©¿Ê");
+	
 	return S_OK;
 }
 
@@ -466,6 +468,15 @@ void playerManager::setEnemyDead()
 void playerManager::setMoney(int money)
 {
 	_gold.money -= money;
+}
+
+void playerManager::invenClear()
+{
+	_vA_WeapInven.clear();
+	_vA_ArmorInven.clear();
+	_vS_WeapInven.clear();
+	_vS_ArmorInven.clear();
+	_vPoInven.clear();
 }
 
 

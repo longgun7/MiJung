@@ -28,7 +28,7 @@ HRESULT field3Scene::init(void)
 	SOUNDMANAGER->play("FiledTheMa");
 
 	IMAGEMANAGER->addFrameImage("NPC1", "image/maptool/NPC/NPC.bmp", 432, 288, 6, 3, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addImage("¸°¼§¾ÉÀº¸ð½À", "image/player/¸°¼§¾ÉÀº¸ð½À.bmp", 55, 65, true, RGB(255, 0, 255));
 	return S_OK;
 }
 
@@ -51,12 +51,15 @@ void field3Scene::update(void)
 
 void field3Scene::render(void)
 {
-	_map->render();
+	//_map->render();
 	// ¿ÀºêÁ§Æ® ·»´õ
 	_map->objRender();
 
 	// º¸½º À§Ä¡ 
 	IMAGEMANAGER->findImage("NPC1")->frameRender(getMemDC(), 2700, 950, 2, 2);
+	IMAGEMANAGER->findImage("¸°¼§¾ÉÀº¸ð½À")->frameRender(getMemDC(), 2700, 1000, 1, 1);
+	
+	//_map->objRender();
 	
 	IMAGEMANAGER->findImage("Å×µÎ¸®")->render(CAMERA->getCameraDC(), 0, 0);
 

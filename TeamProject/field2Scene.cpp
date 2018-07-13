@@ -46,9 +46,9 @@ void field2Scene::update(void)
 
 void field2Scene::render(void)
 {
-	_map->render();
+	//_map->render();
 	// 오브젝트 렌더
-	_map->objRender();
+	//_map->objRender();
 
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 

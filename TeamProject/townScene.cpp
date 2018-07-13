@@ -59,12 +59,12 @@ void townScene::update(void)
 
 void townScene::render(void)
 {
-	_map->render();
+	//_map->render();
 
 	_npc->render();
 
 	// ¿ÀºêÁ§Æ® ·»´õ
-	_map->objRender();
+	//_map->objRender();
 	
 	IMAGEMANAGER->findImage("Å×µÎ¸®")->render(CAMERA->getCameraDC(), 0, 0);
 	
@@ -144,7 +144,7 @@ void townScene::sceneChange(void)
 		SOUNDMANAGER->stop("TownTheMa");
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
-		SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
+		SCENEMANAGER->changeScene("ÇÊµå¾À1");
 		break;
 	}
 }

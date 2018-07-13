@@ -53,9 +53,9 @@ void fieldScene::update(void)
 
 void fieldScene::render(void)
 {
-	_map->render();
+	//_map->render();
 	// 오브젝트 렌더
-	_map->objRender();
+	//_map->objRender();
 
 	IMAGEMANAGER->findImage("테두리")->render(CAMERA->getCameraDC(), 0, 0);
 	
@@ -102,19 +102,19 @@ void fieldScene::sceneChange(void)
 	}
 
 	// 몬스터 랜덤 만남
-	//if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
-	//	 _pm->getPlayer()->getMove() == RIGHTMOVE	||
-	//	 _pm->getPlayer()->getMove() == UPMOVE		||
-	//	 _pm->getPlayer()->getMove() == DOWNMOVE))
-	//{
-	//	if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
-	//		_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
-	//	{
-	//		if (RND->getFloat(100) < 0.8f)
-	//		{
-	//			SCENEMANAGER->changeScene("배틀씬");
-	//		}
-	//	}
-	//}
+	if ((_pm->getPlayer()->getMove() == LEFTMOVE	||
+		 _pm->getPlayer()->getMove() == RIGHTMOVE	||
+		 _pm->getPlayer()->getMove() == UPMOVE		||
+		 _pm->getPlayer()->getMove() == DOWNMOVE))
+	{
+		if (_map->getTiles()[idY * TILEX + idX].terrain == TR_MOVE ||
+			_map->getTiles()[idY * TILEX + idX].obj < OBJ_UPPORTAL)
+		{
+			if (RND->getFloat(100) < 0.8f)
+			{
+				SCENEMANAGER->changeScene("배틀씬");
+			}
+		}
+	}
 
 }

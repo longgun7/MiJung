@@ -4,7 +4,6 @@
 #include "player2.h"
 #include "inventory.h"
 
-
 struct tagInventory
 {
 	image* img;
@@ -73,7 +72,7 @@ private:
 	//포션
 	vector<tagInventory>  _vPoInven; //포션 담는 벡터
 	vector<tagInventory>::iterator  _viPoInven;
-	
+
 	int _mountingIndex;
 	int _HPpoIndex;
 	int _MPpoIndex;
@@ -89,6 +88,7 @@ public:
 	void getItemValue(string itemName); //받을 아이템 종류
 	void setEnemyDead(); // 에너미 
 	void setMoney(int money);
+	void invenClear();
 
 	
 	player* getPlayer() { return _ataho; }

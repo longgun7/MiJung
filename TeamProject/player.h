@@ -14,11 +14,13 @@ enum MOVE
 	AREASKILL1, AREASKILL2, AREASKILL3,
 	DRINK,DRUNKEN, FIGHTREADY, DAMAGE,
 	DEFENCE, SEREMONI,ESCAPE,NOCKDOWN,
-	HPUP,MPUP,
+	HPUP,MPUP, ATTACKEND,
 	//EVENTMODE
 	FRONT,LEFT1,LEFT2,LEFT3,LEFT4,RIGHT1,RIGHT2,RIGHT3,RIGHT4,
 	WOODFRONT, WOODLEFT1, WOODLEFT2, WOODLEFT3, WOODLEFT4, WOODRIGHT1, WOODRIGHT2, WOODRIGHT3, WOODRIGHT4
 };
+
+
 
 enum SCENEMODE
 {
@@ -96,12 +98,14 @@ private:
 	atahoAreaSkill2* _areaSkillEffect2;
 	atahoAreaSkill3* _areaSkillEffect3;
 	gameEffect* _gameEffect;
+	
 	//에너미 매니저 전방선언
 	enemyManager* _em;
 
 	// 추가(민경)
 	RECT _zOrderRC;
 	playMap* _map;
+	RECT _rangeRC;
 
 public:
 	
@@ -155,12 +159,17 @@ public:
 		_move = move;
 		_isMotionLive = true;
 	}
+
+	
 	void setSkil(int choiceIndex, int skillIndex,int monIndex);
 	int getSkillFrame() { return _skillFrame; }	
 	void setEventMode(SCENEMODE mode);
+	image* getImg() { return _img; }
 	// 추가(민경)
 	RECT getRC() { return _rc; }
 	RECT getZorderRC() { return _zOrderRC; }
+	RECT getRangeRC() { return _rangeRC; }
+	
 	void tileMove(void);
 	void setplayMapMemoryAddressLink(playMap* map) { _map = map; }
 

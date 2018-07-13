@@ -64,14 +64,16 @@ void playGround::render(void)
 
 	//============== 이 위로는 건드리지 말자 ==============
 
-	SCENEMANAGER->render();
 
 	if (SCENEMANAGER->getCurrentSceneName() != "스타트씬" && SCENEMANAGER->getCurrentSceneName() != "맵툴씬")
 	{
 		_psm->render();
 	}
-	
+
+	SCENEMANAGER->render();
+
 	TIMEMANAGER->render(CAMERA->getCameraDC());
+
 
 	//================이 밑으로도 건드리지 말자 =============
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
