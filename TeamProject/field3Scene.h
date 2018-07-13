@@ -18,7 +18,6 @@ private:
 	enemyManager * _em;
 	itemManager* _im;
 	playMap* _map;
-
 public:
 	field3Scene();
 	~field3Scene();
