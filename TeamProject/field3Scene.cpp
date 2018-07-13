@@ -57,7 +57,7 @@ void field3Scene::render(void)
 
 	// º¸½º À§Ä¡ 
 	IMAGEMANAGER->findImage("NPC1")->frameRender(getMemDC(), 2700, 950, 2, 2);
-	IMAGEMANAGER->findImage("¸°¼§¾ÉÀº¸ð½À")->frameRender(getMemDC(), 2700, 1000, 1, 1);
+	IMAGEMANAGER->findImage("¸°¼§¾ÉÀº¸ð½À")->render(getMemDC(), 2750, 1000);
 	
 	//_map->objRender();
 	
