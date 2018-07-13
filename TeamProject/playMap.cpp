@@ -56,7 +56,10 @@ void playMap::objRender()
 		{
 			if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
 			else if (_tiles[i * TILEX + j].obj == OBJ_NPC) continue;
-			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL) continue;
+			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL)
+			{
+				if (_tiles[i * TILEX + j].obj != OBJ_BOTTLE) continue;
+			}
 
 			IMAGEMANAGER->frameRender(_currentTile, getMemDC(),
 				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,

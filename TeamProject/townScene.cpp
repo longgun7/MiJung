@@ -144,7 +144,7 @@ void townScene::sceneChange(void)
 		SOUNDMANAGER->stop("TownTheMa");
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
 		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
-		SCENEMANAGER->changeScene("ÇÊµå¾À1");
+		SCENEMANAGER->changeScene("ÀÌº¥Æ®¾À");
 		break;
 	}
 }

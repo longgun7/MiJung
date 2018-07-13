@@ -656,8 +656,8 @@ OBJECT mapToolScene::objSelect(int frameX, int frameY)
 	{
 		if (frameX == 5 && frameY == 12) return OBJ_ROPEEND;
 
-		if ((frameX == 36 || frameX == 37) && frameY == 4) return OBJ_EXIST;
-		if (frameX == 36 && frameY == 3) return OBJ_EXIST;
+		if ((frameX == 36 || frameX == 37) && frameY == 4) return OBJ_BOTTLE;
+		if (frameX == 36 && frameY == 3) return OBJ_BOTTLE;
 
 		if ((frameX == 37 || frameX == 38) && frameY == 3) return OBJ_ROPE;
 
