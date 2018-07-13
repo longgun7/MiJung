@@ -29,7 +29,8 @@ HRESULT barScnen::init(void)
 	_sl = new saveLoad;
 	_sl->init();
 
-	
+	_shop = new shop;
+
 	_map->init(BAR);
 
 	_npc = new npc;
@@ -94,9 +95,9 @@ void barScnen::update(void)
 		{
 			SCENEMANAGER->setIsShop(true);
 			_isShopCheck = true;
-			_shop = new shop;
-			_shop->init();
-			_shop->setItem();
+			//_shop = new shop;
+			//_shop->init();
+			//_shop->setItem();
 		}
 		else if (_isShopCheck)
 		{
@@ -131,6 +132,12 @@ void barScnen::render(void)
 
 	_npc->render();
 	
+	if (_isShopCheck)
+		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, 400, "상점 활성화", strlen("ㅇㅇㅇㅇㅇㅇ"));
+	if (_isHotelCheck)
+		TextOut(CAMERA->getCameraDC(), WINSIZEX / 2, 400, "모텔 활성화", strlen("ㅇㅇㅇㅇㅇㅇ"));
+
+
 	// 오브젝트 렌더
 	//_map->objRender();
 
