@@ -26,11 +26,14 @@ HRESULT barScnen::init(void)
 	IMAGEMANAGER->addImage("대화창1", "image/ui/대화창.bmp", 600, 125, false, RGB(0, 0, 0));
 	_isShopCheck = false;
 	_isHotelCheck = false;
+	_isTalkCheck = false;
+
 	_sl = new saveLoad;
 	_sl->init();
 
 	_shop = new shop;
 
+	
 	_map->init(BAR);
 
 	_npc = new npc;
@@ -39,6 +42,8 @@ HRESULT barScnen::init(void)
 
 	if (_start == 0)
 	{
+		_isTalkCheck = true;
+		SCENEMANAGER->setIsInHouseTalk(true);
 		talkSave();
 		talkLoad();
 	}
@@ -54,6 +59,7 @@ void barScnen::update(void)
 {
 	CAMERA->setPosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
 
+	_npc->update();
 	_count++;
 	if (_count % 8 == 0)
 	{
@@ -76,6 +82,8 @@ void barScnen::update(void)
 			if (_index == 21)
 			{
 				_start = 1;
+				_isTalkCheck = false;
+				SCENEMANAGER->setIsInHouseTalk(false);
 			}
 		}
 	}
@@ -139,9 +147,8 @@ void barScnen::render(void)
 
 
 	// 오브젝트 렌더
-	//_map->objRender();
-
-	if (_start == 0)
+	_map->objRender();
+	if ((_start == 0) && (SCENEMANAGER->getIsInHouseTalk()))
 	{
 		if (_who <= 10)
 		{
@@ -257,7 +264,7 @@ void barScnen::sceneChange(void)
 	case OBJ_DOWNPORTAL:
 		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(250);
 		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(250);
-		SCENEMANAGER->changeScene("타운씬");
+		SCENEMANAGER->changeScene("필드씬3");
 		break;
 
 	case OBJ_LEFTPORTAL:	break;

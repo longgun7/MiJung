@@ -35,6 +35,7 @@ HRESULT sceneManager::init()
 
 	_currentScene = NULL;
 	_isShop = false;
+	_isInHouseTalk = false;
 	_isChange = false;
 	_frameCount = 0;
 	_alphaValue = 255;

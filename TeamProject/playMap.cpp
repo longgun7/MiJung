@@ -56,7 +56,10 @@ void playMap::objRender()
 		{
 			if (_tiles[i * TILEX + j].obj == OBJ_NONE) continue;
 			else if (_tiles[i * TILEX + j].obj == OBJ_NPC) continue;
-			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL) continue;
+			else if (_tiles[i * TILEX + j].obj >= OBJ_UPPORTAL)
+			{
+				if (_tiles[i * TILEX + j].obj != OBJ_BOTTLE) continue;
+			}
 
 			IMAGEMANAGER->frameRender(_currentTile, getMemDC(),
 				_tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top,
@@ -143,4 +146,18 @@ POINT playMap::getTileIndex(RECT rc, OBJECT obj)
 	}
 
 	return PointMake(NULL, NULL);
+}
+
+void playMap::setTile(OBJECT findObj, OBJECT changeObj)
+{
+	POINT camera = CAMERA->getPosition();
+	for (int i = camera.y / TILESIZE; i < camera.y / TILESIZE + SHOWTILEY; ++i)
+	{
+		for (int j = camera.x / TILESIZE; j < camera.x / TILESIZE + SHOWTILEX; ++j)
+		{
+			if (_tiles[i * TILEX + j].obj == findObj)
+				_tiles[i * TILEX + j].obj = changeObj;
+
+		}
+	}
 }
