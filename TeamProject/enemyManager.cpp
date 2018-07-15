@@ -204,6 +204,18 @@ void enemyManager::hitPlayer()
 	
 	// 예외처리추가(민경), 에너미가 한마리도 없을때 이 함수는 실행되지 않는다.
 	if (_vEnemy.size() <= 0) return;													// 벡터의 사이즈가 0보다 같거나 작으면 돌아가라
+	
+	// 추가(민경)
+	while (_vEnemy[_hitIndex]->getTagEnmey().direction == DEAD_END || _vEnemy[_hitIndex]->getTagEnmey().direction == DEAD)
+	{
+		_hitIndex++;
+		if (_hitIndex >= _vEnemy.size())
+		{
+			_hitIndex = 0;		// _hitIndex가 에너미 벡터의 사이즈보다 같거나 커질 경우 _hitIndex를 0으로 초기화한다
+			_attackEnd = true;
+			break;
+		}
+	}
 
 	if (_vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0 && _hitCount == 0)			// _hitIndex번째의 에너미의 현재 프레임 X가 0이고, _hitCount가 0일 떄
 	{
@@ -259,9 +271,9 @@ void enemyManager::randEnemy()
 
 	for (int i = 0; i < _randNum; i++)														// i는 0 i가 _randNum보다 작으면 i를 ++ 해준다
 	{														
-		if(SCENEMANAGER->getSceneName() == "필드씬1") 		_enemyIndex = RND->getFromIntTo(1, 4);
-		if(SCENEMANAGER->getSceneName() == "술집씬") 		_enemyIndex = RND->getFromIntTo(4, 7);
-		if(SCENEMANAGER->getSceneName() == "필드씬3") 	_enemyIndex = RND->getFromIntTo(7, 10);
+		if(SCENEMANAGER->getSceneName() == "술집씬") 		_enemyIndex = RND->getFromIntTo(1, 4);
+		if(SCENEMANAGER->getSceneName() == "필드씬1") 		_enemyIndex = RND->getFromIntTo(4, 7);
+		if(SCENEMANAGER->getSceneName() == "필드씬3") 		_enemyIndex = RND->getFromIntTo(7, 10);
 
 		if (_randNum == 1)																	// _randNum이 1일 때
 		{																					

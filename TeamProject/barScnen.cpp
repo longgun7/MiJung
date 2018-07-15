@@ -100,6 +100,13 @@ void barScnen::update(void)
 		}
 	}
 
+	if (KEYMANAGER->isOnceKeyDown(VK_F4))
+	{
+		_start = 1;
+		_isTalkCheck = false;
+		SCENEMANAGER->setIsInHouseTalk(false);
+	}
+
 	else if (_talkIndex < (_maxTalkIndex / 2));
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -273,9 +280,9 @@ void barScnen::sceneChange(void)
 	case OBJ_UPPORTAL: break;
 
 	case OBJ_DOWNPORTAL:
-		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(100);
-		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(100);
-		SCENEMANAGER->changeScene("ÇÊµå¾À1");
+		_pm->getPlayer()->setX(550); _pm->getPlayer()->setY(250);
+		_pm->getPlayer2()->setX(550); _pm->getPlayer2()->setY(250);
+		SCENEMANAGER->changeScene("Å¸¿î¾À");
 		break;
 
 	case OBJ_LEFTPORTAL:	break;

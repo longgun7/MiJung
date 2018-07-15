@@ -1,5 +1,6 @@
 #pragma once
 #include"gameNode.h"
+#include "progressBar.h"
 
 enum PLAYER_TURN
 {
@@ -13,7 +14,8 @@ enum GAME_TURN
 	ATAHO_ATTACK,
 	SUMSU_ATTACK,
 	ENEMY_ATTACK,
-
+	BATTLE_WIN,
+	BATTLE_ESCAPE
 };
 
 class playerManager;
@@ -58,8 +60,12 @@ private:
 
 	bool _isSceneCount;
 	int sceneCount;
+	bool _isDeadEnemy;	// (추가)에너미가 죽은 상태면 턴 넘기지 말고 기다리게하는 bool값
 
 	string _nowSong;
+	
+	vector<progressBar*>			_vEnemyHpBar;
+	vector<progressBar*>::iterator	_viEnemyHpBar;
 
 public:
 	battleScene();
