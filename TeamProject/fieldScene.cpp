@@ -118,6 +118,7 @@ void fieldScene::sceneChange(void)
 		{
 			if (RND->getFloat(100) < 0.8f)
 			{
+				SCENEMANAGER->setPlayerScenePosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
 				SOUNDMANAGER->stop("FiledTheMa");
 				SCENEMANAGER->changeScene("πË∆≤æ¿");
 			}

@@ -34,9 +34,8 @@ HRESULT playGround::init(void)
 
 void playGround::release(void)
 {
-	gameNode::release();
-	_psm->release();
-	
+	//_psm->release();
+	//gameNode::release();
 }
 
 void playGround::update(void)

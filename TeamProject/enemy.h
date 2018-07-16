@@ -8,7 +8,8 @@ enum DIRECTION
 	STAND,	// 가만히 있는 상태
 	ATTACK,	// 공격
 	HIT,	// 맞는 상태
-	DEAD	// 죽음
+	DEAD,	// 죽음
+	DEAD_END // 죽음 후 남아있는 상태
 };
 
 struct tagEnemy	// 에너미 구조체

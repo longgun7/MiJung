@@ -105,6 +105,7 @@ void spearMan::motion()
 
 			if (_enemy.alphaValue < 0)
 			{
+				_enemy.fadeCount = 80;				
 				_enemy.alphaValue = 0;
 			}
 		}
