@@ -352,13 +352,6 @@ void atahoTargetSkill3::render()
 			_viTagSkill->img2->frameRender(getMemDC(), _viTagSkill->rc2.left + (_width - _viTagSkill->img2->getFrameWidth()), _viTagSkill->rc2.top,
 				_viTagSkill->img2->getFrameX(), _viTagSkill->img2->getFrameY());
 		}
-		char str[128];
-		sprintf_s(str, "%d, %d, %d", _viTagSkill->count, _currentExp, _level);
-		TextOut(getMemDC(), 200, 200, str, strlen(str));
-
-		char str1[128];
-		sprintf_s(str1, "%d, %d, %d", _viTagSkill->rc.left, _viTagSkill->rc1.left, _viTagSkill->rc2.left);
-		TextOut(getMemDC(), 200, 150, str1, strlen(str1));
 	}
 }
 // 스킬 생성 기모으기 시작

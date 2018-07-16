@@ -381,7 +381,10 @@ void battleScene::update(void)
 					_pm->getPlayer()->setMove(FIGHTREADY);
 				}
 
-				if (_pm->getPlayer()->getMove() == FIGHTREADY) setEnemyDead(0);
+				if (_pm->getPlayer()->getMove() == FIGHTREADY)
+				{
+					setEnemyDead(0);
+				}
 					
 				_isSumsuSkillFire = true;
 			}
@@ -436,6 +439,8 @@ void battleScene::update(void)
 		{
 			_pm->getPlayer()->setX(SCENEMANAGER->getPlayerScenePosition().x); _pm->getPlayer()->setY(SCENEMANAGER->getPlayerScenePosition().y);
 			_pm->getPlayer2()->setX(SCENEMANAGER->getPlayerScenePosition().x); _pm->getPlayer2()->setY(SCENEMANAGER->getPlayerScenePosition().y);
+
+			_pm->getPlayer()->setSkillFrame(0);
 
 			_vEnemyHpBar.clear();
 			while (_em->getVEnmey().size() > 0)

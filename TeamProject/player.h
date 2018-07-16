@@ -163,6 +163,7 @@ public:
 	void setIsWoodDrop(bool drop) {  _isWoodDrop = drop; }
 	void setSkil(int choiceIndex, int skillIndex,int monIndex);
 	int getSkillFrame() { return _skillFrame; }	
+	void setSkillFrame(int skillframe) { _skillFrame = skillframe; }
 	void setEventMode(SCENEMODE mode);
 	image* getImg() { return _img; }
 	// Ãß°¡(¹Î°æ)

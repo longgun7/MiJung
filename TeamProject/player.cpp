@@ -180,7 +180,10 @@ void player::render()
 			_effectImage.img->frameRender(getMemDC(), _x - 30 , _y + 5);
 		}
 	}
-	
+	SetTextColor(getMemDC(), RGB(0, 0, 0));
+	char str[128];
+	sprintf_s(str, "%d", _skillFrame);
+	TextOut(getMemDC(), 200, 200, str, strlen(str));
 }
 
 void player::release()
@@ -655,12 +658,12 @@ void player::move()
 			setSoloDamage(0);
 		}
 		if (_skillFrame == 99)
-		{_skillFrame = 0;
+		{
 			_move = ATTACKEND;
 		}
 		if (_skillFrame > 100)
 		{
-			
+			_skillFrame = 0;
 			//_move = FIGHTREADY;
 			
 		}
@@ -676,12 +679,12 @@ void player::move()
 			setSoloDamage(0);
 		}
 		if (_skillFrame == 99)
-		{_skillFrame = 0;
+		{
 			_move = ATTACKEND;
 		}
 		if (_skillFrame > 100)
 		{
-			
+			_skillFrame = 0;
 			_move = FIGHTREADY;
 			
 		}
@@ -697,12 +700,12 @@ void player::move()
 			setSoloDamage(0);
 		}
 		if (_skillFrame == 99)
-		{_skillFrame = 0;
+		{
 			_move = ATTACKEND;
 		}
 		if (_skillFrame > 100)
 		{
-			
+			_skillFrame = 0;
 			_move = FIGHTREADY;
 		}
 	}
@@ -734,11 +737,11 @@ void player::move()
 			{
 				_img->setFrameX(0);
 				_move = ATTACKEND;
-				_skillFrame = 0;
+				
 			}
 			if (_skillFrame >= 200 )
 			{
-				
+				_skillFrame = 0;
 				_move = FIGHTREADY;
 				
 			}
@@ -868,7 +871,7 @@ void player::move()
 			++_skillFrame;
 			_soloSkillEffect2->addSkill(_x+60, _y-29);
 			
-			if (_skillFrame == 49)
+			if (_skillFrame >= 50)
 			{
 				_move = ATTACKEND;
 				_jumpPower = 0;
@@ -876,19 +879,18 @@ void player::move()
 				_isJumping = false;
 				_img->setFrameX(0);
 				_skillFrame = 0;
+
 				_y = WINSIZEY / 2;
 			}
 			
-			if (_skillFrame >= 50)
-			{
-				_move = FIGHTREADY;
-				_jumpPower = 0;
-				_gravity = 0;
-				_isJumping = false;
-				_img->setFrameX(0);
-				_skillFrame = 0;
-				_y = WINSIZEY / 2;
-			}
+			//if (_skillFrame >= 50)
+			//{
+			//	_jumpPower = 0;
+			//	_gravity = 0;
+			//	_isJumping = false;
+			//	_img->setFrameX(0);
+			//	_y = WINSIZEY / 2;
+			//}
 		}
 
 	}

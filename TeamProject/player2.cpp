@@ -548,9 +548,9 @@ void player2::move()
 		++_skillFrame;
 		if (_skillFrame == 30)
 		{
-			for (int i = 0; i < _em->getVEnmey().size(); i++)
+			//for (int i = 0; i < _em->getVEnmey().size(); i++)
 			{
-				_areaSkill1->addAreaSkill(_em->getVEnmey()[i]->getTagEnmey().x, _em->getVEnmey()[i]->getTagEnmey().y, _em->getVEnmey().size());
+				_areaSkill1->addAreaSkill(_em->getVEnmey()[0]->getTagEnmey().x, _em->getVEnmey()[0]->getTagEnmey().y, _em->getVEnmey().size());
 				setAreaDamage(10);
 			}
 		}

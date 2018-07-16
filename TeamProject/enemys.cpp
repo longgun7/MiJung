@@ -57,7 +57,7 @@ void spearMan::render()
 
 void spearMan::motion()
 {
-	++_enemy.count;
+	if(!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.count == Count)
 	{
@@ -105,7 +105,7 @@ void spearMan::motion()
 
 			if (_enemy.alphaValue < 0)
 			{
-				_enemy.fadeCount = 80;				
+				//_enemy.fadeCount = 80;				
 				_enemy.alphaValue = 0;
 			}
 		}
@@ -198,6 +198,7 @@ void kungpu::render()
 
 void kungpu::motion()
 {
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.direction == STAND)
 	{
@@ -223,8 +224,6 @@ void kungpu::motion()
 			_enemy.isRandAttack = true;
 		}
 	}
-
-	_enemy.count++;
 
 	if (_enemy.count == Count)
 	{
@@ -360,7 +359,7 @@ void spirit::render()
 
 void spirit::motion()
 {
-	_enemy.count++;
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.count == Count)
 	{
@@ -517,7 +516,7 @@ void bat::render()
 
 void bat::motion()
 {
-	_enemy.count++;
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.count == Count)
 	{
@@ -660,7 +659,7 @@ void snake::render()
 
 void snake::motion()
 {
-	_enemy.count++;
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.count == Count)
 	{
@@ -796,7 +795,7 @@ void wildboar::render()
 
 void wildboar::motion()
 {
-	_enemy.count++;
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.count == Count)
 	{
@@ -933,7 +932,7 @@ void skeleton::render()
 
 void skeleton::motion()
 {
-	_enemy.count++;
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.count == Count)
 	{
@@ -1069,7 +1068,7 @@ void skeletonMage::render()
 
 void skeletonMage::motion()
 {
-	_enemy.count++;
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.count == Count)
 	{
@@ -1235,7 +1234,7 @@ void dragon::render()
 
 void dragon::motion()
 {
-	_enemy.count++;
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
 
 	if (_enemy.count == Count)
 	{
@@ -1382,6 +1381,8 @@ void boss::render()
 
 void boss::motion()
 {
+	if (!(_enemy.direction == DEAD)) ++_enemy.count;
+
 	if (_enemy.direction == STAND)
 	{
 		_enemy.isRandAttack = true;
@@ -1426,8 +1427,6 @@ void boss::motion()
 			_enemy.isRandAttack = false;
 		}
 	}
-
-	_enemy.count++;
 
 	if (_enemy.count == Count)
 	{
