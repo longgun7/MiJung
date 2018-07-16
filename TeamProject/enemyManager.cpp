@@ -12,6 +12,7 @@ HRESULT enemyManager::init()
 
 	_randAttack = 0;
 	_attackEnd = false;
+	_start = false;
 	return S_OK;
 	
 }
@@ -207,6 +208,7 @@ void enemyManager::hitPlayer()
 	
 	// 추가(민경)
 	while (_vEnemy[_hitIndex]->getTagEnmey().direction == DEAD_END || _vEnemy[_hitIndex]->getTagEnmey().direction == DEAD)
+
 	{
 		_hitIndex++;
 		if (_hitIndex >= _vEnemy.size())
@@ -216,7 +218,6 @@ void enemyManager::hitPlayer()
 			break;
 		}
 	}
-
 	if (_vEnemy[_hitIndex]->getTagEnmey().currentFrameX == 0 && _hitCount == 0)			// _hitIndex번째의 에너미의 현재 프레임 X가 0이고, _hitCount가 0일 떄
 	{
 		_vEnemy[_hitIndex]->setEnemyDirection(ATTACK);	// _hitIndex번째의 에너미 디렉션을 ATTACK로 바꿔준다
@@ -267,13 +268,20 @@ void enemyManager::hitPlayer()
 // 에너미들이 몇마리 나오는지, 좌표 설정
 void enemyManager::randEnemy()
 {
-	_randNum = RND->getFromIntTo(1, 5);					// _randNum에 1 ~ 4까지의 랜덤한 값을 넣는다
-
+	if (!_start)
+	{
+		_randNum = RND->getFromIntTo(1, 5);					// _randNum에 1 ~ 4까지의 랜덤한 값을 넣는다
+	}
+	else
+	{
+		_randNum = 1;
+	}
 	for (int i = 0; i < _randNum; i++)														// i는 0 i가 _randNum보다 작으면 i를 ++ 해준다
 	{														
 		if(SCENEMANAGER->getSceneName() == "필드씬1") 		_enemyIndex = RND->getFromIntTo(1, 4);
 		if(SCENEMANAGER->getSceneName() == "필드씬2") 		_enemyIndex = RND->getFromIntTo(4, 7);
-		if(SCENEMANAGER->getSceneName() == "필드씬3") 		_enemyIndex = RND->getFromIntTo(7, 10);
+		if(SCENEMANAGER->getSceneName() == "필드씬3") 		_enemyIndex = RND->getFromIntTo(7, 9);
+		if (SCENEMANAGER->getSceneName() == "필드씬3" && _start == true) 		_enemyIndex = 10;
 
 		if (_randNum == 1)																	// _randNum이 1일 때
 		{																					

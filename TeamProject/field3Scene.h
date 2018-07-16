@@ -28,6 +28,8 @@ private:
 	int _talkIndex;
 	int _maxTalkIndex;
 	bool _bossTalk;
+	bool _bossAppear;
+	bool _end;
 	vector<string>				vStrBoss;
 
 	// 보스 만나면
@@ -41,14 +43,16 @@ private:
 	string strBoss8 = "방법이　잘못되었지만　그　결투　받아들이지. ";
 	string strBoss9 = "아타호　형님이　그렇게　결정하셨으면　전　그　결정을　따르겠습니다. ";
 	string strBoss10 = "승부!!";
+
 	// 승리시
 	string strBoss11 = "좋은　승부였다... 린샹은　옆방에　있다. ";
-	string strBoss12 = "도전은　언제든지　받아주겠다. 하지만　앞으로는 이런식의　방법을　쓰지않고　정식으로　요청했으면　좋겠군";
+	string strBoss12 = "도전은　언제든지　받아주겠다. 하지만　앞으로는　이런식의　방법을　쓰지않고　정식으로　요청했으면　좋겠군";
 	string strBoss13 = "알겠다. 다음부터는　정식으로　결투를　신청하겠다. ";
 	string strBoss14 = "Hey 나한테　신청해도　된다고~~";
 	string strBoss15 = "훗....";
 	string strBoss16 = "그럼　다음에　봅세　총통! ";
 	string strBoss17 = "다음에　보자";
+
 public:
 	field3Scene();
 	~field3Scene();

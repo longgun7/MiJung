@@ -140,9 +140,13 @@ void townScene::sceneChange(void)
 	case OBJ_LEFTPORTAL:	break;
 	case OBJ_RIGHTPORTAL:
 		SOUNDMANAGER->stop("TownTheMa");
-		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
-		_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
-		SCENEMANAGER->changeScene("ÇÊµå¾À1");
+		_pm->getPlayer()->setX(2700); _pm->getPlayer()->setY(1300);
+		_pm->getPlayer()->setAttribute(500, 500, 20, 20, 400, 400, 400, 400, 0, 100, 99);
+		_pm->getPlayer2()->setAttribute(500, 500, 20, 20, 400, 400, 400, 400, 0, 100, 99);
+		//_pm->getPlayer()->setAttributeTestLevel(99);
+		//_pm->getPlayer2()->setAttributeTestLevel(99);
+		//_pm->getPlayer()->setX(100); _pm->getPlayer()->setY(100);
+		SCENEMANAGER->changeScene("ÇÊµå¾À3");
 		break;
 	}
 }

@@ -170,7 +170,10 @@ public:
 		_attribute.currentHp = currentHp;
 		_attribute.currentMp = currentMp;
 	}
-
+	void setAttributeTestLevel(int level)
+	{
+		_attribute.level = level;
+	}
 	// Ãß°¡(¹Î°æ)
 	RECT getZorderRC() { return _zOrderRC; }
 

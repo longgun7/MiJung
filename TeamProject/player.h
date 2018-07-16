@@ -193,7 +193,10 @@ public:
 		_attribute.currentHp = currentHp;
 		_attribute.currentMp = currentMp;
 	}
-
+	void setAttributeTestLevel(int level)
+	{
+		_attribute.level = level;
+	}
 	player();
 	~player();
 };

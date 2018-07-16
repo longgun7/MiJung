@@ -64,6 +64,7 @@ public:
 	bool getIsInHouseTalk() { return _isInHouseTalk; }
 	bool getIsShop() { return _isShop; }
 	
+	
 	void setPlayerScenePosition(float x, float y) { _px = x, _py = y; }
 	POINT getPlayerScenePosition() { return PointMake(_px, _py); }
 

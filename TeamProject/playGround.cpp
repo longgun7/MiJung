@@ -43,7 +43,7 @@ void playGround::update(void)
 	
 	gameNode::update();
 	SCENEMANAGER->update();
-	if(SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À" )
+	if(SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À"  && SCENEMANAGER->getCurrentSceneName() != "¿£µå¾À")
 	{
 		SOUNDMANAGER->stop("MainTheMa");
 		_psm->update();
@@ -66,7 +66,7 @@ void playGround::render(void)
 	//============== ÀÌ À§·Î´Â °Çµå¸®Áö ¸»ÀÚ ==============
 
 	//if(SCENEMANAGER->getCurrentSceneName() == "¹èÆ²¾À") SCENEMANAGER->render();
-	if (SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À")
+	if (SCENEMANAGER->getCurrentSceneName() != "½ºÅ¸Æ®¾À" && SCENEMANAGER->getCurrentSceneName() != "¸ÊÅø¾À" && SCENEMANAGER->getCurrentSceneName() != "¿£µå¾À")
 	{		
 		IMAGEMANAGER->findImage("±âº»status")->render(CAMERA->getCameraDC(), 0, 550);
 		IMAGEMANAGER->findImage("infoStatus")->render(CAMERA->getCameraDC(), 650, 550);
@@ -98,6 +98,7 @@ void playGround::musicInit()
 	SOUNDMANAGER->addSound("BattleTheMa2", "soundOST/BattleTheMa2.mp3", true, true);
 	SOUNDMANAGER->addSound("FiledTheMa", "soundOST/FiledTheMa.mp3", true, true);
 	SOUNDMANAGER->addSound("eventTheMa", "soundOST/eventTheMa.mp3", true, true);
+	SOUNDMANAGER->addSound("EndingTheMa", "soundOST/EndingTheMa.mp3", true, true);
 	// È£°İ±Ç
 	SOUNDMANAGER->addSound("TigerSound", "soundEffect/TigerSound.mp3", true, false);
 	// ºñ±â ±¤ÆÄÂü

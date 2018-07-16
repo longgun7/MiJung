@@ -33,7 +33,7 @@ private:
 	image* _img;						// 데미지 수치 이미지
 	int _randAttack;
 	bool _attackEnd;
-
+	bool _start;
 public:
 
 	virtual HRESULT init();
@@ -48,7 +48,8 @@ public:
 	void removeEnemy(int arrNum);							// 적을 지워주는 함수
 	void setAttackEnd(bool attackEnd) { _attackEnd = attackEnd; }
 	bool getAttackEnd() { return _attackEnd; }
-
+	bool getStart() { return _start; }
+	void setStart(bool start) { _start = start; }
 	vector<enemy*>			 getVEnmey() { return _vEnemy; }			// 외부에서 에너미 벡터에 접근 가능하게 반환
 	vector<enemy*>::iterator getVIEnmey() { return _viEnemy; }			// 외부에서 에너미 벡터 이터레이터에 접근 가능하게 반환
 

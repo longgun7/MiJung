@@ -29,11 +29,14 @@ HRESULT field3Scene::init(void)
 
 	IMAGEMANAGER->addFrameImage("NPC1", "image/maptool/NPC/NPC.bmp", 432, 288, 6, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("린샹앉은모습", "image/player/린샹앉은모습.bmp", 55, 65, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addImage("노을엔딩씬", "image/ui/노을엔딩씬.bmp", 1000, 750, false, RGB(0, 0, 0));
 	talkSave();
 	talkLoad();
 	_npc = new npc;
+	_start = 0;
 	_bossTalk = false;
+	_bossAppear = false;
+	_end = false;
 	return S_OK;
 }
 
@@ -44,6 +47,20 @@ void field3Scene::release(void)
 void field3Scene::update(void)
 {
 	CAMERA->setPosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
+
+
+	RECT testRC;
+	testRC = RectMake(2600, 950, 300, 300);
+	RECT RC;
+	if (IntersectRect(&RC, &testRC, &_pm->getPlayer()->getZorderRC()))
+	{
+		_start = 1;
+		if (_start == 1)
+		{
+			_bossTalk = true;
+		}
+	}
+
 
 	// 플레이어가 어느 타일에 있는지 인덱스 번호 세팅
 	_map->setTilePos(_pm->getPlayer()->getZorderRC(), OBJ_PLAYER1);
@@ -72,9 +89,18 @@ void field3Scene::update(void)
 				_count = 0;
 				_talkIndex = 0;
 				_maxTalkIndex = 0;
+				if (_index == 10)
+				{
+					_start = 2;
+					_bossTalk = false;
+					_bossAppear = true;
+					_em->setStart(true);
+				}
 				if (_index == 17)
 				{
-					_start = 1;
+					_start = 4;
+					_bossTalk = false;
+					_end = true;
 				}
 			}
 		}
@@ -87,7 +113,37 @@ void field3Scene::update(void)
 			}
 		}
 	}
+
+	if (_start == 2)
+	{
+		if(_bossAppear)
+		{
+			//_em->randEnemy();
+			SCENEMANAGER->setPlayerScenePosition(_pm->getPlayer()->getX(), _pm->getPlayer()->getY());
+			_bossAppear = false;
+			SOUNDMANAGER->stop("FiledTheMa");
+			SCENEMANAGER->changeScene("배틀씬");
+		}
+		else if (_em->getVEnmey().size() <= 0)
+		{
+			_start = 3;
+		}
+	}
+
+	if (_start == 3)
+	{
+		_bossTalk = true;
+	}
+
+	if (_end)
+	{
+		SOUNDMANAGER->stop("FiledTheMa");
+		SCENEMANAGER->changeScene("엔드씬");
+		SOUNDMANAGER->play("EndingTheMa", 0.5f);
+	}
+
 	sceneChange();
+
 
 }
 
@@ -105,29 +161,15 @@ void field3Scene::render(void)
 	
 	if (_bossTalk)
 	{
-		if (_who <= 10)
+		if (_who == 1 || _who == 3 || _who == 7 || _who == 9 || _who == 11 || _who == 15)
 		{
-			if (_who % 2 == 0)
-			{
-				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
-			}
-			else if (_who % 2 == 1)
-			{
-				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
-			}
+			IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
 		}
-		else
+		else if (_who == 4 || _who == 8 || _who == 13)
 		{
-			if (_who % 2 == 0)
-			{
-				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
-			}
-			else if (_who % 2 == 1)
-			{
-				IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 0, 0);
-			}
+			IMAGEMANAGER->findImage("캐릭터이미지1")->frameRender(CAMERA->getCameraDC(), 137, 400, 1, 0);
+		}
 
-		}
 		IMAGEMANAGER->findImage("대화창1")->render(CAMERA->getCameraDC(), 272, 400);
 		SetTextColor(getMemDC(), RGB(255, 255, 255));
 

@@ -156,6 +156,7 @@ void player::update()
 	_zOrderRC = RectMake(_rc.left, _rc.bottom - 27, _img->getFrameWidth(), 27);
 	_rangeRC = RectMakeCenter(_x, _y, _img->getFrameWidth() * 4, _img->getFrameHeight() * 2);
 
+
 }
 
 void player::render()
@@ -180,10 +181,7 @@ void player::render()
 			_effectImage.img->frameRender(getMemDC(), _x - 30 , _y + 5);
 		}
 	}
-	SetTextColor(getMemDC(), RGB(0, 0, 0));
-	char str[128];
-	sprintf_s(str, "%d", _skillFrame);
-	TextOut(getMemDC(), 200, 200, str, strlen(str));
+	
 }
 
 void player::release()

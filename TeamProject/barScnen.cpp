@@ -339,6 +339,8 @@ void barScnen::npcCollision()
 			_isShopCheck = true;
 			_shop->init();
 			_shop->setItem();
+			SCENEMANAGER->setIsShop(true);
+			_pm->getPlayer()->setY(_pm->getPlayer()->getY() + 20);
 		}
 
 		if (!_isHotelCheck && vObjTile[i].second.obj == OBJ_MOTEL && IntersectRect(&rc, &vObjTile[i].second.rc, &_pm->getPlayer()->getRangeRC()))

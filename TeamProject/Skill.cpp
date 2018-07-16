@@ -97,7 +97,7 @@ void atahoTargetSkill1::addSkill(float x, float y)
 	targetSkill1.y = y;			// 스킬 y좌표
 	targetSkill1.count = 0;		// 스킬 생성시 카운트 초기화
 	_width = 0;
-	_currentExp += 40;			// 스킬 경험치 40 증가
+	_currentExp += 99;			// 스킬 경험치 40 증가
 
 	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
@@ -208,7 +208,7 @@ void atahoTargetSkill2::addSkill(float x, float y)
 	targetSkill2.img->setFrameX(0);						// 스킬 생성시 프레임x좌표 초기화
 	targetSkill2.speed = 1.0f;							// 스킬 날아갈 속도
 	_range = 50.0f;										// 스킬 날아갈 최대 길이
-	_currentExp += 40;									// 스킬 경험치 40 증가
+	_currentExp += 99;									// 스킬 경험치 40 증가
 
 														// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
@@ -361,7 +361,7 @@ void atahoTargetSkill3::addSkill(float x, float y)
 	_expCount++;
 	if (_expCount == 1)
 	{
-		_currentExp += 40;									// 스킬 경험치 40 증가
+		_currentExp += 99;									// 스킬 경험치 40 증가
 	}
 	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)

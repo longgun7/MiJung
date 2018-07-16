@@ -260,7 +260,7 @@ void sumsuAreaSkill1::render()
 void sumsuAreaSkill1::addAreaSkill(float x, float y, int monsterNum)
 {
 	tagSumsuSkill areaSkill[4];
-	_currentExp += 40;									// 스킬 경험치 40 증가
+	_currentExp += 99;									// 스킬 경험치 40 증가
 
 	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
@@ -405,7 +405,7 @@ void sumsuAreaSkill2::render()
 // 분신 캐릭터 설정 x(캐릭터 x좌표), y(캐릭터 y좌표)
 void sumsuAreaSkill2::addAreaSkill(float x, float y)
 {
-	_currentExp += 40;				// 스킬 경험치 40 증가
+	_currentExp += 99;				// 스킬 경험치 40 증가
 
 									// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
@@ -846,7 +846,7 @@ void sumsuAreaSkill3::addAreaSkill(float x, float y)
 	_expCount++;
 	if (_expCount == 1)
 	{
-		_currentExp += 40;				// 스킬 경험치 40 증가
+		_currentExp += 99;				// 스킬 경험치 40 증가
 	}
 	// 스킬 현재 경험치가 최대 경험치 보다 커지거나 같아지면 스킬 레벨업
 	if (_currentExp >= _maxExp)
