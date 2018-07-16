@@ -655,12 +655,12 @@ void player::move()
 			setSoloDamage(0);
 		}
 		if (_skillFrame == 99)
-		{
+		{_skillFrame = 0;
 			_move = ATTACKEND;
 		}
 		if (_skillFrame > 100)
 		{
-			_skillFrame = 0;
+			
 			//_move = FIGHTREADY;
 			
 		}
@@ -676,12 +676,12 @@ void player::move()
 			setSoloDamage(0);
 		}
 		if (_skillFrame == 99)
-		{
+		{_skillFrame = 0;
 			_move = ATTACKEND;
 		}
 		if (_skillFrame > 100)
 		{
-			_skillFrame = 0;
+			
 			_move = FIGHTREADY;
 			
 		}
@@ -697,12 +697,12 @@ void player::move()
 			setSoloDamage(0);
 		}
 		if (_skillFrame == 99)
-		{
+		{_skillFrame = 0;
 			_move = ATTACKEND;
 		}
 		if (_skillFrame > 100)
 		{
-			_skillFrame = 0;
+			
 			_move = FIGHTREADY;
 		}
 	}
@@ -732,13 +732,15 @@ void player::move()
 			}
 			if (_skillFrame == 199)
 			{
+				_img->setFrameX(0);
 				_move = ATTACKEND;
+				_skillFrame = 0;
 			}
 			if (_skillFrame >= 200 )
 			{
-				_img->setFrameX(0);
+				
 				_move = FIGHTREADY;
-				_skillFrame = 0;
+				
 			}
 		}
 	}
@@ -876,16 +878,17 @@ void player::move()
 				_skillFrame = 0;
 				_y = WINSIZEY / 2;
 			}
-			//if (_skillFrame >= 50)
-			//{
-			//	_move = FIGHTREADY;
-			//	_jumpPower = 0;
-			//	_gravity = 0;
-			//	_isJumping = false;
-			//	_img->setFrameX(0);
-			//	_skillFrame = 0;
-			//	_y = WINSIZEY / 2;
-			//}
+			
+			if (_skillFrame >= 50)
+			{
+				_move = FIGHTREADY;
+				_jumpPower = 0;
+				_gravity = 0;
+				_isJumping = false;
+				_img->setFrameX(0);
+				_skillFrame = 0;
+				_y = WINSIZEY / 2;
+			}
 		}
 
 	}
